@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import globalTheme from '../../../style/theme'
 
 type sizeType = 'sm' | 'lg'
 
@@ -8,15 +9,16 @@ const sizes = {
 }
 
 interface SButtonProps {
-  color?: string
+  color?: keyof typeof globalTheme.color.button
   size?: sizeType
+  shadow?: boolean
 }
 
 const buttonStyles = css<SButtonProps>`
-  ${({ color }) =>
+  ${({ theme, color }) =>
     color &&
     css`
-      background-color: ${color};
+      background-color: ${theme.color.button[color]};
     `}
   ${({ size }) =>
     size &&
@@ -25,14 +27,23 @@ const buttonStyles = css<SButtonProps>`
       width: ${sizes[size].width};
       height: ${sizes[size].height};
     `}
+  ${({ shadow }) =>
+    shadow === true &&
+    css`
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 10px 0px;
+    `}
 `
 
 export const StyledButton = styled.button<SButtonProps>`
   background-color: #ffb84c;
   color: black;
+  font-weight: 700;
   cursor: pointer;
   border: none;
-
+  border-radius: 16px;
+  & + & {
+    margin-left: 1rem;
+  }
   ${buttonStyles}
 `
 
