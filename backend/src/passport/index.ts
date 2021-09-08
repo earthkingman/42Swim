@@ -1,9 +1,8 @@
-// const passport = require('passport');
-const local = require('./localStrategy');
-const FourtyTwo = require('./fourtyTwoStrategy');
-const User = require('../entity/user');
+import local from "./localStrategy";
+import FourtyTwo from "./fourtyTwoStrategy";
+import { User } from "../entity/user";
 
-module.exports = ()=>{
-    local();
-    FourtyTwo();
-}
+export default () => {
+  local();
+  FourtyTwo();
+};
