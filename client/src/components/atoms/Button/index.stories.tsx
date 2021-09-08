@@ -1,4 +1,5 @@
 import React from 'react'
+import GlobalThemeProvider from '../../../style/GlobalThemeProvider'
 import Button, { ButtonProps } from './index'
 
 export default {
@@ -6,22 +7,51 @@ export default {
   component: Button,
 }
 
-const Template = (args: ButtonProps) => <Button {...args} />
+const Template = (args: ButtonProps) => (
+  <GlobalThemeProvider>
+    <Button {...args} />
+  </GlobalThemeProvider>
+)
 
-export const SmallButton = (props: ButtonProps) => {
+export const Sizes = (props: ButtonProps) => {
   return (
     <div>
+      <Template size="lg" {...props}>
+        로그인
+      </Template>
       <Template size="sm" {...props}>
-        Button
+        이미지 업로드
       </Template>
     </div>
   )
 }
 
-export const LargeButton = (props: ButtonProps) => {
+export const Shadows = (props: ButtonProps) => {
   return (
-    <Template size="lg" {...props}>
-      Button
-    </Template>
+    <div>
+      <div>
+        <Template shadow={true} size="sm" {...props}>
+          로그인
+        </Template>
+      </div>
+    </div>
+  )
+}
+
+export const Colors = (props: ButtonProps) => {
+  return (
+    <div>
+      <div>
+        <Template size="sm" color="yellow" {...props}>
+          Button
+        </Template>
+        <Template size="sm" color="white" shadow={true} {...props}>
+          Button
+        </Template>
+        <Template size="sm" color="red" {...props}>
+          Button
+        </Template>
+      </div>
+    </div>
   )
 }
