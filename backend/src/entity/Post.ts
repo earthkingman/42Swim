@@ -19,7 +19,7 @@ export default class Post extends BaseEntity {
     id: number;
 
     @ManyToOne(type => User, user => user.id)
-    userId: User[];
+    userId: User;
 
     @Column()
     email: string;
