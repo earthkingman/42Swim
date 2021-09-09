@@ -5,7 +5,7 @@ type sizeType = 'sm' | 'lg'
 
 const sizes = {
   sm: { margin: '0 auto', width: '153px', height: '41px' },
-  lg: { margin: '0 auto', width: '449px', height: '60px' },
+  lg: { margin: '0 auto', width: '449px', height: '60px', fontSize: '18px' },
 }
 
 interface SButtonProps {
