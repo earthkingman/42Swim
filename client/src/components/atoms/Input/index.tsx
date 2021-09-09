@@ -22,7 +22,13 @@ export const StyledInput = styled.input<SInputProps>`
   padding-bottom: 20px;
   font-size: 18px;
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.2);
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+  }
+  &:focus::placeholder {
+    color: transparent;
+  }
+  color: rgba(0, 0, 0, 0.6);
   & + & {
     margin-left: 1rem;
   }

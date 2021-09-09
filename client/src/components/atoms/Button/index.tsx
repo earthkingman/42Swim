@@ -4,12 +4,13 @@ import globalTheme from '../../../style/theme'
 type sizeType = 'sm' | 'lg'
 
 const sizes = {
-  sm: { margin: '0 auto', width: '153px', height: '41px' },
+  sm: { margin: '0 auto', width: '153px', height: '41px', fontSize: '16px' },
   lg: { margin: '0 auto', width: '449px', height: '60px', fontSize: '18px' },
 }
 
 interface SButtonProps {
   color?: keyof typeof globalTheme.color.button
+  fontColor?: keyof typeof globalTheme.color.button
   size?: sizeType
   shadow?: boolean
 }
@@ -20,12 +21,18 @@ const buttonStyles = css<SButtonProps>`
     css`
       background-color: ${theme.color.button[color]};
     `}
+  ${({ theme, fontColor }) =>
+    fontColor &&
+    css`
+      color: ${theme.color.button[fontColor]};
+    `}
   ${({ size }) =>
     size &&
     css`
       margin: ${sizes[size].margin};
       width: ${sizes[size].width};
       height: ${sizes[size].height};
+      font-size: ${sizes[size].fontSize};
     `}
   ${({ shadow }) =>
     shadow === true &&
