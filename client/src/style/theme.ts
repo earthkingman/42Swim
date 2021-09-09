@@ -4,6 +4,12 @@ const color = {
     white: '#FFFFFF',
     red: '#FF5D39',
   },
+  a: {
+    yellow: '#FFB84D',
+    white: '#FFFFFF',
+    red: '#FF5D39',
+    black: '#000000',
+  },
   background: {
     white: '#FFFFFF',
     lightgray: '#F4F5F7',
