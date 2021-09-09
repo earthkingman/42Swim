@@ -8,12 +8,16 @@ import {
   UpdateDateColumn,
   BaseEntity,
   BeforeInsert,
+  OneToMany,
 } from "typeorm";
+import Post from "./Post";
 import bcrypt from "bcrypt";
 @Entity("users")
-export class User extends BaseEntity {
+export default class User extends BaseEntity {
+
   @PrimaryGeneratedColumn("increment")
-  id: number;
+  @OneToMany(type => Post, post => post.userId)
+  id: Post[];
 
   @Column()
   email: string;
@@ -24,7 +28,7 @@ export class User extends BaseEntity {
   @Column()
   nickname: string;
 
-  @Column({ default: "default" })
+  @Column()
   photo: string;
 
   @Column({ default: 0 })

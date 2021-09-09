@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { User } from "../entity/User";
+import User from "../entity/User";
 import jwt from "../jwt-util/jwt-utils";
 import passport from "passport";
 import { redisClient } from "../lib/redis";
@@ -27,7 +27,8 @@ const login = (req, res, next) => {
 
 const signup = async (req, res) => {
   const { nickname, email, password } = req.body;
-  console.log(email);
+  const photo = req.file ? req.file.key : "null";
+  console.log(nickname, email, password, photo);
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
@@ -36,7 +37,7 @@ const signup = async (req, res) => {
         message: "이미 계정이 있습니다",
       });
     } else {
-      const user = User.create({ nickname, email, password });
+      const user = User.create({ nickname, email, password, photo });
       await user.save();
       res.status(200).json({
         result: true,
