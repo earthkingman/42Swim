@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import express, { Request, Response } from "express";
 import loginRouter from "./routes/user";
+import postRouter from "./routes/post";
 import cors from "cors";
 import passport from "passport";
 import passportConfig from "./passport";
@@ -20,6 +21,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use("/user", loginRouter);
+app.use("/post", postRouter);
 
 createConnection()
   .then(async () => {
