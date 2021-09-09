@@ -4,8 +4,8 @@ import globalTheme from '../../../style/theme'
 type sizeType = 'sm' | 'lg'
 
 const sizes = {
-  sm: { margin: '0 auto', width: '153px', height: '41px', fontSize: '16px' },
-  lg: { margin: '0 auto', width: '449px', height: '60px', fontSize: '18px' },
+  sm: { width: '153px', height: '41px', fontSize: '16px' },
+  lg: { width: '449px', height: '60px', fontSize: '18px' },
 }
 
 interface SButtonProps {
@@ -29,7 +29,6 @@ const buttonStyles = css<SButtonProps>`
   ${({ size }) =>
     size &&
     css`
-      margin: ${sizes[size].margin};
       width: ${sizes[size].width};
       height: ${sizes[size].height};
       font-size: ${sizes[size].fontSize};

@@ -18,7 +18,7 @@ const AStyles = css<SA>`
       text-decoration: underline;
     `}
 `
-
+// TODO : 나중에 a 를 Link 태그로 바꾸어야 한다.
 export const StyledA = styled.a<SA>`
   font-size: 18px;
   font-weight: 700;
@@ -26,14 +26,20 @@ export const StyledA = styled.a<SA>`
 
   ${AStyles}
 `
+
 export interface AProps extends SA {
   onClick?: any
   children?: any
   className?: string
+  to?: string
 }
 
-const A = ({ children, ...props }: AProps) => {
-  return <StyledA {...props}>{children}</StyledA>
+const A = ({ children, to = '/', ...props }: AProps) => {
+  return (
+    <StyledA to={to} {...props}>
+      {children}
+    </StyledA>
+  )
 }
 
 export default A
