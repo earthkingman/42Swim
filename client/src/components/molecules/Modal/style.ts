@@ -37,6 +37,7 @@ export const ModalContent = styled.div<SModalContent>`
     `}
 `
 
+// display: none 해줘야함
 export const ModalWrapper = styled.div`
   font-family: Roboto;
   position: fixed;
