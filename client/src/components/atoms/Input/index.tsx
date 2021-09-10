@@ -29,9 +29,6 @@ export const StyledInput = styled.input<SInputProps>`
     color: transparent;
   }
   color: rgba(0, 0, 0, 0.6);
-  & + & {
-    margin-left: 1rem;
-  }
   ${inputStyles}
 `
 

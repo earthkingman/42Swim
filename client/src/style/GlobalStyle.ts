@@ -59,6 +59,9 @@ const GlobalStyle = createGlobalStyle`
   button:focus{
     outline:none;
   }
+  input:focus{
+	  outline: none;
+  }
 `
 
 export default GlobalStyle
