@@ -7,7 +7,7 @@ const authJWT = (req, res, next) => {
   console.log(access_token);
   const result = accessVerify(access_token);
   if (result.ok) {
-    req.id = result.id;
+    req.decodedId = result.id;
     next();
   } else {
     res.status(401).json({
