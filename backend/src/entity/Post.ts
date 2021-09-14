@@ -34,9 +34,6 @@ export default class Post extends BaseEntity {
     @Column()
     text: string;
 
-    @Column({ default: 0 })
-    image: number;
-
     @CreateDateColumn({
         type: "timestamp",
         default: () => "CURRENT_TIMESTAMP(6)",
