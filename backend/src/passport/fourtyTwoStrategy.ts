@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { User } from "../entity/User";
+import User from "../entity/User";
 import passport from "passport";
 import Strategy from "passport-42";
 const FortyTwoStrategy = Strategy;

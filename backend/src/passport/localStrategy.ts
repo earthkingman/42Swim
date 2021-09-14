@@ -2,7 +2,7 @@ import passport from "passport";
 import Strategy from "passport-local";
 const LocalStrategy = Strategy;
 import bcrypt from "bcrypt";
-import { User } from "../entity/User";
+import User from "../entity/User";
 
 export default () => {
   passport.use(
