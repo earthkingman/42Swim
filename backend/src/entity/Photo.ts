@@ -11,31 +11,21 @@ import {
     ManyToOne,
     OneToMany,
 } from "typeorm";
-import User from "./User";
-import Photo from "./Photo"
+import Post from "./Post";
 
-@Entity("posts")
-export default class Post extends BaseEntity {
+
+@Entity("photos")
+export default class Photo extends BaseEntity {
     @PrimaryGeneratedColumn("increment")
-    id: number;
+    photoId: number;
 
-    @ManyToOne(type => User, user => user.id)
-    user: User;
-
-    @OneToMany(type => Photo, photo => photo.photoId)
-    photo: Photo[];
+    @ManyToOne(type => Post, post => post.photo)
+    post: Post
 
     @Column()
-    email: string;
+    photo: string;
 
-    @Column()
-    title: string;
 
-    @Column()
-    text: string;
-
-    @Column({ default: 0 })
-    image: number;
 
     @CreateDateColumn({
         type: "timestamp",

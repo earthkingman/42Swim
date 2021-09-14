@@ -4,7 +4,6 @@ const accessVerify = jwt_uilts.accessVerify;
 
 const authJWT = (req, res, next) => {
   const access_token = req.cookies.authorization;
-  console.log(access_token);
   const result = accessVerify(access_token);
   if (result.ok) {
     req.decodedId = result.id;

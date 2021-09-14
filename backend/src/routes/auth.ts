@@ -1,7 +1,7 @@
 import express from "express";
 import passport from "passport";
 
-import AuthController from "../controllers/login";
+import AuthController from "../controllers/auth";
 import s3ImageUpload from "../aws/s3Uploader"
 
 const router = express.Router();

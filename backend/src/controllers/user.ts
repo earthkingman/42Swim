@@ -1,10 +1,11 @@
 import dotenv from "dotenv";
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
+import { DecodedRequest } from "../definition/definitionfile"
 dotenv.config();
 import User from "../entity/User";
 
-const userInfo = async (req, res, next) => {
-    const { id } = req.decodedId
+const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) => {
+    const id: number = req.decodedId
     try {
         const exUser = await User.findOne({ where: { id } });
         if (exUser) {
@@ -31,7 +32,7 @@ const userInfo = async (req, res, next) => {
     }
 }
 
-const userUpdate = async (req, res, next) => {
+const userUpdate = async (req: DecodedRequest, res: Response, next: NextFunction) => {
     const id = req.decodedId;
     try {
         const exUser = await User.findOne({ where: { id } });

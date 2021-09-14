@@ -8,6 +8,7 @@ AWS.config.loadFromPath(path.join(__dirname, "../../config/awsconfig.json"));
 let s3 = new AWS.S3();
 
 
+
 /**
  * s3ImageUpload.single('picture')  사용하는곳에서는 이런식으로 사용한다.
  * 프론트에서 FormData를 사용해 전달하는데 그때 이미지를 넣은 key값을 파라미터로 전달해주면된다.

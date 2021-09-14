@@ -6,7 +6,7 @@ import jwt from "../jwt-util/jwt-utils";
 import passport from "passport";
 import { redisClient } from "../lib/redis";
 
-const login = (req, res, next) => {
+const login = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate("local", (authError, userId, info) => {
     if (authError || !userId) {
       console.log(authError);
@@ -26,7 +26,7 @@ const login = (req, res, next) => {
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
 
-const signup = async (req, res) => {
+const signup = async (req: any, res: Response) => {
   const { nickname, email, password } = req.body;
   const photo = req.file ? req.file.key : "null";
   console.log(nickname, email, password, photo);
@@ -54,7 +54,7 @@ const signup = async (req, res) => {
   }
 };
 
-const FourtyTowLogin = (req, res, next) => {
+const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
   //-> 커스텀 콜백
   passport.authenticate("42", (authError, userId, info) => {
     if (authError || !userId) {
