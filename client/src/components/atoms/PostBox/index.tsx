@@ -5,7 +5,7 @@ const StyledPostBox = styled.div`
   height: 214px;
   border-radius: 16px;
   background-color: white;
-  padding: 46px;
+  padding: 40px 35px 20px 35px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
 `
 

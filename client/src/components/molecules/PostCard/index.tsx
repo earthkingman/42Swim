@@ -1,25 +1,31 @@
 import Divider from '../../atoms/Divider'
 import LikeButton from '../../atoms/LikeButton'
 import PostBox from '../../atoms/PostBox'
-
-export interface Props {
-  children?: any
+import {
+  PostCardWrapper,
+  PostCardTitleWrapper,
+  PostCardText,
+  PostCardTitle,
+} from './style'
+export interface PostCardProps {
   onClick?: any
   likes?: string
   title?: string
   text?: string
 }
 
-const PostCard = ({ onClick, likes, title, text }: Props) => {
+const PostCard = ({ onClick, likes, title, text }: PostCardProps) => {
   return (
     <PostCardWrapper>
-      <PostBox {...props} onClick={onClick}>
-        <PostTitleWrapper>
-          <PostTitle>{title}</PostTitle>
+      <PostBox onClick={onClick}>
+        <PostCardTitleWrapper>
+          <PostCardTitle size="h2">{title}</PostCardTitle>
           <LikeButton>{likes}</LikeButton>
-        </PostTitleWrapper>
-        <Divider />
-        <PostText>{text}</PostText>
+        </PostCardTitleWrapper>
+        <Divider weight="bold" width="36px" direction="horizontal" />
+        <PostCardText size="18" color="lightgray" weight="normal">
+          {text}
+        </PostCardText>
       </PostBox>
     </PostCardWrapper>
   )

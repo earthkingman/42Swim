@@ -12,7 +12,7 @@ const sizes = {
 export interface STextProps {
   weight?: weightType
   size?: sizeType
-  color?: keyof typeof globalTheme.color
+  color?: keyof typeof globalTheme.color.text
 }
 
 const TextStyles = css<STextProps>`
@@ -24,7 +24,7 @@ const TextStyles = css<STextProps>`
   ${({ theme, color }) =>
     color &&
     css`
-      color: ${theme.color[color]};
+      color: ${theme.color.text[color]};
     `}
     ${({ weight }) =>
     weight &&
