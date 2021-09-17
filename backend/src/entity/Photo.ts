@@ -6,16 +6,13 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    BaseEntity,
-    BeforeInsert,
     ManyToOne,
-    OneToMany,
 } from "typeorm";
 import Post from "./Post";
 
 
 @Entity("photos")
-export default class Photo extends BaseEntity {
+export default class Photo {
     @PrimaryGeneratedColumn("increment")
     photoId: number;
 
@@ -24,8 +21,6 @@ export default class Photo extends BaseEntity {
 
     @Column()
     photo: string;
-
-
 
     @CreateDateColumn({
         type: "timestamp",

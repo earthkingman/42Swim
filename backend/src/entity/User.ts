@@ -6,14 +6,13 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  BaseEntity,
   BeforeInsert,
   OneToMany,
 } from "typeorm";
 import Post from "./Post";
 import bcrypt from "bcrypt";
 @Entity("users")
-export default class User extends BaseEntity {
+export default class User {
 
   @PrimaryGeneratedColumn("increment")
   id: number;
