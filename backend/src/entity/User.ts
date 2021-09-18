@@ -9,6 +9,7 @@ import {
   BaseEntity,
   BeforeInsert,
   OneToMany,
+  BeforeUpdate,
 } from "typeorm";
 import Post from "./Post";
 import bcrypt from "bcrypt";
@@ -39,21 +40,25 @@ export default class User extends BaseEntity {
   @OneToMany(type => Post, post => post.user)
   post: Post[];
 
-  @CreateDateColumn({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
-  })
-  public created_at: Date;
+  @CreateDateColumn()
+  created_at: Date;
 
-  @UpdateDateColumn({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
-    onUpdate: "CURRENT_TIMESTAMP(6)",
-  })
-  public updated_at: Date;
+  @UpdateDateColumn()
+  updated_at: Date;
 
   @BeforeInsert()
   async savePassword() {
+    if (this.password) {
+      const hashedPassword = await bcrypt.hashSync(
+        this.password,
+        +process.env.SALT_ROUNDS
+      );
+      this.password = hashedPassword;
+    }
+  }
+
+  @BeforeUpdate()
+  async updatePassword() {
     if (this.password) {
       const hashedPassword = await bcrypt.hashSync(
         this.password,

@@ -1,3 +1,4 @@
+import { AnyCnameRecord } from "dns";
 import dotenv from "dotenv";
 import { Response, NextFunction } from 'express';
 import { DecodedRequest } from "../definition/definitionfile"
@@ -32,12 +33,21 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
     }
 }
 
-const userUpdate = async (req: DecodedRequest, res: Response, next: NextFunction) => {
+const userUpdate = async (req: any, res: Response, next: NextFunction) => {
     const id = req.decodedId;
+    const { nickname, password } = req.body;
+    const photo = req.file.key;
     try {
         const exUser = await User.findOne({ where: { id } });
         if (exUser) {
-            //TO DO: ㅕ
+            console.log(nickname);
+            exUser.nickname = nickname || exUser.nickname;
+            exUser.password = password || exUser.password;
+            exUser.photo = photo || exUser.photo;
+            await exUser.save();
+            res.json({
+                exUser: exUser
+            })
         }
         else {
             res.status(400).json({
@@ -54,5 +64,6 @@ const userUpdate = async (req: DecodedRequest, res: Response, next: NextFunction
 }
 
 export default {
-    userInfo: userInfo
+    userInfo: userInfo,
+    userUpdate: userUpdate
 }

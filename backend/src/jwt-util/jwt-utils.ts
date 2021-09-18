@@ -11,7 +11,7 @@ export default {
       id: user.id,
     };
     return jwt.sign(payload, secret, {
-      expiresIn: "5m",
+      expiresIn: "300m",
     });
   },
   accessVerify: (access_token) => {

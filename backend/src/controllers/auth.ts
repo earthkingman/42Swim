@@ -17,7 +17,7 @@ const login = (req: Request, res: Response, next: NextFunction) => {
     const refreshToken = jwt.refresh_sign();
     redisClient.set(userId.id, refreshToken);
     res.cookie("authorization", accessToken, {
-      maxAge: 300000,
+      maxAge: 60000 * 30,
       httpOnly: true,
     });
     res.status(200).json({
