@@ -63,8 +63,6 @@ const s3DeletePhoto = async (req, res, next) => {
 
 }
 
-
-
 export default {
 	s3ImageUpload: s3ImageUpload,
 	s3DeletePhoto: s3DeletePhoto

@@ -34,16 +34,9 @@ export default class Post extends BaseEntity {
     @Column()
     text: string;
 
-    @CreateDateColumn({
-        type: "timestamp",
-        default: () => "CURRENT_TIMESTAMP(6)",
-    })
-    public created_at: Date;
+    @CreateDateColumn()
+    created_at: Date;
 
-    @UpdateDateColumn({
-        type: "timestamp",
-        default: () => "CURRENT_TIMESTAMP(6)",
-        onUpdate: "CURRENT_TIMESTAMP(6)",
-    })
-    public updated_at: Date;
+    @UpdateDateColumn()
+    updated_at: Date;
 }

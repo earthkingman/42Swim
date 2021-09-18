@@ -19,24 +19,15 @@ export default class Photo extends BaseEntity {
     @PrimaryGeneratedColumn("increment")
     photoId: number;
 
-    @ManyToOne(type => Post, post => post.photo)
+    @ManyToOne(type => Post, post => post.photo, { onDelete: 'CASCADE' })
     post: Post
 
     @Column()
     photo: string;
 
+    @CreateDateColumn()
+    created_at: Date;
 
-
-    @CreateDateColumn({
-        type: "timestamp",
-        default: () => "CURRENT_TIMESTAMP(6)",
-    })
-    public created_at: Date;
-
-    @UpdateDateColumn({
-        type: "timestamp",
-        default: () => "CURRENT_TIMESTAMP(6)",
-        onUpdate: "CURRENT_TIMESTAMP(6)",
-    })
-    public updated_at: Date;
+    @UpdateDateColumn()
+    updated_at: Date;
 }
