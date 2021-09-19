@@ -38,10 +38,6 @@ app.use("/user", userRouter)
 //   res.render('error');
 // });
 
-createConnection()
-  .then(async () => {
-    app.listen(5000, () => {
-      console.log("서버 가동");
-    });
-  })
-  .catch((error) => console.log(error));
+app.listen(5000, () => {
+  console.log("서버 가동");
+});

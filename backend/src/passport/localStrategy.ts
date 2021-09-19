@@ -4,6 +4,8 @@ const LocalStrategy = Strategy;
 import bcrypt from "bcrypt";
 import User from "../entity/User";
 
+import { getUserRepository } from "../repository/service";
+
 export default () => {
   passport.use(
     new LocalStrategy(
@@ -13,7 +15,8 @@ export default () => {
       },
       async (email, password, done) => {
         try {
-          const user = await User.findOne({ where: { email } });
+          const userRepository = await getUserRepository();
+          const user = await userRepository.findByEmail(email);
           if (user) {
             const result = await bcrypt.compare(password, user.password);
             if (result) {
