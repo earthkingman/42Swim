@@ -33,6 +33,7 @@ export default () => {
               nickname: profile.username,
               email: profile.emails[0].value,
               password: process.env.PASSWORD,
+              photo: profile.photos[0].value,
             });
             return done(null, newUser);
           }
