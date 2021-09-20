@@ -10,11 +10,10 @@ import { getUserRepository } from "../repository/service";
 
 const login = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate("local", (authError, userId, info) => {
-    if (authError || !userId) {
+    if (authError || userId == false) {
       console.log(authError);
-      res.status(400).json({ message: info.message });
+      return res.status(400).json({ message: info.message });
     }
-    console.log(userId);
     const accessToken = jwt.accessSign(userId);
     const refreshToken = jwt.refresh_sign();
     redisClient.set(userId.id, refreshToken);
@@ -22,7 +21,7 @@ const login = (req: Request, res: Response, next: NextFunction) => {
       maxAge: 60000 * 30,
       httpOnly: true,
     });
-    res.status(200).json({
+    return res.status(200).json({
       refreshToken: refreshToken,
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
@@ -37,20 +36,20 @@ const signup = async (req: any, res: Response) => {
   try {
     const exUser = await userRepository.findByEmail(email);
     if (exUser) {
-      res.status(400).json({
+      return res.status(400).json({
         result: false,
         message: "ID duplicate",
       });
     } else {
       const user = await userRepository.createUser({ nickname, email, password, photo });
-      res.status(200).json({
+      return res.status(200).json({
         result: true,
         message: "signup successful",
       });
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({
+    return res.status(400).json({
       result: false,
       message: `An error occurred (${error.message})`,
     });

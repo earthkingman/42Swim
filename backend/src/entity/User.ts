@@ -11,6 +11,8 @@ import {
   BeforeUpdate,
 } from "typeorm";
 import Post from "./Post";
+import Answer from "./Answer";
+import Comment from "./Comment"
 import bcrypt from "bcrypt";
 @Entity("users")
 export default class User {
@@ -35,6 +37,12 @@ export default class User {
 
   @OneToMany(type => Post, post => post.user)
   post: Post[];
+
+  @OneToMany(type => Answer, answer => answer.user)
+  answer: Answer[];
+
+  @OneToMany(type => Comment, comment => comment.user)
+  comment: Comment[];
 
   @CreateDateColumn()
   created_at: Date;

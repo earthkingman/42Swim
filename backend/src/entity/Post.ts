@@ -10,18 +10,26 @@ import {
     OneToMany,
 } from "typeorm";
 import User from "./User";
-import Photo from "./Photo"
+import Photo from "./Photo";
+import Answer from "./Answer";
+import Comment from "./Comment";
 
-@Entity("posts")
+@Entity("questions")
 export default class Post {
     @PrimaryGeneratedColumn("increment")
     id: number;
 
-    @ManyToOne(type => User, user => user.id)
+    @ManyToOne(type => User, user => user.post, { onDelete: 'CASCADE' })
     user: User;
+
+    @OneToMany(type => Answer, answer => answer.post)
+    answer: Answer[];
 
     @OneToMany(type => Photo, photo => photo.post)
     photo: Photo[];
+
+    @OneToMany(type => Comment, comment => comment.post)
+    comment: Comment[];
 
     @Column()
     email: string;

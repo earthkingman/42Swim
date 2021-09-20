@@ -39,4 +39,5 @@ export default class UserRepository extends Repository<User> {
 			.where("user.nickname = :nickname", { nickname })
 			.getMany();
 	}
+
 }

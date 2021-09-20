@@ -9,6 +9,7 @@ import {
     ManyToOne,
 } from "typeorm";
 import Post from "./Post";
+import Answer from "./Answer";
 
 
 @Entity("photos")
@@ -18,6 +19,9 @@ export default class Photo {
 
     @ManyToOne(type => Post, post => post.photo, { onDelete: 'CASCADE' })
     post: Post
+
+    @ManyToOne(type => Answer, answer => answer.photo, { onDelete: 'CASCADE' })
+    answer: Answer
 
     @Column()
     photo: string;
