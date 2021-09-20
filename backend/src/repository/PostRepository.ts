@@ -9,9 +9,9 @@ export default class PostRepository extends Repository<Post> {
 		return await this.remove(post);
 	}
 
-	createPost(postInfo: any) {
-		const post = this.create(postInfo);
-		return this.save(post);
+	async createPost(postInfo: any) {
+		const post = await this.create(postInfo);
+		return await this.save(post);
 	}
 
 	async updateById(postInfo: any) {

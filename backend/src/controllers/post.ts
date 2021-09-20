@@ -7,13 +7,10 @@ dotenv.config();
 
 import { getUserRepository, getPostRepository, getPhotoRepository } from '../repository/service';
 
-
-
 const deletePost = async (req: Request, res: Response, next: NextFunction) => {
     const postRepository = await getPostRepository();
-    const photoRepository = await getPhotoRepository();
-
     const { postId } = req.body;
+
     try {
         await postRepository.removeById(postId);
         return res.status(200).json({
@@ -32,11 +29,10 @@ const deletePost = async (req: Request, res: Response, next: NextFunction) => {
 const updatePost = async (req: any, res: Response, next: NextFunction) => {
     const postRepository = await getPostRepository();
     const photoRepository = await getPhotoRepository();
-
     const { postId, title, text } = req.body;
-
     let files: string[] = [];
     const size = req.files.length;
+
     for (let i = 0; i < size; i++)
         files.push(req.files[i].key);
     try {
@@ -62,12 +58,11 @@ const uploadPost = async (req: any, res: Response) => {
     const userId = req.decodedId
     const { email, title, text } = req.body;
     const size = req.files.length;
-
     const userRepository = await getUserRepository();
     const postRepository = await getPostRepository();
     const photoRepository = await getPhotoRepository();
-
     let files: string[] = [];
+
     for (let i = 0; i < size; i++)
         files.push(req.files[i].key);
     try {

@@ -5,8 +5,8 @@ import Post from "../entity/Post";
 @EntityRepository(Photo)
 export default class PhotoRepository extends Repository<Photo> {
 
-	findById(id: number) {
-		return this.createQueryBuilder("photo")
+	async findById(id: number) {
+		return await this.createQueryBuilder("photo")
 			.where("photo.id = :id", { id })
 			.getOne();
 	}
@@ -25,8 +25,8 @@ export default class PhotoRepository extends Repository<Photo> {
 		return await this.delete({ post: post });
 	}
 
-	createPhoto(photoInfo: any) {
+	async createPhoto(photoInfo: any) {
 		const photo = this.create(photoInfo);
-		return this.save(photo);
+		return await this.save(photo);
 	}
 }

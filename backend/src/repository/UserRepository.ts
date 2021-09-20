@@ -4,9 +4,9 @@ import User from "../entity/User"
 @EntityRepository(User)
 export default class UserRepository extends Repository<User> {
 
-	createUser(userInfo) {
-		const user = this.create(userInfo);
-		return this.save(user);
+	async createUser(userInfo) {
+		const user = await this.create(userInfo);
+		return await this.save(user);
 	}
 
 	async updateUser(userInfo) {
@@ -15,7 +15,7 @@ export default class UserRepository extends Repository<User> {
 			user.nickname = userInfo.nickname || user.nickname;
 			user.password = userInfo.password || user.password;
 			user.photo = userInfo.photo || user.photo;
-			return this.save(user);
+			return await this.save(user);
 		}
 		else {
 			return undefined;
