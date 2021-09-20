@@ -38,6 +38,8 @@ app.use("/user", userRouter)
 //   res.render('error');
 // });
 
-app.listen(5000, () => {
+app.listen(5000, async () => {
   console.log("서버 가동");
+  // await createConnection();
+  // console.log("DB 연결");
 });
