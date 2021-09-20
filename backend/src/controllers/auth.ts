@@ -6,6 +6,8 @@ import jwt from "../jwt-util/jwt-utils";
 import passport from "passport";
 import { redisClient } from "../lib/redis";
 
+import { getUserRepository } from "../repository/service";
+
 const login = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate("local", (authError, userId, info) => {
     if (authError || !userId) {
@@ -27,19 +29,20 @@ const login = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const signup = async (req: any, res: Response) => {
+
+  const userRepository = await getUserRepository();
   const { nickname, email, password } = req.body;
   const photo = req.file ? req.file.key : "null";
   console.log(nickname, email, password, photo);
   try {
-    const exUser = await User.findOne({ where: { email } });
+    const exUser = await userRepository.findByEmail(email);
     if (exUser) {
       res.status(400).json({
         result: false,
         message: "ID duplicate",
       });
     } else {
-      const user = User.create({ nickname, email, password, photo });
-      await user.save();
+      const user = await userRepository.createUser({ nickname, email, password, photo });
       res.status(200).json({
         result: true,
         message: "signup successful",

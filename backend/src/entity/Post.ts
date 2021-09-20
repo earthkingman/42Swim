@@ -6,8 +6,6 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    BaseEntity,
-    BeforeInsert,
     ManyToOne,
     OneToMany,
 } from "typeorm";
@@ -15,7 +13,7 @@ import User from "./User";
 import Photo from "./Photo"
 
 @Entity("posts")
-export default class Post extends BaseEntity {
+export default class Post {
     @PrimaryGeneratedColumn("increment")
     id: number;
 

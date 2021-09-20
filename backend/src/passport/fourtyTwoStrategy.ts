@@ -5,6 +5,8 @@ import passport from "passport";
 import Strategy from "passport-42";
 const FortyTwoStrategy = Strategy;
 
+import { getUserRepository } from "../repository/service";
+
 export default () => {
   passport.use(
     new FortyTwoStrategy(
@@ -22,18 +24,17 @@ export default () => {
         // console.log(profile);
         // console.log(profile.username);
         try {
-          const exUser = await User.findOne({
-            where: { email: profile.emails[0].value },
-          });
+          const userRepository = await getUserRepository();
+          const exUser = await userRepository.findByEmail(profile.emails[0].value);
           if (exUser) {
             return done(null, exUser);
           } else {
-            const newUser = User.create({
+            const newUser = await userRepository.createUser({
               nickname: profile.username,
               email: profile.emails[0].value,
               password: process.env.PASSWORD,
+              photo: profile.photos[0].value,
             });
-            await newUser.save();
             return done(null, newUser);
           }
         } catch (error) {

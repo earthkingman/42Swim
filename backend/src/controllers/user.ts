@@ -5,10 +5,13 @@ import { DecodedRequest } from "../definition/definitionfile"
 dotenv.config();
 import User from "../entity/User";
 
+import { getUserRepository } from "../repository/service";
+
 const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) => {
     const id: number = req.decodedId
+    const userRepository = await getUserRepository();
     try {
-        const exUser = await User.findOne({ where: { id } });
+        const exUser = await userRepository.findById(id);
         if (exUser) {
             res.status(200).json({
                 result: true,
@@ -34,17 +37,13 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
 }
 
 const userUpdate = async (req: any, res: Response, next: NextFunction) => {
+    const userRepository = await getUserRepository();
     const id = req.decodedId;
     const { nickname, password } = req.body;
     const photo = req.file.key;
     try {
-        const exUser = await User.findOne({ where: { id } });
+        const exUser = await userRepository.updateUser({ id, nickname, password, photo });
         if (exUser) {
-            console.log(nickname);
-            exUser.nickname = nickname || exUser.nickname;
-            exUser.password = password || exUser.password;
-            exUser.photo = photo || exUser.photo;
-            await exUser.save();
             res.json({
                 exUser: exUser
             })
