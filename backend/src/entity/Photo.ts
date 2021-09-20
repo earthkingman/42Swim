@@ -14,7 +14,7 @@ import Post from "./Post";
 @Entity("photos")
 export default class Photo {
     @PrimaryGeneratedColumn("increment")
-    photoId: number;
+    id: number;
 
     @ManyToOne(type => Post, post => post.photo, { onDelete: 'CASCADE' })
     post: Post

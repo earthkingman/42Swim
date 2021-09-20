@@ -20,7 +20,7 @@ export default class Post {
     @ManyToOne(type => User, user => user.id)
     user: User;
 
-    @OneToMany(type => Photo, photo => photo.photoId)
+    @OneToMany(type => Photo, photo => photo.post)
     photo: Photo[];
 
     @Column()
