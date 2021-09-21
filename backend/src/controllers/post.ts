@@ -2,13 +2,13 @@ import { Request, Response, NextFunction } from 'express';
 import dotenv from "dotenv";
 dotenv.config();
 
-import { PostService } from '../service/PostService';
+import { QuestionService } from '../service/QuestionService';
 
-const deletePost = async (req: Request, res: Response, next: NextFunction) => {
-    const { postId } = req.body;
+const deleteQuestion = async (req: Request, res: Response, next: NextFunction) => {
+    const { questionId } = req.body;
 
     try {
-        await PostService.deletePost({ postId });
+        await QuestionService.deleteQuestion({ questionId });
         return res.status(200).json({
             result: true,
             message: "Delete Success"
@@ -22,15 +22,15 @@ const deletePost = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-const updatePost = async (req: any, res: Response, next: NextFunction) => {
-    const { postId, title, text } = req.body;
+const updateQuestion = async (req: any, res: Response, next: NextFunction) => {
+    const { questionId, title, text } = req.body;
     let files: string[] = [];
     const size = req.files.length;
 
     for (let i = 0; i < size; i++)
         files.push(req.files[i].key);
     try {
-        await PostService.updatePost({ title, text, photos: files, postId });
+        await QuestionService.updateQuestion({ title, text, photos: files, questionId });
         return res.status(200).json({
             result: true,
             message: "Update Success"
@@ -44,7 +44,7 @@ const updatePost = async (req: any, res: Response, next: NextFunction) => {
     }
 }
 
-const uploadPost = async (req: any, res: Response) => {
+const uploadQuestion = async (req: any, res: Response) => {
     const userId = req.decodedId
     const { email, title, text } = req.body;
     const size = req.files.length;
@@ -53,7 +53,7 @@ const uploadPost = async (req: any, res: Response) => {
     for (let i = 0; i < size; i++)
         files.push(req.files[i].key);
     try {
-        await PostService.uploadPost({ email, title, text, userId, photos: files });
+        await QuestionService.uploadQuestion({ email, title, text, userId, photos: files });
         return res.status(200).json({
             result: true,
             message: "Upload Success"
@@ -68,7 +68,7 @@ const uploadPost = async (req: any, res: Response) => {
 }
 
 export default {
-    uploadPost: uploadPost,
-    updatePost: updatePost,
-    deletePost: deletePost
+    deleteQuestion: deleteQuestion,
+    updateQuestion: updateQuestion,
+    uploadQuestion: uploadQuestion
 }

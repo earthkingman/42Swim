@@ -9,29 +9,22 @@ import {
     ManyToOne
 } from 'typeorm'
 import User from './User';
-import Post from './Post'
+import Question from "./Question";
 import Answer from './Answer';
+import Base from './Base';
 
 @Entity("comments")
-export default class Comment {
-    @PrimaryGeneratedColumn("increment")
-    id: number;
-
+export default class Comment extends Base {
     @Column()
     text: string;
 
     @ManyToOne(type => User, user => user.comment, { onDelete: 'CASCADE' })
     user: User;
 
-    @ManyToOne(type => Post, post => post.comment, { onDelete: 'CASCADE' })
-    post: Post;
+    @ManyToOne(type => Question, question => question.comment, { onDelete: 'CASCADE' })
+    question: Question;
 
     @ManyToOne(type => Answer, answer => answer.comment, { onDelete: 'CASCADE' })
     answer: Answer;
 
-    @CreateDateColumn()
-    created_at: Date;
-
-    @UpdateDateColumn()
-    updated_at: Date;
 }

@@ -1,4 +1,4 @@
-import { AnyCnameRecord } from "dns";
+import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import { Response, NextFunction } from 'express';
 import { DecodedRequest } from "../definition/definitionfile"
@@ -36,7 +36,8 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
 
 const userUpdate = async (req: any, res: Response, next: NextFunction) => {
     const id = req.decodedId;
-    const { nickname, password } = req.body;
+    let { nickname, password } = req.body;
+    password = await bcrypt.hashSync(password, +process.env.SALT_ROUNDS);
     const photo = req.file.key;
     try {
         const user = await UserService.updateUser({ id, nickname, password, photo });

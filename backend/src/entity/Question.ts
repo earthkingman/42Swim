@@ -13,22 +13,20 @@ import User from "./User";
 import Photo from "./Photo";
 import Answer from "./Answer";
 import Comment from "./Comment";
+import Base from './Base';
 
 @Entity("questions")
-export default class Post {
-    @PrimaryGeneratedColumn("increment")
-    id: number;
-
-    @ManyToOne(type => User, user => user.post, { onDelete: 'CASCADE' })
+export default class Question extends Base {
+    @ManyToOne(type => User, user => user.question, { onDelete: 'CASCADE' })
     user: User;
 
-    @OneToMany(type => Answer, answer => answer.post)
+    @OneToMany(type => Answer, answer => answer.question)
     answer: Answer[];
 
-    @OneToMany(type => Photo, photo => photo.post)
+    @OneToMany(type => Photo, photo => photo.question)
     photo: Photo[];
 
-    @OneToMany(type => Comment, comment => comment.post)
+    @OneToMany(type => Comment, comment => comment.question)
     comment: Comment[];
 
     @Column()
@@ -39,10 +37,4 @@ export default class Post {
 
     @Column()
     text: string;
-
-    @CreateDateColumn()
-    created_at: Date;
-
-    @UpdateDateColumn()
-    updated_at: Date;
 }
