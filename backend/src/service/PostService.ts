@@ -73,6 +73,7 @@ const updatePost = async (updatePostInfo) => {
 const deletePost = async (deletePostInfo) => {
 	const queryRunner = await getQueryRunner();
 	const postRepository = queryRunner.manager.getRepository(Post);
+
 	const { postId } = deletePostInfo;
 	const post = await postRepository
 		.findOne({ where: { id: postId } });
@@ -92,4 +93,19 @@ const deletePost = async (deletePostInfo) => {
 	}
 }
 
-export const PostService = { uploadPost, updatePost, deletePost };
+const findPhotoByPostId = async (postId) => {
+	const queryRunner = await getQueryRunner();
+	const postRepository = queryRunner.manager.getRepository(Post);
+	const photoRepository = queryRunner.manager.getRepository(Photo);
+
+	const post = await postRepository
+		.findOne({ where: { id: postId } });
+	if (post === undefined) {
+		throw new Error('존재하지 않는 포스트입니다');
+	}
+	const photos = await photoRepository
+		.find({ where: { post: post } });
+	return photos;
+}
+
+export const PostService = { uploadPost, updatePost, deletePost, findPhotoByPostId };

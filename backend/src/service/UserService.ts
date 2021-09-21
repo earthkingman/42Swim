@@ -30,6 +30,14 @@ const findUserByEmail = async (email) => {
 	return user;
 }
 
+const findUserById = async (id) => {
+	const queryRunner: QueryRunner = await getQueryRunner();
+	const userRepository = queryRunner.manager.getRepository(User);
+	const user = await userRepository
+		.findOne({ where: { id: id } });
+	return user;
+}
+
 const updateUser = async (updateUserInfo) => {
 	const queryRunner = await getQueryRunner();
 	const userRepository = queryRunner.manager.getRepository(User);
@@ -53,10 +61,10 @@ const createUser = async (createUserInfo) => {
 	const user = await userRepository
 		.findOne({ where: { email: email } });
 	if (user) {
-		throw new Error('email duplicate');
+		return { exUser: user, newUser: undefined };
 	}
 	const newUser = await userRepository.save(createUserInfo);
-	return newUser;
+	return { exUser: undefined, newUser: newUser };
 }
 
-export const UserService = { signup, createUser, updateUser, findUserByEmail };
+export const UserService = { signup, createUser, updateUser, findUserByEmail, findUserById };
