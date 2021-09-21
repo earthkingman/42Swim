@@ -3,22 +3,20 @@ import dotenv from "dotenv";
 import { Response, NextFunction } from 'express';
 import { DecodedRequest } from "../definition/definitionfile"
 dotenv.config();
-import User from "../entity/User";
 
-import { getUserRepository } from "../repository/service";
+import { UserService } from "../service/UserService";
 
 const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) => {
     const id: number = req.decodedId
-    const userRepository = await getUserRepository();
     try {
-        const exUser = await userRepository.findById(id);
-        if (exUser) {
+        const user = await UserService.findUserById(id);
+        if (user) {
             res.status(200).json({
                 result: true,
                 data: {
-                    email: exUser.email,
-                    nickname: exUser.nickname,
-                    image: exUser.photo
+                    email: user.email,
+                    nickname: user.nickname,
+                    image: user.photo
                 }
             })
         }
@@ -37,15 +35,14 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
 }
 
 const userUpdate = async (req: any, res: Response, next: NextFunction) => {
-    const userRepository = await getUserRepository();
     const id = req.decodedId;
     const { nickname, password } = req.body;
     const photo = req.file.key;
     try {
-        const exUser = await userRepository.updateUser({ id, nickname, password, photo });
-        if (exUser) {
+        const user = await UserService.updateUser({ id, nickname, password, photo });
+        if (user) {
             res.json({
-                exUser: exUser
+                exUser: user
             })
         }
         else {
