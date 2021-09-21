@@ -4,13 +4,12 @@ dotenv.config();
 import jwt from "../jwt-util/jwt-utils";
 import passport from "passport";
 import { redisClient } from "../lib/redis";
-
+import bcrypt from "bcrypt";
 import { UserService } from "../service/UserService";
 
 const login = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate("local", (authError, userId, info) => {
     if (authError || userId == false) {
-      console.log(authError);
       return res.status(400).json({ message: info.message });
     }
     const accessToken = jwt.accessSign(userId);
@@ -27,17 +26,26 @@ const login = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const signup = async (req: any, res: Response) => {
-  const { nickname, email, password } = req.body;
+  let { nickname, email, password } = req.body;
   const photo = req.file ? req.file.key : "null";
   console.log(nickname, email, password, photo);
+  password = await bcrypt.hashSync(password, +process.env.SALT_ROUNDS);
   try {
-    await UserService.signup({ email, nickname, password, photo });
-    res.status(200).json({
-      result: true,
-      message: "signup successful",
-    });
-
-  } catch (error) {
+    const { exUser } = await UserService.createUser({ email, nickname, password, photo });
+    if (exUser) {
+      return res.status(400).json({
+        result: false,
+        message: "duplicated email",
+      });
+    }
+    else {
+      res.status(200).json({
+        result: true,
+        message: "signup successful",
+      });
+    }
+  }
+  catch (error) {
     console.log(error);
     return res.status(400).json({
       result: false,

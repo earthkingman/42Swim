@@ -1,6 +1,6 @@
 import { getConnection } from "typeorm";
 import Photo from "../entity/Photo";
-import Post from "../entity/Post";
+import Question from "../entity/Question";
 import User from "../entity/User";
 
 const getQueryRunner = async () => {
@@ -10,25 +10,25 @@ const getQueryRunner = async () => {
 	return queryRunner;
 }
 
-const uploadPost = async (uploadPostInfo) => {
+const uploadQuestion = async (uploadQuestionInfo) => {
 	const queryRunner = await getQueryRunner();
 	const userRepository = queryRunner.manager.getRepository(User);
-	const postRepository = queryRunner.manager.getRepository(Post);
+	const questionRepository = queryRunner.manager.getRepository(Question);
 	const photoRepository = queryRunner.manager.getRepository(Photo);
-	const { email, title, text, photos, userId } = uploadPostInfo;
+	const { email, title, text, photos, userId } = uploadQuestionInfo;
 
 	const user = await userRepository
 		.findOne({ where: { id: userId } });
 	if (user === undefined) {
 		throw new Error('존재하지 않는 사용자입니다');
 	}
-	const postInfo = { email, title, text, user };
+	const questionInfo = { email, title, text, user };
 
 	await queryRunner.startTransaction();
 	try {
-		const post = await postRepository.save(postInfo);
+		const question = await questionRepository.save(questionInfo);
 		await Promise.all(photos.map(async (photo) => {
-			await photoRepository.save({ photo, post });
+			await photoRepository.save({ photo, question });
 		}));
 		await queryRunner.commitTransaction();
 	} catch (error) {
@@ -40,25 +40,25 @@ const uploadPost = async (uploadPostInfo) => {
 	}
 }
 
-const updatePost = async (updatePostInfo) => {
+const updateQuestion = async (updateQuestionInfo) => {
 	const queryRunner = await getQueryRunner();
-	const postRepository = queryRunner.manager.getRepository(Post);
+	const questionRepository = queryRunner.manager.getRepository(Question);
 	const photoRepository = queryRunner.manager.getRepository(Photo);
-	const { title, text, photos, postId } = updatePostInfo;
+	const { title, text, photos, questionId } = updateQuestionInfo;
 
-	const post = await postRepository
-		.findOne({ where: { id: postId } });
-	if (post === undefined) {
-		throw new Error('존재하지 않는 포스트입니다');
+	const question = await questionRepository
+		.findOne({ where: { id: questionId } });
+	if (question === undefined) {
+		throw new Error('존재하지 않는 질문입니다');
 	}
 	await queryRunner.startTransaction();
 	try {
-		await photoRepository.delete({ post: post });
-		post.title = title || post.title;
-		post.text = text || post.text;
-		await postRepository.save(post);
+		await photoRepository.delete({ question: question });
+		question.title = title || question.title;
+		question.text = text || question.text;
+		await questionRepository.save(question);
 		await Promise.all(photos.map(async (photo) => {
-			await photoRepository.save({ photo, post });
+			await photoRepository.save({ photo, question });
 		}));
 		await queryRunner.commitTransaction();
 	} catch (error) {
@@ -70,19 +70,19 @@ const updatePost = async (updatePostInfo) => {
 	}
 }
 
-const deletePost = async (deletePostInfo) => {
+const deleteQuestion = async (deleteQuestionInfo) => {
 	const queryRunner = await getQueryRunner();
-	const postRepository = queryRunner.manager.getRepository(Post);
+	const questionRepository = queryRunner.manager.getRepository(Question);
 
-	const { postId } = deletePostInfo;
-	const post = await postRepository
-		.findOne({ where: { id: postId } });
-	if (post === undefined) {
-		throw new Error('존재하지 않는 포스트입니다');
+	const { questionId } = deleteQuestionInfo;
+	const question = await questionRepository
+		.findOne({ where: { id: questionId } });
+	if (question === undefined) {
+		throw new Error('존재하지 않는 질문입니다');
 	}
 	await queryRunner.startTransaction();
 	try {
-		await postRepository.remove(post);
+		await questionRepository.remove(question);
 		await queryRunner.commitTransaction();
 	} catch (error) {
 		console.error(error);
@@ -93,19 +93,19 @@ const deletePost = async (deletePostInfo) => {
 	}
 }
 
-const findPhotoByPostId = async (postId) => {
+const findPhotoByQuestionId = async (questionId) => {
 	const queryRunner = await getQueryRunner();
-	const postRepository = queryRunner.manager.getRepository(Post);
+	const questionRepository = queryRunner.manager.getRepository(Question);
 	const photoRepository = queryRunner.manager.getRepository(Photo);
 
-	const post = await postRepository
-		.findOne({ where: { id: postId } });
-	if (post === undefined) {
+	const question = await questionRepository
+		.findOne({ where: { id: questionId } });
+	if (question === undefined) {
 		throw new Error('존재하지 않는 포스트입니다');
 	}
 	const photos = await photoRepository
-		.find({ where: { post: post } });
+		.find({ where: { question: question } });
 	return photos;
 }
 
-export const PostService = { uploadPost, updatePost, deletePost, findPhotoByPostId };
+export const QuestionService = { uploadQuestion, updateQuestion, deleteQuestion, findPhotoByQuestionId };

@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import express, { Request, Response } from "express";
 import authRouter from "./routes/auth";
-import postRouter from "./routes/post";
+import questionRouter from "./routes/question";
 import userRouter from "./routes/user";
 import cors from "cors";
 import passport from "passport";
@@ -22,7 +22,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use("/auth", authRouter);
-app.use("/post", postRouter);
+app.use("/question", questionRouter);
 app.use("/user", userRouter)
 
 // app.use((req, res, next) => {

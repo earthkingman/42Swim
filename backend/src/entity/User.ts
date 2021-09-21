@@ -10,16 +10,13 @@ import {
   OneToMany,
   BeforeUpdate,
 } from "typeorm";
-import Post from "./Post";
+import Question from "./Question";
 import Answer from "./Answer";
 import Comment from "./Comment"
-import bcrypt from "bcrypt";
+import Base from "./Base";
+
 @Entity("users")
-export default class User {
-
-  @PrimaryGeneratedColumn("increment")
-  id: number;
-
+export default class User extends Base {
   @Column()
   email: string;
 
@@ -35,8 +32,8 @@ export default class User {
   @Column({ default: 0 })
   isAdmin: number;
 
-  @OneToMany(type => Post, post => post.user)
-  post: Post[];
+  @OneToMany(type => Question, question => question.user)
+  question: Question[];
 
   @OneToMany(type => Answer, answer => answer.user)
   answer: Answer[];
@@ -44,31 +41,25 @@ export default class User {
   @OneToMany(type => Comment, comment => comment.user)
   comment: Comment[];
 
-  @CreateDateColumn()
-  created_at: Date;
+  // @BeforeInsert()
+  // async savePassword() {
+  //   if (this.password) {
+  //     const hashedPassword = await bcrypt.hashSync(
+  //       this.password,
+  //       +process.env.SALT_ROUNDS
+  //     );
+  //     this.password = hashedPassword;
+  //   }
+  // }
 
-  @UpdateDateColumn()
-  updated_at: Date;
-
-  @BeforeInsert()
-  async savePassword() {
-    if (this.password) {
-      const hashedPassword = await bcrypt.hashSync(
-        this.password,
-        +process.env.SALT_ROUNDS
-      );
-      this.password = hashedPassword;
-    }
-  }
-
-  @BeforeUpdate()
-  async updatePassword() {
-    if (this.password) {
-      const hashedPassword = await bcrypt.hashSync(
-        this.password,
-        +process.env.SALT_ROUNDS
-      );
-      this.password = hashedPassword;
-    }
-  }
+  // @BeforeUpdate()
+  // async updatePassword() {
+  //   if (this.password) {
+  //     const hashedPassword = await bcrypt.hashSync(
+  //       this.password,
+  //       +process.env.SALT_ROUNDS
+  //     );
+  //     this.password = hashedPassword;
+  //   }
+  // }
 }

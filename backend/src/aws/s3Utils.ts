@@ -5,7 +5,7 @@ import multer from "multer";
 import multerS3 from 'multer-s3';
 dotenv.config();
 
-import { PostService } from "../service/PostService";
+import { QuestionService } from "../service/QuestionService";
 
 
 AWS.config.loadFromPath(path.join(__dirname, "../../config/awsconfig.json"));
@@ -31,9 +31,9 @@ const s3ImageUpload = (config) => multer({
 })
 
 const s3DeletePhoto = async (req, res, next) => {
-	const { postId } = req.body;
+	const { questionId } = req.body;
 	try {
-		const photos = await PostService.findPhotoByPostId(postId);
+		const photos = await QuestionService.findPhotoByQuestionId(questionId);
 		photos.map(async (photo) => {
 			const url = photo.photo.split('/')    // video에 저장된 fileUrl을 가져옴
 			const delFileName = url[url.length - 1]  // 버킷에 저장된 객체 URL만 가져옴

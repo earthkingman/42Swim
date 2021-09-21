@@ -1,6 +1,6 @@
 import { getConnection, QueryRunner } from "typeorm";
 import Photo from "../entity/Photo";
-import Post from "../entity/Post";
+import Question from "../entity/Question";
 import User from "../entity/User";
 
 const getQueryRunner = async () => {
@@ -10,17 +10,17 @@ const getQueryRunner = async () => {
 	return queryRunner;
 }
 
-const signup = async (signupUserInfo) => {
-	const queryRunner: QueryRunner = await getQueryRunner();
-	const userRepository = queryRunner.manager.getRepository(User);
-	const { email } = signupUserInfo;
-	const user = await userRepository
-		.findOne({ where: { email: email } });
-	if (user) {
-		throw new Error('ID duplicate');
-	}
-	await userRepository.save(signupUserInfo);
-}
+// const signup = async (signupUserInfo) => {
+// 	const queryRunner: QueryRunner = await getQueryRunner();
+// 	const userRepository = queryRunner.manager.getRepository(User);
+// 	const { email } = signupUserInfo;
+// 	const user = await userRepository
+// 		.findOne({ where: { email: email } });
+// 	if (user) {
+// 		throw new Error('ID duplicate');
+// 	}
+// 	await userRepository.save(signupUserInfo);
+// }
 
 const findUserByEmail = async (email) => {
 	const queryRunner: QueryRunner = await getQueryRunner();
@@ -67,4 +67,5 @@ const createUser = async (createUserInfo) => {
 	return { exUser: undefined, newUser: newUser };
 }
 
-export const UserService = { signup, createUser, updateUser, findUserByEmail, findUserById };
+
+export const UserService = { createUser, updateUser, findUserByEmail, findUserById };

@@ -10,20 +10,18 @@ import {
     OneToMany
 } from "typeorm"
 import User from "./User";
-import Post from "./Post";
+import Question from "./Question";
 import Photo from "./Photo"
 import Comment from './Comment';
+import Base from './Base';
 
 @Entity("answer")
-export default class Answer {
-    @PrimaryGeneratedColumn("increment")
-    id: number;
-
+export default class Answer extends Base {
     @OneToMany(type => Photo, photo => photo.answer)
     photo: Photo[];
 
-    @ManyToOne(type => Post, post => post.answer, { onDelete: 'CASCADE' })
-    post: Post;
+    @ManyToOne(type => Question, question => question.answer, { onDelete: 'CASCADE' })
+    question: Question;
 
     @ManyToOne(type => User, user => user.answer, { onDelete: 'CASCADE' })
     user: User;
@@ -32,9 +30,11 @@ export default class Answer {
     comment: Comment;
 
     @Column()
+    email: string;
+
+    @Column()
     text: string;
 
     @Column()
     isChoosen: boolean
-
 }
