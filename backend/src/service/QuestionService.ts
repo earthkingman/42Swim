@@ -2,6 +2,7 @@ import { getConnection } from "typeorm";
 import Photo from "../entity/Photo";
 import Question from "../entity/Question";
 import User from "../entity/User";
+import HashTag from "../entity/HashTag";
 
 const getQueryRunner = async () => {
 	const connection = getConnection();
@@ -15,17 +16,42 @@ const uploadQuestion = async (uploadQuestionInfo) => {
 	const userRepository = queryRunner.manager.getRepository(User);
 	const questionRepository = queryRunner.manager.getRepository(Question);
 	const photoRepository = queryRunner.manager.getRepository(Photo);
-	const { email, title, text, photos, userId } = uploadQuestionInfo;
-
+	const hashTagRepository = queryRunner.manager.getRepository(HashTag);
+	const { email, title, text, photos, userId, hashTag } = uploadQuestionInfo;
 	const user = await userRepository
 		.findOne({ where: { id: userId } });
 	if (user === undefined) {
 		throw new Error('존재하지 않는 사용자입니다');
 	}
-	const questionInfo = { email, title, text, user };
-
 	await queryRunner.startTransaction();
 	try {
+		const hashTagObject: HashTag[] = [];
+		const hashTagNameList = hashTag.split('#')
+		for (let i = 0; i < hashTagNameList.length; i++) {
+			try {
+				const exHashTag = await hashTagRepository.findOne({ where: { name: hashTagNameList[i] } });
+				if (exHashTag === undefined) {
+					/**
+					 * 첫번째 방법
+					 */
+					// const newHashTag = new HashTag();
+					// newHashTag.name = hashTagNameList[i];
+					// await hashTagRepository.save(newHashTag);
+					// hashTagObject.push(newHashTag);
+					/**
+					 * 두번째 방법
+					 */
+					const newHashTag = await hashTagRepository.save({ name: hashTagNameList[i] });
+					hashTagObject.push(newHashTag);
+				}
+				else {
+					hashTagObject.push(exHashTag);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		const questionInfo = { email, title, text, user, hashTag: hashTagObject };
 		const question = await questionRepository.save(questionInfo);
 		await Promise.all(photos.map(async (photo) => {
 			await photoRepository.save({ photo, question });
@@ -44,6 +70,7 @@ const updateQuestion = async (updateQuestionInfo) => {
 	const queryRunner = await getQueryRunner();
 	const questionRepository = queryRunner.manager.getRepository(Question);
 	const photoRepository = queryRunner.manager.getRepository(Photo);
+	const hashRepository = queryRunner.manager.getRepository(HashTag);
 	const { title, text, photos, questionId } = updateQuestionInfo;
 
 	const question = await questionRepository
@@ -97,7 +124,6 @@ const findPhotoByQuestionId = async (questionId) => {
 	const queryRunner = await getQueryRunner();
 	const questionRepository = queryRunner.manager.getRepository(Question);
 	const photoRepository = queryRunner.manager.getRepository(Photo);
-
 	const question = await questionRepository
 		.findOne({ where: { id: questionId } });
 	if (question === undefined) {

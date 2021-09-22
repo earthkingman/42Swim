@@ -23,7 +23,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use("/auth", authRouter);
 app.use("/question", questionRouter);
-app.use("/user", userRouter)
+app.use("/user", userRouter);
 
 // app.use((req, res, next) => {
 //   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`);

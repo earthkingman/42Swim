@@ -1,7 +1,7 @@
 import express from "express";
 import s3 from "../aws/s3Utils"
 import authicate_JWT from "../middlewares/authJWT";
-import PostController from "../controllers/post"
+import PostController from "../controllers/question"
 
 const router = express.Router();
 

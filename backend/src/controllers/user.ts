@@ -36,11 +36,11 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
 
 const userUpdate = async (req: any, res: Response, next: NextFunction) => {
     const id = req.decodedId;
-    let { nickname, password } = req.body;
-    password = await bcrypt.hashSync(password, +process.env.SALT_ROUNDS);
+    const { nickname, password } = req.body;
+    const encryptedPassword = await bcrypt.hashSync(password, +process.env.SALT_ROUNDS);
     const photo = req.file.key;
     try {
-        const user = await UserService.updateUser({ id, nickname, password, photo });
+        const user = await UserService.updateUser({ id, nickname, password: encryptedPassword, photo });
         if (user) {
             res.json({
                 exUser: user
