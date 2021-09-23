@@ -8,6 +8,8 @@ import cors from "cors";
 import passport from "passport";
 import passportConfig from "./passport";
 import cookieParser from "cookie-parser";
+import { commentRouter } from "./routes/comment";
+import { answerRouter } from "./routes/answer";
 
 const app = express();
 passportConfig();
@@ -23,7 +25,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use("/auth", authRouter);
 app.use("/question", questionRouter);
-app.use("/user", userRouter)
+app.use("/user", userRouter);
+app.use("/comment", commentRouter);
+app.use("/answer", answerRouter);
 
 // app.use((req, res, next) => {
 //   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`);
