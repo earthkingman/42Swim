@@ -26,12 +26,11 @@ const login = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const signup = async (req: any, res: Response) => {
-  let { nickname, email, password } = req.body;
+  const { nickname, email, password } = req.body;
   const photo = req.file ? req.file.key : "null";
-  console.log(nickname, email, password, photo);
-  password = await bcrypt.hashSync(password, +process.env.SALT_ROUNDS);
+  const encryptedPassword = await bcrypt.hashSync(password, +process.env.SALT_ROUNDS);
   try {
-    const { exUser } = await UserService.createUser({ email, nickname, password, photo });
+    const { exUser } = await UserService.createUser({ email, nickname, password: encryptedPassword, photo });
     if (exUser) {
       return res.status(400).json({
         result: false,
