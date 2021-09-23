@@ -21,7 +21,7 @@ const uploadQuestion = async (uploadQuestionInfo) => {
 	const user = await userRepository
 		.findOne({ where: { id: userId } });
 	if (user === undefined) {
-		throw new Error('존재하지 않는 사용자입니다');
+		throw new Error("The user doesn't exist.");
 	}
 	await queryRunner.startTransaction();
 	try {
@@ -76,7 +76,7 @@ const updateQuestion = async (updateQuestionInfo) => {
 	const question = await questionRepository
 		.findOne({ where: { id: questionId } });
 	if (question === undefined) {
-		throw new Error('존재하지 않는 질문입니다');
+		throw new Error("The questionPost doesn't exist.");
 	}
 	await queryRunner.startTransaction();
 	try {
@@ -105,7 +105,7 @@ const deleteQuestion = async (deleteQuestionInfo) => {
 	const question = await questionRepository
 		.findOne({ where: { id: questionId } });
 	if (question === undefined) {
-		throw new Error('존재하지 않는 질문입니다');
+		throw new Error("The questionPost doesn't exist.");
 	}
 	await queryRunner.startTransaction();
 	try {
@@ -127,7 +127,7 @@ const findPhotoByQuestionId = async (questionId) => {
 	const question = await questionRepository
 		.findOne({ where: { id: questionId } });
 	if (question === undefined) {
-		throw new Error('존재하지 않는 포스트입니다');
+		throw new Error("The questionPost doesn't exist.");
 	}
 	const photos = await photoRepository
 		.find({ where: { question: question } });
