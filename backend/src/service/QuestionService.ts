@@ -70,8 +70,8 @@ const updateQuestion = async (updateQuestionInfo) => {
 	const queryRunner = await getQueryRunner();
 	const questionRepository = queryRunner.manager.getRepository(Question);
 	const photoRepository = queryRunner.manager.getRepository(Photo);
-	const hashRepository = queryRunner.manager.getRepository(HashTag);
-	const { title, text, photos, questionId } = updateQuestionInfo;
+	const hashTagRepository = queryRunner.manager.getRepository(HashTag);
+	const { title, text, photos, questionId, hashTag } = updateQuestionInfo;
 
 	const question = await questionRepository
 		.findOne({ where: { id: questionId } });
@@ -81,8 +81,23 @@ const updateQuestion = async (updateQuestionInfo) => {
 	await queryRunner.startTransaction();
 	try {
 		await photoRepository.delete({ question: question });
+		const hashTagObject: HashTag[] = [];
+		if (hashTag != undefined) {
+			const hashTagNameList = hashTag.split('#')
+			for (let i = 0; i < hashTagNameList.length; i++) {
+				const exHashTag = await hashTagRepository.findOne({ where: { name: hashTagNameList[i] } });
+				if (exHashTag === undefined) {
+					const newHashTag = await hashTagRepository.save({ name: hashTagNameList[i] });
+					hashTagObject.push(newHashTag);
+				}
+				else {
+					hashTagObject.push(exHashTag);
+				}
+			}
+		}
 		question.title = title || question.title;
 		question.text = text || question.text;
+		question.hashTag = hashTagObject || question.hashTag;
 		await questionRepository.save(question);
 		await Promise.all(photos.map(async (photo) => {
 			await photoRepository.save({ photo, question });

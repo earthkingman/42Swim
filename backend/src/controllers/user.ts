@@ -12,7 +12,6 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
         const user = await UserService.findUserById(id);
         if (user) {
             res.status(200).json({
-                result: true,
                 data: {
                     email: user.email,
                     nickname: user.nickname,
@@ -22,13 +21,11 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
         }
         else {
             res.status(400).json({
-                result: false,
-                message: "No such information"
+                message: "User doesn't exist"
             })
         }
     } catch (error) {
         res.status(500).json({
-            result: false,
             message: `An error occurred (${error.message})`
         })
     }
@@ -49,7 +46,7 @@ const userUpdate = async (req: any, res: Response, next: NextFunction) => {
         else {
             res.status(400).json({
                 result: false,
-                message: "No such information"
+                message: "User doesn't exist"
             })
         }
     } catch (error) {

@@ -20,11 +20,11 @@ export default () => {
             if (result) {
               return done(null, user);
             } else {
-              return done(null, false, { message: "Password is wrong" });
+              return done(null, false, { message: "Password Invalid" });
             }
           } else {
             return done(null, false, {
-              message: "This is an unregistered email",
+              message: "Email Invalid",
             });
           }
         } catch (error) {
