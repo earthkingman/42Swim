@@ -45,6 +45,9 @@ export const StyledButton = styled.button<SButtonProps>`
   color: black;
   font-weight: 700;
   cursor: pointer;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   border: none;
   border-radius: 16px;
   & + & {
