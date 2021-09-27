@@ -1,6 +1,6 @@
 import React from 'react'
 import GlobalThemeProvider from '../../../style/GlobalThemeProvider'
-import PlusIcon from '../PlusIcon'
+import PlusIcon from '../../asset/icons/PlusIcon'
 import Button, { ButtonProps } from './index'
 
 export default {

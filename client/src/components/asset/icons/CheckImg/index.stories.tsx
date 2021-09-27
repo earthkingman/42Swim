@@ -1,7 +1,7 @@
 import CheckImg from './index'
 
 export default {
-  title: 'Atoms/CheckImg',
+  title: 'Icons/CheckImg',
   component: CheckImg,
 }
 

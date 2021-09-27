@@ -1,9 +1,9 @@
 import React from 'react'
-import GlobalThemeProvider from '../../../style/GlobalThemeProvider'
+import GlobalThemeProvider from '../../../../style/GlobalThemeProvider'
 import CloseBtn from './index'
 
 export default {
-  title: 'Atoms/CloseBtn',
+  title: 'Icons/CloseBtn',
   component: CloseBtn,
 }
 
