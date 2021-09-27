@@ -62,6 +62,10 @@ const GlobalStyle = createGlobalStyle`
   input:focus{
 	  outline: none;
   }
+  a{
+	  outline: none;
+	  text-decoration: none;
+  }
 `
 
 export default GlobalStyle

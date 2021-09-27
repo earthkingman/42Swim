@@ -36,6 +36,7 @@ export interface InputProps extends SInputProps {
   placeholder?: string
   className?: string
   value?: string
+  type?: string
 }
 
 const Input = ({ ...props }: InputProps) => {
