@@ -1,12 +1,21 @@
-import { BrowserRouter } from 'react-router-dom'
-import { Counter } from './Counter'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import LoginPage from './components/pages/Login'
+import GlobalThemeProvider from './style/GlobalThemeProvider'
 
-export const App = () => {
+const App = () => {
   return (
-    <BrowserRouter>
-      <h1>React TypeScripdfdft Webpack Starter Template</h1>
-      <div>hid</div>
-      <Counter />
-    </BrowserRouter>
+    <GlobalThemeProvider>
+      <Router>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={(props) => <LoginPage visible={true} {...props} />}
+          />
+        </Switch>
+      </Router>
+    </GlobalThemeProvider>
   )
 }
+
+export default App
