@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 
 type sizeType = 'sm' | 'lg'
 
-const sizes = { sm: { size: '45px' }, lg: { size: '120px' } }
+const sizes = { sm: { size: '40px' }, lg: { size: '120px' } }
 
 export interface SCircleImg {
   size: sizeType
