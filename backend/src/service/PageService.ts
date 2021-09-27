@@ -51,4 +51,20 @@ const getQuestionPageDataByQuestionId = async (questionId) => {
 	return pageInfo;
 }
 
-export const PageService = { getQuestionPageDataByQuestionId };
+const getQuestionListPage = async (pageInfo) => {
+	const queryRunner = await getQueryRunner();
+	const queryBuilder = queryRunner.manager
+		.getRepository(Question)
+		.createQueryBuilder('question')
+		.innerJoinAndSelect('question.user', 'user')
+		.innerJoinAndSelect('question.hashTag', 'hashTag')
+		.orderBy('question.id', 'DESC')
+		.limit(pageInfo.limit)
+		.offset(pageInfo.offset);
+
+	return queryBuilder
+		.disableEscaping()
+		.getMany();
+}
+
+export const PageService = { getQuestionPageDataByQuestionId, getQuestionListPage };

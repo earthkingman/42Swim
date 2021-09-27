@@ -4,6 +4,7 @@ import express, { Request, Response } from "express";
 import authRouter from "./routes/auth";
 import postRouter from "./routes/post";
 import userRouter from "./routes/user";
+import pageRouter from "./routes/page";
 import cors from "cors";
 import passport from "passport";
 import passportConfig from "./passport";
@@ -24,12 +25,13 @@ app.use(cors(corsOptions));
 app.use("/auth", authRouter);
 app.use("/post", postRouter);
 app.use("/user", userRouter);
+app.use("/page", pageRouter);
 
-app.use((req, res, next) => {
-  const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`);
-  error.status = 404;
-  next(error);
-})
+// app.use((req, res, next) => {
+//   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`);
+//   error.status = 404;
+//   next(error);
+// })
 
 // app.use((err, req, res, next) => {
 //   res.locals.message = err.message;
