@@ -30,9 +30,6 @@ export default class Answer extends Base {
     comment: Comment;
 
     @Column()
-    email: string;
-
-    @Column()
     text: string;
 
     @Column()
