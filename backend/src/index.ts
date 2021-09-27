@@ -1,7 +1,10 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
 import express, { Request, Response } from "express";
-import loginRouter from "./routes/user";
+import authRouter from "./routes/auth";
+import postRouter from "./routes/post";
+import userRouter from "./routes/user";
+import pageRouter from "./routes/page";
 import cors from "cors";
 import passport from "passport";
 import passportConfig from "./passport";
@@ -19,12 +22,26 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-app.use("/user", loginRouter);
+app.use("/auth", authRouter);
+app.use("/post", postRouter);
+app.use("/user", userRouter);
+app.use("/page", pageRouter);
 
-createConnection()
-  .then(async () => {
-    app.listen(5000, () => {
-      console.log("서버 가동");
-    });
-  })
-  .catch((error) => console.log(error));
+// app.use((req, res, next) => {
+//   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`);
+//   error.status = 404;
+//   next(error);
+// })
+
+// app.use((err, req, res, next) => {
+//   res.locals.message = err.message;
+//   res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
+
+app.listen(5000, async () => {
+  console.log("서버 가동");
+  await createConnection();
+  console.log("DB 연결");
+});

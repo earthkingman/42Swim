@@ -1,20 +1,10 @@
 import express from "express";
-import passport from "passport";
 import authicate_JWT from "../middlewares/authJWT";
-import UserController from "../controllers/user";
-
+import UserController from "../controllers/user"
+import s3 from "../aws/s3Utils"
 const router = express.Router();
 
-router.post("/login", UserController.login);
+router.get('/info', authicate_JWT, UserController.userInfo);
+router.patch('/update', authicate_JWT, s3.s3ImageUpload({ folder: 'author' }).single("imgFile"), UserController.userUpdate);
 
-router.post("/signup", UserController.signup);
-
-router.get("/42login", passport.authenticate("42", { session: false }));
-
-router.get("/authResult", UserController.FourtyTowLogin);
-
-router.get("/jwt", authicate_JWT, (req, res) => {
-  res.json(123);
-});
-
-export default router;
+export default router

@@ -1,9 +1,10 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { User } from "../entity/User";
 import passport from "passport";
 import Strategy from "passport-42";
 const FortyTwoStrategy = Strategy;
+
+import { UserService } from "../service/UserService";
 
 export default () => {
   passport.use(
@@ -17,23 +18,16 @@ export default () => {
         console.log("요청 들어옴");
         console.log("accessToken", accessToken, "refreshToken", refreshToken);
         console.log("FortyTwoStrategy");
-        // console.log(profile.id);
-        // console.log(profile.emails[0].value);
-        // console.log(profile);
-        // console.log(profile.username);
         try {
-          const exUser = await User.findOne({
-            where: { email: profile.emails[0].value },
+          const { exUser, newUser } = await UserService.createUser({
+            nickname: profile.username,
+            email: profile.emails[0].value,
+            password: process.env.PASSWORD,
+            photo: profile.photos[0].value,
           });
           if (exUser) {
             return done(null, exUser);
           } else {
-            const newUser = User.create({
-              nickname: profile.username,
-              email: profile.emails[0].value,
-              password: process.env.PASSWORD,
-            });
-            await newUser.save();
             return done(null, newUser);
           }
         } catch (error) {

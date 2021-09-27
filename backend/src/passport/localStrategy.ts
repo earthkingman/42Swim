@@ -2,7 +2,8 @@ import passport from "passport";
 import Strategy from "passport-local";
 const LocalStrategy = Strategy;
 import bcrypt from "bcrypt";
-import { User } from "../entity/User";
+
+import { UserService } from "../service/UserService";
 
 export default () => {
   passport.use(
@@ -13,17 +14,17 @@ export default () => {
       },
       async (email, password, done) => {
         try {
-          const user = await User.findOne({ where: { email } });
+          const user = await UserService.findUserByEmail(email);
           if (user) {
             const result = await bcrypt.compare(password, user.password);
             if (result) {
               return done(null, user);
             } else {
-              return done(null, false, { message: "Password is wrong" });
+              return done(null, false, { message: "Password Invalid" });
             }
           } else {
             return done(null, false, {
-              message: "This is an unregistered email",
+              message: "Email Invalid",
             });
           }
         } catch (error) {

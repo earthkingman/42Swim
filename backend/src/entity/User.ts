@@ -6,15 +6,17 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  BaseEntity,
   BeforeInsert,
+  OneToMany,
+  BeforeUpdate,
 } from "typeorm";
-import bcrypt from "bcrypt";
-@Entity("users")
-export class User extends BaseEntity {
-  @PrimaryGeneratedColumn("increment")
-  id: number;
+import Question from "./Question";
+import Answer from "./Answer";
+import Comment from "./Comment"
+import Base from "./Base";
 
+@Entity("users")
+export default class User extends Base {
   @Column()
   email: string;
 
@@ -24,33 +26,40 @@ export class User extends BaseEntity {
   @Column()
   nickname: string;
 
-  @Column({ default: "default" })
+  @Column()
   photo: string;
 
   @Column({ default: 0 })
-  isadmin: number;
+  isAdmin: number;
 
-  @CreateDateColumn({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
-  })
-  public created_at: Date;
+  @OneToMany(type => Question, question => question.user)
+  question: Question[];
 
-  @UpdateDateColumn({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
-    onUpdate: "CURRENT_TIMESTAMP(6)",
-  })
-  public updated_at: Date;
+  @OneToMany(type => Answer, answer => answer.user)
+  answer: Answer[];
 
-  @BeforeInsert()
-  async savePassword() {
-    if (this.password) {
-      const hashedPassword = await bcrypt.hashSync(
-        this.password,
-        +process.env.SALT_ROUNDS
-      );
-      this.password = hashedPassword;
-    }
-  }
+  @OneToMany(type => Comment, comment => comment.user)
+  comment: Comment[];
+
+  // @BeforeInsert()
+  // async savePassword() {
+  //   if (this.password) {
+  //     const hashedPassword = await bcrypt.hashSync(
+  //       this.password,
+  //       +process.env.SALT_ROUNDS
+  //     );
+  //     this.password = hashedPassword;
+  //   }
+  // }
+
+  // @BeforeUpdate()
+  // async updatePassword() {
+  //   if (this.password) {
+  //     const hashedPassword = await bcrypt.hashSync(
+  //       this.password,
+  //       +process.env.SALT_ROUNDS
+  //     );
+  //     this.password = hashedPassword;
+  //   }
+  // }
 }
