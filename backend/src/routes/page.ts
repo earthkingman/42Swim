@@ -5,6 +5,8 @@ const router = express.Router();
 
 router.get('/list/question', PageController.getQuestionListPage);
 
+router.get('/detail/question', PageController.getQuestionDetailPage);
+
 // router.delete('/delete', authicate_JWT, s3.s3DeletePhoto, QuestionController.deleteQuestion)
 
 // router.post('/uploads', authicate_JWT, s3.s3ImageUpload({ folder: 'author' }).array("imgFile"), QuestionController.uploadQuestion)

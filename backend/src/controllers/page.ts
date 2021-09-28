@@ -14,11 +14,25 @@ const getQuestionListPage = async (req: Request, res: Response, next: NextFuncti
 	try {
 		const questionList = await PageService.getQuestionListPage(pageInfo);
 		return res.status(200).json({
-			QuesiontList: questionList,
+			quesiontList: questionList,
 			message: "getList success",
 		})
 	} catch (error) {
 		console.log(error);
+		return res.status(500).json({
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
+const getQuestionDetailPage = async (req: Request, res: Response, next: NextFunction) => {
+	const { questionId } = req.body;
+	try {
+		const questionDetail = await PageService.getQuestionDetailPage(questionId);
+		return res.status(200).json({
+			questionDetail: questionDetail
+		})
+	} catch (error) {
 		return res.status(500).json({
 			message: `An error occurred (${error.message})`
 		})
@@ -90,5 +104,5 @@ const getQuestionListPage = async (req: Request, res: Response, next: NextFuncti
 // }
 
 export const PageController = {
-	getQuestionListPage,
+	getQuestionListPage, getQuestionDetailPage
 }

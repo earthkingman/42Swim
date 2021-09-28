@@ -26,8 +26,8 @@ export default class Answer extends Base {
     @ManyToOne(type => User, user => user.answer, { onDelete: 'CASCADE' })
     user: User;
 
-    @ManyToOne(type => Comment, comment => comment.answer, { onDelete: 'CASCADE' })
-    comment: Comment;
+    @OneToMany(type => Comment, comment => comment.answer)
+    comment: Comment[];
 
     @Column()
     text: string;
