@@ -56,7 +56,6 @@ interface SModalWrapper {
 // display: none 해줘야함
 export const ModalWrapper = styled.div<SModalWrapper>`
   display: ${({ visible }) => (visible ? 'flex' : 'none')};
-  font-family: Roboto;
   position: fixed;
   z-index: 1;
   justify-content: center;
