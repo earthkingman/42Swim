@@ -10,6 +10,10 @@ const getQueryRunner = async () => {
 	return queryRunner;
 }
 
+/**
+ *
+ * @param questionId
+ */
 const getQuestionDetailPage = async (questionId) => {
 	const queryRunner = await getQueryRunner();
 	const queryBuilder = queryRunner.manager
@@ -22,7 +26,6 @@ const getQuestionDetailPage = async (questionId) => {
 	const questionInfo = await queryBuilder
 		.disableEscaping()
 		.getMany();
-
 	const queryBuilder2 = queryRunner.manager
 		.getRepository(Answer)
 		.createQueryBuilder('answer')
@@ -38,7 +41,13 @@ const getQuestionDetailPage = async (questionId) => {
 	}
 }
 
+
+/**
+ *
+ * @param pageInfo
+ */
 const getQuestionListPage = async (pageInfo) => {
+	console.log(pageInfo);
 	const queryRunner = await getQueryRunner();
 	const queryBuilder = queryRunner.manager
 		.getRepository(Question)

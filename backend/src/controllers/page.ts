@@ -25,12 +25,14 @@ const getQuestionListPage = async (req: Request, res: Response, next: NextFuncti
 	}
 }
 
-const getQuestionDetailPage = async (req: Request, res: Response, next: NextFunction) => {
+const getQuestionDetailPage = async (req: any, res: Response, next: NextFunction) => {
 	const { questionId } = req.body;
+	console.log(req.guestToken);
 	try {
 		const questionDetail = await PageService.getQuestionDetailPage(questionId);
 		return res.status(200).json({
-			questionDetail: questionDetail
+			questionDetail: questionDetail,
+			guestId: req.guestToken
 		})
 	} catch (error) {
 		return res.status(500).json({
