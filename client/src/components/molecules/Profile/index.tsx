@@ -1,5 +1,5 @@
 import React from 'react'
-import CircleImg from '../../atoms/CircleImg'
+import CircleImg from '../../atoms/CircleBox'
 import Text from '../../atoms/Text'
 import { ProfileWrapper } from './style'
 

@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components'
 import globalTheme from '../../../style/theme'
+import { darken, lighten } from 'polished'
 
 type sizeType = 'sm' | 'lg'
 
@@ -20,6 +21,12 @@ const buttonStyles = css<SButtonProps>`
     color &&
     css`
       background-color: ${theme.color.button[color]};
+      &:hover {
+        background: ${lighten(0.1, theme.color.button[color])};
+      }
+      &:active {
+        background: ${darken(0.1, theme.color.button[color])};
+      }
     `}
   ${({ theme, fontColor }) =>
     fontColor &&
@@ -50,6 +57,12 @@ export const StyledButton = styled.button<SButtonProps>`
   align-items: center;
   border: none;
   border-radius: 16px;
+  &:hover {
+    background: ${lighten(0.1, '#ffb84c')};
+  }
+  &:active {
+    background: ${darken(0.1, '#ffb84c')};
+  }
   & + & {
     margin-left: 1rem;
   }

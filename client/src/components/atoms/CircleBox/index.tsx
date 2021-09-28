@@ -34,7 +34,7 @@ const StyledCircleImg = css<SCircleImg>`
     `}
 `
 
-const CircleImg = styled.div`
+const CircleBox = styled.div`
   width: 120px;
   height: 120px;
   display: inline-block;
@@ -45,4 +45,4 @@ const CircleImg = styled.div`
 
   ${StyledCircleImg}
 `
-export default CircleImg
+export default CircleBox
