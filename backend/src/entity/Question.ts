@@ -17,6 +17,7 @@ import Answer from "./Answer";
 import Comment from "./Comment";
 import Base from './Base';
 import HashTag from './HashTag';
+import Like from './Like';
 
 @Entity("questions")
 export default class Question extends Base {
@@ -36,8 +37,18 @@ export default class Question extends Base {
     @JoinTable()
     hashTag: HashTag[];
 
-    @Column()
-    email: string;
+    @ManyToMany(type => Like, like => like.question)
+    @JoinTable()
+    like: Like[];
+
+    @Column({ default: false })
+    isSolved: boolean;
+
+    @Column({ default: 0 })
+    likeCount: number;
+
+    @Column({ default: 0 })
+    viewCount: number;
 
     @Column()
     title: string;

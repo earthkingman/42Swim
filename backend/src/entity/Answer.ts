@@ -7,15 +7,18 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     ManyToOne,
-    OneToMany
+    OneToMany,
+    ManyToMany,
+    JoinTable,
 } from "typeorm"
 import User from "./User";
 import Question from "./Question";
 import Photo from "./Photo"
 import Comment from './Comment';
 import Base from './Base';
+import Like from './Like'
 
-@Entity("answer")
+@Entity("answers")
 export default class Answer extends Base {
     @OneToMany(type => Photo, photo => photo.answer)
     photo: Photo[];
@@ -26,15 +29,19 @@ export default class Answer extends Base {
     @ManyToOne(type => User, user => user.answer, { onDelete: 'CASCADE' })
     user: User;
 
-    @ManyToOne(type => Comment, comment => comment.answer, { onDelete: 'CASCADE' })
-    comment: Comment;
+    @OneToMany(type => Comment, comment => comment.answer)
+    comment: Comment[];
 
-    @Column()
-    email: string;
+    @ManyToMany(type => Like, like => like.answer, { onDelete: 'CASCADE' })
+    @JoinTable()
+    like: Like[];
+
+    @Column({ default: 0 })
+    likeCount: number;
 
     @Column()
     text: string;
 
-    @Column()
+    @Column({ default: false })
     isChoosen: boolean
 }
