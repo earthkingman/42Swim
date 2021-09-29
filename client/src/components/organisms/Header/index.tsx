@@ -15,7 +15,7 @@ export interface Props {
   img?: string
 }
 
-const Header = ({ isLogin, nickname, img, ...props }: Props) => {
+const Header = ({ isLogin, nickname, img }: Props) => {
   return (
     <HeaderWrapper>
       <HeaderTitleWrapper>

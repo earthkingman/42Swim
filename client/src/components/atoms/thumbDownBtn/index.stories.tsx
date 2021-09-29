@@ -8,21 +8,6 @@ export default {
 }
 
 //storybook에 controls가 안뜸
-
-const Template = (args: ThumbDownBtnProps) => (
-  <GlobalThemeProvider>
-    <ThumbDownBtn {...args} />
-  </GlobalThemeProvider>
-)
-
-export const Default = (props: ThumbDownBtnProps) => {
-  return (
-    <>
-      <Template active={true} {...props} />
-    </>
-  )
-}
-
 export const Active = (props: ThumbDownBtnProps) => {
   return (
     <GlobalThemeProvider>

@@ -2,7 +2,7 @@ import GlobalThemeProvider from '../../../style/GlobalThemeProvider'
 import Header, { Props } from './index'
 
 export default {
-  title: 'Molecules/Header',
+  title: 'Organism/Header',
   component: Header,
 }
 

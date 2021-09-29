@@ -9,7 +9,7 @@ export default {
 
 //storybook에 controls가 안뜸
 
-export const Active = (props: ThumbUpBtnProps) => {
+export const Default = (props: ThumbUpBtnProps) => {
   return (
     <GlobalThemeProvider>
       <ThumbUpBtn active={false} {...props} />
