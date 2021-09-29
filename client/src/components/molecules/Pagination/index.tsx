@@ -52,8 +52,8 @@ function range(size: number, start: number) {
 
 export interface Props {
   page: number
-  onFront: MouseEvent
-  onBack: MouseEvent
+  onFront: any
+  onBack: any
 }
 
 const Pagination = ({ page = 1, onFront, onBack, ...props }: Props) => {
