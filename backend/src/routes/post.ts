@@ -4,6 +4,7 @@ import authicate_JWT from "../middlewares/authJWT";
 import QuestionController from "../controllers/question"
 import { AnswerController } from "../controllers/answer";
 import { CommentController } from "../controllers/comment";
+import { LikeController } from "../controllers/like";
 
 const router = express.Router();
 
@@ -18,6 +19,9 @@ router.patch('/question', authicate_JWT, s3.s3ImageUpload({ folder: 'author' }).
 router.delete('/comment', authicate_JWT, CommentController.deleteComment)
 router.post('/comment', authicate_JWT, CommentController.uploadComment)
 router.patch('/comment', authicate_JWT, CommentController.updateComment)
+
+router.post('/like', authicate_JWT, LikeController.createLike)
+router.delete('/like', authicate_JWT, LikeController.deleteLike)
 
 
 //채택하기 api 추가 필요
