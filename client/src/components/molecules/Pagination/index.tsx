@@ -35,16 +35,26 @@ function range(size: number, start: number) {
     .map((x, y) => x + y)
 }
 
-const Pagination = () => {
+export interface Props {
+  page: number
+  onFront: MouseEvent
+  onBack: MouseEvent
+}
+
+const Pagination = ({ page, onFront, onBack, ...props }: Props) => {
   return (
-    <PageWrapper>
-      <ArrowFront />
+    <PageWrapper {...props}>
+      <ArrowFront onClick={onFront} />
       <RowSBDiv>
         {range(10, 1).map((data) => (
-          <Number number={data} active={false} key={data} />
+          <Number
+            number={data}
+            active={page === data ? true : false}
+            key={data}
+          />
         ))}
       </RowSBDiv>
-      <ArrowBack />
+      <ArrowBack onClick={onBack} />
     </PageWrapper>
   )
 }

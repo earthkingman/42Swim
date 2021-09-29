@@ -44,6 +44,9 @@ const CircleBox = styled.div`
   background: #c4c4c4;
   font-size: 20px;
   font-weight: 700;
+  &:hover {
+    cursor: pointer;
+  }
   ${StyledCircleImg}
 `
 export default CircleBox
