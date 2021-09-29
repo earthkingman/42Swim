@@ -2,8 +2,11 @@ import { useState } from 'react'
 
 const ArrowFront = (props: { onClick: () => void }) => {
   const [isHover, setIsHover] = useState(false)
-  const handleMouseEnter = () => {
+
+  const handleMouseEnter = (e: any) => {
     setIsHover(true)
+    e.target.style.cursor = 'pointer'
+    e.stopPropagation()
   }
   const handleMouseLeave = () => {
     setIsHover(false)

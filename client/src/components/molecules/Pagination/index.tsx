@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ArrowBack from '../../asset/icons/ArrowBack'
 import ArrowFront from '../../asset/icons/ArrowFront'
 import CircleBox from '../../atoms/CircleBox'
 import { RowSBDiv } from '../../atoms/Div'
 import { PageWrapper } from './style'
+import theme from '../../../style/theme'
 
 interface PNProps {
   number: number
@@ -11,6 +12,18 @@ interface PNProps {
   active: boolean
 }
 const Number = ({ number, active, onClick, ...props }: PNProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isHover, setIsHover] = useState(false)
+
+  const handleMouseEnter = (e: any) => {
+    setIsHover(true)
+    e.target.style.color = theme.color.lightblack
+    e.stopPropagation()
+  }
+  const handleMouseLeave = (e: any) => {
+    setIsHover(false)
+    e.target.style.color = theme.color.black
+  }
   const style = {
     display: 'flex',
     justifyContent: 'space-around',
@@ -20,8 +33,10 @@ const Number = ({ number, active, onClick, ...props }: PNProps) => {
     <CircleBox
       onClick={onClick}
       size="sm"
-      color={active ? 'yellow' : 'white'}
+      color={active ? theme.color.yellow : theme.color.white}
       style={style}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       {...props}
     >
       {number}
@@ -41,7 +56,7 @@ export interface Props {
   onBack: MouseEvent
 }
 
-const Pagination = ({ page, onFront, onBack, ...props }: Props) => {
+const Pagination = ({ page = 1, onFront, onBack, ...props }: Props) => {
   return (
     <PageWrapper {...props}>
       <ArrowFront onClick={onFront} />

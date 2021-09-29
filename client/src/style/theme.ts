@@ -24,9 +24,10 @@ const color = {
   yellow: '#FFB84D',
   white: '#FFFFFF',
   red: '#FF5D39',
-  deepgray: 'C4C4C4',
-  lightgray: 'EAEAEA',
+  deepgray: '#C4C4C4',
+  lightgray: '#EAEAEA',
   black: '#000000',
+  lightblack: '#545454',
 }
 
 const theme = {
