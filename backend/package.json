@@ -11,7 +11,7 @@
       "@types/uuid": "^8.3.1",
       "aws-sdk": "^2.985.0",
       "jsonwebtoken": "^8.5.1",
-      "nodemon": "^2.0.12",
+      "nodemon": "^2.0.13",
       "passport": "^0.4.1",
       "passport-42": "^1.2.6",
       "passport-local": "^1.0.0",
@@ -21,6 +21,7 @@
    },
    "dependencies": {
       "@types/multer": "^1.4.7",
+      "@types/redis": "^2.8.32",
       "bcrypt": "^5.0.1",
       "cookie-parser": "^1.4.5",
       "cors": "^2.8.5",
@@ -35,6 +36,6 @@
    "scripts": {
       "start": "ts-node src/index.ts",
       "typeorm": "ts-node ./node_modules/typeorm/cli.js",
-      "start dev": "nodemon --exec ts-node src/index.ts"
+      "build": "nodemon --watch '*.ts' --exec 'ts-node' src/index.ts"
    }
 }
