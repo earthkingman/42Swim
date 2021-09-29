@@ -9,7 +9,9 @@ import cors from "cors";
 import passport from "passport";
 import passportConfig from "./passport";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
 passportConfig();
 app.use(passport.initialize());
@@ -18,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: process.env.CORSORIGIN,
   credentials: true,
 };
 app.use(cors(corsOptions));

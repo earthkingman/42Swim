@@ -37,9 +37,6 @@ export default class Question extends Base {
     hashTag: HashTag[];
 
     @Column()
-    email: string;
-
-    @Column()
     title: string;
 
     @Column()
