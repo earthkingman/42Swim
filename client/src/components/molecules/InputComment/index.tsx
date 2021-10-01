@@ -1,7 +1,7 @@
 import { CommentInputA, CommentInputWrapper, CommnetInputStyle } from './style'
 
 export interface CommentInputProps {
-  value: string
+  value?: string
   onClick?: any
 }
 

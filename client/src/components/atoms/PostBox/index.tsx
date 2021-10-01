@@ -17,6 +17,7 @@ const PostBoxStyles = css<SPostBoxProps>`
 const StyledPostBox = styled.div`
   /*width: 80%;*/
   /*height: 214px;*/
+  /*display: flex;*/
   border-radius: 16px;
   background-color: white;
   padding: 60px;
