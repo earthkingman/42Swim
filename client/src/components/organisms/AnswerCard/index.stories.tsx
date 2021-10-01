@@ -1,12 +1,12 @@
-import QuestionCard, { QuestionCardProps } from '.'
+import AnswerCard, { AnswerCardProps } from '.'
 import GlobalThemeProvider from '../../../style/GlobalThemeProvider'
 
 export default {
-  title: 'Organism/QuestionCard',
-  component: QuestionCard,
+  title: 'Organism/AnswerCard',
+  component: AnswerCard,
 }
 
-export const Default = (props: QuestionCardProps) => {
+export const Default = (props: AnswerCardProps) => {
   const commentArray = [
     {
       id: 3,
@@ -15,17 +15,14 @@ export const Default = (props: QuestionCardProps) => {
       text: '댓글내용댓글내용댓글내용',
     },
   ]
-  const tagArray = [{ name: 'printf' }, { name: 'C' }]
   return (
     <GlobalThemeProvider>
-      <QuestionCard
+      <AnswerCard
         nickname="yejeong"
-        title="title"
         main="mainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmain"
         createAt="3시간전"
         comments={commentArray}
-        tags={tagArray}
-      ></QuestionCard>
+      ></AnswerCard>
     </GlobalThemeProvider>
   )
 }

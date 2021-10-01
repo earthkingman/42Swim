@@ -3,7 +3,12 @@ import Title from '../../atoms/Title'
 import Profile from '../Profile'
 import Tag from '../../atoms/Tag'
 
-import { QuestionTitleWrapper, QuestionWrapper, TagWrapper } from './sytle'
+import {
+  QuestionTitleWrapper,
+  QuestionWrapper,
+  TagWrapper,
+  QuestionMain,
+} from './sytle'
 
 interface tagType {
   name: string
@@ -41,9 +46,9 @@ const Question = ({
         <Profile nickname={nickname} size="sm" img={img} />
         <TagWrapper>{tagComponent}</TagWrapper>
       </QuestionTitleWrapper>
-      <Text size="18" color="black">
+      <QuestionMain size="18" color="black">
         {main}
-      </Text>
+      </QuestionMain>
     </QuestionWrapper>
   )
 }

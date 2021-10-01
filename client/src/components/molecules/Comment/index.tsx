@@ -1,5 +1,3 @@
-import MoreIcon from '../../asset/icons/MoreIcon'
-import Divider from '../../atoms/Divider'
 import MoreBtn from '../../atoms/MoreBtn'
 import Text from '../../atoms/Text'
 import {

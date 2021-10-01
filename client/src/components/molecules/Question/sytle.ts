@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Text from '../../atoms/Text'
 
 export const QuestionWrapper = styled.div`
   margin-bottom: 80px;
@@ -16,3 +17,5 @@ export const QuestionTitleWrapper = styled.div`
 export const TagWrapper = styled.div`
   display: flex;
 `
+
+export const QuestionMain = styled(Text)``

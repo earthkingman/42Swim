@@ -37,6 +37,7 @@ const TextStyles = css<STextProps>`
 
 export const StyledText = styled.p<STextProps>`
   color: black;
+  word-break: break-all;
   ${TextStyles}
 `
 
