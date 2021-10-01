@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
+import { DecodedRequest } from '../definition/decodedJWT'
 import dotenv from "dotenv";
 dotenv.config();
 
 import { LikeService } from '../service/LikeService';
 
-const createLike = async (req: any, res: Response, next: NextFunction) => {
+const createLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const { questionId, answerId, isLike, questionUserId, answerUserId } = req.body;
 	const userId = req.decodedId;
 
@@ -23,7 +24,7 @@ const createLike = async (req: any, res: Response, next: NextFunction) => {
 	}
 }
 
-const deleteLike = async (req: any, res: Response, next: NextFunction) => {
+const deleteLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const { questionId, answerId, isLike, questionUserId, answerUserId } = req.body;
 	const userId = req.decodedId;
 

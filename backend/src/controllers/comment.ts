@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
+import { DecodedRequest } from '../definition/decodedJWT'
 import dotenv from "dotenv";
 dotenv.config();
 
 import { CommentService } from '../service/CommentService';
 import { PageService } from '../service/PageService';
 
-const deleteComment = async (req: any, res: Response, next: NextFunction) => {
+const deleteComment = async (req: DecodedRequest, res: Response) => {
 	const { questionId, answerId, commentId } = req.body;
 	const userId = req.decodedId;
 
@@ -24,7 +25,7 @@ const deleteComment = async (req: any, res: Response, next: NextFunction) => {
 	}
 }
 
-const updateComment = async (req: any, res: Response, next: NextFunction) => {
+const updateComment = async (req: DecodedRequest, res: Response) => {
 	const { questionId, answerId, commentId, text } = req.body;
 	const userId = req.decodedId
 	try {
@@ -42,7 +43,7 @@ const updateComment = async (req: any, res: Response, next: NextFunction) => {
 	}
 }
 
-const uploadComment = async (req: any, res: Response) => {
+const uploadComment = async (req: DecodedRequest, res: Response) => {
 	const userId = req.decodedId
 	const { questionId, answerId, text } = req.body;
 	try {

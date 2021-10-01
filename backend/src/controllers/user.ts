@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import { Response, NextFunction } from 'express';
-import { DecodedRequest } from "../definition/definitionfile"
+import { DecodedRequest } from "../definition/decodedJWT"
 dotenv.config();
 
 import { UserService } from "../service/UserService";
@@ -57,7 +57,7 @@ const userUpdate = async (req: any, res: Response, next: NextFunction) => {
     }
 }
 
-export default {
-    userInfo: userInfo,
-    userUpdate: userUpdate
+export const userController = {
+    userInfo,
+    userUpdate
 }

@@ -68,8 +68,6 @@ const uploadQuestion = async (req: any, res: Response) => {
     }
 }
 
-export default {
-    deleteQuestion: deleteQuestion,
-    updateQuestion: updateQuestion,
-    uploadQuestion: uploadQuestion
+export {
+    deleteQuestion, updateQuestion, uploadQuestion
 }

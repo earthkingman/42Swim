@@ -2,10 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import dotenv from "dotenv";
 dotenv.config();
 
-import { QuestionService } from '../service/QuestionService';
+import { DecodedRequest } from '../definition/decodedJWT'
 import { PageService } from '../service/PageService';
 
-const getQuestionListPage = async (req: Request, res: Response, next: NextFunction) => {
+const getQuestionListPage = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const { pageNumber } = req.body;
 	const limit: number = 10;
 	const offset = pageNumber * limit;
