@@ -15,7 +15,9 @@ const Profile = ({ nickname, size, ...props }: Props) => {
     return (
       <ProfileWrapper size={size} {...props}>
         <CircleImg size="xsm" />
-        <Text size="14">{nickname}</Text>
+        <Text size="14" color="lightgray">
+          {nickname}
+        </Text>
       </ProfileWrapper>
     )
   } else {

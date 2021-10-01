@@ -19,25 +19,25 @@ export const Default = (props: Props) => {
       <Tab {...props}>
         <TabItem
           active={menu === 0 ? true : false}
-          onClick={() => changeState(0)}
+          onTabClick={() => changeState(0)}
         >
           menu1
         </TabItem>
         <TabItem
           active={menu === 1 ? true : false}
-          onClick={() => changeState(1)}
+          onTabClick={() => changeState(1)}
         >
           menu2
         </TabItem>
         <TabItem
           active={menu === 2 ? true : false}
-          onClick={() => changeState(2)}
+          onTabClick={() => changeState(2)}
         >
           menu3
         </TabItem>
         <TabItem
           active={menu === 3 ? true : false}
-          onClick={() => changeState(3)}
+          onTabClick={() => changeState(3)}
         >
           menu4
         </TabItem>
@@ -57,25 +57,25 @@ export const Example = (props: Props) => {
       <Tab {...props}>
         <TabItem
           active={menu === 0 ? true : false}
-          onClick={() => changeState(0)}
+          onTabClick={() => changeState(0)}
         >
           최신순
         </TabItem>
         <TabItem
           active={menu === 1 ? true : false}
-          onClick={() => changeState(1)}
+          onTabClick={() => changeState(1)}
         >
           인기순
         </TabItem>
         <TabItem
           active={menu === 2 ? true : false}
-          onClick={() => changeState(2)}
+          onTabClick={() => changeState(2)}
         >
           답변 필요
         </TabItem>
         <TabItem
           active={menu === 3 ? true : false}
-          onClick={() => changeState(3)}
+          onTabClick={() => changeState(3)}
         >
           태그
         </TabItem>
