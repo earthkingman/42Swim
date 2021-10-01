@@ -9,6 +9,9 @@ export const TagBox = styled.div`
   justify-content: space-around;
   align-items: center;
   box-sizing: border-box;
+  & + & {
+    margin-left: 10px;
+  }
 `
 
 export default {}

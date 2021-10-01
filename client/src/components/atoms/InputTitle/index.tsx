@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 const InputTitle = styled.input`
-  font-family: Roboto;
   font-size: 36px;
   color: black;
   border: none;

@@ -1,15 +1,32 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import theme from '../../../style/theme'
 
-const StyledPostBox = styled.div`
-  width: 45%;
-  height: 214px;
-  border-radius: 16px;
-  background-color: white;
-  padding: 40px 35px 20px 35px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
+interface SPostBoxProps {
+  isChecked?: boolean
+}
+
+const PostBoxStyles = css<SPostBoxProps>`
+  ${({ isChecked }) =>
+    isChecked == true &&
+    css`
+      border: 3px solid ${theme.color.yellow};
+      box-shadow: none;
+    `}
 `
 
-export interface PostBoxProps {
+const StyledPostBox = styled.div`
+  /*width: 80%;*/
+  /*height: 214px;*/
+  /*display: flex;*/
+  border-radius: 16px;
+  background-color: white;
+  padding: 60px;
+  padding-bottom: 30px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
+  ${PostBoxStyles};
+`
+
+export interface PostBoxProps extends SPostBoxProps {
   onClick?: any
   children?: any
 }

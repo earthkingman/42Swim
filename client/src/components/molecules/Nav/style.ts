@@ -27,7 +27,6 @@ export const NavItem = styled(Link)`
   color: #c4c4c4;
   font-size: 24px;
   border: none;
-  font-family: Roboto;
   font-weight: 700;
   width: 95px;
   height: 100%;
