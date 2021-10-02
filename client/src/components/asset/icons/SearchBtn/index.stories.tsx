@@ -1,9 +1,9 @@
 import React from 'react'
-import GlobalThemeProvider from '../../../style/GlobalThemeProvider'
+import GlobalThemeProvider from '../../../../style/GlobalThemeProvider'
 import SearchBtn from './index'
 
 export default {
-  title: 'Atoms/SearchBtn',
+  title: 'Icons/SearchBtn',
   component: SearchBtn,
 }
 

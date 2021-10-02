@@ -10,7 +10,7 @@ export const TagBox = styled.div`
   align-items: center;
   box-sizing: border-box;
   & + & {
-    margin-left: 10px;
+    margin-left: 1rem;
   }
 `
 

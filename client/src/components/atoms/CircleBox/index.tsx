@@ -34,7 +34,7 @@ const StyledCircleImg = css<SCircleImg>`
     `}
 `
 
-const CircleImg = styled.div`
+const CircleBox = styled.div`
   width: 120px;
   height: 120px;
   display: inline-block;
@@ -42,7 +42,11 @@ const CircleImg = styled.div`
   background-position: center;
   background-size: 12px 120px;
   background: #c4c4c4;
-
+  font-size: 20px;
+  font-weight: 700;
+  &:hover {
+    cursor: pointer;
+  }
   ${StyledCircleImg}
 `
-export default CircleImg
+export default CircleBox

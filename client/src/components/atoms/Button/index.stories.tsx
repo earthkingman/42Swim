@@ -1,5 +1,6 @@
 import React from 'react'
 import GlobalThemeProvider from '../../../style/GlobalThemeProvider'
+import PlusIcon from '../../asset/icons/PlusIcon'
 import Button, { ButtonProps } from './index'
 
 export default {
@@ -21,6 +22,10 @@ export const Sizes = (props: ButtonProps) => {
       </Template>
       <Template size="sm" {...props}>
         이미지 업로드
+      </Template>
+      <Template size="sm" {...props}>
+        질문하기
+        <PlusIcon />
       </Template>
     </div>
   )

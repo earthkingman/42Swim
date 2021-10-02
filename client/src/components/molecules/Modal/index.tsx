@@ -1,5 +1,5 @@
 import ModalBox from '../../atoms/ModalBox'
-import CloseBtn from '../../atoms/CloseBtn'
+import CloseBtn from '../../asset/icons/CloseBtn'
 import { ModalTitle, ModalSubtitle, ModalClosed, ModalWrapper } from './style'
 
 export interface Props {
