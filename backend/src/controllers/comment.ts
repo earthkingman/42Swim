@@ -11,11 +11,9 @@ const deleteComment = async (req: any, res: Response, next: NextFunction) => {
 
 	try {
 		await CommentService.deleteComment({ userId, questionId, answerId, commentId });
-		const pageInfo = await PageService.getQuestionPageDataByQuestionId(questionId);
 		return res.status(200).json({
 			result: true,
-			message: "Delete Success",
-			pageInfo
+			message: "Delete Success"
 		})
 	} catch (error) {
 		console.log(error);
@@ -31,11 +29,9 @@ const updateComment = async (req: any, res: Response, next: NextFunction) => {
 	const userId = req.decodedId
 	try {
 		await CommentService.updateComment({ text, questionId, answerId, commentId, userId });
-		const pageInfo = await PageService.getQuestionPageDataByQuestionId(questionId);
 		return res.status(200).json({
 			result: true,
-			message: "Update Success",
-			pageInfo
+			message: "Update Success"
 		})
 	} catch (error) {
 		console.log(error);
@@ -51,11 +47,9 @@ const uploadComment = async (req: any, res: Response) => {
 	const { questionId, answerId, text } = req.body;
 	try {
 		await CommentService.uploadComment({ userId, questionId, answerId, text });
-		const pageInfo = await PageService.getQuestionPageDataByQuestionId(questionId);
 		return res.status(200).json({
 			result: true,
-			message: "Upload Success",
-			pageInfo
+			message: "Upload Success"
 		})
 	} catch (error) {
 		console.log(error);
