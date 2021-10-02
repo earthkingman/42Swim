@@ -9,12 +9,12 @@ export default class Like extends Base {
 	@Column()
 	isLike: boolean;
 
-	@ManyToMany(type => Question, question => question.like)
+	@ManyToMany(() => Question, question => question.like)
 	question: Question[];
 
-	@ManyToMany(type => User, user => user.like)
+	@ManyToMany(() => User, user => user.like)
 	user: User[];
 
-	@ManyToMany(type => Answer, answer => answer.like)
+	@ManyToMany(() => Answer, answer => answer.like)
 	answer: Answer[];
 }

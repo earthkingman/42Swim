@@ -31,13 +31,11 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
     }
 }
 
-const userUpdate = async (req: any, res: Response, next: NextFunction) => {
+const updateUserImage = async (req: any, res: Response, next: NextFunction) => {
     const id = req.decodedId;
-    const { nickname, password } = req.body;
-    const encryptedPassword = await bcrypt.hashSync(password, +process.env.SALT_ROUNDS);
     const photo = req.file.key;
     try {
-        const user = await UserService.updateUser({ id, nickname, password: encryptedPassword, photo });
+        const user = await UserService.updateUserPhoto(id, photo);
         if (user) {
             res.json({
                 exUser: user
@@ -57,7 +55,60 @@ const userUpdate = async (req: any, res: Response, next: NextFunction) => {
     }
 }
 
-export const userController = {
+const updateUserPassword = async (req: DecodedRequest, res: Response, next: NextFunction) => {
+    const id = req.decodedId;
+    const { newpassword } = req.body;
+    const encryptedPassword = await bcrypt.hashSync(newpassword, +process.env.SALT_ROUNDS);
+    console.log(newpassword, encryptedPassword);
+    try {
+        const user = await UserService.updateUserPassword(id, encryptedPassword);
+        if (user) {
+            res.json({
+                exUser: user
+            })
+        }
+        else {
+            res.status(400).json({
+                result: false,
+                message: "User doesn't exist"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            result: false,
+            message: `An error occurred (${error.message})`
+        })
+    }
+}
+
+const updateUserNickname = async (req: DecodedRequest, res: Response, next: NextFunction) => {
+    const id = req.decodedId;
+    const { nickname } = req.body;
+
+    try {
+        const user = await UserService.updateUserNickname(id, nickname);
+        if (user) {
+            res.json({
+                exUser: user
+            })
+        }
+        else {
+            res.status(400).json({
+                result: false,
+                message: "User doesn't exist"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            result: false,
+            message: `An error occurred (${error.message})`
+        })
+    }
+}
+
+export const UserController = {
     userInfo,
-    userUpdate
+    updateUserNickname,
+    updateUserImage,
+    updateUserPassword
 }

@@ -2,10 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import {
     Entity,
-    PrimaryGeneratedColumn,
     Column,
-    CreateDateColumn,
-    UpdateDateColumn,
     ManyToOne,
     OneToMany,
     ManyToMany,
@@ -21,23 +18,23 @@ import Like from './Like';
 
 @Entity("questions")
 export default class Question extends Base {
-    @ManyToOne(type => User, user => user.question, { onDelete: 'CASCADE' })
+    @ManyToOne(() => User, user => user.question, { onDelete: 'CASCADE' })
     user: User;
 
-    @OneToMany(type => Answer, answer => answer.question)
+    @OneToMany(() => Answer, answer => answer.question)
     answer: Answer[];
 
-    @OneToMany(type => Photo, photo => photo.question)
+    @OneToMany(() => Photo, photo => photo.question)
     photo: Photo[];
 
-    @OneToMany(type => Comment, comment => comment.question)
+    @OneToMany(() => Comment, comment => comment.question)
     comment: Comment[];
 
-    @ManyToMany(type => HashTag, hashTag => hashTag.question)
+    @ManyToMany(() => HashTag, hashTag => hashTag.question)
     @JoinTable()
     hashTag: HashTag[];
 
-    @ManyToMany(type => Like, like => like.question)
+    @ManyToMany(() => Like, like => like.question)
     @JoinTable()
     like: Like[];
 

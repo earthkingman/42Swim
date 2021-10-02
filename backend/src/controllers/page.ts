@@ -7,7 +7,7 @@ import { PageService } from '../service/PageService';
 
 const getQuestionListPage = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const { pageNumber } = req.body;
-	const limit: number = 10;
+	const limit = 10;
 	const offset = pageNumber * limit;
 	const pageInfo = { limit, offset };
 

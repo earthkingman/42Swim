@@ -8,7 +8,6 @@ const viewsChecking = async (req, res, next) => {
     //게스트 토큰이 있을때,
     if (guestToken) {
         redisClient.sadd('animal', guestToken);
-        console.log('--2---')
     } else {
         const id = uuid();
         redisClient.sadd('animal', id);

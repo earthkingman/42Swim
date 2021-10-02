@@ -2,10 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import {
     Entity,
-    PrimaryGeneratedColumn,
     Column,
-    CreateDateColumn,
-    UpdateDateColumn,
     ManyToOne,
 } from "typeorm";
 import Question from "./Question";

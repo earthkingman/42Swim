@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import express, { Request, Response } from "express";
+import express from "express";
 import authRouter from "./routes/auth";
 import postRouter from "./routes/post";
 import userRouter from "./routes/user";
