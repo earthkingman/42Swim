@@ -1,6 +1,7 @@
 import * as S from './style'
 import ListItem, { Props as ListProps } from '../../molecules/ListItem'
 import Pagination from '../../molecules/Pagination'
+import { ColumnSADiv } from '../../atoms/Div'
 
 export interface Props {
   data: ListProps[]
@@ -23,11 +24,13 @@ const QuestionList = ({ data, ...props }: Props) => {
           {...props}
         />
       ))}
-      <Pagination
-        onFront={() => console.log('front')}
-        onBack={() => console.log('back')}
-        page={1}
-      />
+      <ColumnSADiv height="110px">
+        <Pagination
+          onFront={() => console.log('front')}
+          onBack={() => console.log('back')}
+          page={1}
+        />
+      </ColumnSADiv>
     </S.List>
   )
 }

@@ -8,7 +8,7 @@ export interface Props {
 
 const SortCounter = ({ name, count, ...props }: Props) => {
   return (
-    <ColumnSBDiv width="40px" height="74px" {...props}>
+    <ColumnSBDiv width="40px" height="60px" {...props}>
       <Text weight="bold" size="18">
         {name}
       </Text>

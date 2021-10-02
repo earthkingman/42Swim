@@ -1,15 +1,16 @@
 import styled, { css } from 'styled-components'
-import { ColumnSADiv, RowSADiv, RowSBDiv } from '../../atoms/Div'
+import { ColumnSADiv, RowSBDiv } from '../../atoms/Div'
 import Text from '../../atoms/Text'
 import { default as T } from '../../atoms/Title'
 
 export const ListBox = styled(RowSBDiv)`
   width: 870px;
   height: 182.46px;
+  padding: 1rem 1.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `
 export const Content = styled(ColumnSADiv)`
-  width: 58%;
+  width: 65%;
   height: 90%;
   align-items: flex-start;
 `
@@ -40,11 +41,12 @@ export const Time = styled(Text)`
 export const Bottom = styled(RowSBDiv)`
   width: 100%;
 `
-export const Counter = styled(RowSADiv)`
-  width: 30%;
+export const Counter = styled(RowSBDiv)`
+  width: 25%;
   height: 100%;
+  padding: 0 1rem;
 `
 export const Check = styled(ColumnSADiv)`
-  width: 12%;
+  width: 10%;
   height: 100%;
 `

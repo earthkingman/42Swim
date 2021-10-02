@@ -3,8 +3,8 @@ import React from 'react'
 const CheckImg = () => {
   return (
     <svg
-      width="36"
-      height="30"
+      width="27"
+      height="22"
       viewBox="0 0 36 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
