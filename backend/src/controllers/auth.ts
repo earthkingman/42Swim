@@ -73,8 +73,5 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
 
-export default {
-  login: login,
-  signup: signup,
-  FourtyTowLogin: FourtyTowLogin,
-};
+
+export const AuthController = { login, signup, FourtyTowLogin }

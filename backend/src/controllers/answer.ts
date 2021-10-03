@@ -1,10 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
+import { DecodedRequest } from '../definition/decodedJWT'
 import dotenv from "dotenv";
 dotenv.config();
 
 import { AnswerService } from '../service/AnwserService';
 
-const deleteAnswer = async (req: any, res: Response, next: NextFunction) => {
+const deleteAnswer = async (req: DecodedRequest, res: Response) => {
 	const { answerId, questionId } = req.body;
 	const userId = req.decodedId;
 	try {
@@ -22,10 +23,10 @@ const deleteAnswer = async (req: any, res: Response, next: NextFunction) => {
 	}
 }
 
-const updateAnswer = async (req: any, res: Response, next: NextFunction) => {
+const updateAnswer = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const { questionId, answerId, text } = req.body;
 	const userId = req.decodedId;
-	let files: string[] = [];
+	const files: string[] = [];
 	const size = req.files.length;
 
 	for (let i = 0; i < size; i++)
@@ -45,11 +46,11 @@ const updateAnswer = async (req: any, res: Response, next: NextFunction) => {
 	}
 }
 
-const uploadAnswer = async (req: any, res: Response) => {
+const uploadAnswer = async (req: DecodedRequest, res: Response) => {
 	const userId = req.decodedId
 	const { email, text, questionId } = req.body;
 	const size = req.files.length;
-	let files: string[] = [];
+	const files: string[] = [];
 
 	for (let i = 0; i < size; i++)
 		files.push(req.files[i].key);

@@ -25,7 +25,7 @@ const deleteQuestion = async (req: Request, res: Response, next: NextFunction) =
 const updateQuestion = async (req: any, res: Response, next: NextFunction) => {
     const { questionId, title, text, hashTag } = req.body;
     console.log(hashTag)
-    let files: string[] = [];
+    const files: string[] = [];
     const size = req.files.length;
 
     for (let i = 0; i < size; i++)
@@ -49,7 +49,7 @@ const uploadQuestion = async (req: any, res: Response) => {
     const userId = req.decodedId
     const { email, title, text, hashTag } = req.body;
     const size = req.files.length;
-    let files: string[] = [];
+    const files: string[] = [];
 
     for (let i = 0; i < size; i++)
         files.push(req.files[i].key);
@@ -68,8 +68,6 @@ const uploadQuestion = async (req: any, res: Response) => {
     }
 }
 
-export default {
-    deleteQuestion: deleteQuestion,
-    updateQuestion: updateQuestion,
-    uploadQuestion: uploadQuestion
+export {
+    deleteQuestion, updateQuestion, uploadQuestion
 }

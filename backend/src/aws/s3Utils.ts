@@ -1,4 +1,5 @@
 import AWS from "aws-sdk";
+import { Request, Response, NextFunction } from "express"
 import dotenv from "dotenv";
 import path from "path";
 import multer from "multer";
@@ -9,13 +10,13 @@ import { QuestionService } from "../service/QuestionService";
 
 
 AWS.config.loadFromPath(path.join(__dirname, "../../config/awsconfig.json"));
-let s3 = new AWS.S3();
+const s3 = new AWS.S3();
 
 /**
  * s3ImageUpload.single('picture')  사용하는곳에서는 이런식으로 사용한다.
  * 프론트에서 FormData를 사용해 전달하는데 그때 이미지를 넣은 key값을 파라미터로 전달해주면된다.
  */
-const s3ImageUpload = (config) => multer({
+const s3ImageUpload = (config: any) => multer({
 	storage: multerS3({
 		s3: s3,
 		bucket: process.env.AWS_BUCKET_NAME,// 버켓이름
@@ -30,7 +31,7 @@ const s3ImageUpload = (config) => multer({
 	})
 })
 
-const s3DeletePhoto = async (req, res, next) => {
+const s3DeletePhoto = async (req: Request, res: Response, next: NextFunction) => {
 	const { questionId } = req.body;
 	try {
 		const photos = await QuestionService.findPhotoByQuestionId(questionId);
@@ -55,7 +56,7 @@ const s3DeletePhoto = async (req, res, next) => {
 		})
 		next()
 	} catch (error) {
-		res.json({
+		return res.json({
 			error: error
 		})
 	}

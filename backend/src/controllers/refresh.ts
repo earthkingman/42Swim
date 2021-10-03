@@ -6,7 +6,7 @@ const accessSign = jwt_uills.accessSign;
 const accessVerify = jwt_uills.accessVerify;
 const refreshVerify = jwt_uills.refreshVerify;
 
-const refresh = async (req, res) => {
+const refresh = async (req: Request, res: Response) => {
   const refresh_token = req.headers["refresh"] || req.query.refreshToken;
   const access_token = req.cookies.accessToken;
   if (refresh_token && access_token) {

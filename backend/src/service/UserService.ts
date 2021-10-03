@@ -10,19 +10,7 @@ const getQueryRunner = async () => {
 	return queryRunner;
 }
 
-// const signup = async (signupUserInfo) => {
-// 	const queryRunner: QueryRunner = await getQueryRunner();
-// 	const userRepository = queryRunner.manager.getRepository(User);
-// 	const { email } = signupUserInfo;
-// 	const user = await userRepository
-// 		.findOne({ where: { email: email } });
-// 	if (user) {
-// 		throw new Error('ID duplicate');
-// 	}
-// 	await userRepository.save(signupUserInfo);
-// }
-
-const findUserByEmail = async (email) => {
+const findUserByEmail = async (email: string) => {
 	const queryRunner: QueryRunner = await getQueryRunner();
 	const userRepository = queryRunner.manager.getRepository(User);
 	const user = await userRepository
@@ -30,7 +18,7 @@ const findUserByEmail = async (email) => {
 	return user;
 }
 
-const findUserById = async (id) => {
+const findUserById = async (id: number) => {
 	const queryRunner: QueryRunner = await getQueryRunner();
 	const userRepository = queryRunner.manager.getRepository(User);
 	const user = await userRepository
@@ -38,18 +26,44 @@ const findUserById = async (id) => {
 	return user;
 }
 
-const updateUser = async (updateUserInfo) => {
+const updateUserPassword = async (id: number, userpassword: string) => {
 	const queryRunner = await getQueryRunner();
 	const userRepository = queryRunner.manager.getRepository(User);
-	const { id, nickname, password, photo } = updateUserInfo;
+	const password: string = userpassword;
 	const user = await userRepository
 		.findOne({ where: { id: id } });
 	if (user === undefined) {
 		throw new Error('존재하지 않는 유저입니다');
 	}
-	user.nickname = nickname || user.nickname;
 	user.password = password || user.password;
+	const newUser = await userRepository.save(user);
+	return newUser;
+}
+
+const updateUserPhoto = async (id: number, userPhoto: string) => {
+	const queryRunner = await getQueryRunner();
+	const userRepository = queryRunner.manager.getRepository(User);
+	const photo: string = userPhoto;
+	const user = await userRepository
+		.findOne({ where: { id: id } })
+	if (user === undefined) {
+		throw new Error('존재하지 않는 유저입니다');
+	}
 	user.photo = photo || user.photo;
+	const newUser = await userRepository.save(user);
+	return newUser;
+}
+
+const updateUserNickname = async (id: number, userNickname: string) => {
+	const queryRunner = await getQueryRunner();
+	const userRepository = queryRunner.manager.getRepository(User);
+	const nickName: string = userNickname;
+	const user = await userRepository
+		.findOne({ where: { id: id } })
+	if (user === undefined) {
+		throw new Error('존재하지 않는 유저입니다');
+	}
+	user.nickname = nickName || user.nickname;
 	const newUser = await userRepository.save(user);
 	return newUser;
 }
@@ -68,4 +82,12 @@ const createUser = async (createUserInfo) => {
 }
 
 
-export const UserService = { createUser, updateUser, findUserByEmail, findUserById };
+
+export const UserService = {
+	createUser,
+	updateUserPassword,
+	findUserByEmail,
+	findUserById,
+	updateUserNickname,
+	updateUserPhoto
+};

@@ -7,6 +7,6 @@ export default class HashTag extends Base {
     @Column()
     name: string;
 
-    @ManyToMany(type => Question, question => question.hashTag)
+    @ManyToMany(() => Question, question => question.hashTag)
     question: Question[];
 }

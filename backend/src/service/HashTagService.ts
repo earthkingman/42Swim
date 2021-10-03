@@ -2,7 +2,6 @@ import { getConnection } from "typeorm";
 import Question from "../entity/Question";
 import HashTag from "../entity/HashTag";
 
-
 /**
  * 추후 업데이트할 예정
  */

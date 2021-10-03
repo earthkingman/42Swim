@@ -18,13 +18,13 @@ export default class Comment extends Base {
     @Column()
     text: string;
 
-    @ManyToOne(type => User, user => user.comment, { onDelete: 'CASCADE' })
+    @ManyToOne(() => User, user => user.comment, { onDelete: 'CASCADE' })
     user: User;
 
-    @ManyToOne(type => Question, question => question.comment, { onDelete: 'CASCADE' })
+    @ManyToOne(() => Question, question => question.comment, { onDelete: 'CASCADE' })
     question: Question;
 
-    @ManyToOne(type => Answer, answer => answer.comment, { onDelete: 'CASCADE' })
+    @ManyToOne(() => Answer, answer => answer.comment, { onDelete: 'CASCADE' })
     answer: Answer;
 
 }
