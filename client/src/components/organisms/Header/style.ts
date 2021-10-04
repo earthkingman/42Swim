@@ -10,7 +10,6 @@ export const HeaderWrapper = styled.div`
   background-color: ${theme.color.background.lightgray};
   height: 130px;
   width: 100%;
-  padding: 0px 90px;
 `
 export const HeaderTitleWrapper = styled.div``
 export const HeaderBtnWrapper = styled.div``

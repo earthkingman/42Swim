@@ -1,9 +1,9 @@
 import React from 'react'
-import A from '../atoms/A'
-import Button from '../atoms/Button'
-import Input from '../atoms/Input'
-import Modal, { Props } from '../molecules/Modal'
-import { ModalContent, ModalGroup } from '../molecules/Modal/style'
+import A from '../../atoms/A'
+import Button from '../../atoms/Button'
+import Input from '../../atoms/Input'
+import Modal, { Props } from '../../molecules/Modal'
+import { ModalContent, ModalGroup } from '../../molecules/Modal/style'
 
 const LoginPage = (props: Props) => {
   return (

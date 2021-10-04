@@ -14,7 +14,7 @@ const BoxStyles = css<SBox>`
   ${({ height }) =>
     height &&
     css`
-      width: ${height};
+      height: ${height};
     `}
 `
 

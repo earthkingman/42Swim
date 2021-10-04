@@ -26,7 +26,7 @@ const Header = ({ isLogin, nickname, img }: Props) => {
       </HeaderTitleWrapper>
       {isLogin ? (
         <Profile
-          size="sm"
+          size="lg"
           img={img}
           nickname={nickname ? nickname : '정보없음'}
         />

@@ -9,6 +9,7 @@ export const TabWrapper = styled.ul<TabProps>`
   height: 41px;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 1rem;
 
   ${({ width }) =>
     width &&

@@ -4,7 +4,7 @@ import Text from '../../atoms/Text'
 import { default as T } from '../../atoms/Title'
 
 export const ListBox = styled(RowSBDiv)`
-  width: 870px;
+  width: 100%;
   height: 182.46px;
   padding: 1rem 1.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
