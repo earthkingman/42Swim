@@ -1,10 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt_uills from "../jwt-util/jwt-utils";
+import { Request, Response } from 'express';
 import jwt from "jsonwebtoken";
 
-const accessSign = jwt_uills.accessSign;
-const accessVerify = jwt_uills.accessVerify;
-const refreshVerify = jwt_uills.refreshVerify;
+import { jwtUtil } from '../jwt-util/jwt_utils';
+
+const accessSign = jwtUtil.accessSign;
+const accessVerify = jwtUtil.accessVerify;
+const refreshVerify = jwtUtil.refreshVerify;
 
 const refresh = async (req: Request, res: Response) => {
   const refresh_token = req.headers["refresh"] || req.query.refreshToken;

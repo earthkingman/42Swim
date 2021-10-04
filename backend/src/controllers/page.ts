@@ -1,9 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
 import dotenv from "dotenv";
 dotenv.config();
 
-import { DecodedRequest } from '../definition/decodedJWT'
-import { PageService } from '../service/PageService';
+import { Response, NextFunction } from 'express';
+
+import { DecodedRequest } from '../definition/decoded_jwt'
+import { PageService } from '../service/page_service';
 
 const getQuestionListPage = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const { pageNumber } = req.body;

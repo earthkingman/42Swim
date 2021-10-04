@@ -1,7 +1,8 @@
 import { v4 as uuid } from 'uuid';
+
 import { redisClient } from "../lib/redis";
 
-const viewsChecking = async (req, res, next) => {
+export const viewsChecking = async (req, res, next) => {
     const { questionId } = req.body;
     const guestToken = req.headers['guest-token']
 
@@ -22,5 +23,3 @@ const viewsChecking = async (req, res, next) => {
     // });
     next();
 }
-
-export default viewsChecking;

@@ -1,23 +1,18 @@
 import dotenv from "dotenv";
 dotenv.config();
-import {
-    Entity,
-    Column,
-    ManyToOne,
-    OneToMany,
-    ManyToMany,
-    JoinTable,
-} from "typeorm";
-import User from "./User";
-import Photo from "./Photo";
-import Answer from "./Answer";
-import Comment from "./Comment";
-import Base from './Base';
-import HashTag from './HashTag';
-import Like from './Like';
 
-@Entity("questions")
-export default class Question extends Base {
+import { Entity, Column, ManyToOne, OneToMany, ManyToMany, JoinTable, } from "typeorm";
+
+import { User } from "./user";
+import { Photo } from "./photo";
+import { Answer } from "./answer";
+import { Comment } from "./comment";
+import { Base } from './base';
+import { HashTag } from './hashtag';
+import { QuestionLike } from "./question_like";
+
+@Entity("question")
+export class Question extends Base {
     @ManyToOne(() => User, user => user.question, { onDelete: 'CASCADE' })
     user: User;
 
@@ -30,22 +25,21 @@ export default class Question extends Base {
     @OneToMany(() => Comment, comment => comment.question)
     comment: Comment[];
 
-    @ManyToMany(() => HashTag, hashTag => hashTag.question)
+    @ManyToMany(() => HashTag, hashtag => hashtag.question)
     @JoinTable()
-    hashTag: HashTag[];
+    hashtag: HashTag[];
 
-    @ManyToMany(() => Like, like => like.question)
-    @JoinTable()
-    like: Like[];
+    @OneToMany(() => QuestionLike, question_like => question_like.question)
+    question_like: QuestionLike[];
 
     @Column({ default: false })
-    isSolved: boolean;
+    is_solved: boolean;
 
     @Column({ default: 0 })
-    likeCount: number;
+    like_count: number;
 
     @Column({ default: 0 })
-    viewCount: number;
+    view_count: number;
 
     @Column()
     title: string;

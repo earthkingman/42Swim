@@ -1,12 +1,12 @@
 import express from "express";
 import { PageController } from "../controllers/page";
-import viewsChecking from "../middlewares/uuid";
+import { viewsChecking } from "../middlewares/uuid";
 
-const router = express.Router();
+export const pageRouter = express.Router();
 
-router.get('/list/question', PageController.getQuestionListPage);
+pageRouter.get('/list/question', PageController.getQuestionListPage);
 
-router.get('/detail/question', viewsChecking, PageController.getQuestionDetailPage);
+pageRouter.get('/detail/question', viewsChecking, PageController.getQuestionDetailPage);
 
 // router.delete('/delete', authticate_JWT, s3.s3DeletePhoto, QuestionController.deleteQuestion)
 
@@ -15,5 +15,3 @@ router.get('/detail/question', viewsChecking, PageController.getQuestionDetailPa
 // router.patch('/update', authticate_JWT, s3.s3ImageUpload({ folder: 'author' }).array("imgFile"), QuestionController.updateQuestion)
 
 // 채택하기 api 추가 필요
-
-export default router;

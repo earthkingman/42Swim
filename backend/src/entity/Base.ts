@@ -1,10 +1,6 @@
-import {
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-} from "typeorm";
+import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, } from "typeorm";
 
-export default abstract class Base {
+export abstract class Base {
     @PrimaryGeneratedColumn("increment")
     id: number;
 

@@ -1,9 +1,9 @@
 import { Response, NextFunction } from 'express';
-import { DecodedRequest } from '../definition/decodedJWT'
+import { DecodedRequest } from '../definition/decoded_jwt'
 import dotenv from "dotenv";
 dotenv.config();
 
-import { AnswerService } from '../service/AnwserService';
+import { AnswerService } from '../service/anwser_service';
 
 const deleteAnswer = async (req: DecodedRequest, res: Response) => {
 	const { answerId, questionId } = req.body;

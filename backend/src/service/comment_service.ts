@@ -1,8 +1,9 @@
 import { getConnection, QueryRunner } from "typeorm";
-import Answer from "../entity/Answer";
-import Comment from "../entity/Comment";
-import Question from "../entity/Question";
-import User from "../entity/User";
+
+import { Answer } from "../entity/answer";
+import { Comment } from "../entity/comment";
+import { Question } from "../entity/question";
+import { User } from "../entity/user";
 
 const getQueryRunner = async () => {
 	const connection = getConnection();
@@ -33,7 +34,7 @@ const uploadComment = async (uploadCommentInfo) => {
 		const answer = await answerRepository
 			.findOne({ where: { id: answerId } });
 		if (answer === undefined) throw new Error("Comment that doesn't exist or you don't have edit right");
-		await commentRepository.save({ user, question, answer, text });
+		await commentRepository.save({ user, answer, text });
 	}
 	else {
 		await commentRepository.save({ user, question, text });
@@ -61,8 +62,6 @@ const updateComment = async (updateCommentInfo) => {
 	const comment = await commentRepository
 		.findOne({ where: { id: commentId, user: user } });
 	if (comment === undefined) throw new Error("Comment that doesn't exist or you don't have edit right");
-	// console.log("user : ", user, " comment.user : ", comment.user)
-	// if (user !== comment.user) throw new Error("수정 권한이 없는 댓글입니다.");
 	comment.text = text;
 	await commentRepository.save(comment);
 }
@@ -88,7 +87,6 @@ const deleteComment = async (deleteCommentInfo) => {
 	const comment = await commentRepository
 		.findOne({ where: { id: commentId, user: user } });
 	if (comment === undefined) throw new Error("Comment that doesn't exist or you don't have edit right");
-	// if (user.id !== comment.user.id) throw new Error("삭제 권한이 없는 댓글입니다.");
 	await commentRepository.remove(comment);
 }
 
