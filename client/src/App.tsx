@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import LoginPage from './components/pages/Login'
+import LoginPage from './components/pages/Login/Login'
+import MainPage from './components/pages/Main/Main'
 import GlobalThemeProvider from './style/GlobalThemeProvider'
 
 const App = () => {
@@ -7,9 +8,10 @@ const App = () => {
     <GlobalThemeProvider>
       <Router>
         <Switch>
+          <Route exact path="/" render={() => <MainPage />} />
           <Route
             exact
-            path="/"
+            path="/login"
             render={(props) => <LoginPage visible={true} {...props} />}
           />
         </Switch>

@@ -1,4 +1,4 @@
-import CircleImg from '../../atoms/CircleImg'
+import CircleImg from '../../atoms/CircleBox'
 import styled from 'styled-components'
 interface WrapperProps {
   size: 'sm' | 'lg'

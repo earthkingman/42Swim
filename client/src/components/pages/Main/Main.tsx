@@ -1,12 +1,14 @@
-import GlobalThemeProvider from '../../../style/GlobalThemeProvider'
-import QuestionList, { Props } from './index'
+import { useState } from 'react'
+import PlusIcon from '../../asset/icons/PlusIcon'
+import Box from '../../atoms/Box'
+import Button from '../../atoms/Button'
+import Title from '../../atoms/Title'
+import SearchInput from '../../molecules/SearchInput'
+import Header from '../../organisms/Header'
+import QuestionList from '../../organisms/QuestionList'
+import MainTemplate from './template'
 
-export default {
-  title: 'Organisms/QuestionList',
-  component: QuestionList,
-}
-
-export const Default = (props: Props) => {
+const MainPage = () => {
   const data = [
     {
       title: '글 제목 글 제목1',
@@ -97,10 +99,28 @@ export const Default = (props: Props) => {
       create_time: '2021-10-01T00:10:20.000Z',
     },
   ]
-
+  const [menu, setMenu] = useState(0)
+  const [search, setSearch] = useState('')
+  const onSearch = () => {
+    console.log('search')
+    setSearch('hihi')
+  }
   return (
-    <GlobalThemeProvider>
-      <QuestionList data={data} {...props} />
-    </GlobalThemeProvider>
+    <MainTemplate
+      header={<Header isLogin={true} nickname="닉네임" />}
+      panel={
+        <>
+          <SearchInput search={search} onSearch={onSearch} />
+          <Button size="sm">
+            질문하기 <PlusIcon />
+          </Button>
+        </>
+      }
+      content1={<QuestionList data={data} menu={menu} setMenu={setMenu} />}
+      content2={<Box width="300px" height="338px" />}
+      footer={<Title>Footer</Title>}
+    />
   )
 }
+
+export default MainPage
