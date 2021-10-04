@@ -1,8 +1,9 @@
 import { getConnection } from "typeorm";
-import Photo from "../entity/Photo";
-import Question from "../entity/Question";
-import User from "../entity/User";
-import HashTag from "../entity/HashTag";
+
+import { Photo } from "../entity/photo";
+import { Question } from "../entity/question";
+import { User } from "../entity/user";
+import { HashTag } from "../entity/hashtag";
 
 const getQueryRunner = async () => {
 	const connection = getConnection();
@@ -97,7 +98,7 @@ const updateQuestion = async (updateQuestionInfo) => {
 		}
 		question.title = title || question.title;
 		question.text = text || question.text;
-		question.hashTag = hashTagObject || question.hashTag;
+		question.hashtag = hashTagObject || question.hashtag;
 		await questionRepository.save(question);
 		await Promise.all(photos.map(async (photo) => {
 			await photoRepository.save({ photo, question });

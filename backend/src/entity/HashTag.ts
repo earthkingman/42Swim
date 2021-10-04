@@ -1,12 +1,13 @@
-import Base from './Base';
-import Question from './Question';
 import { Column, Entity, ManyToMany } from 'typeorm'
 
-@Entity("hashtags")
-export default class HashTag extends Base {
+import { Base } from './base';
+import { Question } from './question';
+
+@Entity("hashtag")
+export class HashTag extends Base {
     @Column()
     name: string;
 
-    @ManyToMany(() => Question, question => question.hashTag)
+    @ManyToMany(() => Question, question => question.hashtag)
     question: Question[];
 }

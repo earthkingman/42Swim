@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
-import { DecodedRequest } from '../definition/decodedJWT'
 import dotenv from "dotenv";
 dotenv.config();
 
-import { CommentService } from '../service/CommentService';
-import { PageService } from '../service/PageService';
+import { Response } from 'express';
+
+import { DecodedRequest } from '../definition/decoded_jwt'
+import { CommentService } from '../service/comment_service';
 
 const deleteComment = async (req: DecodedRequest, res: Response) => {
 	const { questionId, answerId, commentId } = req.body;

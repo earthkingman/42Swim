@@ -1,19 +1,21 @@
 import dotenv from "dotenv";
-import { Request, Response, NextFunction } from 'express';
 dotenv.config();
-import jwt from "../jwt-util/jwt-utils";
+
+import { Request, Response, NextFunction } from 'express';
 import passport from "passport";
-import { redisClient } from "../lib/redis";
 import bcrypt from "bcrypt";
-import { UserService } from "../service/UserService";
+
+import { jwtUtil } from "../jwt-util/jwt_utils";
+import { redisClient } from "../lib/redis";
+import { UserService } from "../service/user_service";
 
 const login = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate("local", (authError, userId, info) => {
     if (authError || userId == false) {
       return res.status(400).json({ message: info.message });
     }
-    const accessToken = jwt.accessSign(userId);
-    const refreshToken = jwt.refresh_sign();
+    const accessToken = jwtUtil.accessSign(userId);
+    const refreshToken = jwtUtil.refreshSign();
     redisClient.set(userId.id, refreshToken);
     res.cookie("authorization", accessToken, {
       maxAge: 60000 * 30,
@@ -60,8 +62,8 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
       console.log(authError);
       res.status(400).json({ message: info });
     }
-    const accessToken = jwt.accessSign(userId.id);
-    const refreshToken = jwt.refresh_sign();
+    const accessToken = jwtUtil.accessSign(userId.id);
+    const refreshToken = jwtUtil.refreshSign();
     redisClient.set(userId.id, refreshToken);
     res.cookie("authorization", accessToken, {
       maxAge: 300000,
@@ -72,6 +74,5 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
-
 
 export const AuthController = { login, signup, FourtyTowLogin }

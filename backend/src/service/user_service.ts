@@ -1,7 +1,6 @@
 import { getConnection, QueryRunner } from "typeorm";
-import Photo from "../entity/Photo";
-import Question from "../entity/Question";
-import User from "../entity/User";
+
+import { User } from "../entity/user";
 
 const getQueryRunner = async () => {
 	const connection = getConnection();

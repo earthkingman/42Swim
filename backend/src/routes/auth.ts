@@ -2,17 +2,14 @@ import express from "express";
 import passport from "passport";
 
 import { AuthController } from "../controllers/auth";
-import s3 from "../aws/s3Utils"
+import { s3Util } from "../aws/s3_utils";
 
-const router = express.Router();
+export const authRouter = express.Router();
 
-router.post("/login", AuthController.login);
+authRouter.post("/login", AuthController.login);
 
-router.post("/signup", s3.s3ImageUpload({ folder: 'author' }).single("imgFile"), AuthController.signup);
+authRouter.post("/signup", s3Util.s3ImageUpload({ folder: 'author' }).single("imgFile"), AuthController.signup);
 
-router.get("/42login", passport.authenticate("42", { session: false }));
+authRouter.get("/42login", passport.authenticate("42", { session: false }));
 
-router.get("/authResult", AuthController.FourtyTowLogin);
-
-
-export default router;
+authRouter.get("/authResult", AuthController.FourtyTowLogin);

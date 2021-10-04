@@ -3,7 +3,7 @@ import Strategy from "passport-local";
 const LocalStrategy = Strategy;
 import bcrypt from "bcrypt";
 
-import { UserService } from "../service/UserService";
+import { UserService } from "../service/user_service";
 
 export default () => {
   passport.use(

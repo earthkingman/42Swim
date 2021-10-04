@@ -6,8 +6,7 @@ import multer from "multer";
 import multerS3 from 'multer-s3';
 dotenv.config();
 
-import { QuestionService } from "../service/QuestionService";
-
+import { QuestionService } from "../service/question_service";
 
 AWS.config.loadFromPath(path.join(__dirname, "../../config/awsconfig.json"));
 const s3 = new AWS.S3();
@@ -63,7 +62,4 @@ const s3DeletePhoto = async (req: Request, res: Response, next: NextFunction) =>
 
 }
 
-export default {
-	s3ImageUpload: s3ImageUpload,
-	s3DeletePhoto: s3DeletePhoto
-}
+export const s3Util = { s3ImageUpload, s3DeletePhoto }

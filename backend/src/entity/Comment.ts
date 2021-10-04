@@ -1,20 +1,15 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    ManyToOne
-} from 'typeorm'
-import User from './User';
-import Question from "./Question";
-import Answer from './Answer';
-import Base from './Base';
 
-@Entity("comments")
-export default class Comment extends Base {
+import { Entity, Column, ManyToOne } from 'typeorm'
+
+import { User } from './user';
+import { Question } from "./question";
+import { Answer } from './answer';
+import { Base } from './base';
+
+@Entity("comment")
+export class Comment extends Base {
     @Column()
     text: string;
 

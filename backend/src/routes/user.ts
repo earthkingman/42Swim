@@ -1,11 +1,11 @@
 import express from "express";
-import authticate_JWT from "../middlewares/authJWT";
+import { authJwt } from "../middlewares/auth_jwt";
 import { UserController } from "../controllers/user"
-import s3 from "../aws/s3Utils"
-const router = express.Router();
+import { s3Util } from "../aws/s3_utils";
 
-router.get('/info', authticate_JWT, UserController.userInfo);
-router.patch('/image', authticate_JWT, s3.s3ImageUpload({ folder: 'author' }).single("imgFile"), UserController.updateUserImage);
-router.patch('/nickname', authticate_JWT, UserController.updateUserNickname)
-router.patch('/password', authticate_JWT, UserController.updateUserPassword)
-export default router
+export const userRouter = express.Router();
+
+userRouter.get('/info', authJwt, UserController.userInfo);
+userRouter.patch('/image', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).single("imgFile"), UserController.updateUserImage);
+userRouter.patch('/nickname', authJwt, UserController.updateUserNickname)
+userRouter.patch('/password', authJwt, UserController.updateUserPassword)

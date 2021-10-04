@@ -1,4 +1,4 @@
-export default interface file {
+export interface File {
     ieldname: string,
     originalname: string,
     encoding: string,

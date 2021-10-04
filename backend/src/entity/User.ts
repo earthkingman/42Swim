@@ -1,20 +1,17 @@
 import dotenv from "dotenv";
 dotenv.config();
-import {
-  Entity,
-  Column,
-  OneToMany,
-  ManyToMany,
-  JoinTable,
-} from "typeorm";
-import Question from "./Question";
-import Answer from "./Answer";
-import Comment from "./Comment"
-import Base from "./Base";
-import Like from "./Like"
 
-@Entity("users")
-export default class User extends Base {
+import { Entity, Column, OneToMany, } from "typeorm";
+
+import { Question } from "./question";
+import { Answer } from "./answer";
+import { Comment } from "./comment"
+import { Base } from "./base";
+import { QuestionLike } from "./question_like";
+import { AnswerLike } from "./answer_like";
+
+@Entity("user")
+export class User extends Base {
   @Column()
   email: string;
 
@@ -28,24 +25,25 @@ export default class User extends Base {
   photo: string;
 
   @Column({ default: 0 })
-  isAdmin: number;
+  is_admin: number;
 
   @Column({ default: 0 })
-  likedCount: number;
+  liked_count: number;
 
-  @OneToMany(type => Question, question => question.user)
+  @OneToMany(() => Question, question => question.user)
   question: Question[];
 
-  @OneToMany(type => Answer, answer => answer.user)
+  @OneToMany(() => Answer, answer => answer.user)
   answer: Answer[];
 
-  @OneToMany(type => Comment, comment => comment.user)
+  @OneToMany(() => Comment, comment => comment.user)
   comment: Comment[];
 
-  @ManyToMany(type => Like, like => like.user)
-  @JoinTable()
-  like: Like[];
+  @OneToMany(() => QuestionLike, question_like => question_like.user)
+  question_like: QuestionLike[];
 
+  @OneToMany(() => AnswerLike, answer_like => answer_like.user)
+  answer_like: AnswerLike[];
 
 
   // @BeforeInsert()

@@ -1,22 +1,17 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import {
-    Entity,
-    Column,
-    ManyToOne,
-    OneToMany,
-    ManyToMany,
-    JoinTable,
-} from "typeorm"
-import User from "./User";
-import Question from "./Question";
-import Photo from "./Photo"
-import Comment from './Comment';
-import Base from './Base';
-import Like from './Like'
 
-@Entity("answers")
-export default class Answer extends Base {
+import { Entity, Column, ManyToOne, OneToMany } from "typeorm"
+
+import { User } from "./user";
+import { Question } from "./question";
+import { Photo } from "./photo"
+import { Comment } from './comment';
+import { Base } from './base';
+import { AnswerLike } from './answer_like';
+
+@Entity("answer")
+export class Answer extends Base {
     @OneToMany(() => Photo, photo => photo.answer)
     photo: Photo[];
 
@@ -29,16 +24,15 @@ export default class Answer extends Base {
     @OneToMany(() => Comment, comment => comment.answer)
     comment: Comment[];
 
-    @ManyToMany(() => Like, like => like.answer, { onDelete: 'CASCADE' })
-    @JoinTable()
-    like: Like[];
+    @OneToMany(() => AnswerLike, answer_like => answer_like.answer)
+    answer_like: AnswerLike[];
 
     @Column({ default: 0 })
-    likeCount: number;
+    like_count: number;
 
     @Column()
     text: string;
 
     @Column({ default: false })
-    isChoosen: boolean
+    is_choosen: boolean
 }

@@ -1,8 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
 import dotenv from "dotenv";
 dotenv.config();
 
-import { QuestionService } from '../service/QuestionService';
+import { Request, Response, NextFunction } from 'express';
+
+import { QuestionService } from '../service/question_service';
 
 const deleteQuestion = async (req: Request, res: Response, next: NextFunction) => {
     const { questionId } = req.body;
@@ -68,6 +69,6 @@ const uploadQuestion = async (req: any, res: Response) => {
     }
 }
 
-export {
+export const QuestionController = {
     deleteQuestion, updateQuestion, uploadQuestion
 }

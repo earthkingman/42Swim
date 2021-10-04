@@ -4,9 +4,9 @@ import passport from "passport";
 import Strategy from "passport-42";
 const FortyTwoStrategy = Strategy;
 
-import { UserService } from "../service/UserService";
+import { UserService } from "../service/user_service";
 
-export default () => {
+export const fourtyTwoStrategy = () => {
   passport.use(
     new FortyTwoStrategy(
       {

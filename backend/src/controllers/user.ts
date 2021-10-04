@@ -1,10 +1,11 @@
-import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-import { Response, NextFunction } from 'express';
-import { DecodedRequest } from "../definition/decodedJWT"
 dotenv.config();
 
-import { UserService } from "../service/UserService";
+import { Response, NextFunction } from 'express';
+import bcrypt from "bcrypt";
+
+import { DecodedRequest } from "../definition/decoded_jwt"
+import { UserService } from "../service/user_service";
 
 const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) => {
     const id: number = req.decodedId

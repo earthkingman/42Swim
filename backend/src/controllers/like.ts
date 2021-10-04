@@ -1,16 +1,17 @@
-import { Request, Response, NextFunction } from 'express';
-import { DecodedRequest } from '../definition/decodedJWT'
 import dotenv from "dotenv";
 dotenv.config();
 
-import { LikeService } from '../service/LikeService';
+import { Response, NextFunction } from 'express';
 
-const createLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
-	const { questionId, answerId, isLike, questionUserId, answerUserId } = req.body;
+import { DecodedRequest } from '../definition/decoded_jwt'
+import { LikeService } from '../service/like_service';
+
+const createAnswerLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
+	const { answerId, isLike, answerUserId } = req.body;
 	const userId = req.decodedId;
 
 	try {
-		await LikeService.createLike({ userId, questionId, answerId, isLike, questionUserId, answerUserId });
+		await LikeService.createAnswerLike({ userId, answerId, isLike, answerUserId });
 		return res.status(200).json({
 			result: true,
 			message: "create Success",
@@ -24,12 +25,50 @@ const createLike = async (req: DecodedRequest, res: Response, next: NextFunction
 	}
 }
 
-const deleteLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
-	const { questionId, answerId, isLike, questionUserId, answerUserId } = req.body;
+const createQuestionLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
+	const { questionId, isLike, questionUserId } = req.body;
 	const userId = req.decodedId;
 
 	try {
-		await LikeService.deleteLike({ userId, questionId, answerId, isLike, questionUserId, answerUserId });
+		await LikeService.createQuestionLike({ userId, questionId, isLike, questionUserId });
+		return res.status(200).json({
+			result: true,
+			message: "create Success",
+		})
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			result: false,
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
+const deleteAnswerLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
+	const { answerId, isLike, answerUserId } = req.body;
+	const userId = req.decodedId;
+
+	try {
+		await LikeService.deleteAnswerLike({ userId, answerId, isLike, answerUserId });
+		return res.status(200).json({
+			result: true,
+			message: "Delete Success",
+		})
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			result: false,
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
+const deleteQuestionLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
+	const { questionId, isLike, questionUserId } = req.body;
+	const userId = req.decodedId;
+
+	try {
+		await LikeService.deleteQuestionLike({ userId, questionId, isLike, questionUserId });
 		return res.status(200).json({
 			result: true,
 			message: "Delete Success",
@@ -45,6 +84,8 @@ const deleteLike = async (req: DecodedRequest, res: Response, next: NextFunction
 
 
 export const LikeController = {
-	createLike,
-	deleteLike,
+	createAnswerLike,
+	createQuestionLike,
+	deleteAnswerLike,
+	deleteQuestionLike
 }
