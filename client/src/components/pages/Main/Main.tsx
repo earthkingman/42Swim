@@ -10,6 +10,7 @@ import Header from '../../organisms/Header'
 import QuestionList from '../../organisms/QuestionList'
 import LoginPage from '../Login/Login'
 import MainTemplate from './template'
+import Crown from '../../asset/icons/Crown'
 
 const MainPage = ({ isLogin = false }: any) => {
   //   const [user, setUser] = useState()
@@ -132,9 +133,11 @@ const MainPage = ({ isLogin = false }: any) => {
         content1={<QuestionList data={data} menu={menu} setMenu={setMenu} />}
         content2={
           <div style={{ width: '27%' }}>
-            <div style={{ height: '50px' }}>
+            <RowSADiv style={{ height: '50px' }}>
+              <Crown />
               <Title size="h2">King of 42</Title>
-            </div>
+              <Crown />
+            </RowSADiv>
             <Box width="100%" height="338px" />
           </div>
         }
@@ -151,7 +154,7 @@ const MainPage = ({ isLogin = false }: any) => {
                 42Code
               </Title>
               <Text size="14" color="white" weight="bold">
-                made by nkim & yejeon & ji-park & iha
+                made by ji-park & yejeong & nkim & iha
               </Text>
             </RowSADiv>
             <Text size="14" color="white">

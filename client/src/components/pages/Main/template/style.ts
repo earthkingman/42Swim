@@ -11,7 +11,7 @@ export const Container = styled.div`
 `
 
 export const Header = styled.div`
-  height: 10%;
+  height: 5%;
 `
 
 export const Panel = styled(RowSBDiv)`
