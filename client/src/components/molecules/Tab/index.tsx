@@ -5,6 +5,7 @@ export interface ItemProps {
   onTabClick?: any
   active?: boolean
 }
+
 export const TabItem = ({
   active,
   children,
@@ -14,6 +15,9 @@ export const TabItem = ({
   const activeStyle = {
     color: 'black',
     borderBottom: '3px solid black',
+    '-webkit-transition': 'color 0.5s ease',
+    '-moz-transition': 'color 0.5s ease',
+    transition: 'color 0.5s ease',
   }
 
   return (

@@ -5,12 +5,12 @@ export const QLWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  margin-top: 2.5rem;
+  width: 70%;
 `
 
 export const List = styled(Box)`
   display: flex;
-  width: 938px;
+  width: 100%;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;

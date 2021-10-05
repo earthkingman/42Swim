@@ -6,14 +6,14 @@ export interface Props {
   title?: string
   subtitle?: string
   children?: any
-  onClick?: any
+  onClose?: any
   visible: boolean
   height?: string
 }
 
 const Modal = ({
   children,
-  onClick,
+  onClose,
   visible,
   title,
   subtitle,
@@ -22,7 +22,7 @@ const Modal = ({
   return (
     <ModalWrapper visible={visible}>
       <ModalBox {...props}>
-        <ModalClosed onClick={onClick}>
+        <ModalClosed onClick={onClose}>
           <CloseBtn />
         </ModalClosed>
         <ModalTitle size="h1">{title}</ModalTitle>

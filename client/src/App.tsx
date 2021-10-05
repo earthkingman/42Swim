@@ -3,15 +3,15 @@ import LoginPage from './components/pages/Login/Login'
 import MainPage from './components/pages/Main/Main'
 import GlobalThemeProvider from './style/GlobalThemeProvider'
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <GlobalThemeProvider>
       <Router>
         <Switch>
-          <Route exact path="/" render={() => <MainPage />} />
+          <Route path="/" exact render={(props) => <MainPage {...props} />} />
           <Route
-            exact
             path="/login"
+            exact
             render={(props) => <LoginPage visible={true} {...props} />}
           />
         </Switch>
