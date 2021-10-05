@@ -1,4 +1,3 @@
-import CheckImg from '../../asset/icons/CheckImg'
 import { RowSBDiv } from '../../atoms/Div'
 import Tag from '../../atoms/Tag'
 import Profile from '../Profile'
@@ -67,9 +66,13 @@ const ListItem = ({
           <Profile size="sm" nickname="닉네임" />
         </S.Bottom>
       </S.Content>
-      <S.Check>{check ? <CheckImg /> : <></>}</S.Check>
+      {/* <S.Check>{check ? <CheckImg /> : <></>}</S.Check> */}
       <S.Counter>
-        <SortCounter name="답변" count={answer_cnt} />
+        <SortCounter
+          name="답변"
+          count={answer_cnt}
+          color={check ? 'yellow' : 'black'}
+        />
         <SortCounter name="추천" count={like_cnt} />
         <SortCounter name="조회" count={view_cnt} />
       </S.Counter>

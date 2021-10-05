@@ -57,8 +57,12 @@ export const StyledButton = styled.button<SButtonProps>`
   align-items: center;
   border: none;
   border-radius: 16px;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  transition: all 0.5s ease;
   &:hover {
     background: ${lighten(0.1, '#ffb84c')};
+    color: ${lighten(0.1, 'black')};
   }
   &:active {
     background: ${darken(0.1, '#ffb84c')};

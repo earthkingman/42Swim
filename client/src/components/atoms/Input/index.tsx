@@ -37,6 +37,8 @@ export interface InputProps extends SInputProps {
   className?: string
   value?: string
   type?: string
+  onFocus?: any
+  onBlur?: any
 }
 
 const Input = ({ ...props }: InputProps) => {

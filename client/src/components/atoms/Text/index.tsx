@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components'
-import globalTheme from '../../../style/theme'
 
 type sizeType = '18' | '14' | '48'
 type weightType = 'bold' | 'normal'
@@ -13,7 +12,7 @@ const sizes = {
 export interface STextProps {
   weight?: weightType
   size?: sizeType
-  color?: keyof typeof globalTheme.color.text
+  color?: string
 }
 
 const TextStyles = css<STextProps>`

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SearchBtn from '../../asset/icons/SearchBtn'
 import { SButton, SearchBox, SInput } from './style'
 
@@ -8,13 +8,20 @@ export interface Props {
 }
 
 const SearchInput = ({ onSearch, search, ...props }: Props) => {
+  const [focus, setFocus] = useState(false)
+  const activeStyle = {
+    border: '1px solid #FFB84D',
+  }
+
   return (
     <>
-      <SearchBox {...props}>
+      <SearchBox style={focus ? activeStyle : {}} {...props}>
         <SInput
           placeholder="검색할 내용을 입력하세요"
           value={search}
           border={false}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
         />
         <SButton onClick={onSearch}>
           <SearchBtn />

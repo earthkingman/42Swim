@@ -5,8 +5,9 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 1400px;
-  padding: 0 3.5rem;
+  width: 90%;
+
+  padding: 0 10rem;
 `
 
 export const Header = styled.div`
@@ -14,8 +15,8 @@ export const Header = styled.div`
 `
 
 export const Panel = styled(RowSBDiv)`
-  width: 938px;
-  margin-bottom: 2rem;
+  width: 70%;
+  margin-bottom: 4.5rem;
   margin-top: 5rem;
 `
 
@@ -27,7 +28,10 @@ export const Footer = styled(RowSBDiv)`
   width: 100%;
   height: 248px;
   background: #9d9d9d;
-  margin-top: 7rem;
+  margin-top: 15rem;
   padding: 0 2rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 `
 export default {}

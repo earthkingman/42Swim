@@ -54,7 +54,7 @@ const QuestionList = ({ data, menu, setMenu, ...props }: Props) => {
             {...props}
           />
         ))}
-        <ColumnSADiv height="110px">
+        <ColumnSADiv height="115px">
           <Pagination
             onFront={() => console.log('front')}
             onBack={() => console.log('back')}

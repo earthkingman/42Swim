@@ -10,7 +10,7 @@ export const ListBox = styled(RowSBDiv)`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `
 export const Content = styled(ColumnSADiv)`
-  width: 65%;
+  width: 76%;
   height: 90%;
   align-items: flex-start;
 `
@@ -42,7 +42,7 @@ export const Bottom = styled(RowSBDiv)`
   width: 100%;
 `
 export const Counter = styled(RowSBDiv)`
-  width: 25%;
+  width: 22%;
   height: 100%;
   padding: 0 1rem;
 `

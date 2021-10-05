@@ -74,6 +74,9 @@ const GlobalStyle = createGlobalStyle`
 	  outline: none;
 	  text-decoration: none;
   }
+  a:visited, a:link {
+	  color: inherit;
+  }
 `
 
 export default GlobalStyle

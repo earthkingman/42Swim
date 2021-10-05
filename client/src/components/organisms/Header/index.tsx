@@ -13,9 +13,10 @@ export interface Props {
   isLogin?: boolean
   nickname?: string
   img?: string
+  onLoginClick?: any
 }
 
-const Header = ({ isLogin, nickname, img }: Props) => {
+const Header = ({ onLoginClick, isLogin, nickname, img }: Props) => {
   return (
     <HeaderWrapper>
       <HeaderTitleWrapper>
@@ -32,8 +33,7 @@ const Header = ({ isLogin, nickname, img }: Props) => {
         />
       ) : (
         <HeaderBtnWrapper>
-          <AHeader>login</AHeader>
-          <AHeader>signup</AHeader>
+          <AHeader onClick={() => onLoginClick(true)}>로그인</AHeader>
         </HeaderBtnWrapper>
       )}
     </HeaderWrapper>

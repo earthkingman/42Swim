@@ -15,7 +15,7 @@ const color = {
     lightgray: '#F4F5F7',
   },
   text: {
-    while: '#FFFFFF',
+    white: '#FFFFFF',
     yellow: '#FFB84D',
     red: '#FF5D39',
     black: '#000000',

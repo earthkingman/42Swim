@@ -9,6 +9,7 @@ const sizes = {
 
 export interface STitleProps {
   size?: sizeType
+  color?: string
 }
 
 const titleStyles = css<STitleProps>`
@@ -16,6 +17,11 @@ const titleStyles = css<STitleProps>`
     size &&
     css`
       font-size: ${sizes[size].size};
+    `}
+  ${({ color }) =>
+    color &&
+    css`
+      color: ${color};
     `}
 `
 

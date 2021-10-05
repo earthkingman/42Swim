@@ -10,6 +10,13 @@ export const SearchBox = styled.div`
   padding-right: 5px;
   display: flex;
   align-items: center;
+  border: none;
+  &:hover {
+    border: 1px solid #c2c2c2;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
 `
 
 export const SInput = styled(Input)`
