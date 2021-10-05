@@ -14,7 +14,8 @@ export default () => {
       },
       async (email, password, done) => {
         try {
-          const user = await UserService.findUserByEmail(email);
+          const userService: UserService = new UserService();
+          const user = await userService.findUserByEmail(email);
           if (user) {
             const result = await bcrypt.compare(password, user.password);
             if (result) {

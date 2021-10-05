@@ -8,10 +8,11 @@ import { LikeService } from '../service/like_service';
 
 const createAnswerLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const { answerId, isLike, answerUserId } = req.body;
-	const userId = req.decodedId;
+	const userId: number = req.decodedId;
+	const likeService: LikeService = new LikeService();
 
 	try {
-		await LikeService.createAnswerLike({ userId, answerId, isLike, answerUserId });
+		await likeService.createAnswerLike({ userId, answerId, isLike, answerUserId });
 		return res.status(200).json({
 			result: true,
 			message: "create Success",
@@ -27,10 +28,11 @@ const createAnswerLike = async (req: DecodedRequest, res: Response, next: NextFu
 
 const createQuestionLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const { questionId, isLike, questionUserId } = req.body;
-	const userId = req.decodedId;
+	const userId: number = req.decodedId;
+	const likeService: LikeService = new LikeService();
 
 	try {
-		await LikeService.createQuestionLike({ userId, questionId, isLike, questionUserId });
+		await likeService.createQuestionLike({ userId, questionId, isLike, questionUserId });
 		return res.status(200).json({
 			result: true,
 			message: "create Success",
@@ -46,10 +48,11 @@ const createQuestionLike = async (req: DecodedRequest, res: Response, next: Next
 
 const deleteAnswerLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const { answerId, isLike, answerUserId } = req.body;
-	const userId = req.decodedId;
+	const userId: number = req.decodedId;
+	const likeService: LikeService = new LikeService();
 
 	try {
-		await LikeService.deleteAnswerLike({ userId, answerId, isLike, answerUserId });
+		await likeService.deleteAnswerLike({ userId, answerId, isLike, answerUserId });
 		return res.status(200).json({
 			result: true,
 			message: "Delete Success",
@@ -66,9 +69,10 @@ const deleteAnswerLike = async (req: DecodedRequest, res: Response, next: NextFu
 const deleteQuestionLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const { questionId, isLike, questionUserId } = req.body;
 	const userId = req.decodedId;
+	const likeService: LikeService = new LikeService();
 
 	try {
-		await LikeService.deleteQuestionLike({ userId, questionId, isLike, questionUserId });
+		await likeService.deleteQuestionLike({ userId, questionId, isLike, questionUserId });
 		return res.status(200).json({
 			result: true,
 			message: "Delete Success",
