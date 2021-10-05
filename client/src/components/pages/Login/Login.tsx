@@ -18,7 +18,9 @@ const LoginPage = ({ onClose, ...props }: Props) => {
           <Input placeholder="이메일을 입력하세요" />
           <Input type="password" placeholder="비밀번호를 입력하세요" />
           <Button size="lg">로그인</Button>
-          <A fontColor="yellow">42seoul 계정으로 로그인</A>
+          <A fontColor="yellow" underline={true}>
+            42seoul 계정으로 로그인
+          </A>
         </ModalGroup>
         <A fontColor="black">아직 회원이 아니신가요?</A>
       </ModalContent>
