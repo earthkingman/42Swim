@@ -10,7 +10,7 @@ const deleteAnswer = async (req: DecodedRequest, res: Response) => {
 	const userId = req.decodedId;
 	const answerService = new AnswerService();
 	try {
-		await answerService.deleteAnswer({ answerId, questionId, userId });
+		await answerService.delete({ answerId, questionId, userId });
 		return res.status(200).json({
 			result: true,
 			message: "Delete Success"
@@ -34,7 +34,7 @@ const updateAnswer = async (req: DecodedRequest, res: Response, next: NextFuncti
 	for (let i = 0; i < size; i++)
 		files.push(req.files[i].key);
 	try {
-		await answerService.updateAnswer({ text, photos: files, answerId, questionId, userId });
+		await answerService.update({ text, photos: files, answerId, questionId, userId });
 		return res.status(200).json({
 			result: true,
 			message: "Update Success"
@@ -58,7 +58,7 @@ const uploadAnswer = async (req: DecodedRequest, res: Response) => {
 	for (let i = 0; i < size; i++)
 		files.push(req.files[i].key);
 	try {
-		await answerService.uploadAnswer({ email, text, userId, questionId, photos: files });
+		await answerService.post({ email, text, userId, questionId, photos: files });
 		return res.status(200).json({
 			result: true,
 			message: "Upload Success"

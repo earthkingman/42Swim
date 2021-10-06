@@ -20,7 +20,7 @@ export class QuestionService {
 		this.photoRepository = this.queryRunner.manager.getRepository(Photo);
 	}
 
-	async upload(uploadQuestionInfo) {
+	async post(uploadQuestionInfo) {
 		const { email, title, text, photos, userId, hashTag } = uploadQuestionInfo;
 
 		const user = await this.userRepository
@@ -36,6 +36,8 @@ export class QuestionService {
 				try {
 					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashTagNameList[i] } });
 					if (exHashTag === undefined) {
+						// const newHashTag = new HashTag();
+						// newHashTag.name = hashTagNameList[i];
 						const newHashTag = await this.hashtagRepository.save({ name: hashTagNameList[i] });
 						hashTagObject.push(newHashTag);
 					}
@@ -62,12 +64,22 @@ export class QuestionService {
 	}
 
 	async update(updateQuestionInfo) {
-		const { title, text, photos, questionId, hashTag } = updateQuestionInfo;
+		const { title, text, photos, questionId, userId, hashTag } = updateQuestionInfo;
 
 		const question = await this.questionRepository
-			.findOne({ where: { id: questionId } });
+			.findOne({
+				where: { id: questionId, user: { id: userId } },
+				relations: ['user']
+			});
 		if (question === undefined) {
-			throw new Error("The questionPost doesn't exist.");
+			const noAuthQuestion = await this.questionRepository
+				.findOne({ where: { id: questionId } });
+			if (noAuthQuestion !== undefined) {
+				throw new Error("You don't have edit permission");
+			}
+			else {
+				throw new Error("The questionPost doesn't exist.");
+			}
 		}
 		await this.queryRunner.startTransaction();
 		try {
@@ -78,6 +90,8 @@ export class QuestionService {
 				for (let i = 0; i < hashTagNameList.length; i++) {
 					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashTagNameList[i] } });
 					if (exHashTag === undefined) {
+						// const newHashTag = new HashTag();
+						// newHashTag.name = hashTagNameList[i];
 						const newHashTag = await this.hashtagRepository.save({ name: hashTagNameList[i] });
 						hashTagObject.push(newHashTag);
 					}
@@ -104,11 +118,21 @@ export class QuestionService {
 	}
 
 	async delete(deleteQuestionInfo) {
-		const { questionId } = deleteQuestionInfo;
+		const { questionId, userId } = deleteQuestionInfo;
 		const question = await this.questionRepository
-			.findOne({ where: { id: questionId } });
+			.findOne({
+				where: { id: questionId, user: { id: userId } },
+				relations: ['user']
+			});
 		if (question === undefined) {
-			throw new Error("The questionPost doesn't exist.");
+			const noAuthQuestion = await this.questionRepository
+				.findOne({ where: { id: questionId } });
+			if (noAuthQuestion !== undefined) {
+				throw new Error("You don't have edit permission");
+			}
+			else {
+				throw new Error("The questionPost doesn't exist.");
+			}
 		}
 		await this.queryRunner.startTransaction();
 		try {
@@ -124,13 +148,11 @@ export class QuestionService {
 	}
 
 	async findPhotoByQuestionId(questionId) {
-		const question = await this.questionRepository
-			.findOne({ where: { id: questionId } });
-		if (question === undefined) {
-			throw new Error("The questionPost doesn't exist.");
-		}
 		const photos = await this.photoRepository
-			.find({ where: { question: question } });
+			.find({
+				where: { question: { id: questionId } },
+				relations: ['question']
+			});
 		return photos;
 	}
 
