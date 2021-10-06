@@ -9,8 +9,10 @@ import { UserService } from "../service/user_service";
 
 const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) => {
     const id: number = req.decodedId
+    const userService: UserService = new UserService();
+
     try {
-        const user = await UserService.findUserById(id);
+        const user = await userService.findUserById(id);
         if (user) {
             res.status(200).json({
                 data: {
@@ -35,8 +37,10 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
 const updateUserImage = async (req: any, res: Response, next: NextFunction) => {
     const id = req.decodedId;
     const photo = req.file.key;
+    const userService: UserService = new UserService();
+
     try {
-        const user = await UserService.updateUserPhoto(id, photo);
+        const user = await userService.updateUserPhoto(id, photo);
         if (user) {
             res.json({
                 exUser: user
@@ -61,8 +65,10 @@ const updateUserPassword = async (req: DecodedRequest, res: Response, next: Next
     const { newpassword } = req.body;
     const encryptedPassword = await bcrypt.hashSync(newpassword, +process.env.SALT_ROUNDS);
     console.log(newpassword, encryptedPassword);
+    const userService: UserService = new UserService();
+
     try {
-        const user = await UserService.updateUserPassword(id, encryptedPassword);
+        const user = await userService.updateUserPassword(id, encryptedPassword);
         if (user) {
             res.json({
                 exUser: user
@@ -85,9 +91,10 @@ const updateUserPassword = async (req: DecodedRequest, res: Response, next: Next
 const updateUserNickname = async (req: DecodedRequest, res: Response, next: NextFunction) => {
     const id = req.decodedId;
     const { nickname } = req.body;
+    const userService: UserService = new UserService();
 
     try {
-        const user = await UserService.updateUserNickname(id, nickname);
+        const user = await userService.updateUserNickname(id, nickname);
         if (user) {
             res.json({
                 exUser: user

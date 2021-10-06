@@ -7,9 +7,10 @@ import { QuestionService } from '../service/question_service';
 
 const deleteQuestion = async (req: Request, res: Response, next: NextFunction) => {
     const { questionId } = req.body;
+    const questionService: QuestionService = new QuestionService();
 
     try {
-        await QuestionService.deleteQuestion({ questionId });
+        await questionService.delete({ questionId });
         return res.status(200).json({
             result: true,
             message: "Delete Success"
@@ -28,11 +29,12 @@ const updateQuestion = async (req: any, res: Response, next: NextFunction) => {
     console.log(hashTag)
     const files: string[] = [];
     const size = req.files.length;
+    const questionService: QuestionService = new QuestionService();
 
     for (let i = 0; i < size; i++)
         files.push(req.files[i].key);
     try {
-        await QuestionService.updateQuestion({ title, text, photos: files, questionId, hashTag });
+        await questionService.update({ title, text, photos: files, questionId, hashTag });
         return res.status(200).json({
             result: true,
             message: "Update Success"
@@ -51,11 +53,12 @@ const uploadQuestion = async (req: any, res: Response) => {
     const { email, title, text, hashTag } = req.body;
     const size = req.files.length;
     const files: string[] = [];
+    const questionService: QuestionService = new QuestionService();
 
     for (let i = 0; i < size; i++)
         files.push(req.files[i].key);
     try {
-        await QuestionService.uploadQuestion({ email, title, text, userId, photos: files, hashTag });
+        await questionService.upload({ email, title, text, userId, photos: files, hashTag });
         return res.status(200).json({
             result: true,
             message: "Upload Success"

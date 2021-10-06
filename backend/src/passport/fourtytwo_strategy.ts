@@ -7,6 +7,7 @@ const FortyTwoStrategy = Strategy;
 import { UserService } from "../service/user_service";
 
 export const fourtyTwoStrategy = () => {
+
   passport.use(
     new FortyTwoStrategy(
       {
@@ -19,7 +20,8 @@ export const fourtyTwoStrategy = () => {
         console.log("accessToken", accessToken, "refreshToken", refreshToken);
         console.log("FortyTwoStrategy");
         try {
-          const { exUser, newUser } = await UserService.createUser({
+          const userService: UserService = new UserService();
+          const { exUser, newUser } = await userService.createUser({
             nickname: profile.username,
             email: profile.emails[0].value,
             password: process.env.PASSWORD,

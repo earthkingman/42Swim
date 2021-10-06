@@ -32,8 +32,10 @@ const s3ImageUpload = (config: any) => multer({
 
 const s3DeletePhoto = async (req: Request, res: Response, next: NextFunction) => {
 	const { questionId } = req.body;
+	const questionService: QuestionService = new QuestionService();
+
 	try {
-		const photos = await QuestionService.findPhotoByQuestionId(questionId);
+		const photos = await questionService.findPhotoByQuestionId(questionId);
 		photos.map(async (photo) => {
 			const url = photo.photo.split('/')    // video에 저장된 fileUrl을 가져옴
 			const delFileName = url[url.length - 1]  // 버킷에 저장된 객체 URL만 가져옴

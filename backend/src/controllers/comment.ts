@@ -8,10 +8,10 @@ import { CommentService } from '../service/comment_service';
 
 const deleteComment = async (req: DecodedRequest, res: Response) => {
 	const { questionId, answerId, commentId } = req.body;
-	const userId = req.decodedId;
-
+	const userId: number = req.decodedId;
+	const commentService: CommentService = new CommentService();
 	try {
-		await CommentService.deleteComment({ userId, questionId, answerId, commentId });
+		await commentService.delete({ userId, questionId, answerId, commentId });
 		return res.status(200).json({
 			result: true,
 			message: "Delete Success"
@@ -27,9 +27,12 @@ const deleteComment = async (req: DecodedRequest, res: Response) => {
 
 const updateComment = async (req: DecodedRequest, res: Response) => {
 	const { questionId, answerId, commentId, text } = req.body;
-	const userId = req.decodedId
+	const userId: number = req.decodedId
+	const commentService: CommentService = new CommentService();
+
+
 	try {
-		await CommentService.updateComment({ text, questionId, answerId, commentId, userId });
+		await commentService.update({ text, questionId, answerId, commentId, userId });
 		return res.status(200).json({
 			result: true,
 			message: "Update Success"
@@ -44,10 +47,12 @@ const updateComment = async (req: DecodedRequest, res: Response) => {
 }
 
 const uploadComment = async (req: DecodedRequest, res: Response) => {
-	const userId = req.decodedId
+	const userId: number = req.decodedId
 	const { questionId, answerId, text } = req.body;
+	const commentService: CommentService = new CommentService();
+
 	try {
-		await CommentService.uploadComment({ userId, questionId, answerId, text });
+		await commentService.post({ userId, questionId, answerId, text });
 		return res.status(200).json({
 			result: true,
 			message: "Upload Success"
