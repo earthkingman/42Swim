@@ -1,7 +1,7 @@
 import Text from '../../atoms/Text'
 import Profile from '../Profile'
 
-import { AnswerTitleWrapper, AnswerWrapper } from './sytle'
+import { AnswerMain, AnswerTitleWrapper, AnswerWrapper } from './sytle'
 
 export interface AnswerProps {
   nickname: string
@@ -19,9 +19,9 @@ const Answer = ({ createAt, img, nickname, main }: AnswerProps) => {
           {createAt}
         </Text>
       </AnswerTitleWrapper>
-      <Text size="18" color="black">
+      <AnswerMain size="18" color="black">
         {main}
-      </Text>
+      </AnswerMain>
     </AnswerWrapper>
   )
 }

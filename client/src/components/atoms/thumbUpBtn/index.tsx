@@ -4,7 +4,7 @@ import ThumbUpActive from '../../asset/icons/thumbUpActive'
 import ThumbUpUnactive from '../../asset/icons/thumbUpUnactive'
 
 const StyledThumbUpBtn = styled.button`
-  background-color: white;
+  background-color: inherit;
 `
 export interface ThumbUpBtnProps {
   active?: boolean

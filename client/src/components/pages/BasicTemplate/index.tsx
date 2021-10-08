@@ -1,20 +1,20 @@
 import React from 'react'
-import { Container, ContentWrapper, Footer, Header } from './style'
+import Footer from '../../organisms/Footer'
+import { Container, Header } from './style'
 
 interface Props {
   header: React.ReactNode
   content: React.ReactNode
-  footer: React.ReactNode
 }
 
-const BasicTemplate = ({ header, content, footer, ...props }: Props) => {
+const BasicTemplate = ({ header, content, ...props }: Props) => {
   return (
     <>
       <Container {...props}>
         <Header>{header}</Header>
-        <ContentWrapper>{content}</ContentWrapper>
+        {content}
       </Container>
-      <Footer>{footer}</Footer>
+      <Footer />
     </>
   )
 }
