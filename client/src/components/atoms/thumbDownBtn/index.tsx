@@ -4,7 +4,7 @@ import ThumbDownActive from '../../asset/icons/thumbDownActive'
 import ThumbDownUnactive from '../../asset/icons/thumbDownUnactive'
 
 const StyledThumbDownBtn = styled.button`
-  background-color: white;
+  background-color: inherit;
 `
 export interface SThumbDownBtnProps {
   active?: boolean
