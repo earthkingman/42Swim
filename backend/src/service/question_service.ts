@@ -20,6 +20,13 @@ export class QuestionService {
 		this.photoRepository = this.queryRunner.manager.getRepository(Photo);
 	}
 
+	async getViewByQuestionId(questinoId) {
+		const questionId = questinoId;
+		const question = await this.questionRepository.findOne({ where: { id: questinoId } });
+		return question.view_count;
+	}
+
+
 	async upload(uploadQuestionInfo) {
 		const { email, title, text, photos, userId, hashTag } = uploadQuestionInfo;
 

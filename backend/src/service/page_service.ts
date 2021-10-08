@@ -15,8 +15,8 @@ export class PageService {
 			.getRepository(Question)
 			.createQueryBuilder('question')
 			.where('question.id = :questionId', { questionId })
-			.innerJoinAndSelect('question.user', 'user')
-			.innerJoinAndSelect('question.hashtag', 'hashtag')
+			.leftJoinAndSelect('question.user', 'user')
+			.leftJoinAndSelect('question.hashtag', 'hashtag')
 			.leftJoinAndSelect('question.comment', 'comment')
 			.disableEscaping()
 			.getMany();
@@ -25,7 +25,7 @@ export class PageService {
 			.getRepository(Answer)
 			.createQueryBuilder('answer')
 			.where('answer.questionId = :questionId', { questionId })
-			.innerJoinAndSelect('answer.user', 'user')
+			.leftJoinAndSelect('answer.user', 'user')
 			.leftJoinAndSelect('answer.comment', 'comment')
 			.disableEscaping()
 			.getMany();

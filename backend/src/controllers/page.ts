@@ -31,7 +31,7 @@ const getQuestionDetailPage = async (req: any, res: Response, next: NextFunction
 	const { questionId } = req.body;
 	const pageService: PageService = new PageService();
 
-	console.log(req.guestToken);
+	console.log(questionId, req.guestToken);
 	try {
 		const questionDetail = await pageService.getQuestionDetail(questionId);
 		return res.status(200).json({
