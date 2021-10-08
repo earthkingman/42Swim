@@ -61,7 +61,7 @@ export class CommentService {
 				if (answer === undefined) {
 					throw new Error("The answer doesn't exist.");
 				}
-				else if (noAuthComment === undefined) {
+				else if (noAuthComment) {
 					throw new Error("You don't have edit right.");
 				}
 				else {
@@ -88,7 +88,7 @@ export class CommentService {
 				if (question === undefined) {
 					throw new Error("The question doesn't exist.");
 				}
-				else if (noAuthComment === undefined) {
+				else if (noAuthComment) {
 					throw new Error("You don't have edit right.");
 				}
 				else {
@@ -120,7 +120,7 @@ export class CommentService {
 				if (answer === undefined) {
 					throw new Error("The answer doesn't exist.");
 				}
-				else if (noAuthComment === undefined) {
+				else if (noAuthComment) {
 					throw new Error("You don't have edit right.");
 				}
 				else {
@@ -146,7 +146,7 @@ export class CommentService {
 				if (question === undefined) {
 					throw new Error("The question doesn't exist.");
 				}
-				else if (noAuthComment === undefined) {
+				else if (noAuthComment) {
 					throw new Error("You don't have edit right.");
 				}
 				else {
