@@ -1,0 +1,875 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: 42StackOverFlow
+  description: 42StackOverFlow API
+
+tags:
+  - name: page
+    description: 페이지
+  - name: question
+    description: 질문 게시글
+  - name: answer
+    description: 답변 게시글
+  - name: comment
+    description: 댓글
+  - name: user
+    description: 유저
+  - name: like
+    description: 좋아요
+  - name: auth
+    description: 인증
+
+definitions:
+  User:
+    properties:
+      id:
+        type: integer
+      nickname:
+        type: string
+      email:
+        type: string
+    # Both properties are required
+    required:
+      - id
+      - nickname
+      - email
+  MainPage:
+    properties:
+      questions:
+        type: array
+        items:
+          type: object
+          properties:
+            question:
+              $ref: "#/definitions/Question"
+            user:
+              $ref: "#/definitions/User"
+      questionCount:
+        type: integer
+  QuestionPage:
+    properties:
+      questionInfo:
+        type: object
+        properties:
+          question:
+            $ref: "#/definitions/Question"
+          user:
+            $ref: "#/definitions/User"
+          comments:
+            type: array
+            items:
+              type: object
+              properties:
+                comment:
+                  $ref: "#/definitions/Comment"
+                user:
+                  $ref: "#/definitions/User"
+      answerInfos:
+        type: array
+        items:
+          type: object
+          properties:
+            answer:
+              $ref: "#/definitions/Answer"
+            user:
+              $ref: "#/definitions/User"
+            comments:
+              type: array
+              items:
+                type: object
+                properties:
+                  comment:
+                    $ref: "#/definitions/Comment"
+                  user:
+                    $ref: "#/definitions/User"
+  Question:
+    properties:
+      id:
+        type: integer
+      likeCount:
+        type: integer
+      viewCount:
+        type: integer
+      isSolved:
+        type: boolean
+      isLike:
+        type: boolean
+      title:
+        type: string
+      text:
+        type: string
+      images:
+        type: array
+        items:
+          $ref: "#/definitions/Image"
+      hashtags:
+        type: array
+        items:
+          $ref: "#/definitions/Hashtag"
+    # Both properties are required
+    required:
+      - id
+      - title
+      - text
+      - viewCount
+      - likeCount
+      - isSolved
+  Answer:
+    properties:
+      id:
+        type: integer
+      likeCount:
+        type: integer
+      isChosen:
+        type: boolean
+      isLike:
+        type: boolean
+      text:
+        type: string
+      images:
+        type: array
+        items:
+          $ref: "#/definitions/Image"
+    required:
+      - id
+      - text
+      - likeCount
+      - isChosen
+  Comment:
+    properties:
+      id:
+        type: integer
+      text:
+        type: string
+    required:
+      - id
+      - text
+  Image:
+    properties:
+      id:
+        type: integer
+      photo:
+        type: string
+    required:
+      - id
+      - photo
+  Hashtag:
+    properties:
+      id:
+        type: integer
+      tag:
+        type: string
+    required:
+      - id
+      - tag
+
+paths:
+  /posts/question:
+    get:
+      summary: 질문 게시글을 반환합니다.
+      tags:
+        - question
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              questionId:
+                type: integer
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+      responses:
+        "200":
+          description: 질문 게시글 요청 성공
+          schema:
+            $ref: "#/definitions/Question"
+        "404":
+          description: Question doesn't exist
+          schema:
+            type: string
+    post:
+      summary: 질문 게시글을 생성합니다.
+      tags:
+        - question
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: title
+          in: formData
+          type: string
+          required: true
+        - name: text
+          in: formData
+          type: string
+          required: true
+        - name: hashtag
+          in: formData
+          type: string
+          required: true
+        - name: photo
+          in: formData
+          type: array
+          items:
+            type: string
+            format: binary
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Question doesn't exist
+          schema:
+            type: string
+    patch:
+      summary: 질문 게시글을 업데이트합니다.
+      tags:
+        - question
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: questionId
+          in: formData
+          type: integer
+          required: true
+        - name: title
+          in: formData
+          type: string
+          required: true
+        - name: text
+          in: formData
+          type: string
+          required: true
+        - name: hashtag
+          in: formData
+          type: string
+          required: true
+        - name: photo
+          in: formData
+          type: array
+          items:
+            type: string
+            format: binary
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Question doesn't exist
+          schema:
+            type: string
+    delete:
+      summary: 질문 게시글을 삭제합니다.
+      tags:
+        - question
+      parameters:
+        - name: questionId
+          in: body
+          schema:
+            type: integer
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Question doesn't exist
+          schema:
+            type: string
+
+  /posts/answer:
+    get:
+      summary: 답변 게시글을 반환합니다.
+      tags:
+        - answer
+      parameters:
+        - name: answerId
+          in: body
+          schema:
+            type: integer
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+      responses:
+        "200":
+          description: 답변 게시글 요청 성공
+          schema:
+            $ref: "#/definitions/Answer"
+        "404":
+          description: Answer doesn't exist
+          schema:
+            type: string
+    post:
+      summary: 답변 게시글을 생성합니다.
+      tags:
+        - answer
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: text
+          in: formData
+          type: string
+          required: true
+        - name: photo
+          in: formData
+          type: array
+          items:
+            type: string
+            format: binary
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Answer doesn't exist
+          schema:
+            type: string
+    patch:
+      summary: 답변 게시글을 업데이트합니다.
+      tags:
+        - answer
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: answerId
+          in: formData
+          type: integer
+          required: true
+        - name: text
+          in: formData
+          type: string
+          required: true
+        - name: photo
+          in: formData
+          type: array
+          items:
+            type: string
+            format: binary
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Answer doesn't exist
+          schema:
+            type: string
+    delete:
+      summary: 답변 게시글을 삭제합니다.
+      tags:
+        - answer
+      parameters:
+        - name: answerId
+          in: body
+          schema:
+            type: integer
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Answer doesn't exist
+          schema:
+            type: string
+
+  /posts/comment:
+    get:
+      summary: 댓글을 반환합니다.
+      tags:
+        - comment
+      parameters:
+        - name: commentId
+          in: body
+          schema:
+            type: integer
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+      responses:
+        "200":
+          description: 댓글 요청 성공
+          schema:
+            $ref: "#/definitions/Comment"
+        "404":
+          description: Comment doesn't exist
+          schema:
+            type: string
+    post:
+      summary: 댓글을 생성합니다.
+      tags:
+        - comment
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: text
+          in: formData
+          type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Comment doesn't exist
+          schema:
+            type: string
+    patch:
+      summary: 댓글을 업데이트합니다.
+      tags:
+        - comment
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: commentId
+          in: formData
+          type: integer
+          required: true
+        - name: text
+          in: formData
+          type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Comment doesn't exist
+          schema:
+            type: string
+    delete:
+      summary: 댓글을 삭제합니다.
+      tags:
+        - comment
+      parameters:
+        - name: commentId
+          in: body
+          schema:
+            type: integer
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Comment doesn't exist
+          schema:
+            type: string
+
+  /pages/list/question:
+    get:
+      summary: 메인 페이지를 반환합니다.
+      tags:
+        - page
+      parameters:
+        - name: pageNumber
+          in: body
+          schema:
+            type: integer
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+      responses:
+        "200":
+          description: 페이지 요청 성공
+          schema:
+            $ref: "#/definitions/MainPage"
+        "404":
+          description: Page doesn't exist
+          schema:
+            type: string
+
+  /pages/detail/question:
+    get:
+      summary: 질문 페이지를 반환합니다.
+      tags:
+        - page
+      parameters:
+        - name: questionId
+          in: body
+          schema:
+            type: integer
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+      responses:
+        "200":
+          description: 페이지 요청 성공
+          schema:
+            $ref: "#/definitions/QuestionPage"
+        "404":
+          description: Page doesn't exist
+          schema:
+            type: string
+
+  /posts/answer/like:
+    post:
+      summary: 좋아요를 생성합니다.
+      tags:
+        - like
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: answerId
+          in: formData
+          type: integer
+          required: true
+        - name: isLike
+          in: formData
+          type: boolean
+          required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Answer doesn't exist
+          schema:
+            type: string
+    delete:
+      summary: 좋아요를 삭제합니다.
+      tags:
+        - like
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: answerId
+          in: formData
+          type: integer
+          required: true
+        - name: isLike
+          in: formData
+          type: boolean
+          required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Answer doesn't exist
+          schema:
+            type: string
+
+  /posts/question/like:
+    post:
+      summary: 좋아요를 생성합니다.
+      tags:
+        - like
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: questionId
+          in: formData
+          type: integer
+          required: true
+        - name: isLike
+          in: formData
+          type: boolean
+          required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Question doesn't exist
+          schema:
+            type: string
+    delete:
+      summary: 좋아요를 삭제합니다.
+      tags:
+        - like
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: questionId
+          in: formData
+          type: integer
+          required: true
+        - name: isLike
+          in: formData
+          type: boolean
+          required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Question doesn't exist
+          schema:
+            type: string
+
+  /auth/login:
+    post:
+      summary: 로그인합니다.
+      tags:
+        - auth
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+            properties:
+              refreshToken:
+                type: string
+        "404":
+          description: email doesn't exist
+          schema:
+            type: string
+
+  /auth/signup:
+    post:
+      summary: 회원가입 합니다.
+      tags:
+        - auth
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              nickname:
+                type: string
+              password:
+                type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: email already exist
+          schema:
+            type: string
+
+  /auth/42login:
+    get:
+      summary: 42로그인합니다.
+      tags:
+        - auth
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: email doesn't exist
+          schema:
+            type: string
+
+  /users/info:
+    get:
+      summary: 유저 정보를 반환합니다.
+      tags:
+        - user
+      parameters:
+        - name: userId
+          in: body
+          schema:
+            type: integer
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+      responses:
+        "200":
+          description: 유저 정보 요청 성공
+          schema:
+            $ref: "#/definitions/User"
+        "404":
+          description: User doesn't exist
+          schema:
+            type: string
+
+  /users/image:
+    patch:
+      summary: 프로필 사진을 업데이트합니다.
+      tags:
+        - user
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: userId
+          in: formData
+          type: integer
+          required: true
+        - name: photo
+          in: formData
+          type: string
+          format: binary
+          required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: User doesn't exist
+          schema:
+            type: string
+
+  /users/nickname:
+    patch:
+      summary: 닉네임을 업데이트합니다.
+      tags:
+        - user
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: userId
+          in: formData
+          type: integer
+          required: true
+        - name: nickname
+          in: formData
+          type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: User doesn't exist
+          schema:
+            type: string
+
+  /users/password:
+    patch:
+      summary: 비밀번호를 업데이트합니다.
+      tags:
+        - user
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: userId
+          in: formData
+          type: integer
+          required: true
+        - name: curPassword
+          in: formData
+          type: string
+          required: true
+        - name: newPassword
+          in: formData
+          type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: User doesn't exist
+          schema:
+            type: string
+
+# Added by API Auto Mocking Plugin
+# host: localhost:5000
+# basePath: /
+schemes:
+  - https
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /hainho/test/1.0.0
