@@ -1,16 +1,18 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 
+import { DecodedRequest } from '../definition/decoded_jwt'
 import { QuestionService } from '../service/question_service';
 
-const deleteQuestion = async (req: Request, res: Response, next: NextFunction) => {
+const deleteQuestion = async (req: DecodedRequest, res: Response, next: NextFunction) => {
     const { questionId } = req.body;
+    const userId: number = req.decodedId;
     const questionService: QuestionService = new QuestionService();
 
     try {
-        await questionService.delete({ questionId });
+        await questionService.delete({ questionId, userId });
         return res.status(200).json({
             result: true,
             message: "Delete Success"
@@ -24,8 +26,9 @@ const deleteQuestion = async (req: Request, res: Response, next: NextFunction) =
     }
 }
 
-const updateQuestion = async (req: any, res: Response, next: NextFunction) => {
+const updateQuestion = async (req: DecodedRequest, res: Response, next: NextFunction) => {
     const { questionId, title, text, hashTag } = req.body;
+    const userId: number = req.decodedId
     console.log(hashTag)
     const files: string[] = [];
     const size = req.files.length;
@@ -34,7 +37,7 @@ const updateQuestion = async (req: any, res: Response, next: NextFunction) => {
     for (let i = 0; i < size; i++)
         files.push(req.files[i].key);
     try {
-        await questionService.update({ title, text, photos: files, questionId, hashTag });
+        await questionService.update({ title, text, photos: files, questionId, hashTag, userId });
         return res.status(200).json({
             result: true,
             message: "Update Success"
@@ -48,8 +51,8 @@ const updateQuestion = async (req: any, res: Response, next: NextFunction) => {
     }
 }
 
-const uploadQuestion = async (req: any, res: Response) => {
-    const userId = req.decodedId
+const uploadQuestion = async (req: DecodedRequest, res: Response) => {
+    const userId: number = req.decodedId
     const { email, title, text, hashTag } = req.body;
     const size = req.files.length;
     const files: string[] = [];
@@ -58,7 +61,7 @@ const uploadQuestion = async (req: any, res: Response) => {
     for (let i = 0; i < size; i++)
         files.push(req.files[i].key);
     try {
-        await questionService.upload({ email, title, text, userId, photos: files, hashTag });
+        await questionService.post({ email, title, text, userId, photos: files, hashTag });
         return res.status(200).json({
             result: true,
             message: "Upload Success"

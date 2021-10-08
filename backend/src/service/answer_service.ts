@@ -20,7 +20,7 @@ export class AnswerService {
 		this.photoRepository = this.queryRunner.manager.getRepository(Photo);
 	}
 
-	async uploadAnswer(uploadAnswerInfo) {
+	async post(uploadAnswerInfo) {
 		const { email, text, photos, questionId, userId } = uploadAnswerInfo;
 
 		const user = await this.userRepository
@@ -51,23 +51,31 @@ export class AnswerService {
 		}
 	}
 
-	async updateAnswer(updateAnswerInfo) {
+	async update(updateAnswerInfo) {
 		const { text, photos, questionId, answerId, userId } = updateAnswerInfo;
 
-		const user = await this.userRepository
-			.findOne({ where: { id: userId } });
-		if (user === undefined) {
-			throw new Error("The user doesn't exist.");
-		}
-		const question = await this.questionRepository
-			.findOne({ where: { id: questionId } });
-		if (question === undefined) {
-			throw new Error("The questionPost doesn't exist.");
-		}
 		const answer = await this.answerRepository
-			.findOne({ where: { id: answerId, user: user } });
+			.findOne({
+				where: { id: answerId, user: { id: userId }, question: { id: questionId } },
+				relations: ['user', 'question']
+			});
 		if (answer === undefined) {
-			throw new Error("The answerPost doesn't exist or you don't have edit permission");
+			const question = await this.questionRepository
+				.findOne({ where: { id: questionId } });
+			const noAuthAnswer = await this.answerRepository
+				.findOne({
+					where: { id: answerId, question: { id: questionId } },
+					relations: ['question']
+				});
+			if (question === undefined) {
+				throw new Error("The questionPost doesn't exist.");
+			}
+			else if (noAuthAnswer === undefined) {
+				throw new Error("The answerPost doesn't exist.");
+			}
+			else {
+				throw new Error("You don't have permission to edit.");
+			}
 		}
 		await this.queryRunner.startTransaction();
 		try {
@@ -75,7 +83,7 @@ export class AnswerService {
 			answer.text = text || answer.text;
 			await this.answerRepository.save(answer);
 			await Promise.all(photos.map(async (photo) => {
-				await this.photoRepository.save({ photo, question, answer });
+				await this.photoRepository.save({ photo, answer });
 			}));
 			await this.queryRunner.commitTransaction();
 		} catch (error) {
@@ -87,23 +95,31 @@ export class AnswerService {
 		}
 	}
 
-	async deleteAnswer(deleteAnswerInfo) {
+	async delete(deleteAnswerInfo) {
 		const { userId, questionId, answerId } = deleteAnswerInfo;
 
-		const user = await this.userRepository
-			.findOne({ where: { id: userId } });
-		if (user === undefined) {
-			throw new Error("The user doesn't exist.");
-		}
-		const question = await this.questionRepository
-			.findOne({ where: { id: questionId } });
-		if (question === undefined) {
-			throw new Error("The questionPost doesn't exist.");
-		}
 		const answer = await this.answerRepository
-			.findOne({ where: { id: answerId, user: user } });
+			.findOne({
+				where: { id: answerId, user: { id: userId }, question: { id: questionId } },
+				relations: ['user', 'question']
+			});
 		if (answer === undefined) {
-			throw new Error("The answerPost doesn't exist or you don't have edit permission");
+			const question = await this.questionRepository
+				.findOne({ where: { id: questionId } });
+			const noAuthAnswer = await this.answerRepository
+				.findOne({
+					where: { id: answerId, question: { id: questionId } },
+					relations: ['question']
+				});
+			if (question === undefined) {
+				throw new Error("The questionPost doesn't exist.");
+			}
+			else if (noAuthAnswer === undefined) {
+				throw new Error("The answerPost doesn't exist.");
+			}
+			else {
+				throw new Error("You don't have permission to edit.");
+			}
 		}
 		await this.queryRunner.startTransaction();
 		try {
@@ -119,13 +135,11 @@ export class AnswerService {
 	}
 
 	async findPhotoByAnswerId(answerId) {
-		const answer = await this.answerRepository
-			.findOne({ where: { id: answerId } });
-		if (answer === undefined) {
-			throw new Error("The answerPost doesn't exist.");
-		}
 		const photos = await this.photoRepository
-			.find({ where: { answer: answer } });
+			.find({
+				where: { answer: { id: answerId } },
+				relations: ["answer"]
+			});
 		return photos;
 	}
 
