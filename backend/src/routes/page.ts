@@ -1,12 +1,11 @@
 import express from "express";
 import { PageController } from "../controllers/page";
-import { viewsChecking } from "../middlewares/uuid";
 
 export const pageRouter = express.Router();
 
 pageRouter.get('/list/question', PageController.getQuestionListPage);
 
-pageRouter.get('/detail/question', viewsChecking, PageController.getQuestionDetailPage);
+pageRouter.get('/detail/question', PageController.getQuestionDetailPage);
 
 // router.delete('/delete', authticate_JWT, s3.s3DeletePhoto, QuestionController.deleteQuestion)
 

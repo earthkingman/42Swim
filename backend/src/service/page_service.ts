@@ -1,31 +1,39 @@
-import { getConnection, QueryRunner } from "typeorm";
+import { getConnection, QueryRunner, Repository } from "typeorm";
 
 import { Answer } from "../entity/answer";
 import { Question } from "../entity/question";
 
 export class PageService {
 	private queryRunner: QueryRunner;
+	private questionRepository: Repository<Question>;
 
 	constructor() {
 		this.queryRunner = getConnection().createQueryRunner();
+		this.questionRepository = this.queryRunner.manager.getRepository(Question);
+	}
+
+	async setQuestionViewCount(questionId) {
+		const questionInfo = await this.questionRepository.findOne({ where: { id: questionId } })
+		questionInfo.view_count = questionInfo.view_count + 1;
+		await this.questionRepository.save(questionInfo);
 	}
 
 	async getQuestionDetail(questionId) {
+		this.setQuestionViewCount(questionId);
 		const questionInfo = await this.queryRunner.manager
 			.getRepository(Question)
 			.createQueryBuilder('question')
 			.where('question.id = :questionId', { questionId })
-			.innerJoinAndSelect('question.user', 'user')
-			.innerJoinAndSelect('question.hashtag', 'hashtag')
+			.leftJoinAndSelect('question.user', 'user')
+			.leftJoinAndSelect('question.hashtag', 'hashtag')
 			.leftJoinAndSelect('question.comment', 'comment')
 			.disableEscaping()
 			.getMany();
-
 		const answerInfo = await this.queryRunner.manager
 			.getRepository(Answer)
 			.createQueryBuilder('answer')
 			.where('answer.questionId = :questionId', { questionId })
-			.innerJoinAndSelect('answer.user', 'user')
+			.leftJoinAndSelect('answer.user', 'user')
 			.leftJoinAndSelect('answer.comment', 'comment')
 			.disableEscaping()
 			.getMany();
