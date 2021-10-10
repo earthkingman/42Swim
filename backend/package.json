@@ -42,7 +42,10 @@
       "start": "ts-node src/index.ts",
       "typeorm": "ts-node ./node_modules/typeorm/cli.js",
       "build": "nodemon --watch '*.ts' --exec 'ts-node' src/index.ts",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint --fix src/**/*.ts"
+      "lint": "eslint src/**/*.ts",
+      "lint:fix": "eslint --fix src/**/*.ts",
+       "db": "cd db && docker-compose up",
+       "dbclear": "rm -rf db/srcs/data",
+       "dbreset": "npm run dbclear && npm run db"
    }
 }
