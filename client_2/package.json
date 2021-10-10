@@ -29,12 +29,14 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
-      "eslint --cache --fix",
-      "git add"
+      "eslint --cache --fix"
     ],
     "src/**/*.{js,jsx}": [
-      "eslint --cache --fix",
-      "git add"
+      "eslint --cache --fix"
+    ],
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
     ]
-  }
+  },
+  "license": "MIT"
 }
