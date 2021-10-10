@@ -1,33 +1,29 @@
 import PostBox from '../../atoms/PostBox'
-import Answer from '../../molecules/Answer'
-import Comment from '../../molecules/Comment'
+import Answer, { AnswerProps } from '../../molecules/Answer'
+import Comment, { CommentProps } from '../../molecules/Comment'
 import CommentInput from '../../molecules/InputComment'
-
-interface commentsArray {
-  id: number
-  nickname: string
-  createAt: string
-  text: string
-  onClick: any
-}
+import ThumbCount, { ThumbProps } from '../../molecules/ThumbCount'
+import { AnswerCardWrapper } from './sytle'
 
 export interface AnswerCardProps {
-  comments?: Array<commentsArray>
-  main: string
-  nickname: string
-  createAt: string
+  answer: AnswerProps
+  comments?: Array<CommentProps>
+  thumb: ThumbProps
 }
 
-const AnswerCard = ({ comments, ...props }: AnswerCardProps) => {
+const AnswerCard = ({ comments, thumb, answer, ...props }: AnswerCardProps) => {
   const commentsComponents = comments?.map((item) => (
     <Comment key={item.id} {...item}></Comment>
   ))
   return (
-    <PostBox>
-      <Answer {...props} />
-      {commentsComponents}
-      <CommentInput />
-    </PostBox>
+    <AnswerCardWrapper {...props}>
+      <ThumbCount {...thumb} />
+      <PostBox isChecked={thumb.isChecked}>
+        <Answer {...answer} />
+        {commentsComponents}
+        <CommentInput />
+      </PostBox>
+    </AnswerCardWrapper>
   )
 }
 

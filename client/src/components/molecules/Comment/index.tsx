@@ -7,14 +7,15 @@ import {
 } from './style'
 
 export interface CommentProps {
+  id: number
   nickname: string
   createAt: string
   text: string
   onClick?: any
 }
 
-const Comment = ({ nickname, createAt, text, onClick }: CommentProps) => (
-  <CommentWrapper>
+const Comment = ({ nickname, createAt, text, onClick, id }: CommentProps) => (
+  <CommentWrapper key={id}>
     <CommentHeaderWrapper>
       <Text weight="bold" size="18">
         {nickname}

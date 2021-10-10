@@ -42,7 +42,7 @@ export const Bottom = styled(RowSBDiv)`
   width: 100%;
 `
 export const Counter = styled(RowSBDiv)`
-  width: 22%;
+  width: 17rem;
   height: 100%;
   padding: 0 1rem;
 `

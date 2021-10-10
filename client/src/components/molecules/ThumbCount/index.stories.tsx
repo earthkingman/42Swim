@@ -1,15 +1,15 @@
 import GlobalThemeProvider from '../../../style/GlobalThemeProvider'
-import ThumbCount, { Props } from '.'
+import ThumbCount, { ThumbProps } from '.'
 
 export default {
   title: 'Molecules/ThumbCount',
   component: ThumbCount,
 }
 
-export const Default = (props: Props) => {
+export const Default = (props: ThumbProps) => {
   return (
-    <GlobalThemeProvider>
-      <ThumbCount count="1" thumb="down" {...props} />
+    <GlobalThemeProvider {...props}>
+      <ThumbCount count="1" upOrDown="down" />
     </GlobalThemeProvider>
   )
 }

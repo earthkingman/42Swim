@@ -17,8 +17,12 @@ export const Default = (props: QuestionCardProps) => {
   ]
   const tagArray = [{ name: 'printf' }, { name: 'C' }]
   return (
-    <GlobalThemeProvider>
+    <GlobalThemeProvider {...props}>
       <QuestionCard
+        thumb={{
+          count: '-3',
+          upOrDown: 'up',
+        }}
         nickname="yejeong"
         title="title"
         main="mainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmainmain"

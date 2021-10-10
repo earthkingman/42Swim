@@ -34,11 +34,11 @@ export interface AProps extends SA {
   to?: string
 }
 
-const A = ({ children, to = '/', ...props }: AProps) => {
+const A = ({ children, ...props }: AProps) => {
   return (
-    <StyledA to={to} {...props}>
-      {children}
-    </StyledA>
+    //   to = '/',
+    //   to={to}
+    <StyledA {...props}>{children}</StyledA>
   )
 }
 

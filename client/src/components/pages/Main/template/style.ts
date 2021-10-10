@@ -15,7 +15,7 @@ export const Header = styled.div`
 `
 
 export const Panel = styled(RowSBDiv)`
-  width: 70%;
+  width: 100%;
   margin-bottom: 4.5rem;
   margin-top: 5rem;
 `

@@ -18,4 +18,6 @@ export const TagWrapper = styled.div`
   display: flex;
 `
 
-export const QuestionMain = styled(Text)``
+export const QuestionMain = styled(Text)`
+  white-space: pre-line;
+`
