@@ -125,4 +125,6 @@ config
 # DS_Store
 *.DS_Store
 
+*data
+
 *awsconfig.json
