@@ -1,24 +1,28 @@
 import express from "express";
 import { s3Util } from "../aws/s3_utils";
-import { authJwt } from "../middlewares/auth_jwt";
+import { authJwt } from "../middlewares/auth.middleware";
 import { QuestionController } from "../controllers/question"
 import { AnswerController } from "../controllers/answer";
 import { CommentController } from "../controllers/comment";
 import { LikeController } from "../controllers/like";
+import { Question } from "../controllers/dto/question"
+import { Answer } from "../controllers/dto/answer"
+import { Comment } from "../controllers/dto/comment"
+import { validationMiddleware } from "../middlewares/validation.middleware"
 
 export const postRouter = express.Router();
 
 postRouter.delete('/answer', authJwt, s3Util.s3DeletePhoto, AnswerController.deleteAnswer)
-postRouter.post('/answer', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), AnswerController.uploadAnswer)
-postRouter.patch('/answer', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), AnswerController.updateAnswer)
+postRouter.post('/answer', authJwt, validationMiddleware(Answer, true), s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), AnswerController.uploadAnswer)
+postRouter.patch('/answer', authJwt, validationMiddleware(Answer), s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), AnswerController.updateAnswer)
 
 postRouter.delete('/question', authJwt, s3Util.s3DeletePhoto, QuestionController.deleteQuestion)
-postRouter.post('/question', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), QuestionController.uploadQuestion)
-postRouter.patch('/question', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), QuestionController.updateQuestion)
+postRouter.post('/question', authJwt, validationMiddleware(Question, true), s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), QuestionController.uploadQuestion)
+postRouter.patch('/question', authJwt, validationMiddleware(Question), s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), QuestionController.updateQuestion)
 
 postRouter.delete('/comment', authJwt, CommentController.deleteComment)
-postRouter.post('/comment', authJwt, CommentController.uploadComment)
-postRouter.patch('/comment', authJwt, CommentController.updateComment)
+postRouter.post('/comment', authJwt, validationMiddleware(Comment, true), CommentController.uploadComment)
+postRouter.patch('/comment', authJwt, validationMiddleware(Comment), CommentController.updateComment)
 
 postRouter.post('/answer/like', authJwt, LikeController.createAnswerLike)
 postRouter.delete('/answer/like', authJwt, LikeController.deleteAnswerLike)

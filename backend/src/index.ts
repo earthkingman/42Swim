@@ -25,12 +25,11 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-app.use(errorMiddleware);
 app.use("/auth", authRouter);
 app.use("/posts", postRouter);
 app.use("/users", userRouter);
 app.use("/pages", pageRouter);
-
+app.use(errorMiddleware);
 
 
 app.listen(5000, async () => {

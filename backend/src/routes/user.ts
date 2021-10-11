@@ -1,5 +1,5 @@
 import express from "express";
-import { authJwt } from "../middlewares/auth_jwt";
+import { authJwt } from "../middlewares/auth.middleware";
 import { UserController } from "../controllers/user"
 import { s3Util } from "../aws/s3_utils";
 
