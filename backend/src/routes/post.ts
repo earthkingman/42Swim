@@ -13,12 +13,12 @@ import { validationMiddleware } from "../middlewares/validation.middleware"
 export const postRouter = express.Router();
 
 postRouter.delete('/answer', authJwt, s3Util.s3DeletePhoto, AnswerController.deleteAnswer)
-postRouter.post('/answer', authJwt, validationMiddleware(Answer, true), s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), AnswerController.uploadAnswer)
-postRouter.patch('/answer', authJwt, validationMiddleware(Answer), s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), AnswerController.updateAnswer)
+postRouter.post('/answer', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), validationMiddleware(Answer, true), AnswerController.uploadAnswer)
+postRouter.patch('/answer', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), validationMiddleware(Answer), AnswerController.updateAnswer)
 
 postRouter.delete('/question', authJwt, s3Util.s3DeletePhoto, QuestionController.deleteQuestion)
-postRouter.post('/question', authJwt, validationMiddleware(Question, true), s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), QuestionController.uploadQuestion)
-postRouter.patch('/question', authJwt, validationMiddleware(Question), s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), QuestionController.updateQuestion)
+postRouter.post('/question', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), validationMiddleware(Question, true), QuestionController.uploadQuestion)
+postRouter.patch('/question', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), validationMiddleware(Question), QuestionController.updateQuestion)
 
 postRouter.delete('/comment', authJwt, CommentController.deleteComment)
 postRouter.post('/comment', authJwt, validationMiddleware(Comment, true), CommentController.uploadComment)
