@@ -59,7 +59,7 @@ const uploadQuestion = async (req: DecodedRequest, res: Response) => {
     const questionService: QuestionService = new QuestionService();
 
     for (let i = 0; i < size; i++)
-        files.push(req.files[i].key);
+        files.push(process.env.S3 + req.files[i].key);
     try {
         await questionService.post({ email, title, text, userId, photos: files, hashTag });
         return res.status(200).json({

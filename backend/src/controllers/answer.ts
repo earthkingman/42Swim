@@ -56,7 +56,7 @@ const uploadAnswer = async (req: DecodedRequest, res: Response) => {
 	const answerService: AnswerService = new AnswerService();
 
 	for (let i = 0; i < size; i++)
-		files.push(req.files[i].key);
+		files.push(process.env.S3 + req.files[i].key);
 	try {
 		await answerService.post({ email, text, userId, questionId, photos: files });
 		return res.status(200).json({
