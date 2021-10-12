@@ -6,6 +6,10 @@ import Modal, { Props } from "../../molecules/Modal";
 import { ModalContent, ModalGroup } from "../../molecules/Modal/style";
 
 const LoginPage = ({ onClose, ...props }: Props) => {
+  const on42Login = () => {
+    console.log("on42Login");
+    return;
+  };
   return (
     <Modal
       onClose={() => onClose(false)}
@@ -18,7 +22,7 @@ const LoginPage = ({ onClose, ...props }: Props) => {
           <Input placeholder="이메일을 입력하세요" />
           <Input type="password" placeholder="비밀번호를 입력하세요" />
           <Button size="lg">로그인</Button>
-          <A fontColor="yellow" underline={true}>
+          <A onClick={on42Login} fontColor="yellow" underline={true}>
             42seoul 계정으로 로그인
           </A>
         </ModalGroup>
