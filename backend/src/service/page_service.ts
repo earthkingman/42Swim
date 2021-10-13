@@ -14,6 +14,7 @@ export class PageService {
 
 	async setQuestionViewCount(questionId) {
 		const questionInfo = await this.questionRepository.findOne({ where: { id: questionId } })
+		console.log(questionInfo.view_count);
 		questionInfo.view_count = questionInfo.view_count + 1;
 		await this.questionRepository.save(questionInfo);
 	}
@@ -27,6 +28,7 @@ export class PageService {
 			.leftJoinAndSelect('question.user', 'user')
 			.leftJoinAndSelect('question.hashtag', 'hashtag')
 			.leftJoinAndSelect('question.comment', 'comment')
+			.leftJoinAndSelect('question.photo', 'photo')
 			.disableEscaping()
 			.getMany();
 		const answerInfo = await this.queryRunner.manager
@@ -35,6 +37,7 @@ export class PageService {
 			.where('answer.questionId = :questionId', { questionId })
 			.leftJoinAndSelect('answer.user', 'user')
 			.leftJoinAndSelect('answer.comment', 'comment')
+			.leftJoinAndSelect('answer.photo', 'photo')
 			.disableEscaping()
 			.getMany();
 		return {
@@ -47,8 +50,8 @@ export class PageService {
 		const questionList = await this.queryRunner.manager
 			.getRepository(Question)
 			.createQueryBuilder('question')
-			.innerJoinAndSelect('question.user', 'user')
-			.innerJoinAndSelect('question.hashtag', 'hashtag')
+			.leftJoinAndSelect('question.user', 'user')
+			.leftJoinAndSelect('question.hashtag', 'hashtag')
 			.orderBy('question.id', 'DESC')
 			.limit(pageInfo.limit)
 			.offset(pageInfo.offset)
