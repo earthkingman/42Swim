@@ -22,7 +22,6 @@ export class QuestionService {
 
 	async post(uploadQuestionInfo) {
 		const { email, title, text, photos, userId, hashTag } = uploadQuestionInfo;
-
 		const user = await this.userRepository
 			.findOne({ where: { id: userId } });
 		if (user === undefined) {

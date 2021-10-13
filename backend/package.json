@@ -28,6 +28,8 @@
       "@types/multer": "^1.4.7",
       "@types/redis": "^2.8.32",
       "bcrypt": "^5.0.1",
+      "class-transformer": "^0.4.0",
+      "class-validator": "^0.13.1",
       "cookie-parser": "^1.4.5",
       "cors": "^2.8.5",
       "express": "^4.17.1",
@@ -44,8 +46,8 @@
       "build": "nodemon --watch '*.ts' --exec 'ts-node' src/index.ts",
       "lint": "eslint src/**/*.ts",
       "lint:fix": "eslint --fix src/**/*.ts",
-       "db": "cd db && docker-compose up",
-       "dbclear": "rm -rf db/srcs/data",
-       "dbreset": "npm run dbclear && npm run db"
+      "db": "cd db && docker-compose up",
+      "dbclear": "rm -rf db/srcs/data",
+      "dbreset": "npm run dbclear && npm run db"
    }
 }
