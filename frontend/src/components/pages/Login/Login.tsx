@@ -6,10 +6,21 @@ import Modal, { Props } from "../../molecules/Modal";
 import { ModalContent, ModalGroup } from "../../molecules/Modal/style";
 
 const LoginPage = ({ onClose, ...props }: Props) => {
+  //   const location = useLocation().search;
+  //   const code = new URLSearchParams(location).get("code");
+
   const on42Login = () => {
     console.log("on42Login");
-    return;
+    window.location.href = "http://localhost:5000/auth/42login";
+    // const { data: Data } = await axios.get(
+    //   `http://localhost:5000/auth/42login?code=${code}`
+    // );
+    // const {
+    //   token: { accessToken, refreshToken },
+    // } = Data;
+    // console.log(Data);
   };
+
   return (
     <Modal
       onClose={() => onClose(false)}
@@ -26,7 +37,9 @@ const LoginPage = ({ onClose, ...props }: Props) => {
             42seoul 계정으로 로그인
           </A>
         </ModalGroup>
-        <A fontColor="black">아직 회원이 아니신가요?</A>
+        <A to="/register" fontColor="black">
+          아직 회원이 아니신가요?
+        </A>
       </ModalContent>
     </Modal>
   );

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DetailPage from "./components/pages/Detail/Detail";
 import LoginPage from "./components/pages/Login/Login";
 import MainPage from "./components/pages/Main/Main";
+import RegisterPage from "./components/pages/Register/Register";
 import GlobalThemeProvider from "./style/GlobalThemeProvider";
 
 const App: React.FC = () => {
@@ -18,6 +19,11 @@ const App: React.FC = () => {
             path="/login"
             exact
             render={(props: any) => <LoginPage visible={true} {...props} />}
+          />
+          <Route
+            path="/register"
+            exact
+            render={(props: any) => <RegisterPage visible={true} {...props} />}
           />
           <Route
             path="/detail"

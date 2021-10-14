@@ -11,10 +11,12 @@ import QuestionList from "../../organisms/QuestionList";
 import LoginPage from "../Login/Login";
 import MainTemplate from "./template";
 import Crown from "../../asset/icons/Crown";
+import RegisterPage from "../Register/Register";
 
 const MainPage = ({ isLogin = false }: any) => {
   //   const [user, setUser] = useState()
-  const [isModal, setIsModal] = useState(false);
+  const [isLoginModal, setIsLoginModal] = useState(false);
+  const [isRegistModal, setIsRegistModal] = useState(false);
   const data = [
     {
       title: "글 제목 글 제목1",
@@ -113,11 +115,12 @@ const MainPage = ({ isLogin = false }: any) => {
   };
   return (
     <>
-      <LoginPage visible={isModal} onClose={setIsModal} />
+      <LoginPage visible={isLoginModal} onClose={setIsLoginModal} />
+      <RegisterPage visible={isRegistModal} onClose={setIsRegistModal} />
       <MainTemplate
         header={
           <Header
-            onLoginClick={setIsModal}
+            onLoginClick={setIsLoginModal}
             isLogin={isLogin}
             nickname="닉네임"
           />
