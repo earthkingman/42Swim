@@ -37,7 +37,10 @@ export interface InputProps extends SInputProps {
   className?: string;
   value?: string;
   type?: string;
+  name?: string;
   onFocus?: any;
+  onKeyUp?: any;
+  onChange?: any;
   onBlur?: any;
 }
 

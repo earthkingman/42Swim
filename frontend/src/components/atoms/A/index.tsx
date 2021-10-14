@@ -3,18 +3,18 @@ import styled, { css } from "styled-components";
 import globalTheme from "../../../style/theme";
 
 interface SA {
-  fontColor?: keyof typeof globalTheme.color.a;
+  fontcolor?: keyof typeof globalTheme.color.a;
   underline?: boolean;
 }
 
 const AStyles = css<SA>`
-  ${({ theme, fontColor }) =>
-    fontColor &&
+  ${({ theme, fontcolor }) =>
+    fontcolor &&
     css`
-      color: ${theme.color.a[fontColor]};
+      color: ${theme.color.a[fontcolor]};
     `}
   ${({ underline }) =>
-    underline === true &&
+    underline &&
     css`
       text-decoration: underline;
     `}

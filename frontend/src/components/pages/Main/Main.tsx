@@ -115,7 +115,11 @@ const MainPage = ({ isLogin = false }: any) => {
   };
   return (
     <>
-      <LoginPage visible={isLoginModal} onClose={setIsLoginModal} />
+      <LoginPage
+        onRegist={setIsRegistModal}
+        visible={isLoginModal}
+        onClose={setIsLoginModal}
+      />
       <RegisterPage visible={isRegistModal} onClose={setIsRegistModal} />
       <MainTemplate
         header={
@@ -127,7 +131,11 @@ const MainPage = ({ isLogin = false }: any) => {
         }
         panel={
           <>
-            <SearchInput search={search} onSearch={onSearch} />
+            <SearchInput
+              onChange={() => console.log("search")}
+              search={search}
+              onSearch={onSearch}
+            />
             <Button size="sm">
               질문하기 <PlusIcon />
             </Button>

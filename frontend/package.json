@@ -62,5 +62,6 @@
       "prettier --write"
     ]
   },
+  "proxy": "http://localhost:5000",
   "license": "MIT"
 }
