@@ -62,6 +62,7 @@ const Register = ({ onClose, ...props }: Props) => {
       onClose(false);
     }
   };
+
   return (
     <Modal
       title="회원가입"
