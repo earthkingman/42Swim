@@ -1,7 +1,7 @@
 import CheckImg from "../../asset/icons/CheckImg";
 import Text from "../../atoms/Text";
-import ThumbDownBtn from "../../atoms/thumbDownBtn";
-import ThumbUpBtn from "../../atoms/thumbUpBtn";
+import ThumbDownBtn from "../../atoms/ThumbDownBtn";
+import ThumbUpBtn from "../../atoms/ThumbUpBtn";
 import { ThumbCountIconWrapper, ThumbCountWrapper } from "./style";
 
 type upOrDownType = "up" | "down";

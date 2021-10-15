@@ -4,10 +4,11 @@ import { SButton, SearchBox, SInput } from "./style";
 
 export interface Props {
   onSearch: any;
+  onChange: any;
   search: string;
 }
 
-const SearchInput = ({ onSearch, search, ...props }: Props) => {
+const SearchInput = ({ onChange, onSearch, search, ...props }: Props) => {
   const [focus, setFocus] = useState(false);
   const activeStyle = {
     border: "1px solid #FFB84D",
@@ -20,6 +21,7 @@ const SearchInput = ({ onSearch, search, ...props }: Props) => {
           placeholder="검색할 내용을 입력하세요"
           value={search}
           border={false}
+          onChange={onChange}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
         />
