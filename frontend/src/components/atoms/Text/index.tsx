@@ -43,6 +43,8 @@ export const StyledText = styled.p<STextProps>`
 export interface TextProps extends STextProps {
   children: any;
   className?: string;
+  id?: string;
+  style?: any;
 }
 
 const Text = ({ children, ...props }: TextProps) => {
