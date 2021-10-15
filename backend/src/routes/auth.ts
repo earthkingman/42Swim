@@ -1,5 +1,5 @@
 import express from "express";
-import passport from "passport";
+import passport, { transformAuthInfo } from "passport";
 
 import { AuthController } from "../controllers/auth";
 import { s3Util } from "../aws/s3_utils";
@@ -13,3 +13,5 @@ authRouter.post("/signup", s3Util.s3ImageUpload({ folder: 'author' }).single("im
 authRouter.get("/42login", passport.authenticate("42", { session: false }));
 
 authRouter.get("/authResult", AuthController.FourtyTowLogin);
+
+authRouter.get('/logout', AuthController.logout);
