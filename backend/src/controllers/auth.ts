@@ -27,6 +27,14 @@ const login = (req: Request, res: Response, next: NextFunction) => {
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
 
+const logout = (req: Request, res: Response, next: NextFunction) => {
+  res.clearCookie('authorization')
+  return res.status(200).json({
+    message: "logout",
+    token: req.cookies.authorization
+  });
+}
+
 const signup = async (req: any, res: Response) => {
   const { nickname, email, password } = req.body;
   const photo = req.file ? req.file.key : "null";
@@ -62,8 +70,9 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate("42", (authError, userId, info) => {
     if (authError || !userId) {
       console.log(authError);
-      res.status(400).json({ message: info });
+      return res.status(400).json({ message: info });
     }
+    console.log(userId);
     const accessToken = jwtUtil.accessSign(userId.id);
     const refreshToken = jwtUtil.refreshSign();
     redisClient.set(userId.id, refreshToken);
@@ -77,4 +86,4 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
 
-export const AuthController = { login, signup, FourtyTowLogin }
+export const AuthController = { login, signup, FourtyTowLogin, logout }
