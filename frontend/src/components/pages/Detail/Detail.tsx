@@ -15,9 +15,7 @@ const DetailPage = ({ isLogin, nickname, ...props }: any) => {
 그냥 a.pop()만 실행 했을 때에는 결과값이 출력 되는데 위에 코드에서는 print안으로 넣어야만 출력값이 나옵니다.`,
       nickname: "yejeong",
       createAt: "22.22.22",
-    },
-    thumb: {
-      count: "121",
+      likecount: 122,
     },
   };
   const answerData = [
@@ -30,8 +28,8 @@ const DetailPage = ({ isLogin, nickname, ...props }: any) => {
         저렇게 이렇게 고고`,
       },
       thumb: {
-        count: "-13",
-        isChecked: true,
+        likeCount: "-13",
+        isSloved: true,
         upOrDown: "up",
       },
       comments: [
@@ -55,7 +53,6 @@ const DetailPage = ({ isLogin, nickname, ...props }: any) => {
       },
     },
   ];
-
   const answerArr = answerData?.map((item) => {
     return <AnswerCard {...item} key={item.id}></AnswerCard>;
   });
@@ -65,7 +62,12 @@ const DetailPage = ({ isLogin, nickname, ...props }: any) => {
       header={<Header isLogin={isLogin} nickname={nickname} />}
       content={
         <DetailTemplat
-          question={<QuestionCard {...questionData} />}
+          question={
+            <QuestionCard
+              {...questionData}
+              likeCount={questionData.question.likecount}
+            />
+          }
           answer={answerArr}
         />
       }

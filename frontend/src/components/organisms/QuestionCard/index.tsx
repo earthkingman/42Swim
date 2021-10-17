@@ -5,16 +5,17 @@ import Question, { QuestionProps } from "../../molecules/Question";
 import ThumbCount, { ThumbProps } from "../../molecules/ThumbCount";
 import { QuestionCardWrapper } from "./sytle";
 
-export interface QuestionCardProps {
+export interface QuestionCardProps extends ThumbProps {
   comments?: Array<CommentProps>;
   question: QuestionProps;
-  thumb: ThumbProps;
 }
 
 const QuestionCard = ({
   comments,
-  thumb,
   question,
+  isSolved,
+  likeCount,
+  upOrDown,
   ...props
 }: QuestionCardProps) => {
   const commentsComponents = comments?.map((item) => (
@@ -22,7 +23,11 @@ const QuestionCard = ({
   ));
   return (
     <QuestionCardWrapper {...props}>
-      <ThumbCount {...thumb} />
+      <ThumbCount
+        isSolved={isSolved}
+        likeCount={likeCount}
+        upOrDown={upOrDown}
+      />
       <PostBox>
         <Question {...question} />
         {commentsComponents}

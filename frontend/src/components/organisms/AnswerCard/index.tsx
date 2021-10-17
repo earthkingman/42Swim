@@ -18,7 +18,7 @@ const AnswerCard = ({ comments, thumb, answer, ...props }: AnswerCardProps) => {
   return (
     <AnswerCardWrapper {...props}>
       <ThumbCount {...thumb} />
-      <PostBox isChecked={thumb.isChecked}>
+      <PostBox isChecked={thumb.isSolved}>
         <Answer {...answer} />
         {commentsComponents}
         <CommentInput />

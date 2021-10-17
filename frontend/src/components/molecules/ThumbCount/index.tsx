@@ -1,33 +1,55 @@
+import { useState } from "react";
 import CheckImg from "../../asset/icons/CheckImg";
 import Text from "../../atoms/Text";
 import ThumbDownBtn from "../../atoms/ThumbDownBtn";
 import ThumbUpBtn from "../../atoms/ThumbUpBtn";
 import { ThumbCountIconWrapper, ThumbCountWrapper } from "./style";
 
-type upOrDownType = "up" | "down";
-
+type upOrDownType = "up" | "down" | null;
 export interface ThumbProps {
-  count: string;
+  likeCount: number;
   upOrDown?: upOrDownType;
-  onUpClick?: any;
-  onDownClick?: any;
-  isChecked?: boolean;
+  isSolved?: boolean;
 }
 
 const ThumbCount = ({
-  count,
-  onUpClick,
-  onDownClick,
+  likeCount,
   upOrDown,
-  isChecked,
+  isSolved,
   ...props
 }: ThumbProps) => {
+  const [isLike, setIsLike] = useState(upOrDown);
+  const [count, setCount] = useState(likeCount);
+  //todo: set like api
+  const onUpClick = () => {
+    if (!isLike) {
+      setCount(count + 1);
+      setIsLike("up");
+    } else if (isLike === "up") {
+      setCount(count - 1);
+      setIsLike(null);
+    } else {
+      alert("중복된 선택입니다.");
+    }
+    console.log("up");
+  };
+  const onDownClick = () => {
+    if (!isLike) {
+      setCount(count - 1);
+      setIsLike("down");
+    } else if (isLike === "down") {
+      setCount(count + 1);
+      setIsLike(null);
+    } else {
+      alert("중복된 선택입니다.");
+    }
+  };
   return (
     <ThumbCountWrapper {...props}>
       <ThumbCountIconWrapper>
         <ThumbUpBtn
           onClick={onUpClick}
-          active={upOrDown == "up" ? true : false}
+          active={isLike == "up" ? true : false}
         />
         <Text
           style={{ whiteSpace: "nowrap" }}
@@ -39,10 +61,10 @@ const ThumbCount = ({
         </Text>
         <ThumbDownBtn
           onClick={onDownClick}
-          active={upOrDown == "down" ? true : false}
+          active={isLike == "down" ? true : false}
         />
       </ThumbCountIconWrapper>
-      {isChecked && <CheckImg></CheckImg>}
+      {isSolved && <CheckImg></CheckImg>}
     </ThumbCountWrapper>
   );
 };
