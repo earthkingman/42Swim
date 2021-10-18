@@ -7,7 +7,7 @@ import { DecodedRequest } from '../definition/decoded_jwt'
 import { PageService } from '../service/page_service';
 
 const getQuestionListPage = async (req: any, res: Response, next: NextFunction) => {
-	const pageNumber = Number(req.query.pageNumber);
+	const pageNumber = Number(req.query.pageNumber) - 1;
 	const limit = 10;
 	const offset = pageNumber * limit;
 	const pageInfo = { limit, offset };
