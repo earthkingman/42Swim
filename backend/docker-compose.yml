@@ -1,6 +1,11 @@
 version: "3"
 
 services:
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - 6379:6379
   db:
     image: mariadb:10
     ports:

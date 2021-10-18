@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 const corsOptions = {
-  origin: process.env.CORSORIGIN,
+  origin: "*",
   credentials: true,
 };
 app.use(cors(corsOptions));
