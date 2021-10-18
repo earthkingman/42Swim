@@ -647,6 +647,19 @@ paths:
             format: int64
           example: 1
           required: true
+        - name: answerUserId
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+        - name: isLike
+          in: query
+          schema:
+            type: boolean
+          example: true
+          required: true
       responses:
         "200":
           description: OK
@@ -696,6 +709,19 @@ paths:
             type: integer
             format: int64
           example: 1
+          required: true
+        - name: questionUserId
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+        - name: isLike
+          in: query
+          schema:
+            type: boolean
+          example: true
           required: true
       responses:
         "200":

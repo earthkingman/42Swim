@@ -56,9 +56,11 @@ export class PageService {
 			.limit(pageInfo.limit)
 			.offset(pageInfo.offset)
 			.disableEscaping()
-			.getMany();
-		console.log(questionList);
-		return questionList;
+			.getMany()
+		const questionCount = await this.queryRunner.manager
+			.getRepository(Question)
+			.count();
+		return { questionList, questionCount };
 	}
 
 }
