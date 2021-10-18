@@ -29,7 +29,7 @@ const getQuestionListPage = async (req: any, res: Response, next: NextFunction) 
 }
 
 const getQuestionDetailPage = async (req: DecodedRequest, res: Response, next: NextFunction) => {
-	const { questionId } = req.query;
+	const questionId = Number(req.query.questionId);
 	const pageService: PageService = new PageService();
 
 	try {
