@@ -67,6 +67,7 @@ export class LikeService {
 		} finally {
 			await this.queryRunner.release();
 		}
+		return answer.like_count;
 	}
 
 	async createQuestionLike(likeInfo) {
@@ -114,6 +115,7 @@ export class LikeService {
 		} finally {
 			await this.queryRunner.release();
 		}
+		return question.like_count;
 	}
 
 	async deleteAnswerLike(likeInfo) {
@@ -160,6 +162,7 @@ export class LikeService {
 		} finally {
 			await this.queryRunner.release();
 		}
+		return answer.like_count;
 	}
 
 	async deleteQuestionLike(likeInfo) {
@@ -205,5 +208,6 @@ export class LikeService {
 		} finally {
 			await this.queryRunner.release();
 		}
+		return question.like_count;
 	}
 }
