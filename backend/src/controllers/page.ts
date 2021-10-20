@@ -33,9 +33,10 @@ const getQuestionDetailPage = async (req: DecodedRequest, res: Response, next: N
 	const pageService: PageService = new PageService();
 
 	try {
-		const questionDetail = await pageService.getQuestionDetail(questionId);
+		const { questionInfo, answerInfo } = await pageService.getQuestionDetail(questionId);
 		return res.status(200).json({
-			questionDetail: questionDetail,
+			questionInfo: questionInfo,
+			answerInfo: answerInfo
 		})
 	} catch (error) {
 		return res.status(500).json({

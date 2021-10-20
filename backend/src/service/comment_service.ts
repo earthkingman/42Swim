@@ -32,12 +32,26 @@ export class CommentService {
 				.findOne({ where: { id: answerId } });
 			if (answer === undefined) throw new Error("Comment that doesn't exist or you don't have edit right");
 			await this.commentRepository.save({ user, answer, text });
+			const comments = await this.commentRepository
+				.createQueryBuilder('comment')
+				.where('comment.answerId = :answerId', { answerId })
+				.leftJoinAndSelect('comment.user', 'user')
+				.disableEscaping()
+				.getMany();
+			return comments;
 		}
 		else {
 			const question = await this.questionRepository
 				.findOne({ where: { id: questionId } });
 			if (question === undefined) throw new Error("undefined question post");
 			await this.commentRepository.save({ user, question, text });
+			const comments = await this.commentRepository
+				.createQueryBuilder('comment')
+				.where('comment.question = :questionId', { questionId })
+				.leftJoinAndSelect('comment.user', 'user')
+				.disableEscaping()
+				.getMany();
+			return comments;
 		}
 	}
 
@@ -70,6 +84,13 @@ export class CommentService {
 			}
 			comment.text = text;
 			await this.commentRepository.save(comment);
+			const comments = await this.commentRepository
+				.createQueryBuilder('comment')
+				.where('comment.answerId = :answerId', { answerId })
+				.leftJoinAndSelect('comment.user', 'user')
+				.disableEscaping()
+				.getMany();
+			return comments;
 		}
 		else {
 			const comment = await this.commentRepository
@@ -97,6 +118,13 @@ export class CommentService {
 			}
 			comment.text = text;
 			await this.commentRepository.save(comment);
+			const comments = await this.commentRepository
+				.createQueryBuilder('comment')
+				.where('comment.question = :questionId', { questionId })
+				.leftJoinAndSelect('comment.user', 'user')
+				.disableEscaping()
+				.getMany();
+			return comments;
 		}
 	}
 

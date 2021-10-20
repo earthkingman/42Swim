@@ -7,7 +7,9 @@ import { DecodedRequest } from '../definition/decoded_jwt'
 import { CommentService } from '../service/comment_service';
 
 const deleteComment = async (req: DecodedRequest, res: Response) => {
-	const { questionId, answerId, commentId } = req.body;
+	const questionId = Number(req.query.questionId);
+	const answerId = Number(req.query.answerId);
+	const commentId = Number(req.query.commentId);
 	const userId: number = req.decodedId;
 	const commentService: CommentService = new CommentService();
 	try {
@@ -32,9 +34,10 @@ const updateComment = async (req: DecodedRequest, res: Response) => {
 
 
 	try {
-		await commentService.update({ text, questionId, answerId, commentId, userId });
+		const comments = await commentService.update({ text, questionId, answerId, commentId, userId });
 		return res.status(200).json({
 			result: true,
+			comments: comments,
 			message: "Update Success"
 		})
 	} catch (error) {
@@ -52,9 +55,10 @@ const uploadComment = async (req: DecodedRequest, res: Response) => {
 	const commentService: CommentService = new CommentService();
 
 	try {
-		await commentService.post({ userId, questionId, answerId, text });
+		const comments = await commentService.post({ userId, questionId, answerId, text });
 		return res.status(200).json({
 			result: true,
+			comments: comments,
 			message: "Upload Success"
 		})
 	} catch (error) {

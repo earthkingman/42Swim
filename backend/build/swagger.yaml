@@ -1,7 +1,6 @@
 openapi: 3.0.0
 info:
-  description: |
-    This is a 42StackOverflow
+  description: This is a 42StackOverflow
   version: 1.0.0
   title: 42StackOverFlow
   termsOfService: 'http://42Stack-Overflow.net'
@@ -431,6 +430,13 @@ paths:
       tags:
         - answer
       parameters:
+        - name: questionId
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
         - name: answerId
           in: query
           schema:
@@ -469,6 +475,7 @@ paths:
       summary: 댓글을 생성합니다.
       tags:
         - comment
+      description: question comment 작성시 requestBody에 answerId 제외하고 사용
       requestBody:
         content:
           application/json:
@@ -497,6 +504,7 @@ paths:
       summary: 댓글을 업데이트합니다.
       tags:
         - comment
+      description: question comment 작성시 requestBody에 answerId 제외하고 사용
       requestBody:
         content:
           application/json:
@@ -512,10 +520,11 @@ paths:
                   example: 1
                 text:
                   type: string
-                  example: test question comment text
+                  example: test update question comment text
                 answerId:
                   type: integer
                   format: int64
+                  example: 1
               required:
                 - commnetId
                 - text
@@ -531,6 +540,20 @@ paths:
       tags:
         - comment
       parameters:
+        - name: questionId
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+        - name: answerId
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
         - name: commentId
           in: query
           schema:
@@ -858,6 +881,3 @@ paths:
           description: OK
         '404':
           description: User doesn't exist
-externalDocs:
-  description: Find out more about Swagger
-  url: 'http://swagger.io'
