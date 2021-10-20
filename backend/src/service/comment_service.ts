@@ -156,6 +156,13 @@ export class CommentService {
 				}
 			}
 			await this.commentRepository.remove(comment);
+			const comments = await this.commentRepository
+				.createQueryBuilder('comment')
+				.where('comment.answerId = :answerId', { answerId })
+				.leftJoinAndSelect('comment.user', 'user')
+				.disableEscaping()
+				.getMany();
+			return comments;
 		}
 		else {
 			const comment = await this.commentRepository
@@ -182,6 +189,13 @@ export class CommentService {
 				}
 			}
 			await this.commentRepository.remove(comment);
+			const comments = await this.commentRepository
+				.createQueryBuilder('comment')
+				.where('comment.question = :questionId', { questionId })
+				.leftJoinAndSelect('comment.user', 'user')
+				.disableEscaping()
+				.getMany();
+			return comments;
 		}
 	}
 }

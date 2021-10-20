@@ -498,6 +498,7 @@ paths:
                 questionId:
                   type: integer
                   format: int64
+                  example: 1
                 answerId:
                   type: integer
                   format: int64

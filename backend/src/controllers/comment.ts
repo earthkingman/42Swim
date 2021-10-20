@@ -13,9 +13,10 @@ const deleteComment = async (req: DecodedRequest, res: Response) => {
 	const userId: number = req.decodedId;
 	const commentService: CommentService = new CommentService();
 	try {
-		await commentService.delete({ userId, questionId, answerId, commentId });
+		const comments = await commentService.delete({ userId, questionId, answerId, commentId });
 		return res.status(200).json({
 			result: true,
+			comments: comments,
 			message: "Delete Success"
 		})
 	} catch (error) {
