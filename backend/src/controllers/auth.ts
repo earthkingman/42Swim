@@ -10,19 +10,26 @@ import { redisClient } from "../lib/redis";
 import { UserService } from "../service/user_service";
 
 const login = (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate("local", (authError, userId, info) => {
-    if (authError || userId == false) {
+  passport.authenticate("local", (authError, user, info) => {
+    if (authError || user == false) {
       return res.status(400).json({ message: info.message });
     }
-    const accessToken = jwtUtil.accessSign(userId);
+    const userInfo = {
+      id: user.id,
+      email: user.email,
+      photo: user.photo,
+      nickname: user.nickname
+    }
+    const accessToken = jwtUtil.accessSign(user);
     const refreshToken = jwtUtil.refreshSign();
-    redisClient.set(userId.id, refreshToken);
+    redisClient.set(user.id, refreshToken);
     res.cookie("authorization", accessToken, {
       maxAge: 60000 * 30,
       httpOnly: true,
     });
     return res.status(200).json({
       refreshToken: refreshToken,
+      userInfo: userInfo
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
@@ -42,7 +49,7 @@ const signup = async (req: any, res: Response) => {
   const userService: UserService = new UserService();
 
   try {
-    const { exUser } = await userService.createUser({ email, nickname, password: encryptedPassword, photo });
+    const { exUser, newUser } = await userService.createUser({ email, nickname, password: encryptedPassword, photo });
     if (exUser) {
       return res.status(400).json({
         result: false,
@@ -50,8 +57,15 @@ const signup = async (req: any, res: Response) => {
       });
     }
     else {
+      const userInfo = {
+        id: newUser.id,
+        email: newUser.email,
+        photo: newUser.photo,
+        nickname: newUser.nickname
+      }
       res.status(200).json({
         result: true,
+        userInfo: userInfo,
         message: "signup successful",
       });
     }
@@ -67,20 +81,27 @@ const signup = async (req: any, res: Response) => {
 
 const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
   //-> 커스텀 콜백
-  passport.authenticate("42", (authError, userId, info) => {
-    if (authError || !userId) {
+  passport.authenticate("42", (authError, user, info) => {
+    if (authError || !user) {
       console.log(authError);
       return res.status(400).json({ message: info });
     }
-    console.log(userId);
-    const accessToken = jwtUtil.accessSign(userId.id);
+    console.log(user);
+    const userInfo = {
+      id: user.id,
+      email: user.email,
+      photo: user.photo,
+      nickname: user.nickname
+    }
+    const accessToken = jwtUtil.accessSign(user.id);
     const refreshToken = jwtUtil.refreshSign();
-    redisClient.set(userId.id, refreshToken);
+    redisClient.set(user.id, refreshToken);
     res.cookie("authorization", accessToken, {
       maxAge: 300000,
       httpOnly: true,
     });
     res.status(200).json({
+      userInfo: userInfo,
       refreshToken: refreshToken,
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
