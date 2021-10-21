@@ -1,5 +1,6 @@
 import MoreBtn from "../../atoms/MoreBtn";
 import Text from "../../atoms/Text";
+import { ProfileProps } from "../Profile";
 import {
   CommentHeaderWrapper,
   CommentTextWrapper,
@@ -8,27 +9,26 @@ import {
 
 export interface CommentProps {
   id: number;
-  nickname: string;
-  createAt: string;
+  user: ProfileProps;
+  create_at: string;
   text: string;
-  onClick?: any;
 }
 
-const Comment = ({ nickname, createAt, text, onClick, id }: CommentProps) => (
+const Comment = ({ create_at, text, id }: CommentProps) => (
   <CommentWrapper key={id}>
     <CommentHeaderWrapper>
       <Text weight="bold" size="18">
-        {nickname}
+        {/*{user.nickname}*/}
       </Text>
       <Text size="14" color="lightgray">
-        {createAt}
+        {create_at}
       </Text>
     </CommentHeaderWrapper>
     <CommentTextWrapper>
       <Text size="18" color="lightgray">
         {text}
       </Text>
-      <MoreBtn onClick={onClick} />
+      <MoreBtn />
     </CommentTextWrapper>
   </CommentWrapper>
 );

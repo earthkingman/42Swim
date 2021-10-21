@@ -1,6 +1,6 @@
 import Text from "../../atoms/Text";
 import Title from "../../atoms/Title";
-import Profile from "../Profile";
+import Profile, { ProfileProps } from "../Profile";
 import Tag from "../../atoms/Tag";
 
 import {
@@ -15,23 +15,21 @@ interface tagType {
 }
 
 export interface QuestionProps {
+  user: ProfileProps;
   title: string;
-  nickname: string;
-  img?: string;
-  createAt: string;
-  tags?: Array<tagType>;
-  main: string;
+  created_at: string;
+  hashtag?: Array<tagType>;
+  text: string;
 }
 
 const Question = ({
-  createAt,
-  img,
+  user,
+  created_at,
   title,
-  nickname,
-  tags,
-  main,
+  hashtag,
+  text,
 }: QuestionProps) => {
-  const tagComponent = tags?.map((tag) => (
+  const tagComponent = hashtag?.map((tag) => (
     <Tag key={tag.name} name={tag.name} />
   ));
   return (
@@ -39,15 +37,15 @@ const Question = ({
       <QuestionTitleWrapper>
         <Title size="h1">{title}</Title>
         <Text size="14" color="lightgray">
-          {createAt}
+          {created_at}
         </Text>
       </QuestionTitleWrapper>
       <QuestionTitleWrapper>
-        <Profile nickname={nickname} size="sm" img={img} />
+        <Profile {...user} size="sm" />
         <TagWrapper>{tagComponent}</TagWrapper>
       </QuestionTitleWrapper>
       <QuestionMain size="18" color="black">
-        {main}
+        {text}
       </QuestionMain>
     </QuestionWrapper>
   );

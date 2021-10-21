@@ -5,21 +5,31 @@ import CommentInput from "../../molecules/InputComment";
 import ThumbCount, { ThumbProps } from "../../molecules/ThumbCount";
 import { AnswerCardWrapper } from "./sytle";
 
-export interface AnswerCardProps {
-  answer: AnswerProps;
-  comments?: Array<CommentProps>;
-  thumb: ThumbProps;
+export interface AnswerCardProps extends ThumbProps, AnswerProps {
+  comment?: Array<CommentProps>;
 }
 
-const AnswerCard = ({ comments, thumb, answer, ...props }: AnswerCardProps) => {
-  const commentsComponents = comments?.map((item) => (
-    <Comment key={item.id} {...item}></Comment>
-  ));
+const AnswerCard = ({
+  like_count,
+  is_like,
+  is_choosen,
+  comment,
+  ...props
+}: AnswerCardProps) => {
+  const commentsComponents = comment?.map((item) => {
+    console.log(item);
+    return <Comment key={item.id} {...item}></Comment>;
+  });
+
   return (
     <AnswerCardWrapper {...props}>
-      <ThumbCount {...thumb} />
-      <PostBox isChecked={thumb.isSolved}>
-        <Answer {...answer} />
+      <ThumbCount
+        is_choosen={is_choosen}
+        like_count={like_count}
+        is_like={is_like}
+      />
+      <PostBox isChecked={is_choosen}>
+        <Answer {...props} />
         {commentsComponents}
         <CommentInput />
       </PostBox>
