@@ -30,7 +30,7 @@ export class PageService {
 			.leftJoinAndSelect('question.comment', 'comment')
 			.leftJoinAndSelect('question.photo', 'photo')
 			.disableEscaping()
-			.getMany();
+			.getOne();
 		const answerInfo = await this.queryRunner.manager
 			.getRepository(Answer)
 			.createQueryBuilder('answer')
