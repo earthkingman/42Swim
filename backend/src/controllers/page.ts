@@ -8,7 +8,7 @@ import { PageService } from '../service/page_service';
 
 const getQuestionListPage = async (req: any, res: Response, next: NextFunction) => {
 	const pageNumber = Number(req.query.pageNumber) - 1;
-	const limit = 10;
+	const limit = 8;
 	const offset = pageNumber * limit;
 	const pageInfo = { limit, offset };
 	const pageService: PageService = new PageService();
@@ -33,10 +33,9 @@ const getQuestionDetailPage = async (req: DecodedRequest, res: Response, next: N
 	const pageService: PageService = new PageService();
 
 	try {
-		const { questionInfo, answerInfo } = await pageService.getQuestionDetail(questionId);
+		const questionInfo = await pageService.getQuestionDetail(questionId);
 		return res.status(200).json({
-			questionInfo: questionInfo,
-			answerInfo: answerInfo
+			questionInfo: questionInfo
 		})
 	} catch (error) {
 		return res.status(500).json({

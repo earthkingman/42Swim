@@ -20,6 +20,34 @@ export class CommentService {
 		this.commentRepository = this.queryRunner.manager.getRepository(Comment);
 	}
 
+	async getAnswerComments(answerId) {
+		const comments = await this.commentRepository
+			.createQueryBuilder('comment')
+			.where('comment.answerId = :answerId', { answerId })
+			.leftJoinAndSelect('comment.user', 'user')
+			.select([
+				'comment.id', 'comment.created_at', 'comment.text',
+				'user.id', 'user.created_at', 'user.email', 'user.nickname', 'user.photo',
+			])
+			.disableEscaping()
+			.getMany();
+		return comments;
+	}
+
+	async getQuestionComments(questionId) {
+		const comments = await this.commentRepository
+			.createQueryBuilder('comment')
+			.where('comment.question = :questionId', { questionId })
+			.leftJoinAndSelect('comment.user', 'user')
+			.select([
+				'comment.id', 'comment.created_at', 'comment.text',
+				'user.id', 'user.created_at', 'user.email', 'user.nickname', 'user.photo',
+			])
+			.disableEscaping()
+			.getMany();
+		return comments;
+	}
+
 	async post(uploadCommentInfo) {
 		const { userId, questionId, answerId, text } = uploadCommentInfo;
 
@@ -32,12 +60,7 @@ export class CommentService {
 				.findOne({ where: { id: answerId } });
 			if (answer === undefined) throw new Error("Comment that doesn't exist or you don't have edit right");
 			await this.commentRepository.save({ user, answer, text });
-			const comments = await this.commentRepository
-				.createQueryBuilder('comment')
-				.where('comment.answerId = :answerId', { answerId })
-				.leftJoinAndSelect('comment.user', 'user')
-				.disableEscaping()
-				.getMany();
+			const comments = await this.getAnswerComments(answerId);
 			return comments;
 		}
 		else {
@@ -45,12 +68,7 @@ export class CommentService {
 				.findOne({ where: { id: questionId } });
 			if (question === undefined) throw new Error("undefined question post");
 			await this.commentRepository.save({ user, question, text });
-			const comments = await this.commentRepository
-				.createQueryBuilder('comment')
-				.where('comment.question = :questionId', { questionId })
-				.leftJoinAndSelect('comment.user', 'user')
-				.disableEscaping()
-				.getMany();
+			const comments = await this.getQuestionComments(questionId);
 			return comments;
 		}
 	}
@@ -84,12 +102,7 @@ export class CommentService {
 			}
 			comment.text = text;
 			await this.commentRepository.save(comment);
-			const comments = await this.commentRepository
-				.createQueryBuilder('comment')
-				.where('comment.answerId = :answerId', { answerId })
-				.leftJoinAndSelect('comment.user', 'user')
-				.disableEscaping()
-				.getMany();
+			const comments = await this.getAnswerComments(answerId);
 			return comments;
 		}
 		else {
@@ -118,12 +131,7 @@ export class CommentService {
 			}
 			comment.text = text;
 			await this.commentRepository.save(comment);
-			const comments = await this.commentRepository
-				.createQueryBuilder('comment')
-				.where('comment.question = :questionId', { questionId })
-				.leftJoinAndSelect('comment.user', 'user')
-				.disableEscaping()
-				.getMany();
+			const comments = await this.getQuestionComments(questionId);
 			return comments;
 		}
 	}
@@ -156,12 +164,7 @@ export class CommentService {
 				}
 			}
 			await this.commentRepository.remove(comment);
-			const comments = await this.commentRepository
-				.createQueryBuilder('comment')
-				.where('comment.answerId = :answerId', { answerId })
-				.leftJoinAndSelect('comment.user', 'user')
-				.disableEscaping()
-				.getMany();
+			const comments = await this.getAnswerComments(answerId);
 			return comments;
 		}
 		else {
@@ -189,12 +192,7 @@ export class CommentService {
 				}
 			}
 			await this.commentRepository.remove(comment);
-			const comments = await this.commentRepository
-				.createQueryBuilder('comment')
-				.where('comment.question = :questionId', { questionId })
-				.leftJoinAndSelect('comment.user', 'user')
-				.disableEscaping()
-				.getMany();
+			const comments = await this.getQuestionComments(questionId);
 			return comments;
 		}
 	}

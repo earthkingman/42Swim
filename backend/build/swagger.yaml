@@ -277,7 +277,7 @@ paths:
                 text:
                   type: string
                   example: test question text
-                hashTag:
+                hashtag:
                   type: string
                   example: test#hashtag
               required:
@@ -313,7 +313,7 @@ paths:
                 text:
                   type: string
                   example: update test question text
-                hashTag:
+                hashtag:
                   type: string
                   example: updatetest#hashtag
               required:
@@ -481,12 +481,13 @@ paths:
           application/json:
             schema:
               properties:
-                questionId:
-                  type: integer
-                  format: int64
                 text:
                   type: string
                   example: test question comment text
+                questionId:
+                  type: integer
+                  format: int64
+                  example: 1
                 answerId:
                   type: integer
                   format: int64
@@ -510,6 +511,9 @@ paths:
           application/json:
             schema:
               properties:
+                text:
+                  type: string
+                  example: test update question comment text
                 commentId:
                   type: integer
                   format: int64
@@ -518,9 +522,6 @@ paths:
                   type: integer
                   format: int64
                   example: 1
-                text:
-                  type: string
-                  example: test update question comment text
                 answerId:
                   type: integer
                   format: int64
