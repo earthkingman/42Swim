@@ -21,7 +21,7 @@ export class QuestionService {
 	}
 
 	async post(uploadQuestionInfo) {
-		const { email, title, text, photos, userId, hashTag } = uploadQuestionInfo;
+		const { title, text, photos, userId, hashtag } = uploadQuestionInfo;
 		const user = await this.userRepository
 			.findOne({ where: { id: userId } });
 		if (user === undefined) {
@@ -29,26 +29,30 @@ export class QuestionService {
 		}
 		await this.queryRunner.startTransaction();
 		try {
-			const hashTagObject: HashTag[] = [];
-			const hashTagNameList = hashTag.split('#')
-			for (let i = 0; i < hashTagNameList.length; i++) {
+			const hashtagObject: HashTag[] = [];
+			const hashtagNameList = hashtag.split('#')
+			for (let i = 0; i < hashtagNameList.length; i++) {
 				try {
-					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashTagNameList[i] } });
+					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashtagNameList[i] } });
 					if (exHashTag === undefined) {
 						// const newHashTag = new HashTag();
-						// newHashTag.name = hashTagNameList[i];
-						const newHashTag = await this.hashtagRepository.save({ name: hashTagNameList[i] });
-						hashTagObject.push(newHashTag);
+						// newHashTag.name = hashtagNameList[i];
+						const newHashTag = await this.hashtagRepository.save({ name: hashtagNameList[i] });
+						hashtagObject.push(newHashTag);
 					}
 					else {
-						hashTagObject.push(exHashTag);
+						hashtagObject.push(exHashTag);
 					}
 				} catch (error) {
 					console.log(error);
 				}
 			}
-			const questionInfo = { email, title, text, user, hashTag: hashTagObject };
+			console.log(hashtagObject);
+			// const question = new Question();
+
+			const questionInfo = { title, text, user, hashtag: hashtagObject };
 			const question = await this.questionRepository.save(questionInfo);
+			console.log(question);
 			await Promise.all(photos.map(async (photo) => {
 				await this.photoRepository.save({ photo, question });
 			}));
@@ -63,7 +67,7 @@ export class QuestionService {
 	}
 
 	async update(updateQuestionInfo) {
-		const { title, text, photos, questionId, userId, hashTag } = updateQuestionInfo;
+		const { title, text, photos, questionId, userId, hashtag } = updateQuestionInfo;
 
 		const question = await this.questionRepository
 			.findOne({
@@ -83,25 +87,25 @@ export class QuestionService {
 		await this.queryRunner.startTransaction();
 		try {
 			await this.photoRepository.delete({ question: question });
-			const hashTagObject: HashTag[] = [];
-			if (hashTag != undefined) {
-				const hashTagNameList = hashTag.split('#')
-				for (let i = 0; i < hashTagNameList.length; i++) {
-					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashTagNameList[i] } });
+			const hashtagObject: HashTag[] = [];
+			if (hashtag != undefined) {
+				const hashtagNameList = hashtag.split('#')
+				for (let i = 0; i < hashtagNameList.length; i++) {
+					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashtagNameList[i] } });
 					if (exHashTag === undefined) {
 						// const newHashTag = new HashTag();
-						// newHashTag.name = hashTagNameList[i];
-						const newHashTag = await this.hashtagRepository.save({ name: hashTagNameList[i] });
-						hashTagObject.push(newHashTag);
+						// newHashTag.name = hashtagNameList[i];
+						const newHashTag = await this.hashtagRepository.save({ name: hashtagNameList[i] });
+						hashtagObject.push(newHashTag);
 					}
 					else {
-						hashTagObject.push(exHashTag);
+						hashtagObject.push(exHashTag);
 					}
 				}
 			}
 			question.title = title || question.title;
 			question.text = text || question.text;
-			question.hashtag = hashTagObject || question.hashtag;
+			question.hashtag = hashtagObject || question.hashtag;
 			await this.questionRepository.save(question);
 			await Promise.all(photos.map(async (photo) => {
 				await this.photoRepository.save({ photo, question });

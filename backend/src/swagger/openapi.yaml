@@ -281,7 +281,7 @@ paths:
                 text:
                   type: string
                   example: "test question text"
-                hashTag:
+                hashtag:
                   type: string
                   example: "test#hashtag"
               required:
@@ -318,7 +318,7 @@ paths:
                 text:
                   type: string
                   example: "update test question text"
-                hashTag:
+                hashtag:
                   type: string
                   example: "updatetest#hashtag"
               required:
