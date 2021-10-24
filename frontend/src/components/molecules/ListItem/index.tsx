@@ -6,13 +6,13 @@ import * as S from "./style";
 
 export interface Props {
   title: string;
-  desc: string;
-  check: boolean;
+  text: string;
+  is_solved: boolean;
   answer_cnt: number;
-  like_cnt: number;
-  view_cnt: number;
-  create_time: string;
-  tag: string[];
+  like_count: number;
+  view_count: number;
+  created_at: string;
+  hashtag: string[];
 }
 
 const getTime = (create_time: string) => {
@@ -38,13 +38,13 @@ const getTime = (create_time: string) => {
 
 const ListItem = ({
   title,
-  desc,
-  check,
-  answer_cnt,
-  like_cnt,
-  view_cnt,
-  create_time,
-  tag,
+  text,
+  is_solved,
+  answer_cnt = 1,
+  like_count,
+  view_count,
+  created_at,
+  hashtag,
   ...props
 }: Props) => {
   return (
@@ -52,14 +52,14 @@ const ListItem = ({
       <S.Content>
         <S.Title size="h2">{title}</S.Title>
         <S.Desc size="18" weight="normal" color="lightgray">
-          {desc}
+          {text}
         </S.Desc>
         <S.Bottom>
           <RowSBDiv>
             <S.Time size="14" weight="normal" color="lightgray">
-              {getTime(create_time)}
+              {getTime(created_at)}
             </S.Time>
-            {tag.map((data, idx) => (
+            {hashtag.map((data, idx) => (
               <Tag name={data} key={idx} />
             ))}
           </RowSBDiv>
@@ -71,10 +71,10 @@ const ListItem = ({
         <SortCounter
           name="답변"
           count={answer_cnt}
-          color={check ? "yellow" : "black"}
+          color={is_solved ? "yellow" : "black"}
         />
-        <SortCounter name="추천" count={like_cnt} />
-        <SortCounter name="조회" count={view_cnt} />
+        <SortCounter name="추천" count={like_count} />
+        <SortCounter name="조회" count={view_count} />
       </S.Counter>
     </S.ListBox>
   );
