@@ -14,8 +14,8 @@ import LoginPage from "../Login/Login";
 import MainTemplate from "./template";
 import Crown from "../../asset/icons/Crown";
 import RegisterPage from "../Register/Register";
-import useSWR, { SWRResponse } from "swr";
-import axios from "axios";
+import useSWR from "swr";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { Props as ListProps } from "../../molecules/ListItem";
 
 interface ResponseProps {
@@ -33,10 +33,10 @@ const fetcher = async (url: string) => {
 const MainPage = ({ isLogin = false }: any) => {
   //   const [user, setUser] = useState()
   const [page, setPage] = useState(1);
-  //   const { quesiontList, questionCount, message } = useSWR(
-  //     `http://localhost:5000/pages/list/question?pageNumber=${page}`,
-  //     fetcher
-  //   );
+  const { quesiontList, questionCount, message } = useSWR<
+    AxiosResponse<ResponseProps>,
+    AxiosError<ResponseProps>
+  >(`http://localhost:5000/pages/list/question?pageNumber=${page}`, fetcher);
   const [isLoginModal, setIsLoginModal] = useState(false);
   const [isRegistModal, setIsRegistModal] = useState(false);
   //   const data2 = [
