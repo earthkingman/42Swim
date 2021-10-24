@@ -1,17 +1,25 @@
 import * as S from "./style";
-import ListItem, { Props as ListProps } from "../../molecules/ListItem";
+import ListItem from "../../molecules/ListItem";
 import Pagination from "../../molecules/Pagination";
 import { ColumnSADiv } from "../../atoms/Div";
 import Tab, { TabItem } from "../../molecules/Tab";
+import { useState } from "react";
+import useList from "../../../hooks/useList";
+import Skeleton from "../../atoms/Skeleton";
 
 export interface Props {
-  data: ListProps[];
   menu: number;
   setMenu: (menu: number) => void;
 }
 
-const QuestionList = ({ data, menu, setMenu, ...props }: Props) => {
-  if (!data) return <div>Loading</div>;
+const QuestionList = ({ menu, setMenu, ...props }: Props) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [page, setPage] = useState(1);
+  const { question, isLoading, isError } = useList("normal", page);
+
+  console.log(question);
+
+  if (isError) return <div>Error!!</div>;
   else
     return (
       <S.QLWrapper>
@@ -42,20 +50,26 @@ const QuestionList = ({ data, menu, setMenu, ...props }: Props) => {
           </TabItem>
         </Tab>
         <S.List>
-          {data.map((d, idx) => (
-            <ListItem
-              title={d.title}
-              text={d.text}
-              is_solved={d.is_solved}
-              answer_cnt={d.answer_cnt}
-              like_count={d.like_count}
-              view_count={d.view_count}
-              hashtag={d.hashtag}
-              created_at={d.created_at}
-              key={idx}
-              {...props}
-            />
-          ))}
+          {isLoading
+            ? [...Array(8)].map((d, idx) => (
+                <S.SkeletonItem key={idx}>
+                  <Skeleton />
+                </S.SkeletonItem>
+              ))
+            : question?.quesiontList.map((d, idx) => (
+                <ListItem
+                  title={d.title}
+                  text={d.text}
+                  is_solved={d.is_solved}
+                  answer_cnt={d.answer_cnt}
+                  like_count={d.like_count}
+                  view_count={d.view_count}
+                  hashtag={d.hashtag}
+                  created_at={d.created_at}
+                  key={idx}
+                  {...props}
+                />
+              ))}
           <ColumnSADiv height="115px">
             <Pagination
               onFront={() => console.log("front")}
