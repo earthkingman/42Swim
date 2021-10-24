@@ -1,26 +1,27 @@
+import dateChange from "../../../utils/dateChange";
 import Text from "../../atoms/Text";
-import Profile from "../Profile";
+import Profile, { ProfileProps } from "../Profile";
 
 import { AnswerMain, AnswerTitleWrapper, AnswerWrapper } from "./sytle";
 
 export interface AnswerProps {
-  nickname: string;
-  img?: string;
-  createAt: string;
-  main: string;
+  user: ProfileProps;
+  created_at: string;
+  text: string;
 }
 
-const Answer = ({ createAt, img, nickname, main }: AnswerProps) => {
+const Answer = ({ created_at, user, text }: AnswerProps) => {
+  const createAt = dateChange(created_at);
   return (
     <AnswerWrapper>
       <AnswerTitleWrapper>
-        <Profile nickname={nickname} size="sm" img={img} />
+        <Profile {...user} size="sm" />
         <Text size="14" color="lightgray">
           {createAt}
         </Text>
       </AnswerTitleWrapper>
       <AnswerMain size="18" color="black">
-        {main}
+        {text}
       </AnswerMain>
     </AnswerWrapper>
   );

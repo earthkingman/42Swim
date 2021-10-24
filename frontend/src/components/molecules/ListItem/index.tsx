@@ -18,11 +18,8 @@ export interface Props {
 const getTime = (create_time: string) => {
   const today = new Date();
   const localDate = today.toLocaleDateString();
-  console.log(localDate);
-
   const ctime = new Date(create_time);
   const createDate = ctime.toLocaleDateString();
-  console.log(createDate);
 
   if (createDate === localDate) {
     const hour = today.getHours() - ctime.getHours();
