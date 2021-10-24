@@ -1,3 +1,4 @@
+import dateChange from "../../../utils/dateChange";
 import Text from "../../atoms/Text";
 import Profile, { ProfileProps } from "../Profile";
 
@@ -10,12 +11,13 @@ export interface AnswerProps {
 }
 
 const Answer = ({ created_at, user, text }: AnswerProps) => {
+  const createAt = dateChange(created_at);
   return (
     <AnswerWrapper>
       <AnswerTitleWrapper>
         <Profile {...user} size="sm" />
         <Text size="14" color="lightgray">
-          {created_at}
+          {createAt}
         </Text>
       </AnswerTitleWrapper>
       <AnswerMain size="18" color="black">

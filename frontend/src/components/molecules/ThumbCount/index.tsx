@@ -7,19 +7,26 @@ export interface ThumbProps {
   like_count: number;
   is_like?: boolean;
   is_choosen?: boolean;
+  onUpClick?: any;
+  onDownClick?: any;
 }
 
 const ThumbCount = ({
   like_count,
   is_like,
   is_choosen,
+  onUpClick,
+  onDownClick,
   ...props
 }: ThumbProps) => {
   //todo: set like api
   return (
     <ThumbCountWrapper {...props}>
       <ThumbCountIconWrapper>
-        <ThumbUpBtn active={is_like === true ? true : false} />
+        <ThumbUpBtn
+          onClick={onUpClick}
+          active={is_like === true ? true : false}
+        />
         <Text
           style={{ whiteSpace: "nowrap" }}
           color="lightgray"
@@ -28,7 +35,10 @@ const ThumbCount = ({
         >
           {like_count}
         </Text>
-        <ThumbDownBtn active={is_like === false ? true : false} />
+        <ThumbDownBtn
+          onClick={onDownClick}
+          active={is_like === false ? true : false}
+        />
       </ThumbCountIconWrapper>
       {is_choosen && <CheckImg></CheckImg>}
     </ThumbCountWrapper>

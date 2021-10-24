@@ -18,7 +18,6 @@ const DetailPage = ({ isLogin, nickname, ...props }: any) => {
     return (
       <>
         <h1>Error</h1>
-        <div>{isError}</div>
       </>
     );
   } else

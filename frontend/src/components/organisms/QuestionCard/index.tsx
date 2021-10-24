@@ -7,7 +7,22 @@ import ThumbCount from "../../molecules/ThumbCount";
 import { QuestionCardWrapper } from "./sytle";
 
 const QuestionCard = ({ ...props }) => {
-  const { question, isLoading } = useDetail();
+  const { question, isLoading, thumbPost } = useDetail();
+
+  //todo: user정보 받아오기.
+  const userId = 1;
+
+  const checkUserAndPost = (isLike) => {
+    if (!userId) alert("로그인 후 좋아요를 눌러주세요!");
+    else thumbPost(userId, question.id, isLike, true);
+  };
+  const onUpClick = () => {
+    checkUserAndPost(true);
+  };
+  const onDownClick = () => {
+    checkUserAndPost(false);
+  };
+
   if (!isLoading) {
     const commentsComponents = question.comment?.map((item: any) => (
       <Comment key={item.id} {...item}></Comment>
@@ -17,6 +32,8 @@ const QuestionCard = ({ ...props }) => {
         <ThumbCount
           like_count={question.like_count}
           is_like={question.is_like}
+          onUpClick={onUpClick}
+          onDownClick={onDownClick}
         />
         <PostBox>
           <Question {...question} />

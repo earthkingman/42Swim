@@ -20,7 +20,10 @@ const LoginPage = ({ onClose, onRegist, ...props }: LoginProps) => {
   const onLogin = async () => {
     const res: any = await axios.post(
       "http://localhost:5000/auth/login",
-      input
+      input,
+      {
+        withCredentials: true,
+      }
     );
     console.log(res);
     if (res.status === 200) {

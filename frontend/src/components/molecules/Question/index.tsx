@@ -9,6 +9,7 @@ import {
   TagWrapper,
   QuestionMain,
 } from "./sytle";
+import dateChange from "../../../utils/dateChange";
 
 interface tagType {
   name: string;
@@ -29,6 +30,7 @@ const Question = ({
   hashtag,
   text,
 }: QuestionProps) => {
+  const createAt = dateChange(created_at);
   const tagComponent = hashtag?.map((tag) => (
     <Tag key={tag.name} name={tag.name} />
   ));
@@ -37,7 +39,7 @@ const Question = ({
       <QuestionTitleWrapper>
         <Title size="h1">{title}</Title>
         <Text size="14" color="lightgray">
-          {created_at}
+          {createAt}
         </Text>
       </QuestionTitleWrapper>
       <QuestionTitleWrapper>

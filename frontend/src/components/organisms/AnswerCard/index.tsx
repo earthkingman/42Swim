@@ -17,7 +17,6 @@ const AnswerCard = ({
   ...props
 }: AnswerCardProps) => {
   const commentsComponents = comment?.map((item) => {
-    console.log(item);
     return <Comment key={item.id} {...item}></Comment>;
   });
 
