@@ -51,7 +51,7 @@ const AnswerCard = ({
       <PostBox isChecked={is_choosen}>
         <Answer {...props} />
         {commentsComponents}
-        <CommentInput />
+        <CommentInput answerId={id} />
       </PostBox>
     </AnswerCardWrapper>
   );

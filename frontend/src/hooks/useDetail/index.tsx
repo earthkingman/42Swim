@@ -104,11 +104,12 @@ const useDetail = () => {
     answerId?: number
   ) => {
     if (data) {
-      mutate({}, false);
-
+      /**
+       * todo: mutate false로 로컬 데이터 업데이트.
+       */
       axios
         .post(
-          `http://localhost:5000/posts/question/like`,
+          `http://localhost:5000/posts/comment`,
           {
             text: text,
             questionId: questionId,

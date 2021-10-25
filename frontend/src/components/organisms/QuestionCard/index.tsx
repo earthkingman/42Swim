@@ -38,7 +38,7 @@ const QuestionCard = ({ ...props }) => {
         <PostBox>
           <Question {...question} />
           {commentsComponents}
-          <CommentInput />
+          <CommentInput questionId={question.id} />
         </PostBox>
       </QuestionCardWrapper>
     );

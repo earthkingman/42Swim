@@ -15,7 +15,7 @@ const useInput = (
     if (!validator(value)) setValue(value);
   };
 
-  return { value, onChange };
+  return { value, onChange, setValue };
 };
 
 export default useInput;
