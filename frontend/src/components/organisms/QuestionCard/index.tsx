@@ -9,12 +9,12 @@ import { QuestionCardWrapper } from "./sytle";
 const QuestionCard = ({ ...props }) => {
   const { question, isLoading, thumbPost } = useDetail();
 
-  //todo: user정보 받아오기.
-  const userId = 1;
+  //todo: isLogin 정보 받아오기.
+  const isLogin = 1;
 
   const checkUserAndPost = (isLike: boolean) => {
-    if (!userId) alert("로그인 후 좋아요를 눌러주세요!");
-    else thumbPost(userId, question.id, isLike, true);
+    if (!isLogin) alert("로그인 후 좋아요를 눌러주세요!");
+    else thumbPost(question.user.id, question.id, isLike, true);
   };
   const onUpClick = () => {
     checkUserAndPost(true);
@@ -38,7 +38,7 @@ const QuestionCard = ({ ...props }) => {
         <PostBox>
           <Question {...question} />
           {commentsComponents}
-          <CommentInput />
+          <CommentInput questionId={question.id} />
         </PostBox>
       </QuestionCardWrapper>
     );

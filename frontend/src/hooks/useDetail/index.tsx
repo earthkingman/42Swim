@@ -63,14 +63,29 @@ const useDetail = () => {
             item.like_count = likeCount;
             item.is_like = isLike;
           }
+          return item;
         });
-        mutate(newData, false);
+        mutate(
+          {
+            questionInfo: {
+              ...data.questionInfo,
+              answer: newData,
+            },
+          },
+          false
+        );
         axios
-          .post(`http://localhost:5000/posts/answer/like`, {
-            answerUserId: userId,
-            answerId: id,
-            isLike: isLike,
-          })
+          .post(
+            `http://localhost:5000/posts/answer/like`,
+            {
+              answerUserId: userId,
+              answerId: id,
+              isLike: isLike,
+            },
+            {
+              withCredentials: true,
+            }
+          )
           .then(() => {
             mutate();
           })
@@ -82,13 +97,46 @@ const useDetail = () => {
       }
     }
   };
+
+  const CommentPost = (
+    text: string,
+    questionId?: number,
+    answerId?: number
+  ) => {
+    if (data) {
+      /**
+       * todo: mutate false로 로컬 데이터 업데이트.
+       */
+      axios
+        .post(
+          `http://localhost:5000/posts/comment`,
+          {
+            text: text,
+            questionId: questionId,
+            answerId: answerId,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then(() => {
+          mutate();
+        })
+        .catch((err) => {
+          alert(err);
+          console.error(err);
+          mutate();
+        });
+    }
+  };
+
   return {
     question: data ? data.questionInfo : null,
     answer: data ? data.questionInfo.answer : null,
     isLoading: !error && !data,
     isError: error,
     thumbPost,
+    CommentPost,
   };
 };
-
 export default useDetail;
