@@ -51,9 +51,12 @@ const createQuestionLike = async (req: DecodedRequest, res: Response, next: Next
 const deleteAnswerLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const answerId = Number(req.query.answerId);
 	const answerUserId = Number(req.query.answerUserId);
-	const isLike = Boolean(req.query.isLike);
 	const userId: number = req.decodedId;
 	const likeService: LikeService = new LikeService();
+	let isLike = true;
+	if (req.query.isLike == "false") {
+		isLike = false;
+	}
 
 	try {
 		const likeCount = await likeService.deleteAnswerLike({ userId, answerId, isLike, answerUserId });
@@ -74,9 +77,12 @@ const deleteAnswerLike = async (req: DecodedRequest, res: Response, next: NextFu
 const deleteQuestionLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const questionId = Number(req.query.questionId);
 	const questionUserId = Number(req.query.questionUserId);
-	const isLike = Boolean(req.query.isLike);
 	const userId = req.decodedId;
 	const likeService: LikeService = new LikeService();
+	let isLike = true;
+	if (req.query.isLike == "false") {
+		isLike = false;
+	}
 
 	try {
 		const likeCount = await likeService.deleteQuestionLike({ userId, questionId, isLike, questionUserId });
