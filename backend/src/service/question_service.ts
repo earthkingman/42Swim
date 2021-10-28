@@ -22,9 +22,11 @@ export class QuestionService {
 
 	async post(uploadQuestionInfo) {
 		const { title, text, photos, userId, hashtag } = uploadQuestionInfo;
+		this.queryRunner = getConnection().createQueryRunner();
 		const user = await this.userRepository
 			.findOne({ where: { id: userId } });
 		if (user === undefined) {
+			await this.queryRunner.release();
 			throw new Error("The user doesn't exist.");
 		}
 		await this.queryRunner.startTransaction();
@@ -44,12 +46,10 @@ export class QuestionService {
 						hashtagObject.push(exHashTag);
 					}
 				} catch (error) {
+					await this.queryRunner.release();
 					console.log(error);
 				}
 			}
-			console.log(hashtagObject);
-			// const question = new Question();
-
 			const questionInfo = { title, text, user, hashtag: hashtagObject };
 			const question = await this.questionRepository.save(questionInfo);
 			console.log(question);
@@ -78,9 +78,11 @@ export class QuestionService {
 			const noAuthQuestion = await this.questionRepository
 				.findOne({ where: { id: questionId } });
 			if (noAuthQuestion !== undefined) {
+				await this.queryRunner.release();
 				throw new Error("You don't have edit permission");
 			}
 			else {
+				await this.queryRunner.release();
 				throw new Error("The questionPost doesn't exist.");
 			}
 		}
@@ -131,9 +133,11 @@ export class QuestionService {
 			const noAuthQuestion = await this.questionRepository
 				.findOne({ where: { id: questionId } });
 			if (noAuthQuestion !== undefined) {
+				await this.queryRunner.release();
 				throw new Error("You don't have edit permission");
 			}
 			else {
+				await this.queryRunner.release();
 				throw new Error("The questionPost doesn't exist.");
 			}
 		}
@@ -156,6 +160,7 @@ export class QuestionService {
 				where: { question: { id: questionId } },
 				relations: ['question']
 			});
+		await this.queryRunner.release();
 		return photos;
 	}
 

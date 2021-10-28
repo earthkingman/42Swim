@@ -6,18 +6,16 @@ import { Question } from "../entity/question";
 import { User } from "../entity/user";
 
 export class CommentService {
-	private queryRunner: QueryRunner;
 	private userRepository: Repository<User>;
 	private questionRepository: Repository<Question>;
 	private answerRepository: Repository<Answer>;
 	private commentRepository: Repository<Comment>;
 
 	constructor() {
-		this.queryRunner = getConnection().createQueryRunner();
-		this.userRepository = this.queryRunner.manager.getRepository(User);
-		this.questionRepository = this.queryRunner.manager.getRepository(Question);
-		this.answerRepository = this.queryRunner.manager.getRepository(Answer);
-		this.commentRepository = this.queryRunner.manager.getRepository(Comment);
+		this.userRepository = getConnection().getRepository(User);
+		this.questionRepository = getConnection().getRepository(Question);
+		this.answerRepository = getConnection().getRepository(Answer);
+		this.commentRepository = getConnection().getRepository(Comment);
 	}
 
 	async getAnswerComments(answerId) {
@@ -58,7 +56,10 @@ export class CommentService {
 		if (answerId) {
 			const answer = await this.answerRepository
 				.findOne({ where: { id: answerId } });
-			if (answer === undefined) throw new Error("Comment that doesn't exist or you don't have edit right");
+			if (answer === undefined) {
+				throw new Error("Comment that doesn't exist or you don't have edit right");
+			}
+
 			await this.commentRepository.save({ user, answer, text });
 			const comments = await this.getAnswerComments(answerId);
 			return comments;
@@ -66,7 +67,9 @@ export class CommentService {
 		else {
 			const question = await this.questionRepository
 				.findOne({ where: { id: questionId } });
-			if (question === undefined) throw new Error("undefined question post");
+			if (question === undefined) {
+				throw new Error("undefined question post");
+			}
 			await this.commentRepository.save({ user, question, text });
 			const comments = await this.getQuestionComments(questionId);
 			return comments;

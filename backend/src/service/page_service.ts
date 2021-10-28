@@ -5,12 +5,10 @@ import { HashTag } from "../entity/hashtag";
 import { Question } from "../entity/question";
 
 export class PageService {
-	private queryRunner: QueryRunner;
 	private questionRepository: Repository<Question>;
 
 	constructor() {
-		this.queryRunner = getConnection().createQueryRunner();
-		this.questionRepository = this.queryRunner.manager.getRepository(Question);
+		this.questionRepository = getConnection().getRepository(Question);
 	}
 
 	async setQuestionViewCount(questionId) {
@@ -21,7 +19,7 @@ export class PageService {
 	}
 
 	async getQuestionDetail(questionId) {
-		this.setQuestionViewCount(questionId);
+		await this.setQuestionViewCount(questionId);
 		const questionInfo = await this.questionRepository
 			.createQueryBuilder('question')
 			.where('question.id = :questionId', { questionId })
