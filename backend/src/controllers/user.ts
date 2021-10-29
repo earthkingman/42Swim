@@ -10,10 +10,8 @@ import { UserService } from "../service/user_service";
 const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) => {
     const id: number = req.decodedId
     const userService: UserService = new UserService();
-    console.log(1);
     try {
         const user = await userService.findUserById(id);
-        console.log(2);
         if (user) {
             res.status(200).json({
                 data: {
