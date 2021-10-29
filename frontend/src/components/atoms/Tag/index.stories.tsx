@@ -10,6 +10,8 @@ export const Default = (props: Props) => {
   return (
     <GlobalThemeProvider>
       <Tag {...props} name="TAG1" />
+      <Tag {...props} name="long_tag_tag" />
+      <Tag {...props} name="st" />
     </GlobalThemeProvider>
   );
 };
