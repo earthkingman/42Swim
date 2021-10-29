@@ -21,6 +21,9 @@ const color = {
     black: "#000000",
     lightgray: "#565656",
   },
+  tag: {
+    yellow: "#FFDCA8",
+  },
   yellow: "#FFB84D",
   white: "#FFFFFF",
   red: "#FF5D39",
