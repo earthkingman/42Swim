@@ -8,7 +8,7 @@ export interface TagProps {
 const Tag = ({ name, ...props }: TagProps) => {
   return (
     <TagBox {...props}>
-      <Text size="14" style={{ wordBreak: "normal" }}>
+      <Text size="14" style={{ wordBreak: "normal", color: "#424040" }}>
         {name}
       </Text>
     </TagBox>
