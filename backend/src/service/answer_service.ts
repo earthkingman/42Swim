@@ -26,11 +26,13 @@ export class AnswerService {
 		const user = await this.userRepository
 			.findOne({ where: { id: userId } });
 		if (user === undefined) {
+			await this.queryRunner.release();
 			throw new Error("The user doesn't exist.");
 		}
 		const question = await this.questionRepository
 			.findOne({ where: { id: questionId } });
 		if (question === undefined) {
+			await this.queryRunner.release();
 			throw new Error("The questionPost doesn't exist.");
 		}
 		const answerInfo = { email, text, user, question, isChoosen: false };
@@ -68,12 +70,15 @@ export class AnswerService {
 					relations: ['question']
 				});
 			if (question === undefined) {
+				await this.queryRunner.release();
 				throw new Error("The questionPost doesn't exist.");
 			}
 			else if (noAuthAnswer === undefined) {
+				await this.queryRunner.release();
 				throw new Error("The answerPost doesn't exist.");
 			}
 			else {
+				await this.queryRunner.release();
 				throw new Error("You don't have permission to edit.");
 			}
 		}
@@ -112,12 +117,15 @@ export class AnswerService {
 					relations: ['question']
 				});
 			if (question === undefined) {
+				await this.queryRunner.release();
 				throw new Error("The questionPost doesn't exist.");
 			}
 			else if (noAuthAnswer === undefined) {
+				await this.queryRunner.release();
 				throw new Error("The answerPost doesn't exist.");
 			}
 			else {
+				await this.queryRunner.release();
 				throw new Error("You don't have permission to edit.");
 			}
 		}
@@ -140,6 +148,7 @@ export class AnswerService {
 				where: { answer: { id: answerId } },
 				relations: ["answer"]
 			});
+		await this.queryRunner.release();
 		return photos;
 	}
 
