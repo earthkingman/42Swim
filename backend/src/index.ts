@@ -14,6 +14,7 @@ import dotenv from "dotenv";
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
+import { applicationRouter } from "./routes";
 
 dotenv.config();
 const swaggerSpec = YAML.load(path.join(__dirname, '../build/swagger.yaml'))
@@ -30,10 +31,7 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-app.use("/auth", authRouter);
-app.use("/posts", postRouter);
-app.use("/users", userRouter);
-app.use("/pages", pageRouter);
+app.use(applicationRouter);
 app.use(errorMiddleware);
 
 

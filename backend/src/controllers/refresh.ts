@@ -35,8 +35,6 @@ const refresh = async (req: Request, res: Response) => {
       }
       // refresh token은 만료되지 않은 경우
       else {
-        //
-        console.log(123);
         const newAccesToken = accessSign(decoded);
         res.cookie("accessToken", newAccesToken, {
           maxAge: 300000,

@@ -29,7 +29,6 @@ const deleteQuestion = async (req: DecodedRequest, res: Response, next: NextFunc
 const updateQuestion = async (req: DecodedRequest, res: Response, next: NextFunction) => {
     const { questionId, title, text, hashtag } = req.body;
     const userId: number = req.decodedId
-    console.log(hashtag)
     const files: string[] = [];
     const size = req.files.length;
     const questionService: QuestionService = new QuestionService();
