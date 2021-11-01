@@ -1,6 +1,6 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PlusIcon from "../../asset/icons/PlusIcon";
 import Box from "../../atoms/Box";
 import Button from "../../atoms/Button";
@@ -31,6 +31,14 @@ const MainPage = () => {
   const [isRegistModal, setIsRegistModal] = useState(false);
   const [menu, setMenu] = useState(0);
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const userInfo = localStorage.getItem("user");
+    setUser(JSON.parse(userInfo));
+    console.log("userInfo", userInfo);
+    console.log(user);
+  }, []);
+
   const onSearch = () => {
     console.log("search");
     setSearch("hihi");

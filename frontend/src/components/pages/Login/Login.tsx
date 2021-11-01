@@ -35,6 +35,8 @@ const LoginPage = ({
       console.log("Login response:", res);
       if (res.status === 200) {
         localStorage.setItem("refreshToken", res.data.refreshToken);
+        localStorage.setItem("user", JSON.stringify(res.data.userInfo));
+        console.log(res.data.userInfo);
         onClose(false);
         onLoginSuccess(res.data.userInfo);
       }
