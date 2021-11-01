@@ -17,6 +17,7 @@ import RegisterPage from "../Register/Register";
 import useSWR from "swr";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { Props as ListProps } from "../../molecules/ListItem";
+import BasicTemplate from "../BasicTemplate";
 
 interface ResponseProps {
   quesiontList: ListProps[];
@@ -42,7 +43,7 @@ const MainPage = ({ isLogin = false }: any) => {
         onClose={setIsLoginModal}
       />
       <RegisterPage visible={isRegistModal} onClose={setIsRegistModal} />
-      <MainTemplate
+      <BasicTemplate
         header={
           <Header
             onLoginClick={setIsLoginModal}
@@ -50,51 +51,33 @@ const MainPage = ({ isLogin = false }: any) => {
             nickname="닉네임"
           />
         }
-        panel={
-          <>
-            <SearchInput
-              onChange={() => console.log("search")}
-              search={search}
-              onSearch={onSearch}
-            />
-            <Button size="sm">
-              질문하기 <PlusIcon />
-            </Button>
-          </>
-        }
-        content1={<QuestionList menu={menu} setMenu={setMenu} />}
-        content2={
-          <div style={{ width: "27%" }}>
-            <RowSADiv style={{ height: "50px" }}>
-              <Crown />
-              <Title size="h2">King of 42</Title>
-              <Crown />
-            </RowSADiv>
-            <Box width="100%" height="338px" />
-          </div>
-        }
-        footer={
-          <ColumnSADiv>
-            <RowSADiv
-              style={{
-                alignItems: "flex-end",
-                width: "340px",
-                marginBottom: "1rem",
-              }}
-            >
-              <Title size="h2" color="white">
-                42Code
-              </Title>
-              <Text size="14" color="white" weight="bold">
-                made by ji-park & yejeong & nkim & iha
-              </Text>
-            </RowSADiv>
-            <Text size="14" color="white">
-              Copyright © 2019 - 2021 42Seoul inno. All rights reserved.
-            </Text>
-          </ColumnSADiv>
-        }
-      />
+      >
+        <MainTemplate
+          panel={
+            <>
+              <SearchInput
+                onChange={() => console.log("search")}
+                search={search}
+                onSearch={onSearch}
+              />
+              <Button size="sm">
+                질문하기 <PlusIcon />
+              </Button>
+            </>
+          }
+          content1={<QuestionList menu={menu} setMenu={setMenu} />}
+          content2={
+            <div style={{ width: "27%" }}>
+              <RowSADiv style={{ height: "50px" }}>
+                <Crown />
+                <Title size="h2">King of 42</Title>
+                <Crown />
+              </RowSADiv>
+              <Box width="100%" height="338px" />
+            </div>
+          }
+        />
+      </BasicTemplate>
     </>
   );
 };

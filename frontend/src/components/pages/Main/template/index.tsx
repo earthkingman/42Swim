@@ -1,33 +1,20 @@
 import React from "react";
-import { Container, ContentWrapper, Footer, Header, Panel } from "./style";
+import { ContentWrapper, Panel } from "./style";
 
 interface Props {
-  header: React.ReactNode;
   panel?: React.ReactNode;
   content1: React.ReactNode;
   content2: React.ReactNode;
-  footer: React.ReactNode;
 }
 
-const MainTemplate = ({
-  header,
-  panel,
-  content1,
-  content2,
-  footer,
-  ...props
-}: Props) => {
+const MainTemplate = ({ panel, content1, content2 }: Props) => {
   return (
     <>
-      <Container {...props}>
-        <Header>{header}</Header>
-        <Panel>{panel}</Panel>
-        <ContentWrapper>
-          {content1}
-          {content2}
-        </ContentWrapper>
-      </Container>
-      <Footer>{footer}</Footer>
+      <Panel>{panel}</Panel>
+      <ContentWrapper>
+        {content1}
+        {content2}
+      </ContentWrapper>
     </>
   );
 };
