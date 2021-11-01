@@ -25,8 +25,8 @@ interface ResponseProps {
   message: string;
 }
 
-const MainPage = ({ isLogin = false }: any) => {
-  //   const [user, setUser] = useState()
+const MainPage = () => {
+  const [user, setUser] = useState(null);
   const [isLoginModal, setIsLoginModal] = useState(false);
   const [isRegistModal, setIsRegistModal] = useState(false);
   const [menu, setMenu] = useState(0);
@@ -39,6 +39,7 @@ const MainPage = ({ isLogin = false }: any) => {
     <>
       <LoginPage
         onRegist={setIsRegistModal}
+        onLoginSuccess={setUser}
         visible={isLoginModal}
         onClose={setIsLoginModal}
       />
@@ -47,8 +48,8 @@ const MainPage = ({ isLogin = false }: any) => {
         header={
           <Header
             onLoginClick={setIsLoginModal}
-            isLogin={isLogin}
-            nickname="닉네임"
+            isLogin={user === null ? false : true}
+            nickname={user?.nickname}
           />
         }
       >
