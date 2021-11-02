@@ -17,8 +17,12 @@ const converter = new Showdown.Converter({
   ],
 });
 
-const MarkdownEditor = (initialText: string) => {
-  const [value, setValue] = React.useState(initialText ? "" : initialText);
+interface MarkdownEditorProps {
+  initialText?: string;
+}
+
+const MarkdownEditor = ({ initialText, ...props }: MarkdownEditorProps) => {
+  const [value, setValue] = React.useState(initialText ? initialText : "");
   const [selectedTab, setSelectedTab] = React.useState<"write" | "preview">(
     "write"
   );
@@ -32,7 +36,7 @@ const MarkdownEditor = (initialText: string) => {
   };
 
   return (
-    <MarkDownEditorWrap>
+    <MarkDownEditorWrap {...props}>
       <ReactMde
         classes={{}}
         value={value}
@@ -52,6 +56,8 @@ const MarkdownEditor = (initialText: string) => {
           saveImage: save,
         }}
       />
+
+      {/*code highlighting*/}
       <script src="/path/to/highlight.min.js"></script>
       <script>hljs.highlightAll();</script>
       <link

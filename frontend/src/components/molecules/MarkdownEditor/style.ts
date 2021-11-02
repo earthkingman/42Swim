@@ -1,16 +1,61 @@
 import styled from "styled-components";
 
 export const MarkDownEditorWrap = styled.div`
-  width: 100%;
-  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   font-size: 14px;
 
   button {
     padding: 4px;
   }
+
+  button {
+    color: grey;
+    border-radius: 0px !important;
+  }
+
+  button.selected {
+    border: 0px !important;
+    border-bottom: 2px solid black !important;
+    color: black !important;
+  }
   .mde-preview-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
     font-size: 14px;
   }
+  .mde-header {
+    margin-bottom: 18px;
+    background-color: inherit;
+    border: 0px;
+  }
+  .react-mde .image-tip {
+    display: none !important;
+  }
+  .mde-text {
+    background-color: inherit;
+    background-color: white;
+    padding: 20px !important;
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
+    font-size: 14px;
+    outline: none;
+  }
+
+  .react-mde {
+    font-family: inherit;
+    width: 100%;
+    border: 0px;
+    background-color: inherit;
+    margin-bottom: 20px;
+  }
+  /*
+  pre {
+    background-color: white !important;
+  }*/
 
   span,
   iframe,
