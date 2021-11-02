@@ -57,7 +57,7 @@ const ListItem = ({
               {getTime(created_at)}
             </S.Time>
             {hashtag.map((data, idx) => (
-              <Tag name={data} key={idx} />
+              <Tag name={data?.name} key={idx} />
             ))}
           </RowSBDiv>
           <Profile size="sm" nickname="닉네임" />

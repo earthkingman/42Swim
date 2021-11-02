@@ -78,5 +78,4 @@ const GlobalStyle = createGlobalStyle`
 	  color: inherit;
   }
 `;
-
 export default GlobalStyle;

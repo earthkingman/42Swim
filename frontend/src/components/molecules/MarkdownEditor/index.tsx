@@ -2,8 +2,8 @@ import * as React from "react";
 import ReactMde, { SaveImageHandler } from "react-mde";
 import * as Showdown from "showdown";
 import showdownHighlight from "showdown-highlight";
-import "./styles.css";
 import "react-mde/lib/styles/css/react-mde-all.css";
+import { MarkDownEditorWrap } from "./style";
 
 const converter = new Showdown.Converter({
   tables: true,
@@ -12,14 +12,13 @@ const converter = new Showdown.Converter({
   tasklists: true,
   extensions: [
     showdownHighlight({
-      // Whether to add the classes to the <pre> tag
       pre: true,
     }),
   ],
 });
 
-const MarkdownEditor = () => {
-  const [value, setValue] = React.useState("**Hello worldfd!!!**");
+const MarkdownEditor = (initialText: string) => {
+  const [value, setValue] = React.useState(initialText ? "" : initialText);
   const [selectedTab, setSelectedTab] = React.useState<"write" | "preview">(
     "write"
   );
@@ -33,8 +32,9 @@ const MarkdownEditor = () => {
   };
 
   return (
-    <div className="container">
+    <MarkDownEditorWrap>
       <ReactMde
+        classes={{}}
         value={value}
         onChange={setValue}
         selectedTab={selectedTab}
@@ -52,17 +52,13 @@ const MarkdownEditor = () => {
           saveImage: save,
         }}
       />
-      <div
-        dangerouslySetInnerHTML={{ __html: converter.makeHtml(value) }}
-      ></div>
       <script src="/path/to/highlight.min.js"></script>
       <script>hljs.highlightAll();</script>
-
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css"
       ></link>
-    </div>
+    </MarkDownEditorWrap>
   );
 };
 
