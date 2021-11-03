@@ -60,7 +60,7 @@ const ListItem = ({
               <Tag name={data?.name} key={idx} />
             ))}
           </RowSBDiv>
-          <Profile size="sm" nickname="닉네임" />
+          <Profile size="sm" nickname="닉네임" id={0} />
         </S.Bottom>
       </S.Content>
       {/* <S.Check>{check ? <CheckImg /> : <></>}</S.Check> */}

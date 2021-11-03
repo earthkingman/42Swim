@@ -8,9 +8,15 @@ import { ModalContent, ModalGroup } from "../../molecules/Modal/style";
 
 interface LoginProps extends Props {
   onRegist: any;
+  onLoginSuccess: any;
 }
 
-const LoginPage = ({ onClose, onRegist, ...props }: LoginProps) => {
+const LoginPage = ({
+  onClose,
+  onRegist,
+  onLoginSuccess,
+  ...props
+}: LoginProps) => {
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -18,21 +24,30 @@ const LoginPage = ({ onClose, onRegist, ...props }: LoginProps) => {
   const { email, password } = input;
 
   const onLogin = async () => {
-    const res: any = await axios.post(
-      "http://localhost:5000/auth/login",
-      input,
-      {
-        withCredentials: true,
+    try {
+      const res: any = await axios.post(
+        "http://localhost:5000/auth/login",
+        input,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("Login response:", res);
+      if (res.status === 200) {
+        localStorage.setItem("refreshToken", res.data.refreshToken);
+        localStorage.setItem("user", JSON.stringify(res.data.userInfo));
+        console.log(res.data.userInfo);
+        onClose(false);
+        onLoginSuccess(res.data.userInfo);
       }
-    );
-    console.log(res);
-    if (res.status === 200) {
-      setInput({
-        email: "",
-        password: "",
-      });
-      onClose(false);
+    } catch (err) {
+      alert("이메일 또는 비밀번호 오류");
+      console.log(err);
     }
+    setInput({
+      email: "",
+      password: "",
+    });
   };
 
   const onChange = (e: any) => {

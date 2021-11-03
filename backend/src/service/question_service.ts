@@ -33,6 +33,7 @@ export class QuestionService {
 		try {
 			const hashtagObject: HashTag[] = [];
 			const hashtagNameList = hashtag.split('#')
+			console.log(hashtag, hashtagNameList);
 			for (let i = 0; i < hashtagNameList.length; i++) {
 				try {
 					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashtagNameList[i] } });
@@ -52,10 +53,10 @@ export class QuestionService {
 			}
 			const questionInfo = { title, text, user, hashtag: hashtagObject };
 			const question = await this.questionRepository.save(questionInfo);
-			console.log(question);
 			//await Promise.all(photos.map(async (photo) => {
 			//	await this.photoRepository.save({ photo, question });
 			//}));
+
 			await this.queryRunner.commitTransaction();
 		} catch (error) {
 			console.error(error);
