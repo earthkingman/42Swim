@@ -23,12 +23,12 @@ const Comment = ({ created_at, user, text, id }: CommentProps) => {
         <Text weight="bold" size="18">
           {user.nickname}
         </Text>
-        <Text size="14" color="lightgray">
+        <Text size="14" color="grey">
           {createAt}
         </Text>
       </CommentHeaderWrapper>
       <CommentTextWrapper>
-        <Text size="18" color="lightgray">
+        <Text size="18" color="grey">
           {text}
         </Text>
         <MoreBtn />

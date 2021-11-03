@@ -21,7 +21,7 @@ export class QuestionService {
 	}
 
 	async post(uploadQuestionInfo) {
-		const { title, text, photos, userId, hashtag } = uploadQuestionInfo;
+		const { title, text, userId, hashtag } = uploadQuestionInfo;
 		this.queryRunner = getConnection().createQueryRunner();
 		const user = await this.userRepository
 			.findOne({ where: { id: userId } });
@@ -53,9 +53,10 @@ export class QuestionService {
 			}
 			const questionInfo = { title, text, user, hashtag: hashtagObject };
 			const question = await this.questionRepository.save(questionInfo);
-			await Promise.all(photos.map(async (photo) => {
-				await this.photoRepository.save({ photo, question });
-			}));
+			//await Promise.all(photos.map(async (photo) => {
+			//	await this.photoRepository.save({ photo, question });
+			//}));
+
 			await this.queryRunner.commitTransaction();
 		} catch (error) {
 			console.error(error);

@@ -29,7 +29,7 @@ const ThumbCount = ({
         />
         <Text
           style={{ whiteSpace: "nowrap" }}
-          color="lightgray"
+          color="grey"
           size="48"
           weight="bold"
         >
