@@ -55,7 +55,7 @@
     "predev": "npm run api-docs",
     "dev": "nodemon --exec ts-node src/index.ts",
     "db": "cd db && docker-compose up",
-    "dbclear": "rm -rf db/srcs/data",
+    "dbclear": "rm -rf db/data",
     "dbreset": "npm run dbclear && npm run db"
   }
 }

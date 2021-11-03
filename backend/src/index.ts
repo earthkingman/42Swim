@@ -16,6 +16,8 @@ import YAML from 'yamljs';
 import path from 'path';
 import { applicationRouter } from "./routes";
 
+import { insertSeed } from "./entity/seed/seed_data"
+
 dotenv.config();
 const swaggerSpec = YAML.load(path.join(__dirname, '../build/swagger.yaml'))
 const app = express();
@@ -39,4 +41,5 @@ app.listen(5000, async () => {
   console.log("서버 가동");
   await createConnection();
   console.log("DB 연결");
+  //await insertSeed();
 });
