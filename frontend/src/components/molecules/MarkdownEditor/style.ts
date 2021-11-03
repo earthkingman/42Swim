@@ -4,20 +4,22 @@ export const MarkDownEditorWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  font-size: 14px;
-
+  margin-top: 3rem;
   button {
     padding: 4px;
   }
 
   button {
-    color: grey;
+    color: lightgrey;
     border-radius: 0px !important;
   }
-
+  .mde-tabs button {
+    font-size: 16px;
+    font-style: Roboto;
+    font-weight: 600;
+  }
   button.selected {
     border: 0px !important;
-    border-bottom: 2px solid black !important;
     color: black !important;
   }
   .mde-preview-content {
@@ -25,7 +27,9 @@ export const MarkDownEditorWrap = styled.div`
     padding: 20px;
     border-radius: 16px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
-    font-size: 14px;
+    font-size: 18px;
+    line-height: 1.5;
+    min-height: 20rem;
   }
   .mde-header {
     margin-bottom: 18px;
@@ -36,13 +40,16 @@ export const MarkDownEditorWrap = styled.div`
     display: none !important;
   }
   .mde-text {
+    min-height: 20rem;
     background-color: inherit;
     background-color: white;
     padding: 20px !important;
     border-radius: 16px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
-    font-size: 14px;
+    font-size: 16px;
     outline: none;
+    font-family: Roboto;
+    line-height: 1.5;
   }
 
   .react-mde {
@@ -50,7 +57,7 @@ export const MarkDownEditorWrap = styled.div`
     width: 100%;
     border: 0px;
     background-color: inherit;
-    margin-bottom: 20px;
+    margin-bottom: 3rem;
   }
   /*
   pre {

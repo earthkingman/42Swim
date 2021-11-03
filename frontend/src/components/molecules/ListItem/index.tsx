@@ -48,12 +48,12 @@ const ListItem = ({
     <S.ListBox {...props}>
       <S.Content>
         <S.Title size="h2">{title}</S.Title>
-        <S.Desc size="18" weight="normal" color="lightgray">
+        <S.Desc size="18" weight="normal" color="grey">
           {text}
         </S.Desc>
         <S.Bottom>
           <RowSBDiv>
-            <S.Time size="14" weight="normal" color="lightgray">
+            <S.Time size="14" weight="normal" color="grey">
               {getTime(created_at)}
             </S.Time>
             {hashtag.map((data, idx) => (

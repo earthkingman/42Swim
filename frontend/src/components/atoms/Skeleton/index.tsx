@@ -11,10 +11,10 @@ const Skeleton = styled.div<SProps>`
 
 	background-image:
 			linear-gradient( 100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80% ),
-			linear-gradient( lightgray 20px, transparent 0 ),
-			linear-gradient( lightgray 20px, transparent 0 ),
-			linear-gradient( lightgray 20px, transparent 0 ),
-			linear-gradient( lightgray 20px, transparent 0 );
+			linear-gradient( grey 20px, transparent 0 ),
+			linear-gradient( grey 20px, transparent 0 ),
+			linear-gradient( grey 20px, transparent 0 ),
+			linear-gradient( grey 20px, transparent 0 );
 
 		background-repeat: no-repeat;
 

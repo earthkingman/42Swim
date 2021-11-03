@@ -18,11 +18,11 @@ const converter = new Showdown.Converter({
 });
 
 interface MarkdownEditorProps {
-  initialText?: string;
+  value?: string;
+  setValue?: any;
 }
 
-const MarkdownEditor = ({ initialText, ...props }: MarkdownEditorProps) => {
-  const [value, setValue] = React.useState(initialText ? initialText : "");
+const MarkdownEditor = ({ value, setValue, ...props }: MarkdownEditorProps) => {
   const [selectedTab, setSelectedTab] = React.useState<"write" | "preview">(
     "write"
   );

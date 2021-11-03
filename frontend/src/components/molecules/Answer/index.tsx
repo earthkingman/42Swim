@@ -17,7 +17,7 @@ const Answer = ({ created_at, user, text, ...props }: AnswerProps) => {
     <AnswerWrapper {...props}>
       <AnswerTitleWrapper>
         <Profile {...user} size="sm" />
-        <Text size="14" color="lightgray">
+        <Text size="14" color="grey">
           {createAt}
         </Text>
       </AnswerTitleWrapper>

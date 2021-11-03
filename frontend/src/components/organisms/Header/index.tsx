@@ -21,7 +21,7 @@ const Header = ({ onLoginClick, isLogin, nickname, img }: Props) => {
     <HeaderWrapper>
       <HeaderTitleWrapper>
         <TitleHeader size="h1">42Code</TitleHeader>
-        <Text size="14" color="yellow">
+        <Text size="14" color="lightgrey">
           42seoul
         </Text>
       </HeaderTitleWrapper>
