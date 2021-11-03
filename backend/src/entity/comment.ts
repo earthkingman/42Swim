@@ -10,7 +10,7 @@ import { Base } from './base';
 
 @Entity("comment")
 export class Comment extends Base {
-    @Column()
+    @Column("text")
     text: string;
 
     @ManyToOne(() => User, user => user.comment, { onDelete: 'CASCADE' })

@@ -44,6 +44,6 @@ export class Question extends Base {
     @Column()
     title: string;
 
-    @Column()
+    @Column("text")
     text: string;
 }
