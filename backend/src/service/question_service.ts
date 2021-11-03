@@ -22,7 +22,6 @@ export class QuestionService {
 
 	async post(uploadQuestionInfo) {
 		const { title, text, userId, hashtag } = uploadQuestionInfo;
-		this.queryRunner = getConnection().createQueryRunner();
 		const user = await this.userRepository
 			.findOne({ where: { id: userId } });
 		if (user === undefined) {
@@ -69,7 +68,6 @@ export class QuestionService {
 
 	async update(updateQuestionInfo) {
 		const { title, text, photos, questionId, userId, hashtag } = updateQuestionInfo;
-
 		const question = await this.questionRepository
 			.findOne({
 				where: { id: questionId, user: { id: userId } },

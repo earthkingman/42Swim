@@ -23,13 +23,16 @@ const login = (req: Request, res: Response, next: NextFunction) => {
     const accessToken = jwtUtil.accessSign(user);
     const refreshToken = jwtUtil.refreshSign();
     redisClient.set(user.id, refreshToken);
+    res.cookie("refresh", refreshToken, {
+      maxAge: 60000 * 60 * 24 * 14,
+      httpOnly: true,
+    });
     res.cookie("authorization", accessToken, {
       maxAge: 60000 * 30,
       httpOnly: true,
     });
     return res.status(200).json({
-      refreshToken: refreshToken,
-      userInfo: userInfo
+      message: "Success Login ",
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
