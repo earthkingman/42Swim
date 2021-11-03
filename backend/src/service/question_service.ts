@@ -24,6 +24,7 @@ export class QuestionService {
 		const { title, text, userId, hashtag } = uploadQuestionInfo;
 		const user = await this.userRepository
 			.findOne({ where: { id: userId } });
+		let id = 0;
 		if (user === undefined) {
 			await this.queryRunner.release();
 			throw new Error("The user doesn't exist.");
@@ -52,6 +53,7 @@ export class QuestionService {
 			}
 			const questionInfo = { title, text, user, hashtag: hashtagObject };
 			const question = await this.questionRepository.save(questionInfo);
+			id = question.id;
 			//await Promise.all(photos.map(async (photo) => {
 			//	await this.photoRepository.save({ photo, question });
 			//}));
@@ -64,6 +66,7 @@ export class QuestionService {
 		} finally {
 			await this.queryRunner.release();
 		}
+		return id;
 	}
 
 	async update(updateQuestionInfo) {
