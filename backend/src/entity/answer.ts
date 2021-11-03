@@ -30,7 +30,7 @@ export class Answer extends Base {
     @Column({ default: 0 })
     like_count: number;
 
-    @Column("text")
+    @Column("longtext")
     text: string;
 
     @Column({ default: false })
