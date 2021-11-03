@@ -21,7 +21,7 @@ export class AnswerService {
 	}
 
 	async post(uploadAnswerInfo) {
-		const { email, text, photos, questionId, userId } = uploadAnswerInfo;
+		const { email, text, questionId, userId } = uploadAnswerInfo;
 
 		const user = await this.userRepository
 			.findOne({ where: { id: userId } });
@@ -35,14 +35,14 @@ export class AnswerService {
 			await this.queryRunner.release();
 			throw new Error("The questionPost doesn't exist.");
 		}
-		const answerInfo = { email, text, user, question, isChoosen: false };
+		const answerInfo = { email, text, user, question, isChosen: false };
 
 		await this.queryRunner.startTransaction();
 		try {
 			const answer = await this.answerRepository.save(answerInfo);
-			await Promise.all(photos.map(async (photo) => {
-				await this.photoRepository.save({ photo, question, answer });
-			}));
+			// await Promise.all(photos.map(async (photo) => {
+			// 	await this.photoRepository.save({ photo, question, answer });
+			// }));
 			await this.queryRunner.commitTransaction();
 		} catch (error) {
 			console.error(error);
