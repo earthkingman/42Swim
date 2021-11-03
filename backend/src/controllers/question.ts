@@ -57,11 +57,11 @@ const uploadQuestion = async (req: DecodedRequest, res: Response) => {
     const size = 0;
     const files: string[] = [];
     const questionService: QuestionService = new QuestionService();
-
+    const newHashTag = hashtag.substr(1);
     for (let i = 0; i < size; i++)
         files.push(process.env.S3 + req.files[i].key);
     try {
-        await questionService.post({ email, title, text, userId, hashtag });
+        await questionService.post({ email, title, text, userId, hashtag: newHashTag });
         return res.status(200).json({
             result: true,
             message: "Upload Success"

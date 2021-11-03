@@ -25,5 +25,8 @@ export class HashtagService {
             .getMany();
         return questions;
     }
+    async postHashTag(): Promise<any> {
+
+    }
 
 }
