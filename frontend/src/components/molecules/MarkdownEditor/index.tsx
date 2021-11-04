@@ -30,7 +30,21 @@ const MarkdownEditor = ({ value, setValue, ...props }: MarkdownEditorProps) => {
   //todo: 이미지 업로드 axios 서버 통신: data를 보내면 됨.
   const save: SaveImageHandler = async function* (data: ArrayBuffer) {
     console.log(data);
-    yield "https://picsum.photos/300";
+
+    try {
+      //axios post 로 수정 필요.
+      const a = await new Promise((res) => {
+        setTimeout(() => {
+          res("done...");
+        }, 3000);
+      });
+      console.log(a);
+      yield a;
+    } catch (error) {
+      console.log(error);
+      alert("사진 전송 실패");
+      yield "Error";
+    }
 
     return true;
   };

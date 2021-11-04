@@ -30,7 +30,7 @@ const ThumbCount = ({
         <Text
           style={{ whiteSpace: "nowrap" }}
           color="grey"
-          size="48"
+          size="32"
           weight="bold"
         >
           {like_count}

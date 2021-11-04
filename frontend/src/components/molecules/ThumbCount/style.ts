@@ -12,7 +12,7 @@ export const ThumbCountIconWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  height: 186px;
+  height: 16rem;
   margin-bottom: 2rem;
-  width: 13rem;
+  width: 7rem;
 `;
