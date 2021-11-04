@@ -74,7 +74,9 @@ const QuestionList = ({ menu, setMenu, ...props }: Props) => {
             <Pagination
               onFront={() => console.log("front")}
               onBack={() => console.log("back")}
-              page={1}
+              qusetionCount={question?.questionCount}
+              page={page}
+              onPage={setPage}
             />
           </ColumnSADiv>
         </S.List>

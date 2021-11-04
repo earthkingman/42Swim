@@ -15,8 +15,11 @@
     "query-string": "^7.0.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
+    "react-mde": "^11.5.0",
     "react-router": "^5.2.1",
     "react-router-dom": "^5.3.0",
+    "showdown": "^1.9.1",
+    "showdown-highlight": "^2.1.8",
     "styled-components": "^5.3.1",
     "swr": "^1.0.1"
   },

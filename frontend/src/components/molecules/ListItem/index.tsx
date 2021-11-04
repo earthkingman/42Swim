@@ -1,3 +1,4 @@
+import dateChange from "../../../utils/dateChange";
 import { RowSBDiv } from "../../atoms/Div";
 import Tag from "../../atoms/Tag";
 import Profile from "../Profile";
@@ -14,24 +15,6 @@ export interface Props {
   created_at: string;
   hashtag: string[];
 }
-
-const getTime = (create_time: string) => {
-  const today = new Date();
-  const localDate = today.toLocaleDateString();
-  const ctime = new Date(create_time);
-  const createDate = ctime.toLocaleDateString();
-
-  if (createDate === localDate) {
-    const hour = today.getHours() - ctime.getHours();
-    return hour + "시간 전";
-  } else if (today.getFullYear() === ctime.getFullYear()) {
-    const day = today.getMonth() - ctime.getMonth();
-    return day + "일 전";
-  } else {
-    const year = today.getFullYear() - ctime.getFullYear();
-    return year + "년 전";
-  }
-};
 
 const ListItem = ({
   title,
@@ -54,7 +37,7 @@ const ListItem = ({
         <S.Bottom>
           <RowSBDiv>
             <S.Time size="14" weight="normal" color="grey">
-              {getTime(created_at)}
+              {dateChange(created_at)}
             </S.Time>
             {hashtag.map((data, idx) => (
               <Tag name={data?.name} key={idx} />

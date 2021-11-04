@@ -44,7 +44,10 @@ const Number = ({ number, active, onClick, ...props }: PNProps) => {
   );
 };
 
-function range(size: number, start: number) {
+function makePageRange(questionCount: number, start: number) {
+  const limit = 8;
+  const size = parseInt(questionCount / limit) + 1;
+  console.log("size", questionCount);
   return Array(size)
     .fill(start)
     .map((x, y) => x + y);
@@ -52,16 +55,21 @@ function range(size: number, start: number) {
 
 export interface Props {
   page: number;
-  onFront: any;
-  onBack: any;
+  questionCount: number;
+  onPage: any;
 }
 
-const Pagination = ({ page = 1, onFront, onBack, ...props }: Props) => {
+const Pagination = ({
+  page = 1,
+  onPage,
+  questionCount = 10,
+  ...props
+}: Props) => {
   return (
     <PageWrapper {...props}>
-      <ArrowFront onClick={onFront} />
+      <ArrowFront onClick={() => onPage(page - 1)} />
       <RowSBDiv>
-        {range(10, 1).map((data) => (
+        {makePageRange(questionCount, 1).map((data) => (
           <Number
             number={data}
             active={page === data ? true : false}
@@ -69,7 +77,7 @@ const Pagination = ({ page = 1, onFront, onBack, ...props }: Props) => {
           />
         ))}
       </RowSBDiv>
-      <ArrowBack onClick={onBack} />
+      <ArrowBack onClick={() => onPage(page + 1)} />
     </PageWrapper>
   );
 };
