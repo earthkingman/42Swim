@@ -13,10 +13,9 @@ const deleteComment = async (req: DecodedRequest, res: Response) => {
 	const userId: number = req.decodedId;
 	const commentService: CommentService = new CommentService();
 	try {
-		const comments = await commentService.delete({ userId, questionId, answerId, commentId });
+		await commentService.delete({ userId, questionId, answerId, commentId });
 		return res.status(200).json({
 			result: true,
-			comments: comments,
 			message: "Delete Success"
 		})
 	} catch (error) {
@@ -35,10 +34,9 @@ const updateComment = async (req: DecodedRequest, res: Response) => {
 
 
 	try {
-		const comments = await commentService.update({ text, questionId, answerId, commentId, userId });
+		await commentService.update({ text, questionId, answerId, commentId, userId });
 		return res.status(200).json({
 			result: true,
-			comments: comments,
 			message: "Update Success"
 		})
 	} catch (error) {
@@ -56,10 +54,9 @@ const uploadComment = async (req: DecodedRequest, res: Response) => {
 	const commentService: CommentService = new CommentService();
 
 	try {
-		const comments = await commentService.post({ userId, questionId, answerId, text });
+		await commentService.post({ userId, questionId, answerId, text });
 		return res.status(200).json({
 			result: true,
-			comments: comments,
 			message: "Upload Success"
 		})
 	} catch (error) {
