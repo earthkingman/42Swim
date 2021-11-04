@@ -6,9 +6,11 @@ import { Question } from "../entity/question";
 
 export class PageService {
 	private questionRepository: Repository<Question>;
+	private hashtagRepository: Repository<HashTag>;
 
 	constructor() {
 		this.questionRepository = getConnection().getRepository(Question);
+		this.hashtagRepository = getConnection().getRepository(HashTag);
 	}
 
 	async setQuestionViewCount(questionId) {
@@ -50,16 +52,26 @@ export class PageService {
 		const questionList = await this.questionRepository
 			.createQueryBuilder('question')
 			.leftJoinAndSelect('question.user', 'question_user')
-			.leftJoinAndSelect('question.hashtag', 'hashtag')
 			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.title', 'question.text',
 				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
-				'hashtag.id', 'hashtag.name'
 			])
 			.orderBy('question.id', 'DESC')
 			.limit(pageInfo.limit)
 			.offset(pageInfo.offset)
 			.disableEscaping()
 			.getMany()
+
+		for (let i = 0; i < questionList.length; i++) {
+			const questionId = questionList[i].id;
+			const hashtags = await this.hashtagRepository
+				.createQueryBuilder('hashtag')
+				.leftJoin('hashtag.question', 'question')
+				.where('question.id = :id', { id: questionId })
+				.select(['hashtag.id', 'hashtag.name'])
+				.getMany();
+			questionList[i].hashtag = hashtags;
+		}
+
 		const questionCount = await this.questionRepository
 			.count();
 		return { questionList, questionCount };
