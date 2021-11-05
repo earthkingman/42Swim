@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Text from "../../atoms/Text";
 
 export const AnswerWrapper = styled.div`
   margin-bottom: 80px;
@@ -12,8 +11,4 @@ export const AnswerTitleWrapper = styled.div`
   justify-content: space-between;
   margin-bottom: 40px;
   align-items: flex-end;
-`;
-
-export const AnswerMain = styled(Text)`
-  white-space: pre-line;
 `;

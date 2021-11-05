@@ -3,13 +3,9 @@ import Title from "../../atoms/Title";
 import Profile, { ProfileProps } from "../Profile";
 import Tag from "../../atoms/Tag";
 
-import {
-  QuestionTitleWrapper,
-  QuestionWrapper,
-  TagWrapper,
-  QuestionMain,
-} from "./sytle";
+import { QuestionTitleWrapper, QuestionWrapper, TagWrapper } from "./sytle";
 import dateChange from "../../../utils/dateChange";
+import MainText from "../../atoms/MainText";
 
 interface tagType {
   name: string;
@@ -46,9 +42,7 @@ const Question = ({
         <Profile {...user} size="sm" />
         <TagWrapper>{tagComponent}</TagWrapper>
       </QuestionTitleWrapper>
-      <QuestionMain size="18" color="black">
-        {text}
-      </QuestionMain>
+      <MainText>{text}</MainText>
     </QuestionWrapper>
   );
 };

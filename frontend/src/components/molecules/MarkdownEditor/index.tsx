@@ -23,6 +23,7 @@ interface MarkdownEditorProps {
 }
 
 const MarkdownEditor = ({ value, setValue, ...props }: MarkdownEditorProps) => {
+  const textArea = document.getElementsByClassName("mde-text")[0];
   const [selectedTab, setSelectedTab] = React.useState<"write" | "preview">(
     "write"
   );
@@ -54,7 +55,13 @@ const MarkdownEditor = ({ value, setValue, ...props }: MarkdownEditorProps) => {
       <ReactMde
         classes={{}}
         value={value}
-        onChange={setValue}
+        onChange={(value) => {
+          const newHeight: string = event?.target.scrollHeight + "px";
+          console.log(newHeight);
+          setValue(value);
+          textArea.style.height = "auto";
+          textArea.style.height = newHeight;
+        }}
         selectedTab={selectedTab}
         onTabChange={setSelectedTab}
         generateMarkdownPreview={(markdown) => {
@@ -70,8 +77,6 @@ const MarkdownEditor = ({ value, setValue, ...props }: MarkdownEditorProps) => {
           saveImage: save,
         }}
       />
-
-      {/*code highlighting*/}
       <script src="/path/to/highlight.min.js"></script>
       <script>hljs.highlightAll();</script>
       <link

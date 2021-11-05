@@ -21,34 +21,27 @@ const InputTag = ({
   setTag,
   ...props
 }: InputTagProps) => {
-  //const hashTag = [
-  //  {
-  //    id: 5,
-  //    name: "tag",
-  //  },
-  //  {
-  //    id: 6,
-  //    name: "hashtag",
-  //  },
-  //];
   const tagMsg = document.getElementsByClassName("tagMsg")[0];
   const InputTagEl = document.getElementsByClassName("tagInput")[0];
+  const validTag = new RegExp(/#{1,1}[a-z_0-9]+$/g);
+  const validTagInput = new RegExp(/#{1}[a-z_0-9]+\s$/g);
 
   const putTag = () => {
-    const newTag = [...tag];
-    const validValue = value.slice(1);
-    if (validValue) newTag.push(validValue);
-    setValue("");
-    setTag(newTag);
-    InputTagEl.style.color = "black";
+    if (validTag.test(value)) {
+      const newTag = [...tag];
+      const validValue = value.slice(1);
+      if (validValue) newTag.push(validValue);
+      setValue("");
+      setTag(newTag);
+      InputTagEl.style.color = "black";
+    }
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     inputChange(e);
-    const validTag = new RegExp(/#{1}[a-z_0-9]+$/g);
-    const validTagInput = new RegExp(/#{1}[a-z_0-9]+\s$/g);
-    if (validTag.test(e.target.value)) {
+
+    if (!e.target.value | validTag.test(e.target.value)) {
       tagMsg.style.display = "none";
       InputTagEl.style.color = "black";
     }
