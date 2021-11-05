@@ -9,6 +9,6 @@ const router: Router = express.Router();
 router.use('/auth', authRouter);
 router.use('/posts', postRouter);
 router.use('/pages', pageRouter);
-router.use('/hashTags', hashTagRouter);
+router.use('/hashtags', hashTagRouter);
 router.use('/users', userRouter);
 export const applicationRouter: Router = router;

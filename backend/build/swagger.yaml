@@ -14,6 +14,8 @@ servers:
 tags:
   - name: page
     description: 페이지
+  - name: hashtag
+    description: hashtag
   - name: question
     description: 질문 게시글
   - name: answer
@@ -234,6 +236,40 @@ components:
       description: comment
       required: true
 paths:
+  /hashtags/list:
+    get:
+      summary: 해시태그들을 반환합니다.
+      tags:
+        - hashtag
+      responses:
+        '200':
+          description: 해시태그 리스트 요청 성공
+        '404':
+          description: Hashtag doesn't exist
+  /hashtags/questions:
+    get:
+      summary: 해시태그에 속한 질문글들을 반환합니다.
+      tags:
+        - hashtag
+      parameters:
+        - name: hashtag
+          in: query
+          schema:
+            type: string
+          example: ft_printf
+          required: true
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+      responses:
+        '200':
+          description: 해시태그 질문 리스트 요청 성공
+        '404':
+          description: Hashtag doesn't exist
   /posts/question:
     get:
       summary: 질문 게시글을 반환합니다.
