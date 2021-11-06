@@ -23,6 +23,7 @@ interface MarkdownEditorProps {
 }
 
 const MarkdownEditor = ({ value, setValue, ...props }: MarkdownEditorProps) => {
+  const textArea = document.getElementsByClassName("mde-text")[0];
   const [selectedTab, setSelectedTab] = React.useState<"write" | "preview">(
     "write"
   );
@@ -30,7 +31,21 @@ const MarkdownEditor = ({ value, setValue, ...props }: MarkdownEditorProps) => {
   //todo: 이미지 업로드 axios 서버 통신: data를 보내면 됨.
   const save: SaveImageHandler = async function* (data: ArrayBuffer) {
     console.log(data);
-    yield "https://picsum.photos/300";
+
+    try {
+      //axios post 로 수정 필요.
+      const a = await new Promise((res) => {
+        setTimeout(() => {
+          res("done...");
+        }, 3000);
+      });
+      console.log(a);
+      yield a;
+    } catch (error) {
+      console.log(error);
+      alert("사진 전송 실패");
+      yield "Error";
+    }
 
     return true;
   };
@@ -40,7 +55,13 @@ const MarkdownEditor = ({ value, setValue, ...props }: MarkdownEditorProps) => {
       <ReactMde
         classes={{}}
         value={value}
-        onChange={setValue}
+        onChange={(value) => {
+          const newHeight: string = event?.target.scrollHeight + "px";
+          console.log(newHeight);
+          setValue(value);
+          textArea.style.height = "auto";
+          textArea.style.height = newHeight;
+        }}
         selectedTab={selectedTab}
         onTabChange={setSelectedTab}
         generateMarkdownPreview={(markdown) => {
@@ -56,8 +77,6 @@ const MarkdownEditor = ({ value, setValue, ...props }: MarkdownEditorProps) => {
           saveImage: save,
         }}
       />
-
-      {/*code highlighting*/}
       <script src="/path/to/highlight.min.js"></script>
       <script>hljs.highlightAll();</script>
       <link

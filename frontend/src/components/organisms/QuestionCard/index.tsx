@@ -8,7 +8,6 @@ import { QuestionCardWrapper } from "./sytle";
 
 const QuestionCard = ({ ...props }) => {
   const { question, isLoading, thumbPost } = useDetail();
-
   //todo: isLogin 정보 받아오기.
   const isLogin = 1;
 

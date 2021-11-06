@@ -30,7 +30,8 @@ const updateQuestion = async (req: DecodedRequest, res: Response, next: NextFunc
     const { questionId, title, text, hashtag } = req.body;
     const userId: number = req.decodedId
     const files: string[] = [];
-    const size = req.files.length;
+    //const size = req.files.lengt;
+    const size = 0;
     const questionService: QuestionService = new QuestionService();
 
     for (let i = 0; i < size; i++)
