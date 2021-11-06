@@ -4,11 +4,11 @@ import { Request, Response, NextFunction } from 'express';
 import { HashtagService } from '../service/hashtag_service';
 
 const getAllHashTagList = async (req: Request, res: Response, next: NextFunction) => {
-    const hashTagService: HashtagService = new HashtagService();
+    const hashtagService: HashtagService = new HashtagService();
     try {
-        const hashTagList = await hashTagService.getAllHashTagList();
+        const hashtagList = await hashtagService.getAllHashTagList();
         return res.status(200).json({
-            hashTags: hashTagList,
+            hashtags: hashtagList,
             result: true,
 
         })
@@ -21,12 +21,16 @@ const getAllHashTagList = async (req: Request, res: Response, next: NextFunction
 }
 
 const getQuestionByHashTag = async (req: Request, res: Response, next: NextFunction) => {
-    const hashTag: string = String(req.query.hashTag);
-    const hashTagService: HashtagService = new HashtagService();
+    const hashtag: string = String(req.query.hashtag);
+    const pageNumber = Number(req.query.pageNumber) - 1 | 0;
+    const limit = 8;
+    const offset = pageNumber * limit;
+    const pageInfo = { hashtag, limit, offset };
+    const hashtagService: HashtagService = new HashtagService();
     try {
-        const questionList = await hashTagService.getQuestionByHashTag(hashTag);
+        const questionList = await hashtagService.getQuestionByHashTag(pageInfo);
         return res.status(200).json({
-            hashTags: questionList,
+            hashtags: questionList,
             result: true,
         })
     } catch (error) {
