@@ -23,38 +23,47 @@ const InputTag = ({
 }: InputTagProps) => {
   const tagMsg = document.getElementsByClassName("tagMsg")[0];
   const InputTagEl = document.getElementsByClassName("tagInput")[0];
-  const validTag = new RegExp(/#{1,1}[a-z_0-9]+$/g);
-  const validTagInput = new RegExp(/#{1}[a-z_0-9]+\s$/g);
+  const validTag = new RegExp(/^#[a-z_0-9]+$/);
 
+  //todo: code 정리
   const putTag = () => {
-    if (validTag.test(value)) {
-      const newTag = [...tag];
-      const validValue = value.slice(1);
-      if (validValue) newTag.push(validValue);
-      setValue("");
-      setTag(newTag);
+    const newTag = [...tag];
+    const validValue = value.slice(1);
+    if (validValue && !tag.includes(validValue)) newTag.push(validValue);
+    setValue("");
+    setTag(newTag);
+    InputTagEl.style.color = "black";
+  };
+
+  const onChange = (e: Event) => {
+    e.preventDefault();
+    inputChange(e);
+    if (e.target.value && validTag.test(e.target.value)) {
+      tagMsg.style.display = "none";
       InputTagEl.style.color = "black";
     }
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    inputChange(e);
-
-    if (!e.target.value | validTag.test(e.target.value)) {
-      tagMsg.style.display = "none";
-      InputTagEl.style.color = "black";
-    }
-    if (e.nativeEvent.data === " ") {
-      if (validTagInput.test(e.target.value)) putTag();
+  const onKeyPress = (e: Event) => {
+    if (e.code === "Enter" || e.code === "Space") {
+      e.preventDefault();
+      if (validTag.test(value) || validTag.test(value)) putTag();
       else {
         tagMsg.style.display = "block";
         InputTagEl.style.color = "red";
       }
     }
   };
-  const tagPreView = tag?.map((item, idx) => {
-    return <Tag key={idx} name={item}></Tag>;
+
+  const onDelCLick = (name: string) => {
+    const newTag = tag.filter((item) => item !== name);
+    setTag(newTag);
+  };
+
+  const tagPreView = tag?.map((item) => {
+    return (
+      <Tag key={item} name={item} onDelClick={onDelCLick} isDel={true}></Tag>
+    );
   });
   return (
     <S.Wrap>
@@ -64,6 +73,7 @@ const InputTag = ({
         className="tagInput"
         onChange={onChange}
         onBlur={putTag}
+        onKeyPress={onKeyPress}
         {...props}
       />
       <Text

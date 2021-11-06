@@ -11,7 +11,7 @@ export const Default = (props: Props) => {
     <GlobalThemeProvider>
       <Tag {...props} name="TAG1" />
       <Tag {...props} name="long_tag_tag" />
-      <Tag {...props} name="st" />
+      <Tag {...props} name="st" isDel={true} />
     </GlobalThemeProvider>
   );
 };
