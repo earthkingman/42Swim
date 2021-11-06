@@ -1,6 +1,7 @@
 import React from "react";
-import DeleteBtn from "../../asset/icons/DeleteBtn";
 import * as S from "./style";
+import Text from "../Text";
+import DeleteBtn from "../../asset/icons/DeleteBtn";
 
 export interface TagProps {
   name: string;
@@ -11,9 +12,9 @@ export interface TagProps {
 const Tag = ({ name, isDel, onDelClick, ...props }: TagProps) => {
   return (
     <S.TagBox {...props}>
-      <S.TextS size="14" style={{ wordBreak: "normal", color: "#424040" }}>
+      <Text size="14" style={{ wordBreak: "normal", color: "#424040" }}>
         {name}
-      </S.TextS>
+      </Text>
       {isDel ? (
         <S.ButtonS
           onClick={() => {

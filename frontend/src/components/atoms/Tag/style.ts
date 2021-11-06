@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import theme from "../../../style/theme";
-import Text from "../Text";
 
 export const TagBox = styled.div`
   display: flex;
@@ -18,11 +17,8 @@ export const TagBox = styled.div`
   padding: 0px 10px;
 `;
 
-export const TextS = styled(Text)`
-  margin-right: 1rem;
-`;
-
 export const ButtonS = styled.button`
+  margin-left: 1rem;
   background-color: inherit;
   cursor: pointer;
 `;
