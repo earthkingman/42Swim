@@ -26,7 +26,7 @@ interface ResponseProps {
   message: string;
 }
 
-const MainPage = () => {
+const MainPage = ({ history, ...props }) => {
   const { user, isLoading, isError } = useAuth();
   //   const [user, setUser] = useState(null);
   const [isLoginModal, setIsLoginModal] = useState(false);
@@ -65,7 +65,7 @@ const MainPage = () => {
                 search={search}
                 onSearch={onSearch}
               />
-              <Button size="sm">
+              <Button onClick={() => history.push("/writing")} size="sm">
                 질문하기 <PlusIcon />
               </Button>
             </>

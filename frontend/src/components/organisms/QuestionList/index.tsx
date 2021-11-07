@@ -58,6 +58,7 @@ const QuestionList = ({ menu, setMenu, ...props }: Props) => {
               ))
             : question?.quesiontList.map((d, idx) => (
                 <ListItem
+                  id={d.id}
                   title={d.title}
                   text={d.text}
                   nickname={d?.user?.nickname}
