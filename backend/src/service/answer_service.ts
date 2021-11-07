@@ -39,6 +39,8 @@ export class AnswerService {
 
 		await this.queryRunner.startTransaction();
 		try {
+			question.answer_count += 1;
+			await this.questionRepository.save(question);
 			const answer = await this.answerRepository.save(answerInfo);
 			// await Promise.all(photos.map(async (photo) => {
 			// 	await this.photoRepository.save({ photo, question, answer });
@@ -108,15 +110,17 @@ export class AnswerService {
 				where: { id: answerId, user: { id: userId }, question: { id: questionId } },
 				relations: ['user', 'question']
 			});
+		const question = await this.questionRepository
+			.findOne({ where: { id: questionId } });
 		if (answer === undefined) {
-			const question = await this.questionRepository
-				.findOne({ where: { id: questionId } });
+
 			const noAuthAnswer = await this.answerRepository
 				.findOne({
 					where: { id: answerId, question: { id: questionId } },
 					relations: ['question']
 				});
 			if (question === undefined) {
+				console.log(question);
 				await this.queryRunner.release();
 				throw new Error("The questionPost doesn't exist.");
 			}
@@ -131,6 +135,8 @@ export class AnswerService {
 		}
 		await this.queryRunner.startTransaction();
 		try {
+			question.answer_count -= 1;
+			await this.questionRepository.save(question);
 			await this.answerRepository.remove(answer);
 			await this.queryRunner.commitTransaction();
 		} catch (error) {

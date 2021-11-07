@@ -7,7 +7,7 @@ import { DecodedRequest } from '../definition/decoded_jwt'
 import { QuestionService } from '../service/question_service';
 
 const deleteQuestion = async (req: DecodedRequest, res: Response, next: NextFunction) => {
-    const { questionId } = req.body;
+    const questionId = Number(req.query.questionId);
     const userId: number = req.decodedId;
     const questionService: QuestionService = new QuestionService();
 

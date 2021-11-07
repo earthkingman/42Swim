@@ -6,7 +6,8 @@ dotenv.config();
 import { AnswerService } from '../service/answer_service';
 
 const deleteAnswer = async (req: DecodedRequest, res: Response) => {
-	const { answerId, questionId } = req.body;
+	const questionId = Number(req.query.questionId);
+	const answerId = Number(req.query.answerId);
 	const userId = req.decodedId;
 	const answerService = new AnswerService();
 	try {

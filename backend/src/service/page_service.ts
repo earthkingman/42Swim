@@ -52,7 +52,7 @@ export class PageService {
 		const questionList = await this.questionRepository
 			.createQueryBuilder('question')
 			.leftJoinAndSelect('question.user', 'question_user')
-			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.title', 'question.text',
+			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
 				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
 			])
 			.orderBy('question.id', 'DESC')
