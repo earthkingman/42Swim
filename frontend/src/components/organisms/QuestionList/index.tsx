@@ -63,7 +63,7 @@ const QuestionList = ({ menu, setMenu, ...props }: Props) => {
                   text={d.text}
                   nickname={d?.user?.nickname}
                   is_solved={d.is_solved}
-                  answer_cnt={d.answer_cnt}
+                  answer_cnt={d.answer_count}
                   like_count={d.like_count}
                   view_count={d.view_count}
                   hashtag={d.hashtag}
