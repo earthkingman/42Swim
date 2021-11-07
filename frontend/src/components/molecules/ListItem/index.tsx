@@ -1,3 +1,4 @@
+import dateChange from "../../../utils/dateChange";
 import { RowSBDiv } from "../../atoms/Div";
 import Tag from "../../atoms/Tag";
 import Profile from "../Profile";
@@ -7,6 +8,7 @@ import * as S from "./style";
 export interface Props {
   title: string;
   text: string;
+  nickname: string;
   is_solved: boolean;
   answer_cnt: number;
   like_count: number;
@@ -15,28 +17,11 @@ export interface Props {
   hashtag: string[];
 }
 
-const getTime = (create_time: string) => {
-  const today = new Date();
-  const localDate = today.toLocaleDateString();
-  const ctime = new Date(create_time);
-  const createDate = ctime.toLocaleDateString();
-
-  if (createDate === localDate) {
-    const hour = today.getHours() - ctime.getHours();
-    return hour + "시간 전";
-  } else if (today.getFullYear() === ctime.getFullYear()) {
-    const day = today.getMonth() - ctime.getMonth();
-    return day + "일 전";
-  } else {
-    const year = today.getFullYear() - ctime.getFullYear();
-    return year + "년 전";
-  }
-};
-
 const ListItem = ({
   title,
   text,
   is_solved,
+  nickname,
   answer_cnt = 1,
   like_count,
   view_count,
@@ -54,13 +39,13 @@ const ListItem = ({
         <S.Bottom>
           <RowSBDiv>
             <S.Time size="14" weight="normal" color="grey">
-              {getTime(created_at)}
+              {dateChange(created_at)}
             </S.Time>
             {hashtag.map((data, idx) => (
               <Tag name={data?.name} key={idx} />
             ))}
           </RowSBDiv>
-          <Profile size="sm" nickname="닉네임" id={0} />
+          <Profile size="sm" nickname={nickname} id={0} />
         </S.Bottom>
       </S.Content>
       {/* <S.Check>{check ? <CheckImg /> : <></>}</S.Check> */}

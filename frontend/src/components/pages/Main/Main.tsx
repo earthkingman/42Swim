@@ -18,6 +18,7 @@ import useSWR from "swr";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { Props as ListProps } from "../../molecules/ListItem";
 import BasicTemplate from "../BasicTemplate";
+import useAuth from "../../../hooks/useAuth";
 
 interface ResponseProps {
   quesiontList: ListProps[];
@@ -26,28 +27,22 @@ interface ResponseProps {
 }
 
 const MainPage = () => {
-  const [user, setUser] = useState(null);
+  const { user, isLoading, isError } = useAuth();
+  //   const [user, setUser] = useState(null);
   const [isLoginModal, setIsLoginModal] = useState(false);
   const [isRegistModal, setIsRegistModal] = useState(false);
   const [menu, setMenu] = useState(0);
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    const userInfo = localStorage.getItem("user");
-    setUser(JSON.parse(userInfo));
-    console.log("userInfo", userInfo);
-    console.log(user);
-  }, []);
-
   const onSearch = () => {
     console.log("search");
     setSearch("hihi");
   };
+
   return (
     <>
       <LoginPage
         onRegist={setIsRegistModal}
-        onLoginSuccess={setUser}
         visible={isLoginModal}
         onClose={setIsLoginModal}
       />
@@ -57,6 +52,7 @@ const MainPage = () => {
           <Header
             onLoginClick={setIsLoginModal}
             isLogin={user === null ? false : true}
+            userInfo={user}
             nickname={user?.nickname}
           />
         }

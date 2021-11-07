@@ -1,4 +1,5 @@
 import React from "react";
+import useAuth from "../../../hooks/useAuth";
 import Text from "../../atoms/Text";
 import Profile from "../../molecules/Profile/";
 import {
@@ -11,12 +12,13 @@ import {
 
 export interface Props {
   isLogin?: boolean;
-  nickname?: string;
-  img?: string;
   onLoginClick?: any;
 }
 
-const Header = ({ onLoginClick, isLogin, nickname, img }: Props) => {
+const Header = ({ onLoginClick }: Props) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { user, isLoading, isError } = useAuth();
+
   return (
     <HeaderWrapper>
       <HeaderTitleWrapper>
@@ -25,11 +27,11 @@ const Header = ({ onLoginClick, isLogin, nickname, img }: Props) => {
           42seoul
         </Text>
       </HeaderTitleWrapper>
-      {isLogin ? (
+      {user ? (
         <Profile
           size="lg"
-          img={img}
-          nickname={nickname ? nickname : "정보없음"}
+          img={user?.img}
+          nickname={user?.nickname ? user?.nickname : "정보없음"}
         />
       ) : (
         <HeaderBtnWrapper>
