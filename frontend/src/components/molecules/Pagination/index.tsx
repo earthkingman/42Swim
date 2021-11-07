@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { MutableRefObject, useRef, useState } from "react";
 import ArrowBack from "../../asset/icons/ArrowBack";
 import ArrowFront from "../../asset/icons/ArrowFront";
 import CircleBox from "../../atoms/CircleBox";
@@ -44,13 +44,30 @@ const Number = ({ number, active, onClick, ...props }: PNProps) => {
   );
 };
 
-function makePageRange(questionCount: number, start: number) {
-  const limit = 8;
-  const size = parseInt(questionCount / limit) + 1;
-  console.log("size", questionCount);
+function makePageRange(pageNum: number, offset: MutableRefObject<number>) {
+  console.log("pageNum", pageNum);
+  console.log("offset", offset);
+
+  const sp = 10 * (offset.current - 1) + 1;
+  console.log("sp", sp);
+  let size;
+  if (pageNum <= 10) size = pageNum;
+  else if (sp + 9 >= pageNum) size = pageNum - sp + 1;
+  else size = 10;
+
   return Array(size)
-    .fill(start)
+    .fill(sp)
     .map((x, y) => x + y);
+}
+
+function countPageNum(questionCount: number) {
+  const limit = 8;
+  let size = parseInt(questionCount / limit);
+  if (size % limit === 0) size = size - 1;
+  const pageNum = size + 1;
+  console.log("pageNum", pageNum);
+
+  return pageNum;
 }
 
 export interface Props {
@@ -65,19 +82,42 @@ const Pagination = ({
   questionCount = 10,
   ...props
 }: Props) => {
+  const pageNum = countPageNum(questionCount);
+  const offset = useRef(1);
+
+  const onFront = () => {
+    if (page === 1) {
+      alert("페이지가 존재하지 않습니다!");
+      return;
+    }
+    onPage(page - 1);
+  };
+  const onBack = () => {
+    if (page === pageNum) {
+      alert("페이지가 존재하지 않습니다!");
+      return;
+    }
+
+    // 여기 쪽 다시한번 살펴볼 것
+    if (page % 10 === 0) {
+      offset.current += 1;
+    }
+    onPage(page + 1);
+  };
   return (
     <PageWrapper {...props}>
-      <ArrowFront onClick={() => onPage(page - 1)} />
+      <ArrowFront onClick={onFront} />
       <RowSBDiv>
-        {makePageRange(questionCount, 1).map((data) => (
+        {makePageRange(pageNum, offset).map((data) => (
           <Number
             number={data}
+            onClick={() => onPage(data)}
             active={page === data ? true : false}
             key={data}
           />
         ))}
       </RowSBDiv>
-      <ArrowBack onClick={() => onPage(page + 1)} />
+      <ArrowBack onClick={onBack} />
     </PageWrapper>
   );
 };
