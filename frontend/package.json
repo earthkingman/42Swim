@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+	"testbuild": "vite build",
     "serve": "vite preview",
     "eslint": "eslint --fix",
     "storybook": "start-storybook -p 6006",

@@ -60,6 +60,7 @@ const QuestionList = ({ menu, setMenu, ...props }: Props) => {
                 <ListItem
                   title={d.title}
                   text={d.text}
+                  nickname={d?.user?.nickname}
                   is_solved={d.is_solved}
                   answer_cnt={d.answer_cnt}
                   like_count={d.like_count}

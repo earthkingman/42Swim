@@ -8,6 +8,7 @@ import * as S from "./style";
 export interface Props {
   title: string;
   text: string;
+  nickname: string;
   is_solved: boolean;
   answer_cnt: number;
   like_count: number;
@@ -20,6 +21,7 @@ const ListItem = ({
   title,
   text,
   is_solved,
+  nickname,
   answer_cnt = 1,
   like_count,
   view_count,
@@ -43,7 +45,7 @@ const ListItem = ({
               <Tag name={data?.name} key={idx} />
             ))}
           </RowSBDiv>
-          <Profile size="sm" nickname="닉네임" id={0} />
+          <Profile size="sm" nickname={nickname} id={0} />
         </S.Bottom>
       </S.Content>
       {/* <S.Check>{check ? <CheckImg /> : <></>}</S.Check> */}
