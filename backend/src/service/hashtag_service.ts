@@ -23,7 +23,7 @@ export class HashtagService {
             .leftJoinAndSelect('question.user', 'question_user')
             .leftJoin('question.hashtag', 'hashtag')
             .where('hashtag.name = :name', { name: pageInfo.hashtag })
-            .select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.title', 'question.text',
+            .select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
                 'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
             ])
             .orderBy('question.id', 'DESC')
@@ -55,5 +55,4 @@ export class HashtagService {
     async postHashTag(): Promise<any> {
 
     }
-
 }
