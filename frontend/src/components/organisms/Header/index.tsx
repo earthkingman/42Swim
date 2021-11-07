@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import Text from "../../atoms/Text";
 import Profile from "../../molecules/Profile/";
@@ -22,7 +23,9 @@ const Header = ({ onLoginClick }: Props) => {
   return (
     <HeaderWrapper>
       <HeaderTitleWrapper>
-        <TitleHeader size="h1">42Code</TitleHeader>
+        <Link to="/">
+          <TitleHeader size="h1">42Code</TitleHeader>
+        </Link>
         <Text size="14" color="lightgrey">
           42seoul
         </Text>

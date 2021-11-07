@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import dateChange from "../../../utils/dateChange";
 import { RowSBDiv } from "../../atoms/Div";
 import Tag from "../../atoms/Tag";
@@ -6,6 +7,7 @@ import SortCounter from "../SortCounter";
 import * as S from "./style";
 
 export interface Props {
+  id: number;
   title: string;
   text: string;
   nickname: string;
@@ -18,6 +20,7 @@ export interface Props {
 }
 
 const ListItem = ({
+  id,
   title,
   text,
   is_solved,
@@ -32,7 +35,9 @@ const ListItem = ({
   return (
     <S.ListBox {...props}>
       <S.Content>
-        <S.Title size="h2">{title}</S.Title>
+        <Link to={`/detail?id=${id}`}>
+          <S.Title size="h2">{title}</S.Title>
+        </Link>
         <S.Desc size="18" weight="normal" color="grey">
           {text}
         </S.Desc>
