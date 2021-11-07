@@ -20,14 +20,14 @@ const AStyles = css<SA>`
     `}
 `;
 // TODO : 나중에 a 를 Link 태그로 바꾸어야 한다.
-export const StyledA = styled(Link)<SA>`
+
+export const StyledSpan = styled.span<SA>`
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
 
   ${AStyles}
 `;
-
 export interface AProps extends SA {
   onClick?: any;
   children?: any;
@@ -39,9 +39,9 @@ const A = ({ to = "/", children, ...props }: AProps) => {
   return (
     //   to = '/',
     //   to={to}
-    <StyledA to={to} {...props}>
-      {children}
-    </StyledA>
+    <Link to={to}>
+      <StyledSpan {...props}>{children}</StyledSpan>
+    </Link>
   );
 };
 

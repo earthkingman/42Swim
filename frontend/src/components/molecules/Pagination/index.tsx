@@ -63,9 +63,10 @@ function makePageRange(pageNum: number, offset: MutableRefObject<number>) {
 function countPageNum(questionCount: number) {
   const limit = 8;
   let size = parseInt(questionCount / limit);
-  if (size % limit === 0) size = size - 1;
+  console.log("size", size);
+  if (questionCount % limit === 0) size = size - 1;
   const pageNum = size + 1;
-  console.log("pageNum", pageNum);
+  console.log("HellopageNum", pageNum);
 
   return pageNum;
 }
@@ -90,6 +91,10 @@ const Pagination = ({
       alert("페이지가 존재하지 않습니다!");
       return;
     }
+
+    if (page % 10 === 1) {
+      offset.current -= 1;
+    }
     onPage(page - 1);
   };
   const onBack = () => {
@@ -104,6 +109,7 @@ const Pagination = ({
     }
     onPage(page + 1);
   };
+
   return (
     <PageWrapper {...props}>
       <ArrowFront onClick={onFront} />

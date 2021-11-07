@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import useAuth from "../../../hooks/useAuth";
 import Text from "../../atoms/Text";
 import Profile from "../../molecules/Profile/";
@@ -18,7 +19,14 @@ export interface Props {
 
 const Header = ({ onLoginClick }: Props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { user, isLoading, isError } = useAuth();
+  //   const { user, isLoading, isError } = useAuth();
+  //   const user = {
+  //     id: 3,
+  //     email: "chloek@gmail.com",
+  //     photo: "https://avatars.githubusercontent.com/u/51353146?v=4",
+  //     nickname: "Chloek",
+  //   };
+  const user = null;
 
   return (
     <HeaderWrapper>
@@ -33,7 +41,7 @@ const Header = ({ onLoginClick }: Props) => {
       {user ? (
         <Profile
           size="lg"
-          img={user?.img}
+          photo={user?.photo}
           nickname={user?.nickname ? user?.nickname : "정보없음"}
         />
       ) : (

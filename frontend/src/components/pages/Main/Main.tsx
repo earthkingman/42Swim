@@ -27,7 +27,7 @@ interface ResponseProps {
 }
 
 const MainPage = ({ history, ...props }) => {
-  const { user, isLoading, isError } = useAuth();
+  //   const { user, isLoading, isError } = useAuth();
   //   const [user, setUser] = useState(null);
   const [isLoginModal, setIsLoginModal] = useState(false);
   const [isRegistModal, setIsRegistModal] = useState(false);
@@ -51,9 +51,7 @@ const MainPage = ({ history, ...props }) => {
         header={
           <Header
             onLoginClick={setIsLoginModal}
-            isLogin={user === null ? false : true}
-            userInfo={user}
-            nickname={user?.nickname}
+            // isLogin={user === null ? false : true}
           />
         }
       >
