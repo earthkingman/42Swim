@@ -69,8 +69,13 @@ const MainPage = () => {
                 search={search}
                 onSearch={onSearch}
               />
-              <Button size="sm">
-                질문하기 <PlusIcon />
+              <Button
+                onClick={() => {
+                  location.href = "http://localhost:3000/writing";
+                }}
+                size="sm"
+              >
+                질문하기 <PlusIcon style={{ marginLeft: "1rem" }} />
               </Button>
             </>
           }

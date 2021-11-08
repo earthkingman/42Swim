@@ -5,6 +5,12 @@ import showdownHighlight from "showdown-highlight";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { MarkDownEditorWrap } from "./style";
 
+interface MarkdownEditorProps {
+  value?: string;
+  setValue?: any;
+  placeHolder?: string;
+}
+
 const converter = new Showdown.Converter({
   tables: true,
   simplifiedAutoLink: true,
@@ -17,12 +23,12 @@ const converter = new Showdown.Converter({
   ],
 });
 
-interface MarkdownEditorProps {
-  value?: string;
-  setValue?: any;
-}
-
-const MarkdownEditor = ({ value, setValue, ...props }: MarkdownEditorProps) => {
+const MarkdownEditor = ({
+  value,
+  setValue,
+  placeHolder,
+  ...props
+}: MarkdownEditorProps) => {
   const textArea = document.getElementsByClassName("mde-text")[0];
   const [selectedTab, setSelectedTab] = React.useState<"write" | "preview">(
     "write"
@@ -49,7 +55,6 @@ const MarkdownEditor = ({ value, setValue, ...props }: MarkdownEditorProps) => {
 
     return true;
   };
-
   return (
     <MarkDownEditorWrap {...props}>
       <ReactMde
@@ -71,6 +76,9 @@ const MarkdownEditor = ({ value, setValue, ...props }: MarkdownEditorProps) => {
         childProps={{
           writeButton: {
             tabIndex: -1,
+          },
+          textArea: {
+            placeholder: placeHolder,
           },
         }}
         paste={{

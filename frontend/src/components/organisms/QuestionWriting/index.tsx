@@ -76,7 +76,11 @@ const QuestionWriting = () => {
       />
       <Divider weight="bold" width="4rem" />
       <S.MarkDownBtnWrap>
-        <MarkdownEditor value={text.value} setValue={text.setValue} />
+        <MarkdownEditor
+          value={text.value}
+          setValue={text.setValue}
+          placeHolder={"질문을 상세하게 적어주세요!"}
+        />
         <Button size="sm" onClick={onClick}>
           {"질문 작성하기"}
         </Button>

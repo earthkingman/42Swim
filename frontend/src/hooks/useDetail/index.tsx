@@ -75,17 +75,11 @@ const useDetail = () => {
           false
         );
         axios
-          .post(
-            `http://localhost:5000/posts/answer/like`,
-            {
-              answerUserId: userId,
-              answerId: id,
-              isLike: isLike,
-            },
-            {
-              withCredentials: true,
-            }
-          )
+          .post(`http://localhost:5000/posts/answer/like`, {
+            answerUserId: userId,
+            answerId: id,
+            isLike: isLike,
+          })
           .then(() => {
             mutate();
           })

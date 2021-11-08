@@ -1,15 +1,16 @@
-import { Question } from "./style";
-
+import * as S from "./style";
 interface Props {
   question: React.ReactNode;
   answer?: Array<React.ReactNode>;
+  answerWriting: React.ReactNode;
 }
 
-const DetailTemplat = ({ question, answer }: Props) => {
+const DetailTemplat = ({ question, answer, answerWriting }: Props) => {
   return (
     <>
-      <Question>{question}</Question>
+      <S.Question>{question}</S.Question>
       {answer}
+      {answerWriting}
     </>
   );
 };
