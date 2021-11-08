@@ -20,7 +20,7 @@ const Content = styled(RowSBDiv)`
 `;
 
 const Name = styled(Title)`
-  width: 20%;
+  width: 25%;
 `;
 
 const Value = styled(Text)`
@@ -28,7 +28,7 @@ const Value = styled(Text)`
 `;
 
 const Etc = styled(RowSBDiv)`
-  width: 15%;
+  width: 10%;
 `;
 
 const Desc = styled(Text)`
@@ -37,7 +37,7 @@ const Desc = styled(Text)`
 
 interface Props {
   name: string;
-  value: string;
+  value: any;
   etc?: any;
   desc?: string;
 }

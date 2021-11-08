@@ -36,7 +36,7 @@ const buttonStyles = css<SButtonProps>`
   ${({ size }) =>
     size &&
     css`
-      width: ${sizes[size].width ? sizes[size].width : "auto"};
+      width: ${sizes[size]?.width ? sizes[size]?.width : "auto"};
       height: ${sizes[size].height};
       font-size: ${sizes[size].fontSize};
     `}
@@ -67,9 +67,6 @@ export const StyledButton = styled.button<SButtonProps>`
   }
   &:active {
     background: ${darken(0.1, "#ffb84c")};
-  }
-  & + & {
-    margin-left: 1rem;
   }
   ${buttonStyles}
 `;
