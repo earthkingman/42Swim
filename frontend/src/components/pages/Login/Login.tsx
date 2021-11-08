@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+// import useAuth from "../../../hooks/useAuth";
 import A from "../../atoms/A";
 import Button from "../../atoms/Button";
 import Input from "../../atoms/Input";
@@ -8,15 +9,9 @@ import { ModalContent, ModalGroup } from "../../molecules/Modal/style";
 
 interface LoginProps extends Props {
   onRegist: any;
-  onLoginSuccess: any;
 }
 
-const LoginPage = ({
-  onClose,
-  onRegist,
-  onLoginSuccess,
-  ...props
-}: LoginProps) => {
+const LoginPage = ({ onClose, onRegist, ...props }: LoginProps) => {
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -24,6 +19,7 @@ const LoginPage = ({
   const { email, password } = input;
 
   const onLogin = async () => {
+    // 여기 유저 post 함수 재사용하 할 수 있을 듯
     try {
       const res: any = await axios.post(
         "http://localhost:5000/auth/login",
@@ -32,13 +28,13 @@ const LoginPage = ({
           withCredentials: true,
         }
       );
-      console.log("Login response:", res);
+      console.log("Login response:", res.data);
       if (res.status === 200) {
-        localStorage.setItem("refreshToken", res.data.refreshToken);
-        localStorage.setItem("user", JSON.stringify(res.data.userInfo));
-        console.log(res.data.userInfo);
+        // localStorage.setItem("refreshToken", res.data.refreshToken);
+        // localStorage.setItem("user", JSON.stringify(res.data.userInfo));
+        // console.log(res.data.userInfo);
         onClose(false);
-        onLoginSuccess(res.data.userInfo);
+        // onLoginSuccess(res.data.userInfo);
       }
     } catch (err) {
       alert("이메일 또는 비밀번호 오류");

@@ -58,8 +58,10 @@ const QuestionList = ({ menu, setMenu, ...props }: Props) => {
               ))
             : question?.quesiontList.map((d, idx) => (
                 <ListItem
+                  id={d.id}
                   title={d.title}
                   text={d.text}
+                  nickname={d?.user?.nickname}
                   is_solved={d.is_solved}
                   answer_cnt={d.answer_cnt}
                   like_count={d.like_count}
@@ -72,9 +74,9 @@ const QuestionList = ({ menu, setMenu, ...props }: Props) => {
               ))}
           <ColumnSADiv height="115px">
             <Pagination
-              onFront={() => console.log("front")}
-              onBack={() => console.log("back")}
-              page={1}
+              questionCount={question?.questionCount}
+              page={page}
+              onPage={setPage}
             />
           </ColumnSADiv>
         </S.List>

@@ -36,6 +36,9 @@ export class Question extends Base {
     is_solved: boolean;
 
     @Column({ default: 0 })
+    answer_count: number;
+
+    @Column({ default: 0 })
     like_count: number;
 
     @Column({ default: 0 })
