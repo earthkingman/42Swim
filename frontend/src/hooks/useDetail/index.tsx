@@ -127,7 +127,8 @@ const useDetail = () => {
   const AnswerPost = async (
     questionId: number,
     text: string,
-    userName: string
+    userName: string,
+    setValue: any
   ) => {
     try {
       if (data) {
@@ -148,6 +149,7 @@ const useDetail = () => {
           }
         );
         mutate();
+        setValue("");
         console.log(res);
       }
     } catch (error) {

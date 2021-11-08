@@ -52,7 +52,8 @@ const updateAnswer = async (req: DecodedRequest, res: Response, next: NextFuncti
 const uploadAnswer = async (req: DecodedRequest, res: Response) => {
 	const userId = req.decodedId
 	const { email, text, questionId } = req.body;
-	const size = req.files.length;
+	//const size = req.files.length;
+	const size = 0;
 	const files: string[] = [];
 	const answerService: AnswerService = new AnswerService();
 

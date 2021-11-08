@@ -14,8 +14,9 @@ const AnswerWriting = () => {
   const isLogin = true;
 
   const onClick = async () => {
-    if (value) AnswerPost(question.id, value, nickname);
-    else alert("답변이 없습니다");
+    if (value) {
+      AnswerPost(question.id, value, nickname, setValue);
+    } else alert("답변이 없습니다");
     console.log({
       questionId: question.id,
       text: value,
