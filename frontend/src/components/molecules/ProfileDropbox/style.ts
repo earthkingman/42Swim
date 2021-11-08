@@ -23,6 +23,10 @@ export const PBox = styled(Box)<SProps>`
   padding: 0 3px;
   padding-bottom: 2rem;
 
+  &:focus {
+    outline: 0;
+  }
+
   ${({ show }) =>
     show &&
     css`
