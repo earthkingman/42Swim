@@ -51,6 +51,9 @@ export const MarkDownEditorWrap = styled.div`
     outline: none;
     font-family: Roboto;
     line-height: 1.5;
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.3);
+    }
   }
 
   .react-mde {

@@ -75,17 +75,11 @@ const useDetail = () => {
           false
         );
         axios
-          .post(
-            `http://localhost:5000/posts/answer/like`,
-            {
-              answerUserId: userId,
-              answerId: id,
-              isLike: isLike,
-            },
-            {
-              withCredentials: true,
-            }
-          )
+          .post(`http://localhost:5000/posts/answer/like`, {
+            answerUserId: userId,
+            answerId: id,
+            isLike: isLike,
+          })
           .then(() => {
             mutate();
           })
@@ -130,6 +124,37 @@ const useDetail = () => {
     }
   };
 
+  const AnswerPost = async (
+    questionId: number,
+    text: string,
+    userName: string
+  ) => {
+    try {
+      if (data) {
+        const newData = { ...data };
+        newData.questionInfo.answer.push({
+          text: text,
+          user: { nickname: userName },
+        });
+        mutate(newData, false);
+        const res = await axios.post(
+          "http://localhost:5000/posts/answer",
+          {
+            questionId: questionId,
+            text: text,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        mutate();
+        console.log(res);
+      }
+    } catch (error) {
+      alert(error);
+      console.error(error);
+    }
+  };
   return {
     question: data ? data.questionInfo : null,
     answer: data ? data.questionInfo.answer : null,
@@ -137,6 +162,7 @@ const useDetail = () => {
     isError: error,
     thumbPost,
     CommentPost,
+    AnswerPost,
   };
 };
 export default useDetail;

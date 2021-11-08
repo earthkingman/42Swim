@@ -25,7 +25,7 @@ const CommentInput = ({
   };
 
   return (
-    <CommentInputWrapper {...props}>
+    <CommentInputWrapper onSubmit={onClick} {...props}>
       <CommnetInputStyle
         placeholder="댓글을 입력하세요"
         value={value}

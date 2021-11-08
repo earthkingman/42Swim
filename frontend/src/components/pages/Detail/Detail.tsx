@@ -1,5 +1,6 @@
 import useDetail from "../../../hooks/useDetail";
 import AnswerCard from "../../organisms/AnswerCard";
+import AnswerWriting from "../../organisms/AnswerWriting";
 import Header from "../../organisms/Header";
 import QuestionCard from "../../organisms/QuestionCard";
 import BasicTemplate from "../BasicTemplate";
@@ -26,7 +27,11 @@ const DetailPage = ({ isLogin, nickname, ...props }: any) => {
         {...props}
         header={<Header isLogin={isLogin} nickname={nickname} />}
         content={
-          <DetailTemplat question={<QuestionCard />} answer={answerArr} />
+          <DetailTemplat
+            question={<QuestionCard />}
+            answer={answerArr}
+            answerWriting={<AnswerWriting />}
+          />
         }
       />
     );

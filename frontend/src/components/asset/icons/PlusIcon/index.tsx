@@ -1,8 +1,9 @@
 import React from "react";
 
-const PlusIcon = () => {
+const PlusIcon = (props) => {
   return (
     <svg
+      {...props}
       height="10px"
       viewBox="0 0 448 448"
       width="10px"
