@@ -51,6 +51,8 @@ const BottonPanel = styled.div`
 
   > button {
     margin-top: 3rem;
+    float: right;
+    /* 어케할지 결정하기  */
   }
 `;
 
