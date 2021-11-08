@@ -789,8 +789,8 @@ paths:
                 - email
                 - password
               example:
-                email: tester@gmail.com
-                password: test
+                email: tester1@gmail.com
+                password: tester1
       responses:
         '200':
           description: OK
@@ -840,14 +840,6 @@ paths:
       summary: 유저 정보를 반환합니다.
       tags:
         - user
-      parameters:
-        - name: userId
-          in: query
-          schema:
-            type: integer
-            format: int64
-          example: 1
-          required: true
       responses:
         '200':
           description: 유저 정보 요청 성공
