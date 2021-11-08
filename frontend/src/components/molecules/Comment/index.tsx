@@ -20,7 +20,7 @@ const Comment = ({ created_at, user, text, id }: CommentProps) => {
   return (
     <CommentWrapper key={id}>
       <CommentHeaderWrapper>
-        <Text weight="bold" size="18">
+        <Text weight="bold" size="14">
           {user.nickname}
         </Text>
         <Text size="14" color="grey">

@@ -1,4 +1,3 @@
-import axios from "axios";
 import useDetail from "../../../hooks/useDetail";
 import useInput from "../../../hooks/useInput";
 import Button from "../../atoms/Button";
@@ -8,35 +7,22 @@ import * as S from "./style";
 
 const AnswerWriting = () => {
   const { value, setValue } = useInput("");
-  const { question, isLoading } = useDetail();
+  const { question, isLoading, AnswerPost } = useDetail();
+
+  //todo: user정보 받아오기
+  const nickname = "꽁꽁";
+  const isLogin = true;
 
   const onClick = async () => {
+    if (value) AnswerPost(question.id, value, nickname);
+    else alert("답변이 없습니다");
     console.log({
       questionId: question.id,
       text: value,
     });
-    try {
-      if (value) {
-        const res = axios.post(
-          "http://localhost:5000/posts/answer",
-          {
-            questionId: question.id,
-            text: value,
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        //location.reload();
-        console.log(res);
-      } else alert("작성된 답변이 없습니다.");
-    } catch (error) {
-      alert(error);
-      console.error(error);
-    }
   };
 
-  if (!isLoading)
+  if (!isLoading && isLogin)
     return (
       <S.WritingAnswerWrap>
         <S.STitle size="h2">내 답변 달기</S.STitle>
@@ -51,7 +37,11 @@ const AnswerWriting = () => {
         </Button>
       </S.WritingAnswerWrap>
     );
-  else return <></>;
+  else if (!isLogin) {
+    return (
+      <S.PlzLogin>{"답변을 남기기 위해 로그인을 진행해주세요!"}</S.PlzLogin>
+    );
+  }
 };
 
 export default AnswerWriting;
