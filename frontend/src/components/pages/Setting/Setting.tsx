@@ -10,22 +10,24 @@ import Divider from "../../atoms/Divider";
 import A from "../../atoms/A";
 import SettingPanel from "../../molecules/SettingPanel";
 
-interface Props {
-  user: any;
-}
-
 const SettingBtn = styled(Button)`
   width: 153px;
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const SettingPage = ({ user, ...props }: Props) => {
+const SettingPage = ({ ...props }) => {
+  const user = {
+    id: 3,
+    email: "chloek@gmail.com",
+    photo: "https://avatars.githubusercontent.com/u/51353146?v=4",
+    nickname: "Chloek",
+  };
   return (
     <BasicTemplate {...props} header={<Header />}>
       <SettingTemplate
         tlPanel={
           <>
-            <CircleBox size="lg" />
+            <CircleBox size="lg" img={user.photo} />
             <SettingBtn size="sm" color="yellow" shadow={true}>
               이미지 업로드
             </SettingBtn>
@@ -36,7 +38,7 @@ const SettingPage = ({ user, ...props }: Props) => {
         }
         trPanel={
           <>
-            <Title size="h1">닉네임</Title>
+            <Title size="h1">{user.nickname}</Title>
             <Divider weight="bold" width="4rem" />
             <A fontcolor="yellow" underline={true}>
               수정
@@ -47,7 +49,7 @@ const SettingPage = ({ user, ...props }: Props) => {
           <>
             <SettingPanel
               name="이메일"
-              value="42.4.nkim@gmail.com"
+              value={user.email}
               etc={
                 <A fontcolor="yellow" underline={true}>
                   수정
