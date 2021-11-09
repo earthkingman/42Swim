@@ -12,7 +12,9 @@ const fetcher = (url: string) =>
 const useDetail = () => {
   const questionId = queryString.parse(location.search).id;
   const { data, error, mutate } = useSWR(
-    `http://localhost:5000/pages/detail/question?questionId=${questionId}`,
+    `${
+      import.meta.env.VITE_API_HOST
+    }/pages/detail/question?questionId=${questionId}`,
     fetcher
   );
 
@@ -39,7 +41,7 @@ const useDetail = () => {
 
         axios
           .post(
-            `http://localhost:5000/posts/question/like`,
+            `${import.meta.env.VITE_API_HOST}/posts/question/like`,
             {
               questionUserId: userId,
               questionId: id,
@@ -75,7 +77,7 @@ const useDetail = () => {
           false
         );
         axios
-          .post(`http://localhost:5000/posts/answer/like`, {
+          .post(`${import.meta.env.VITE_API_HOST}/posts/answer/like`, {
             answerUserId: userId,
             answerId: id,
             isLike: isLike,
@@ -103,7 +105,7 @@ const useDetail = () => {
        */
       axios
         .post(
-          `http://localhost:5000/posts/comment`,
+          `${import.meta.env.VITE_API_HOST}/posts/comment`,
           {
             text: text,
             questionId: questionId,
@@ -139,7 +141,7 @@ const useDetail = () => {
         });
         mutate(newData, false);
         const res = await axios.post(
-          "http://localhost:5000/posts/answer",
+          `${import.meta.env.VITE_API_HOST}/posts/answer`,
           {
             questionId: questionId,
             text: text,

@@ -10,7 +10,9 @@ const fetcher = async (url: string) => {
 const useList = (category: string, page: number) => {
   const url =
     category === "normal"
-      ? `http://localhost:5000/pages/list/question?pageNumber=${page}`
+      ? `${
+          import.meta.env.VITE_API_HOST
+        }/pages/list/question?pageNumber=${page}`
       : "";
   const { data, error } = useSWR(url, fetcher);
 

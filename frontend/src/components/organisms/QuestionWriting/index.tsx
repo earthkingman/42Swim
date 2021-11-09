@@ -34,7 +34,7 @@ const QuestionWriting = () => {
     }
     try {
       const res = await axios.post(
-        "http://localhost:5000/posts/question",
+        `${import.meta.env.VITE_API_HOST}/posts/question`,
         {
           title: title.value,
           hashtag: tag ? "#" + tag.join("#") : null,

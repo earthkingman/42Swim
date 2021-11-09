@@ -4,18 +4,15 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-<<<<<<< HEAD
-	"testbuild": "vite build",
-    "serve": "vite preview",
-=======
+    "testbuild": "vite build --mode production",
     "serve": "vite preview --port 3000",
->>>>>>> d0ed51b1b412a21de452cd54f4edcf28a9afa306
     "eslint": "eslint --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
     "axios": "^0.22.0",
+    "dotenv": "^10.0.0",
     "polished": "^4.1.3",
     "query-string": "^7.0.1",
     "react": "^17.0.0",
