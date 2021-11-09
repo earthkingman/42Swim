@@ -10,7 +10,6 @@ import { UserService } from "../service/user_service";
 const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) => {
     const id: number = req.decodedId
     const userService: UserService = new UserService();
-
     try {
         const user = await userService.findUserById(id);
         if (user) {

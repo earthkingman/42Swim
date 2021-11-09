@@ -1,48 +1,46 @@
 import CheckImg from "../../asset/icons/CheckImg";
 import Text from "../../atoms/Text";
-import ThumbDownBtn from "../../atoms/thumbDownBtn";
-import ThumbUpBtn from "../../atoms/thumbUpBtn";
+import ThumbDownBtn from "../../atoms/ThumbDownBtn";
+import ThumbUpBtn from "../../atoms/ThumbUpBtn";
 import { ThumbCountIconWrapper, ThumbCountWrapper } from "./style";
-
-type upOrDownType = "up" | "down";
-
 export interface ThumbProps {
-  count: string;
-  upOrDown?: upOrDownType;
+  like_count: number;
+  is_like?: boolean;
+  is_choosen?: boolean;
   onUpClick?: any;
   onDownClick?: any;
-  isChecked?: boolean;
 }
 
 const ThumbCount = ({
-  count,
+  like_count,
+  is_like,
+  is_choosen,
   onUpClick,
   onDownClick,
-  upOrDown,
-  isChecked,
   ...props
 }: ThumbProps) => {
+  //todo: set like api
   return (
     <ThumbCountWrapper {...props}>
       <ThumbCountIconWrapper>
         <ThumbUpBtn
           onClick={onUpClick}
-          active={upOrDown == "up" ? true : false}
+          active={is_like === true ? true : false}
         />
         <Text
           style={{ whiteSpace: "nowrap" }}
-          color="lightgray"
-          size="48"
+          color="grey"
+          size="32"
           weight="bold"
         >
-          {count}
+          {like_count}
         </Text>
         <ThumbDownBtn
           onClick={onDownClick}
-          active={upOrDown == "down" ? true : false}
+          active={is_like === false ? true : false}
         />
       </ThumbCountIconWrapper>
-      {isChecked && <CheckImg></CheckImg>}
+      {is_choosen && <CheckImg></CheckImg>}
     </ThumbCountWrapper>
   );
 };

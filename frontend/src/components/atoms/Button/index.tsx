@@ -5,7 +5,7 @@ import { darken, lighten } from "polished";
 type sizeType = "sm" | "lg";
 
 const sizes = {
-  sm: { width: "153px", height: "41px", fontSize: "16px" },
+  sm: { height: "41px", fontSize: "16px" },
   lg: { width: "449px", height: "60px", fontSize: "18px" },
 };
 
@@ -36,7 +36,7 @@ const buttonStyles = css<SButtonProps>`
   ${({ size }) =>
     size &&
     css`
-      width: ${sizes[size].width};
+      width: ${sizes[size]?.width ? sizes[size]?.width : "auto"};
       height: ${sizes[size].height};
       font-size: ${sizes[size].fontSize};
     `}
@@ -56,19 +56,17 @@ export const StyledButton = styled.button<SButtonProps>`
   justify-content: space-around;
   align-items: center;
   border: none;
-  border-radius: 16px;
+  border-radius: 2rem;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   transition: all 0.5s ease;
+  padding: 0px 18px;
   &:hover {
     background: ${lighten(0.1, "#ffb84c")};
     color: ${lighten(0.1, "black")};
   }
   &:active {
     background: ${darken(0.1, "#ffb84c")};
-  }
-  & + & {
-    margin-left: 1rem;
   }
   ${buttonStyles}
 `;

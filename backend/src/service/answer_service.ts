@@ -21,26 +21,30 @@ export class AnswerService {
 	}
 
 	async post(uploadAnswerInfo) {
-		const { email, text, photos, questionId, userId } = uploadAnswerInfo;
+		const { email, text, questionId, userId } = uploadAnswerInfo;
 
 		const user = await this.userRepository
 			.findOne({ where: { id: userId } });
 		if (user === undefined) {
+			await this.queryRunner.release();
 			throw new Error("The user doesn't exist.");
 		}
 		const question = await this.questionRepository
 			.findOne({ where: { id: questionId } });
 		if (question === undefined) {
+			await this.queryRunner.release();
 			throw new Error("The questionPost doesn't exist.");
 		}
-		const answerInfo = { email, text, user, question, isChoosen: false };
+		const answerInfo = { email, text, user, question, isChosen: false };
 
 		await this.queryRunner.startTransaction();
 		try {
+			question.answer_count += 1;
+			await this.questionRepository.save(question);
 			const answer = await this.answerRepository.save(answerInfo);
-			await Promise.all(photos.map(async (photo) => {
-				await this.photoRepository.save({ photo, question, answer });
-			}));
+			// await Promise.all(photos.map(async (photo) => {
+			// 	await this.photoRepository.save({ photo, question, answer });
+			// }));
 			await this.queryRunner.commitTransaction();
 		} catch (error) {
 			console.error(error);
@@ -68,12 +72,15 @@ export class AnswerService {
 					relations: ['question']
 				});
 			if (question === undefined) {
+				await this.queryRunner.release();
 				throw new Error("The questionPost doesn't exist.");
 			}
 			else if (noAuthAnswer === undefined) {
+				await this.queryRunner.release();
 				throw new Error("The answerPost doesn't exist.");
 			}
 			else {
+				await this.queryRunner.release();
 				throw new Error("You don't have permission to edit.");
 			}
 		}
@@ -103,26 +110,33 @@ export class AnswerService {
 				where: { id: answerId, user: { id: userId }, question: { id: questionId } },
 				relations: ['user', 'question']
 			});
+		const question = await this.questionRepository
+			.findOne({ where: { id: questionId } });
 		if (answer === undefined) {
-			const question = await this.questionRepository
-				.findOne({ where: { id: questionId } });
+
 			const noAuthAnswer = await this.answerRepository
 				.findOne({
 					where: { id: answerId, question: { id: questionId } },
 					relations: ['question']
 				});
 			if (question === undefined) {
+				console.log(question);
+				await this.queryRunner.release();
 				throw new Error("The questionPost doesn't exist.");
 			}
 			else if (noAuthAnswer === undefined) {
+				await this.queryRunner.release();
 				throw new Error("The answerPost doesn't exist.");
 			}
 			else {
+				await this.queryRunner.release();
 				throw new Error("You don't have permission to edit.");
 			}
 		}
 		await this.queryRunner.startTransaction();
 		try {
+			question.answer_count -= 1;
+			await this.questionRepository.save(question);
 			await this.answerRepository.remove(answer);
 			await this.queryRunner.commitTransaction();
 		} catch (error) {
@@ -140,6 +154,7 @@ export class AnswerService {
 				where: { answer: { id: answerId } },
 				relations: ["answer"]
 			});
+		await this.queryRunner.release();
 		return photos;
 	}
 

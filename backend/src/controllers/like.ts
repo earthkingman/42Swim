@@ -12,9 +12,10 @@ const createAnswerLike = async (req: DecodedRequest, res: Response, next: NextFu
 	const likeService: LikeService = new LikeService();
 
 	try {
-		await likeService.createAnswerLike({ userId, answerId, isLike, answerUserId });
+		const likeCount = await likeService.createAnswerLike({ userId, answerId, isLike, answerUserId });
 		return res.status(200).json({
 			result: true,
+			likeCount: likeCount,
 			message: "create Success",
 		})
 	} catch (error) {
@@ -32,9 +33,10 @@ const createQuestionLike = async (req: DecodedRequest, res: Response, next: Next
 	const likeService: LikeService = new LikeService();
 
 	try {
-		await likeService.createQuestionLike({ userId, questionId, isLike, questionUserId });
+		const likeCount = await likeService.createQuestionLike({ userId, questionId, isLike, questionUserId });
 		return res.status(200).json({
 			result: true,
+			likeCount: likeCount,
 			message: "create Success",
 		})
 	} catch (error) {
@@ -47,14 +49,20 @@ const createQuestionLike = async (req: DecodedRequest, res: Response, next: Next
 }
 
 const deleteAnswerLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
-	const { answerId, isLike, answerUserId } = req.body;
+	const answerId = Number(req.query.answerId);
+	const answerUserId = Number(req.query.answerUserId);
 	const userId: number = req.decodedId;
 	const likeService: LikeService = new LikeService();
+	let isLike = true;
+	if (req.query.isLike == "false") {
+		isLike = false;
+	}
 
 	try {
-		await likeService.deleteAnswerLike({ userId, answerId, isLike, answerUserId });
+		const likeCount = await likeService.deleteAnswerLike({ userId, answerId, isLike, answerUserId });
 		return res.status(200).json({
 			result: true,
+			likeCount: likeCount,
 			message: "Delete Success",
 		})
 	} catch (error) {
@@ -67,14 +75,20 @@ const deleteAnswerLike = async (req: DecodedRequest, res: Response, next: NextFu
 }
 
 const deleteQuestionLike = async (req: DecodedRequest, res: Response, next: NextFunction) => {
-	const { questionId, isLike, questionUserId } = req.body;
+	const questionId = Number(req.query.questionId);
+	const questionUserId = Number(req.query.questionUserId);
 	const userId = req.decodedId;
 	const likeService: LikeService = new LikeService();
+	let isLike = true;
+	if (req.query.isLike == "false") {
+		isLike = false;
+	}
 
 	try {
-		await likeService.deleteQuestionLike({ userId, questionId, isLike, questionUserId });
+		const likeCount = await likeService.deleteQuestionLike({ userId, questionId, isLike, questionUserId });
 		return res.status(200).json({
 			result: true,
+			likeCount: likeCount,
 			message: "Delete Success",
 		})
 	} catch (error) {

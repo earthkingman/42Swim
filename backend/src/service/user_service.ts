@@ -3,12 +3,10 @@ import { getConnection, QueryRunner, Repository } from "typeorm";
 import { User } from "../entity/user";
 
 export class UserService {
-	private queryRunner: QueryRunner;
 	private userRepository: Repository<User>;
 
 	constructor() {
-		this.queryRunner = getConnection().createQueryRunner();
-		this.userRepository = this.queryRunner.manager.getRepository(User);
+		this.userRepository = getConnection().getRepository(User);
 	}
 
 	async findUserByEmail(email: string) {

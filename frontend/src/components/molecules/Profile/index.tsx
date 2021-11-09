@@ -1,32 +1,55 @@
-import React from "react";
 import Text from "../../atoms/Text";
 import { ProfileWrapper, ProfileCircleImg } from "./style";
 
 type sizeType = "sm" | "lg";
 
-export interface Props {
+interface SProfileProps {
   size: sizeType;
+}
+export interface ProfileProps extends SProfileProps {
+  id?: number;
   nickname: string;
-  img?: string;
+  color?: string;
+  photo?: string;
+  children?: any;
+  onMouseEnter?: any;
+  onMouseLeave?: any;
+  onClick?: any;
 }
 
-const Profile = ({ nickname, size, img, ...props }: Props) => {
+const Profile = ({
+  nickname,
+  size,
+  photo,
+  color,
+  children,
+  onMouseEnter,
+  onMouseLeave,
+  onClick,
+}: ProfileProps) => {
   if (size === "sm") {
     return (
-      <ProfileWrapper size={size} {...props}>
-        <ProfileCircleImg size="xsm" img={img ? "" : img} />
-        <Text size="14" color="lightgray">
+      <ProfileWrapper size={size}>
+        <ProfileCircleImg size="xsm" img={photo ? "" : photo} />
+        <Text size="14" color="grey">
           {nickname}
         </Text>
+        {children}
       </ProfileWrapper>
     );
   } else {
     return (
-      <ProfileWrapper size={size} {...props}>
-        <ProfileCircleImg size="sm" img={img ? "" : img} />
-        <Text size="18" weight="bold">
+      <ProfileWrapper
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onClick={onClick}
+        size={size}
+      >
+        <ProfileCircleImg size="sm" img={photo ? photo : ""} />
+        <Text size="18" weight="bold" color={color}>
           {nickname}
         </Text>
+        {children}
       </ProfileWrapper>
     );
   }

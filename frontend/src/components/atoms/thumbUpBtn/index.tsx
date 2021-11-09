@@ -11,9 +11,9 @@ export interface ThumbUpBtnProps {
   onClick?: any;
   className?: any;
 }
-const ThumbUpBtn = ({ active, ...props }: ThumbUpBtnProps) => {
+const ThumbUpBtn = ({ active, onClick, ...props }: ThumbUpBtnProps) => {
   return (
-    <StyledThumbUpBtn {...props}>
+    <StyledThumbUpBtn onClick={onClick} {...props}>
       {active ? <ThumbUpActive /> : <ThumbUpUnactive />}
     </StyledThumbUpBtn>
   );

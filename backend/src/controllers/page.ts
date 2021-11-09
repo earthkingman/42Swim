@@ -6,17 +6,18 @@ import { Response, NextFunction } from 'express';
 import { DecodedRequest } from '../definition/decoded_jwt'
 import { PageService } from '../service/page_service';
 
-const getQuestionListPage = async (req: DecodedRequest, res: Response, next: NextFunction) => {
-	const { pageNumber } = req.body;
-	const limit = 10;
+const getQuestionListPage = async (req: any, res: Response, next: NextFunction) => {
+	const pageNumber = Number(req.query.pageNumber) - 1;
+	const limit = 8;
 	const offset = pageNumber * limit;
 	const pageInfo = { limit, offset };
 	const pageService: PageService = new PageService();
 
 	try {
-		const questionList = await pageService.getQuestionList(pageInfo);
+		const { questionList, questionCount } = await pageService.getQuestionList(pageInfo);
 		return res.status(200).json({
 			quesiontList: questionList,
+			questionCount: questionCount,
 			message: "getList success",
 		})
 	} catch (error) {
@@ -28,13 +29,13 @@ const getQuestionListPage = async (req: DecodedRequest, res: Response, next: Nex
 }
 
 const getQuestionDetailPage = async (req: DecodedRequest, res: Response, next: NextFunction) => {
-	const { questionId } = req.body;
+	const questionId = Number(req.query.questionId);
 	const pageService: PageService = new PageService();
 
 	try {
-		const questionDetail = await pageService.getQuestionDetail(questionId);
+		const questionInfo = await pageService.getQuestionDetail(questionId);
 		return res.status(200).json({
-			questionDetail: questionDetail,
+			questionInfo: questionInfo
 		})
 	} catch (error) {
 		return res.status(500).json({

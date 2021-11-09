@@ -23,7 +23,7 @@ const PostCard = ({ onClick, likes, title, text }: PostCardProps) => {
           <LikeButton>{likes}</LikeButton>
         </PostCardTitleWrapper>
         <Divider weight="bold" width="36px" direction="horizontal" />
-        <PostCardText size="18" color="lightgray" weight="normal">
+        <PostCardText size="18" color="grey" weight="normal">
           {text}
         </PostCardText>
       </PostBox>

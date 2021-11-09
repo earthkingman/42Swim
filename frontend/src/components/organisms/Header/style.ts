@@ -6,7 +6,7 @@ export const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: ${theme.color.background.lightgray};
+  background-color: ${theme.color.background.grey};
   height: 130px;
   width: 100%;
 `;

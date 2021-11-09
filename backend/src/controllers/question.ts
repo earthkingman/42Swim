@@ -7,7 +7,7 @@ import { DecodedRequest } from '../definition/decoded_jwt'
 import { QuestionService } from '../service/question_service';
 
 const deleteQuestion = async (req: DecodedRequest, res: Response, next: NextFunction) => {
-    const { questionId } = req.body;
+    const questionId = Number(req.query.questionId);
     const userId: number = req.decodedId;
     const questionService: QuestionService = new QuestionService();
 
@@ -27,17 +27,17 @@ const deleteQuestion = async (req: DecodedRequest, res: Response, next: NextFunc
 }
 
 const updateQuestion = async (req: DecodedRequest, res: Response, next: NextFunction) => {
-    const { questionId, title, text, hashTag } = req.body;
+    const { questionId, title, text, hashtag } = req.body;
     const userId: number = req.decodedId
-    console.log(hashTag)
     const files: string[] = [];
-    const size = req.files.length;
+    //const size = req.files.lengt;
+    const size = 0;
     const questionService: QuestionService = new QuestionService();
 
     for (let i = 0; i < size; i++)
         files.push(req.files[i].key);
     try {
-        await questionService.update({ title, text, photos: files, questionId, hashTag, userId });
+        await questionService.update({ title, text, photos: files, questionId, hashtag, userId });
         return res.status(200).json({
             result: true,
             message: "Update Success"
@@ -53,16 +53,18 @@ const updateQuestion = async (req: DecodedRequest, res: Response, next: NextFunc
 
 const uploadQuestion = async (req: DecodedRequest, res: Response) => {
     const userId: number = req.decodedId
-    const { email, title, text, hashTag } = req.body;
-    const size = req.files.length;
+    const { email, title, text, hashtag } = req.body;
+    //const size = req.files.length;
+    const size = 0;
     const files: string[] = [];
     const questionService: QuestionService = new QuestionService();
-
+    const newHashTag = hashtag.substr(1);
     for (let i = 0; i < size; i++)
         files.push(process.env.S3 + req.files[i].key);
     try {
-        await questionService.post({ email, title, text, userId, photos: files, hashTag });
+        const id = await questionService.post({ email, title, text, userId, hashtag: newHashTag });
         return res.status(200).json({
+            id: id,
             result: true,
             message: "Upload Success"
         })

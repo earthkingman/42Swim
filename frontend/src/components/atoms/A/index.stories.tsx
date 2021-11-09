@@ -18,7 +18,7 @@ const Template = (args: AProps) => {
 export const Under = (props: AProps) => {
   return (
     <div>
-      <Template underline={true} fontColor="yellow" {...props}>
+      <Template underline={true} fontcolor="yellow" {...props}>
         아직 회원이 아니신가요?
       </Template>
     </div>

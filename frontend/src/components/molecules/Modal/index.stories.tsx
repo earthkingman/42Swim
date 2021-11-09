@@ -37,9 +37,9 @@ export const LoginExample = (props: Props) => {
             <Input placeholder="이메일을 입력하세요" />
             <Input placeholder="비밀번호를 입력하세요" />
             <Button size="lg">로그인</Button>
-            <A fontColor="yellow">42seoul 계정으로 로그인</A>
+            <A fontcolor="yellow">42seoul 계정으로 로그인</A>
           </ModalGroup>
-          <A fontColor="black">아직 회원이 아니신가요?</A>
+          <A fontcolor="black">아직 회원이 아니신가요?</A>
         </ModalContent>
       </Modal>
     </GlobalThemeProvider>

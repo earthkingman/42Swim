@@ -30,9 +30,9 @@ export class Answer extends Base {
     @Column({ default: 0 })
     like_count: number;
 
-    @Column()
+    @Column("longtext")
     text: string;
 
     @Column({ default: false })
-    is_choosen: boolean
+    is_chosen: boolean
 }

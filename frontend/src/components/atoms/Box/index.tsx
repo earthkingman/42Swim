@@ -20,7 +20,6 @@ const BoxStyles = css<SBox>`
 
 const StyledBox = styled.div`
   width: 988px;
-  height: 1604px;
   border-radius: 16px;
   background-color: white;
   padding: 46px;

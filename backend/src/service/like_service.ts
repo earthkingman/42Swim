@@ -26,26 +26,29 @@ export class LikeService {
 	async createAnswerLike(likeInfo) {
 		const { answerId, userId, isLike, answerUserId } = likeInfo;
 
-		const answer = await this.answerRepository.findOne({ where: { id: answerId } });
-		if (answer === undefined) {
-			throw new Error("The answer doesn't exist.");
-		}
 		const answerUser = await this.userRepository.findOne({ where: { id: answerUserId } });
 		if (answerUser === undefined) {
+			await this.queryRunner.release();
 			throw new Error("The answerUser doesn't exist.");
 		}
 
-		const exLike = await this.answerLikeRepository
-			.findOne({ where: { answer: answer, user: answerUser } });
-		if (exLike) {
-			throw new Error("The likeData already exists.");
+		const answer = await this.answerRepository.findOne({ where: { id: answerId, user: answerUser } });
+		if (answer === undefined) {
+			await this.queryRunner.release();
+			throw new Error("The answer doesn't exist.");
 		}
 
-		const user = await this.userRepository.findOne(userId);
+		const user = await this.userRepository.findOne({ where: { id: userId } });
 
+		const exLike = await this.answerLikeRepository
+			.findOne({ where: { answer: answer, user: user } });
+		if (exLike) {
+			await this.queryRunner.release();
+			throw new Error("The likeData already exists.");
+		}
 		await this.queryRunner.startTransaction();
 		try {
-			await this.answerLikeRepository.save({ is_like: isLike, user: answerUser, answer: answer });
+			await this.answerLikeRepository.save({ is_like: isLike, user: user, answer: answer });
 			await this.userRepository.save(user);
 
 			if (isLike) {
@@ -67,32 +70,35 @@ export class LikeService {
 		} finally {
 			await this.queryRunner.release();
 		}
+		return answer.like_count;
 	}
 
 	async createQuestionLike(likeInfo) {
 		const { questionId, userId, isLike, questionUserId } = likeInfo;
 
-		const question = await this.questionRepository.findOne({ where: { id: questionId } });
-		if (question === undefined) {
-			throw new Error("The question doesn't exist.");
-		}
-
 		const questionUser = await this.userRepository.findOne({ where: { id: questionUserId } });
 		if (questionUser === undefined) {
+			await this.queryRunner.release();
 			throw new Error("The questionUser doesn't exist.");
 		}
 
-		const user = await this.userRepository.findOne(userId);
-
-		const exLike = await this.questionLikeRepository
-			.findOne({ where: { question: question, user: questionUser } });
-		if (exLike !== undefined) {
-			throw new Error("The likeData already exists.");
+		const question = await this.questionRepository.findOne({ where: { id: questionId, user: questionUser } });
+		if (question === undefined) {
+			await this.queryRunner.release();
+			throw new Error("The question doesn't exist.");
 		}
 
+		const user = await this.userRepository.findOne({ where: { id: userId } });
+
+		const exLike = await this.questionLikeRepository
+			.findOne({ where: { question: question, user: user } });
+		if (exLike !== undefined) {
+			await this.queryRunner.release();
+			throw new Error("The likeData already exists.");
+		}
 		await this.queryRunner.startTransaction();
 		try {
-			await this.questionLikeRepository.save({ is_like: isLike, user: questionUser, question: question });
+			await this.questionLikeRepository.save({ is_like: isLike, user: user, question: question });
 			await this.userRepository.save(user);
 
 			if (isLike) {
@@ -114,27 +120,33 @@ export class LikeService {
 		} finally {
 			await this.queryRunner.release();
 		}
+		return question.like_count;
 	}
 
 	async deleteAnswerLike(likeInfo) {
 		const { answerId, userId, isLike, answerUserId } = likeInfo;
 
-		const answer = await this.answerRepository.findOne({ where: { id: answerId } });
+		const answerUser = await this.userRepository.findOne({ where: { id: answerUserId } });
+		if (answerUser === undefined) {
+			await this.queryRunner.release();
+			throw new Error("The answerUser doesn't exist.");
+		}
+
+		const answer = await this.answerRepository.findOne({ where: { id: answerId, user: answerUser } });
 		if (answer === undefined) {
 			throw new Error("The answer doesn't exist.");
 		}
 
-		const answerUser = await this.userRepository.findOne({ where: { id: answerUserId } });
-		if (answerUser === undefined) {
-			throw new Error("The answerUser doesn't exist.");
-		}
+		const user = await this.userRepository.findOne({ where: { id: userId } });
 
 		const curLike = await this.answerLikeRepository
-			.findOne({ where: { answer: answer, user: answerUser } });
+			.findOne({ where: { answer: answer, user: user, is_like: isLike } });
 		if (curLike === undefined) {
+			await this.queryRunner.release();
 			throw new Error("The likeData doesn't exist.");
 		}
 		if (curLike.is_like !== isLike) {
+			await this.queryRunner.release();
 			throw new Error("The likeData is incorrect.");
 		}
 
@@ -160,27 +172,34 @@ export class LikeService {
 		} finally {
 			await this.queryRunner.release();
 		}
+		return answer.like_count;
 	}
 
 	async deleteQuestionLike(likeInfo) {
 		const { questionId, userId, isLike, questionUserId } = likeInfo;
 
-		const question = await this.questionRepository.findOne({ where: { id: questionId } });
-		if (question === undefined) {
-			throw new Error("The question doesn't exist.");
-		}
-
 		const questionUser = await this.userRepository.findOne({ where: { id: questionUserId } });
 		if (questionUser === undefined) {
+			await this.queryRunner.release();
 			throw new Error("The questionUser doesn't exist.");
 		}
 
+		const question = await this.questionRepository.findOne({ where: { id: questionId, user: questionUser } });
+		if (question === undefined) {
+			await this.queryRunner.release();
+			throw new Error("The question doesn't exist.");
+		}
+
+		const user = await this.userRepository.findOne({ where: { id: userId } });
+
 		const curLike = await this.questionLikeRepository
-			.findOne({ where: { question: question, user: questionUser } });
+			.findOne({ where: { question: question, user: user, is_like: isLike } });
 		if (curLike === undefined) {
+			await this.queryRunner.release();
 			throw new Error("The likeData doesn't exist.");
 		}
 		if (curLike.is_like !== isLike) {
+			await this.queryRunner.release();
 			throw new Error("The likeData is incorrect.");
 		}
 		if (curLike.is_like) {
@@ -205,5 +224,6 @@ export class LikeService {
 		} finally {
 			await this.queryRunner.release();
 		}
+		return question.like_count;
 	}
 }

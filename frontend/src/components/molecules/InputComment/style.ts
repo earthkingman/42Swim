@@ -2,7 +2,7 @@ import Input from "../../atoms/Input";
 import styled from "styled-components";
 import A from "../../atoms/A";
 
-export const CommentInputWrapper = styled.div`
+export const CommentInputWrapper = styled.form`
   border-top: 1px solid rgba(0, 0, 0, 0.15);
   display: flex;
   justify-content: space-between;

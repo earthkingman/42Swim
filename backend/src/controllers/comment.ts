@@ -7,7 +7,9 @@ import { DecodedRequest } from '../definition/decoded_jwt'
 import { CommentService } from '../service/comment_service';
 
 const deleteComment = async (req: DecodedRequest, res: Response) => {
-	const { questionId, answerId, commentId } = req.body;
+	const questionId = Number(req.query.questionId);
+	const answerId = Number(req.query.answerId);
+	const commentId = Number(req.query.commentId);
 	const userId: number = req.decodedId;
 	const commentService: CommentService = new CommentService();
 	try {
