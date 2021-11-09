@@ -1,9 +1,5 @@
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Auth from "./components/pages/Auth";
 import DetailPage from "./components/pages/Detail/Detail";
 import MainPage from "./components/pages/Main/Main";
 import SettingPage from "./components/pages/Setting/Setting";
@@ -35,7 +31,7 @@ const App: React.FC = () => {
             exact
             render={(props: any) => <SettingPage {...props} />}
           />
-          <Redirect exact from="/auth" to="/" />
+          <Route path="/auth" render={(props: any) => <Auth {...props} />} />
         </Switch>
       </Router>
     </GlobalThemeProvider>
