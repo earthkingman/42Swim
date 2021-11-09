@@ -19,13 +19,13 @@ export interface Props {
 
 const Header = ({ onLoginClick }: Props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //   const { user, isLoading, isError } = useAuth();
-  const user = {
-    id: 3,
-    email: "chloek@gmail.com",
-    photo: "https://avatars.githubusercontent.com/u/51353146?v=4",
-    nickname: "Chloek",
-  };
+  const { user, isLoading, isError } = useAuth();
+  //   const user = {
+  //     id: 3,
+  //     email: "chloek@gmail.com",
+  //     photo: "https://avatars.githubusercontent.com/u/51353146?v=4",
+  //     nickname: "Chloek",
+  //   };
   //   const user = null;
 
   return (
