@@ -4,8 +4,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+<<<<<<< HEAD
 	"testbuild": "vite build",
     "serve": "vite preview",
+=======
+    "serve": "vite preview --port 3000",
+>>>>>>> d0ed51b1b412a21de452cd54f4edcf28a9afa306
     "eslint": "eslint --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
