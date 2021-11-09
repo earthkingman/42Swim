@@ -3,7 +3,7 @@ import useSWR from "swr";
 
 const fetcher = async (url: string) => {
   const res = await axios({
-    method: "post",
+    method: "get",
     url: url,
     withCredentials: true,
   });
