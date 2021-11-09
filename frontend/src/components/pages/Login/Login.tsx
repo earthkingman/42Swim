@@ -22,7 +22,7 @@ const LoginPage = ({ onClose, onRegist, ...props }: LoginProps) => {
     // 여기 유저 post 함수 재사용하 할 수 있을 듯
     try {
       const res: any = await axios.post(
-        "http://localhost:5000/auth/login",
+        `${import.meta.env.VITE_API_HOST}/auth/login`,
         input,
         {
           withCredentials: true,

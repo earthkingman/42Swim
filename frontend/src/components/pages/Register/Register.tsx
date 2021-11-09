@@ -47,7 +47,7 @@ const Register = ({ onClose, ...props }: Props) => {
   const onRegist = async () => {
     console.log("regist user");
     const res: { data: any; status: number } = await axios.post(
-      "http://localhost:5000/auth/signup",
+      `${import.meta.env.VITE_API_HOST}/auth/signup`,
       userData
     );
     console.log(res);
