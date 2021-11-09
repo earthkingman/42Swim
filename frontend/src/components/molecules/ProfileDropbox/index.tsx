@@ -24,7 +24,7 @@ const ProfileDropbox = ({ user }: Props) => {
     setShow(!show);
   };
   return (
-    <S.PWrapper tabIndex={0} onBlur={() => setShow(false)}>
+    <S.PWrapper>
       <Profile
         size="lg"
         photo={user?.photo}
@@ -36,7 +36,7 @@ const ProfileDropbox = ({ user }: Props) => {
       >
         <ArrowDown onClick={() => console.log("click")} />
       </Profile>
-      <S.PBox show={show}>
+      <S.PBox show={show} tabIndex={0} onFocus={() => setShow(true)}>
         <S.PContent>
           <S.PItem to="/setting">설정</S.PItem>
           <S.PItem>로그아웃</S.PItem>

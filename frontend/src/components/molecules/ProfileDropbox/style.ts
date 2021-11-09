@@ -3,11 +3,7 @@ import Box from "../../atoms/Box";
 import { ColumnSADiv, ColumnSBDiv } from "../../atoms/Div";
 import A from "../../atoms/A";
 
-export const PWrapper = styled(ColumnSBDiv)`
-  &:focus {
-    outline: 0;
-  }
-`;
+export const PWrapper = styled(ColumnSBDiv)``;
 
 interface SProps {
   show: boolean;
@@ -22,6 +18,10 @@ export const PBox = styled(Box)<SProps>`
   position: absolute;
   padding: 0 3px;
   padding-bottom: 2rem;
+
+  &:focus {
+    outline: 0;
+  }
 
   ${({ show }) =>
     show &&
