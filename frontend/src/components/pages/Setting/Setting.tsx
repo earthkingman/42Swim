@@ -3,34 +3,53 @@ import Header from "../../organisms/Header";
 import SettingTemplate from "./template";
 import CircleBox from "../../atoms/CircleBox";
 import Button from "../../atoms/Button";
-
 import styled from "styled-components";
 import Title from "../../atoms/Title";
 import Divider from "../../atoms/Divider";
 import A from "../../atoms/A";
 import SettingPanel from "../../molecules/SettingPanel";
+import useAuth from "../../../hooks/useAuth";
+import { Redirect } from "react-router";
 
 const SettingBtn = styled(Button)`
   width: 153px;
 `;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SettingPage = ({ ...props }) => {
-  const user = {
-    id: 3,
-    email: "chloek@gmail.com",
-    photo: "https://avatars.githubusercontent.com/u/51353146?v=4",
-    nickname: "Chloek",
+  const { user, isLoading, isError } = useAuth();
+
+  if (isError) {
+    alert("로그인을 해주세요");
+    return <Redirect to="/" />;
+  }
+  if (isLoading) return <div>loading...</div>;
+
+  const openFile = () => {
+    const file = document.getElementById("uploadImg");
+    file?.click();
   };
   return (
     <BasicTemplate {...props} header={<Header />}>
       <SettingTemplate
         tlPanel={
           <>
-            <CircleBox size="lg" img={user.photo} />
-            <SettingBtn size="sm" color="yellow" shadow={true}>
+            <CircleBox size="lg" img={user?.photo ? user.photo : null} />
+            <SettingBtn
+              size="sm"
+              color="yellow"
+              shadow={true}
+              onClick={openFile}
+            >
               이미지 업로드
             </SettingBtn>
+            <form
+              action={`${import.meta.env.VITE_API_HOST}/users/image`}
+              method="patch"
+              encType="multipart/form-data"
+              style={{ display: "none" }}
+            >
+              <input id="uploadImg" type="file" />
+            </form>
             <SettingBtn size="sm" color="white" shadow={true}>
               이미지 제거
             </SettingBtn>
@@ -38,7 +57,7 @@ const SettingPage = ({ ...props }) => {
         }
         trPanel={
           <>
-            <Title size="h1">{user.nickname}</Title>
+            <Title size="h1">{user?.nickname}</Title>
             <Divider weight="bold" width="4rem" />
             <A fontcolor="yellow" underline={true}>
               수정

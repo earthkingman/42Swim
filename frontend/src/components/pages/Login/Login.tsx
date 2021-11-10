@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { mutate } from "swr";
 // import useAuth from "../../../hooks/useAuth";
 import A from "../../atoms/A";
 import Button from "../../atoms/Button";
@@ -33,8 +34,11 @@ const LoginPage = ({ onClose, onRegist, ...props }: LoginProps) => {
         // localStorage.setItem("refreshToken", res.data.refreshToken);
         // localStorage.setItem("user", JSON.stringify(res.data.userInfo));
         // console.log(res.data.userInfo);
+        mutate(`${import.meta.env.VITE_API_HOST}/users/info`);
         onClose(false);
         // onLoginSuccess(res.data.userInfo);
+      } else {
+        alert("로그인 실패!");
       }
     } catch (err) {
       alert("이메일 또는 비밀번호 오류");
