@@ -66,6 +66,16 @@ export class UserService {
 		return newUser;
 	}
 
+	async updateUserEmail(id: number, email: string) {
+		const user = await this.userRepository
+			.findOne({ where: { id: id } })
+		if (user === undefined) {
+			throw new Error('존재하지 않는 유저입니다');
+		}
+		user.email = email || user.email;
+		await this.userRepository.save(user);
+	}
+
 	async createUser(createUserInfo) {
 		const { email } = createUserInfo;
 		const user = await this.userRepository

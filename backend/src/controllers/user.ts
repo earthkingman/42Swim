@@ -102,9 +102,29 @@ const updateUserNickname = async (req: DecodedRequest, res: Response, next: Next
 	}
 }
 
+const updateUserEmail = async (req: DecodedRequest, res: Response, next: NextFunction) => {
+	const id = req.decodedId;
+	const { email } = req.body;
+	const userService: UserService = new UserService();
+
+	try {
+		await userService.updateUserEmail(id, email);
+		return res.status(200).json({
+			result: true
+		})
+	}
+	catch (error) {
+		return res.status(500).json({
+			result: false,
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
 export const UserController = {
 	userInfo,
 	updateUserNickname,
 	updateUserImage,
-	updateUserPassword
+	updateUserPassword,
+	updateUserEmail
 }
