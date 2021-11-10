@@ -14,7 +14,8 @@ const fetcher = async (url: string) => {
       console.error("err", err);
       throw err;
     });
-  return res?.data;
+  console.log("kikidata", res);
+  return res;
 };
 
 const useAuth = () => {
