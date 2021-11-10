@@ -10,6 +10,9 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 0 20rem;
+  @media (max-width: 1023px) {
+    padding: 0 3rem;
+  }
 `;
 
 export const Header = styled.div`
