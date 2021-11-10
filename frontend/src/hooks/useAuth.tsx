@@ -7,8 +7,8 @@ const fetcher = async (url: string) => {
     url: url,
     withCredentials: true,
   });
-  console.log(res.data);
-  return res.data;
+  console.log("useruser", res.data.data);
+  return res.data.data;
 };
 
 const useAuth = () => {

@@ -11,6 +11,8 @@ const ProfileDropbox = ({ user }: Props) => {
   const [show, setShow] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
+  console.log("hello", user);
+
   const handleMouseEnter = (e: any) => {
     setIsHover(true);
     e.target.style.cursor = "pointer";

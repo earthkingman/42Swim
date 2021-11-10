@@ -3,25 +3,21 @@ import Header from "../../organisms/Header";
 import SettingTemplate from "./template";
 import CircleBox from "../../atoms/CircleBox";
 import Button from "../../atoms/Button";
-
 import styled from "styled-components";
 import Title from "../../atoms/Title";
 import Divider from "../../atoms/Divider";
 import A from "../../atoms/A";
 import SettingPanel from "../../molecules/SettingPanel";
+import useAuth from "../../../hooks/useAuth";
 
 const SettingBtn = styled(Button)`
   width: 153px;
 `;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SettingPage = ({ ...props }) => {
-  const user = {
-    id: 3,
-    email: "chloek@gmail.com",
-    photo: "https://avatars.githubusercontent.com/u/51353146?v=4",
-    nickname: "Chloek",
-  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { user, isLoading, isError } = useAuth();
+
   return (
     <BasicTemplate {...props} header={<Header />}>
       <SettingTemplate
