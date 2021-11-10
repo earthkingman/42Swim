@@ -9,20 +9,20 @@ import Divider from "../../atoms/Divider";
 import A from "../../atoms/A";
 import SettingPanel from "../../molecules/SettingPanel";
 import useAuth from "../../../hooks/useAuth";
-import { mutate } from "swr";
-import { useEffect } from "react";
+import { Redirect } from "react-router";
 
 const SettingBtn = styled(Button)`
   width: 153px;
 `;
 
 const SettingPage = ({ ...props }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { user, isLoading, isError } = useAuth();
 
-  useEffect(() => {
-    mutate(`${import.meta.env.VITE_API_HOST}/users/info`);
-  }, []);
+  if (isError) {
+    alert("로그인을 해주세요");
+    return <Redirect to="/" />;
+  }
+  if (isLoading) return <div>loading...</div>;
 
   const openFile = () => {
     const file = document.getElementById("uploadImg");
