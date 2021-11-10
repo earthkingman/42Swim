@@ -3,7 +3,7 @@ import useSWR from "swr";
 
 const fetcher = async (url: string) => {
   const res = await axios({
-    method: "post",
+    method: "get",
     url: url,
     withCredentials: true,
   });
@@ -13,7 +13,7 @@ const fetcher = async (url: string) => {
 
 const useAuth = () => {
   // 이거 url 없네
-  const url = `http://localhost:5000/users/info`;
+  const url = `${import.meta.env.VITE_API_HOST}/users/info`;
   const { data, error } = useSWR(url, fetcher);
 
   console.log("useAuth user", data);

@@ -14,7 +14,7 @@ export const TabItem = ({
 }: ItemProps) => {
   const activeStyle = {
     color: "black",
-    borderBottom: "3px solid black",
+    //borderBottom: "3px solid black",
     transition: "color 0.5s ease",
   };
 

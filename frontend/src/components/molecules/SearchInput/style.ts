@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Input from "../../atoms/Input";
 
 export const SearchBox = styled.div`
-  width: 544px;
+  width: 55%;
   height: 43px;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 4px 0px;
