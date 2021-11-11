@@ -53,10 +53,10 @@ export class PageService {
 			.disableEscaping()
 			.getOne();
 
-		const emptyQuestionLike = [];
+		const emptyQuestionLike: QuestionLike[] = [];
 		emptyQuestionLike.push(new QuestionLike());
 		emptyQuestionLike[0].is_like = undefined;
-		const emptyAnswerLike = [];
+		const emptyAnswerLike: AnswerLike[] = [];
 		emptyAnswerLike.push(new AnswerLike());
 		emptyAnswerLike[0].is_like = undefined;
 
