@@ -1,5 +1,5 @@
 import express from "express";
-import passport, { transformAuthInfo } from "passport";
+import passport from "passport";
 
 import { AuthController } from "../controllers/auth";
 import { s3Util } from "../aws/s3_utils";

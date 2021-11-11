@@ -13,12 +13,12 @@ const accessSign = (user) => {
     id: user.id,
   };
   return jwt.sign(payload, secret, {
-    expiresIn: "300m",
+    // expiresIn: "5m",
+    expiresIn: "10s",
   });
 }
 
 const accessVerify = (access_token) => {
-  // access token이 null 인 경우를 생각해야하나?
   let decoded = null;
   try {
     decoded = jwt.verify(access_token, secret);
