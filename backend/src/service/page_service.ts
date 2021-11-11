@@ -3,14 +3,21 @@ import { getConnection, getRepository, QueryRunner, Repository } from "typeorm";
 import { Answer } from "../entity/answer";
 import { HashTag } from "../entity/hashtag";
 import { Question } from "../entity/question";
+import { QuestionLike } from "../entity/question_like";
+import { AnswerLike } from "../entity/answer_like";
+import { length } from "class-validator";
 
 export class PageService {
 	private questionRepository: Repository<Question>;
 	private hashtagRepository: Repository<HashTag>;
+	private questionLikeRepository: Repository<QuestionLike>;
+	private answerLikeRepository: Repository<AnswerLike>;
 
 	constructor() {
 		this.questionRepository = getConnection().getRepository(Question);
 		this.hashtagRepository = getConnection().getRepository(HashTag);
+		this.questionLikeRepository = getConnection().getRepository(QuestionLike);
+		this.answerLikeRepository = getConnection().getRepository(AnswerLike);
 	}
 
 	async setQuestionViewCount(questionId) {
@@ -20,7 +27,7 @@ export class PageService {
 		await this.questionRepository.save(questionInfo);
 	}
 
-	async getQuestionDetail(questionId) {
+	async getQuestionDetail(questionId, userId) {
 		await this.setQuestionViewCount(questionId);
 		const questionInfo = await this.questionRepository
 			.createQueryBuilder('question')
@@ -45,6 +52,52 @@ export class PageService {
 			])
 			.disableEscaping()
 			.getOne();
+
+		const emptyQuestionLike = [];
+		emptyQuestionLike.push(new QuestionLike());
+		emptyQuestionLike[0].is_like = undefined;
+		const emptyAnswerLike = [];
+		emptyAnswerLike.push(new AnswerLike());
+		emptyAnswerLike[0].is_like = undefined;
+
+		if (userId) {
+			const questionLike = await this.questionLikeRepository
+				.createQueryBuilder('question_like')
+				.leftJoin('question_like.question', 'question')
+				.leftJoin('question_like.user', 'user')
+				.where('question.id = :question_id', { question_id: questionInfo.id })
+				.andWhere('user.id = :user_id', { user_id: userId })
+				.select(['question_like.is_like'])
+				.getOne();
+			questionInfo['question_like'] = emptyQuestionLike;
+			if (questionLike) {
+				questionInfo['question_like'][0] = questionLike;
+			}
+			console.log('start')
+			if (questionInfo.answer) {
+				console.log('yes');
+				for (let i = 0; i < questionInfo.answer.length; i++) {
+					const answerLike = await this.answerLikeRepository
+						.createQueryBuilder('answer_like')
+						.leftJoin('answer_like.answer', 'answer')
+						.leftJoin('answer_like.user', 'user')
+						.where('answer.id = :answer_id', { answer_id: questionInfo.answer[i].id })
+						.andWhere('user.id = :user_id', { user_id: userId })
+						.select(['answer_like.is_like'])
+						.getOne();
+					questionInfo.answer[i]['answer_like'] = emptyAnswerLike;
+					if (answerLike) {
+						questionInfo.answer[i]['answer_like'][0] = answerLike;
+					}
+				}
+			}
+		}
+		else {
+			questionInfo['question_like'] = emptyQuestionLike;
+			for (let i = 0; i < questionInfo.answer.length; i++) {
+				questionInfo.answer[i]['answer_like'] = emptyAnswerLike;
+			}
+		}
 		return questionInfo;
 	}
 
