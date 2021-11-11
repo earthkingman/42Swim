@@ -25,7 +25,7 @@ export class UserService {
 		return user;
 	}
 
-	async updateUserPassword(id: number, curPassword, newPassword: string) {
+	async updateUserPassword(id: number, curPassword: string, newPassword: string) {
 		const user = await this.userRepository
 			.findOne({ where: { id: id } });
 		if (user === undefined) {

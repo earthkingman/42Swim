@@ -71,7 +71,7 @@ export class PageService {
 			view_count: questionInfo.view_count,
 			title: questionInfo.title,
 			text: questionInfo.text,
-			is_like: undefined,
+			is_like: null,
 		};
 		if (questionInfo.answer) {
 			for (let i = 0; i < questionInfo.answer.length; i++) {
@@ -88,7 +88,7 @@ export class PageService {
 					like_count: curAnswer.like_count,
 					text: curAnswer.text,
 					is_chosen: curAnswer.is_chosen,
-					is_like: undefined,
+					is_like: null,
 				}
 				questionDetailInfo.answer.push(AnswerDetail);
 			}
