@@ -30,10 +30,11 @@ const getQuestionListPage = async (req: any, res: Response, next: NextFunction) 
 
 const getQuestionDetailPage = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const questionId = Number(req.query.questionId);
+	const userId = req.decodedId;
 	const pageService: PageService = new PageService();
 
 	try {
-		const questionInfo = await pageService.getQuestionDetail(questionId);
+		const questionInfo = await pageService.getQuestionDetail(questionId, userId);
 		return res.status(200).json({
 			questionInfo: questionInfo
 		})
