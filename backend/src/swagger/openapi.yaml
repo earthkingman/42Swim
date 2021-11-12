@@ -903,7 +903,7 @@ paths:
                 nickname:
                   type: string
               example:
-                nickname: "update nickname"
+                nickname: "newTester1"
               required:
                 - nickname
       responses:
@@ -927,11 +927,33 @@ paths:
                 newPassword:
                   type: string
               example:
-                curPassword: "test"
-                newPassword: "update test"
+                curPassword: "tester1"
+                newPassword: "newTester1"
               required:
                 - curPassword
                 - newPassword
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: User doesn't exist
+
+  /users/email:
+    patch:
+      summary: 이메일을 업데이트합니다.
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+              example:
+                email: "newTester1@gmail.com"
+              required:
+                - email
       responses:
         "200":
           description: OK

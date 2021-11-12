@@ -19,6 +19,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { Props as ListProps } from "../../molecules/ListItem";
 import BasicTemplate from "../BasicTemplate";
 import useAuth from "../../../hooks/useAuth";
+import CatWork from "../../asset/png/Cats-at-Work.png";
 
 interface ResponseProps {
   quesiontList: ListProps[];
@@ -64,19 +65,49 @@ const MainPage = ({ history, ...props }) => {
                 onSearch={onSearch}
               />
               <Button onClick={() => history.push("/writing")} size="sm">
-                질문하기 <PlusIcon />
+                질문하기 <PlusIcon style={{ marginLeft: "2rem" }} />
               </Button>
             </>
           }
           content1={<QuestionList menu={menu} setMenu={setMenu} />}
           content2={
             <div style={{ width: "27%" }}>
-              <RowSADiv style={{ height: "50px" }}>
+              <RowSADiv
+                style={{
+                  height: "50px",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                }}
+              ></RowSADiv>
+              <Box
+                width="100%"
+                height="338px"
+                style={{
+                  display: "flex",
+                  padding: "4rem",
+                  justifyContent: "flex-start",
+                  alignItem: "center",
+                  flexDirection: "column",
+                  position: "relative",
+                }}
+              >
                 <Crown />
-                <Title size="h2">King of 42</Title>
-                <Crown />
-              </RowSADiv>
-              <Box width="100%" height="338px" />
+                <Title size="h2" style={{ lineHeight: "1.3" }}>
+                  King of 42
+                  <br /> 준비중...
+                </Title>
+                <img
+                  src={CatWork}
+                  alt="img"
+                  style={{
+                    position: "absolute",
+                    bottom: "0px",
+                    left: "-0px",
+                    width: "10rem",
+                    borderRadius: "16px",
+                  }}
+                />
+              </Box>
             </div>
           }
         />
