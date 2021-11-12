@@ -104,10 +104,11 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
       maxAge: 300000,
       httpOnly: true,
     });
-    res.status(200).json({
-      userInfo: userInfo,
-      refreshToken: refreshToken,
-    });
+    // res.status(200).json({
+    //   userInfo: userInfo,
+    //   refreshToken: refreshToken,
+    // });
+    res.redirect('http://3.36.121.236');
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
 
