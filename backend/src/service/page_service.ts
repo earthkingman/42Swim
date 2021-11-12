@@ -6,6 +6,8 @@ import { Question } from "../entity/question";
 import { QuestionLike } from "../entity/question_like";
 import { AnswerLike } from "../entity/answer_like";
 import { length } from "class-validator";
+import { QuestionDetail } from "../definition/response_data";
+import { AnswerDetail } from "../definition/response_data";
 
 export class PageService {
 	private questionRepository: Repository<Question>;
@@ -53,12 +55,44 @@ export class PageService {
 			.disableEscaping()
 			.getOne();
 
-		const emptyQuestionLike: QuestionLike[] = [];
-		emptyQuestionLike.push(new QuestionLike());
-		emptyQuestionLike[0].is_like = undefined;
-		const emptyAnswerLike: AnswerLike[] = [];
-		emptyAnswerLike.push(new AnswerLike());
-		emptyAnswerLike[0].is_like = undefined;
+		const questionDetailInfo: QuestionDetail = {
+			id: questionInfo.id,
+			created_at: questionInfo.created_at,
+			updated_at: questionInfo.updated_at,
+			user: questionInfo.user,
+			answer: [],
+			photo: questionInfo.photo,
+			comment: questionInfo.comment,
+			hashtag: questionInfo.hashtag,
+			question_like: questionInfo.question_like,
+			is_solved: questionInfo.is_solved,
+			answer_count: questionInfo.answer_count,
+			like_count: questionInfo.like_count,
+			view_count: questionInfo.view_count,
+			title: questionInfo.title,
+			text: questionInfo.text,
+			is_like: null,
+		};
+		if (questionInfo.answer) {
+			for (let i = 0; i < questionInfo.answer.length; i++) {
+				const curAnswer = questionInfo.answer[i];
+				const AnswerDetail: AnswerDetail = {
+					id: curAnswer.id,
+					created_at: curAnswer.created_at,
+					updated_at: curAnswer.updated_at,
+					photo: curAnswer.photo,
+					question: curAnswer.question,
+					user: curAnswer.user,
+					comment: curAnswer.comment,
+					answer_like: curAnswer.answer_like,
+					like_count: curAnswer.like_count,
+					text: curAnswer.text,
+					is_chosen: curAnswer.is_chosen,
+					is_like: null,
+				}
+				questionDetailInfo.answer.push(AnswerDetail);
+			}
+		}
 
 		if (userId) {
 			const questionLike = await this.questionLikeRepository
@@ -69,11 +103,9 @@ export class PageService {
 				.andWhere('user.id = :user_id', { user_id: userId })
 				.select(['question_like.is_like'])
 				.getOne();
-			questionInfo['question_like'] = emptyQuestionLike;
 			if (questionLike) {
-				questionInfo['question_like'][0] = questionLike;
+				questionDetailInfo.is_like = questionLike.is_like;
 			}
-			console.log('start')
 			if (questionInfo.answer) {
 				console.log('yes');
 				for (let i = 0; i < questionInfo.answer.length; i++) {
@@ -85,20 +117,13 @@ export class PageService {
 						.andWhere('user.id = :user_id', { user_id: userId })
 						.select(['answer_like.is_like'])
 						.getOne();
-					questionInfo.answer[i]['answer_like'] = emptyAnswerLike;
 					if (answerLike) {
-						questionInfo.answer[i]['answer_like'][0] = answerLike;
+						questionDetailInfo.answer[i].is_like = answerLike.is_like;
 					}
 				}
 			}
 		}
-		else {
-			questionInfo['question_like'] = emptyQuestionLike;
-			for (let i = 0; i < questionInfo.answer.length; i++) {
-				questionInfo.answer[i]['answer_like'] = emptyAnswerLike;
-			}
-		}
-		return questionInfo;
+		return questionDetailInfo;
 	}
 
 	async getQuestionList(pageInfo) {
