@@ -28,6 +28,13 @@ const SettingPage = ({ ...props }) => {
     const file = document.getElementById("uploadImg");
     file?.click();
   };
+
+  const fileChange = (e: any) => {
+    console.log(e);
+    document.getElementById("imgform").submit();
+
+    e.preventDefault();
+  };
   return (
     <BasicTemplate {...props} header={<Header />}>
       <SettingTemplate
@@ -43,12 +50,17 @@ const SettingPage = ({ ...props }) => {
               이미지 업로드
             </SettingBtn>
             <form
+              id="imgform"
               action={`${import.meta.env.VITE_API_HOST}/users/image`}
               method="patch"
               encType="multipart/form-data"
               style={{ display: "none" }}
             >
-              <input id="uploadImg" type="file" />
+              <input
+                id="uploadImg"
+                type="file"
+                onChange={(e) => fileChange(e)}
+              />
             </form>
             <SettingBtn size="sm" color="white" shadow={true}>
               이미지 제거

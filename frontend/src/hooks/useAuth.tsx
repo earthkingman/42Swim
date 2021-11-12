@@ -1,6 +1,4 @@
 import axios from "axios";
-import useSWR from "swr";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import useSWRImmutable from "swr/immutable";
 
 const fetcher = async (url: string) => {
@@ -21,7 +19,7 @@ const fetcher = async (url: string) => {
 const useAuth = () => {
   // 이거 url 없네
   const url = `${import.meta.env.VITE_API_HOST}/users/info`;
-  const { data, error } = useSWR(url, fetcher);
+  const { data, error } = useSWRImmutable(url, fetcher);
 
   console.log("useAuth error", error);
   //   mutate(...data, false);
