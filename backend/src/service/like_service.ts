@@ -140,7 +140,7 @@ export class LikeService {
 		const user = await this.userRepository.findOne({ where: { id: userId } });
 
 		const curLike = await this.answerLikeRepository
-			.findOne({ where: { answer: answer, user: user, is_like: isLike } });
+			.findOne({ where: { answer: answer, user: user } });
 		if (curLike === undefined) {
 			await this.queryRunner.release();
 			throw new Error("The likeData doesn't exist.");
@@ -193,7 +193,7 @@ export class LikeService {
 		const user = await this.userRepository.findOne({ where: { id: userId } });
 
 		const curLike = await this.questionLikeRepository
-			.findOne({ where: { question: question, user: user, is_like: isLike } });
+			.findOne({ where: { question: question, user: user } });
 		if (curLike === undefined) {
 			await this.queryRunner.release();
 			throw new Error("The likeData doesn't exist.");

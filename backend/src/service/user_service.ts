@@ -1,3 +1,7 @@
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+dotenv.config();
+
 import { getConnection, QueryRunner, Repository } from "typeorm";
 
 import { User } from "../entity/user";
@@ -21,16 +25,21 @@ export class UserService {
 		return user;
 	}
 
-	async updateUserPassword(id: number, userpassword: string) {
-		const password: string = userpassword;
+	async updateUserPassword(id: number, curPassword: string, newPassword: string) {
 		const user = await this.userRepository
 			.findOne({ where: { id: id } });
 		if (user === undefined) {
 			throw new Error('존재하지 않는 유저입니다');
 		}
-		user.password = password || user.password;
-		const newUser = await this.userRepository.save(user);
-		return newUser;
+		const result = await bcrypt.compare(curPassword, user.password);
+		if (result) {
+			user.password = newPassword || user.password;
+			const newUser = await this.userRepository.save(user);
+		}
+		else {
+			throw new Error('비밀번호가 일치하지 않습니다.')
+		}
+
 	}
 
 	async updateUserPhoto(id: number, userPhoto: string) {
@@ -55,6 +64,16 @@ export class UserService {
 		user.nickname = nickName || user.nickname;
 		const newUser = await this.userRepository.save(user);
 		return newUser;
+	}
+
+	async updateUserEmail(id: number, email: string) {
+		const user = await this.userRepository
+			.findOne({ where: { id: id } })
+		if (user === undefined) {
+			throw new Error('존재하지 않는 유저입니다');
+		}
+		user.email = email || user.email;
+		await this.userRepository.save(user);
 	}
 
 	async createUser(createUserInfo) {

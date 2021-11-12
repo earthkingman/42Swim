@@ -11,7 +11,7 @@ export const insertSeed = async () => {
 
     for (let i = 1; i <= 20; i++) {
         const userService: UserService = new UserService();
-        await userService.createUser({ email: 'tester' + String(i) + '@gmail.com', nickname: "tester" + String(i), password: await bcrypt.hashSync("tester1", +process.env.SALT_ROUNDS), photo: "" });
+        await userService.createUser({ email: 'tester' + String(i) + '@gmail.com', nickname: "tester" + String(i), password: await bcrypt.hashSync("tester" + String(i), +process.env.SALT_ROUNDS), photo: "" });
     }
     console.log("유저 생성 완료")
 

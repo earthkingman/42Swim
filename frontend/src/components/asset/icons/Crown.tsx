@@ -1,5 +1,6 @@
-const Crown = () => (
+const Crown = (props) => (
   <svg
+    {...props}
     width="35"
     height="22"
     viewBox="0 0 35 22"
