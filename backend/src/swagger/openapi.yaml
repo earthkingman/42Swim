@@ -890,6 +890,16 @@ paths:
         "404":
           description: User doesn't exist
 
+    delete:
+      summary: 프로필 사진을 삭제합니다.
+      tags:
+        - user
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: User doesn't exist
+
   /users/nickname:
     patch:
       summary: 닉네임을 업데이트합니다.

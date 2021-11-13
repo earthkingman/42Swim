@@ -54,6 +54,17 @@ export class UserService {
 		return newUser;
 	}
 
+	async deleteUserPhoto(id: number) {
+		const user = await this.userRepository
+			.findOne({ where: { id: id } })
+		if (user === undefined) {
+			throw new Error('존재하지 않는 유저입니다');
+		}
+		user.photo = "";
+		const newUser = await this.userRepository.save(user);
+		return newUser;
+	}
+
 	async updateUserNickname(id: number, userNickname: string) {
 		const nickName: string = userNickname;
 		const user = await this.userRepository
