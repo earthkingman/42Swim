@@ -15,7 +15,7 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
 			res.status(200).json({
 				email: user.email,
 				nickname: user.nickname,
-				image: user.photo
+				image: process.env.S3 + user.photo
 			})
 		}
 		else {
