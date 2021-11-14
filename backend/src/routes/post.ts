@@ -30,6 +30,5 @@ postRouter.delete('/answer/like', authJwt, LikeController.deleteAnswerLike);
 postRouter.post('/question/like', authJwt, LikeController.createQuestionLike);
 postRouter.delete('/question/like', authJwt, LikeController.deleteQuestionLike);
 
-postRouter.post('/image', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), PhotoController.uploadImage);
-
+postRouter.post('/image', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).single("imgFile"), PhotoController.uploadImage);
 //채택하기 api 추가 필요
