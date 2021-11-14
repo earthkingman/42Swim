@@ -11,7 +11,7 @@ const uploadImage = async (req: any, res: Response, next: NextFunction) => {
             image: image
         })
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             result: false,
             message: `An error occurred (${error.message})`
         })

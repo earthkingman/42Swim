@@ -1,6 +1,5 @@
 import { getConnection, QueryRunner, Repository } from "typeorm";
 
-import { Photo } from "../entity/photo";
 import { Question } from "../entity/question";
 import { User } from "../entity/user";
 import { HashTag } from "../entity/hashtag";
@@ -10,14 +9,12 @@ export class QuestionService {
 	private userRepository: Repository<User>;
 	private questionRepository: Repository<Question>;
 	private hashtagRepository: Repository<HashTag>;
-	private photoRepository: Repository<Photo>;
 
 	constructor() {
 		this.queryRunner = getConnection().createQueryRunner();
 		this.userRepository = this.queryRunner.manager.getRepository(User);
 		this.questionRepository = this.queryRunner.manager.getRepository(Question);
 		this.hashtagRepository = this.queryRunner.manager.getRepository(HashTag);
-		this.photoRepository = this.queryRunner.manager.getRepository(Photo);
 	}
 
 	async post(uploadQuestionInfo) {
@@ -38,8 +35,6 @@ export class QuestionService {
 				try {
 					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashtagNameList[i] } });
 					if (exHashTag === undefined) {
-						// const newHashTag = new HashTag();
-						// newHashTag.name = hashtagNameList[i];
 						const newHashTag = await this.hashtagRepository.save({ name: hashtagNameList[i] });
 						hashtagObject.push(newHashTag);
 					}
@@ -54,10 +49,6 @@ export class QuestionService {
 			const questionInfo = { title, text, user, hashtag: hashtagObject };
 			const question = await this.questionRepository.save(questionInfo);
 			id = question.id;
-			//await Promise.all(photos.map(async (photo) => {
-			//	await this.photoRepository.save({ photo, question });
-			//}));
-
 			await this.queryRunner.commitTransaction();
 		} catch (error) {
 			console.error(error);
@@ -70,7 +61,7 @@ export class QuestionService {
 	}
 
 	async update(updateQuestionInfo) {
-		const { title, text, photos, questionId, userId, hashtag } = updateQuestionInfo;
+		const { title, text, questionId, userId, hashtag } = updateQuestionInfo;
 		const question = await this.questionRepository
 			.findOne({
 				where: { id: questionId, user: { id: userId } },
@@ -90,15 +81,12 @@ export class QuestionService {
 		}
 		await this.queryRunner.startTransaction();
 		try {
-			await this.photoRepository.delete({ question: question });
 			const hashtagObject: HashTag[] = [];
 			if (hashtag != undefined) {
 				const hashtagNameList = hashtag.split('#')
 				for (let i = 0; i < hashtagNameList.length; i++) {
 					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashtagNameList[i] } });
 					if (exHashTag === undefined) {
-						// const newHashTag = new HashTag();
-						// newHashTag.name = hashtagNameList[i];
 						const newHashTag = await this.hashtagRepository.save({ name: hashtagNameList[i] });
 						hashtagObject.push(newHashTag);
 					}
@@ -109,11 +97,10 @@ export class QuestionService {
 			}
 			question.title = title || question.title;
 			question.text = text || question.text;
-			question.hashtag = hashtagObject || question.hashtag;
+			if (hashtagObject.length > 0) {
+				question.hashtag = hashtagObject;
+			}
 			await this.questionRepository.save(question);
-			await Promise.all(photos.map(async (photo) => {
-				await this.photoRepository.save({ photo, question });
-			}));
 			await this.queryRunner.commitTransaction();
 		} catch (error) {
 			console.error(error);
@@ -155,15 +142,4 @@ export class QuestionService {
 			await this.queryRunner.release();
 		}
 	}
-
-	async findPhotoByQuestionId(questionId) {
-		const photos = await this.photoRepository
-			.find({
-				where: { question: { id: questionId } },
-				relations: ['question']
-			});
-		await this.queryRunner.release();
-		return photos;
-	}
-
 }

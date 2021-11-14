@@ -4,7 +4,6 @@ dotenv.config();
 import { Entity, Column, ManyToOne, OneToMany, ManyToMany, JoinTable, } from "typeorm";
 
 import { User } from "./user";
-import { Photo } from "./photo";
 import { Answer } from "./answer";
 import { Comment } from "./comment";
 import { Base } from './base';
@@ -18,9 +17,6 @@ export class Question extends Base {
 
     @OneToMany(() => Answer, answer => answer.question)
     answer: Answer[];
-
-    @OneToMany(() => Photo, photo => photo.question)
-    photo: Photo[];
 
     @OneToMany(() => Comment, comment => comment.question)
     comment: Comment[];

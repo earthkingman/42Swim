@@ -107,10 +107,6 @@ components:
           type: string
         text:
           type: string
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
         hashtags:
           type: array
           items:
@@ -131,10 +127,6 @@ components:
           type: string
         text:
           type: string
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
         hashtags:
           type: array
           items:
@@ -154,10 +146,6 @@ components:
           type: boolean
         text:
           type: string
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
       required:
         - id
         - text
@@ -170,10 +158,6 @@ components:
           format: int64
         text:
           type: string
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
       required:
         - text
     Comment:
@@ -302,11 +286,6 @@ paths:
             schema:
               type: object
               properties:
-                imgFile:
-                  type: array
-                  items:
-                    type: string
-                    format: binary
                 title:
                   type: string
                   example: test question title
@@ -334,11 +313,6 @@ paths:
             schema:
               type: object
               properties:
-                imgFile:
-                  type: array
-                  items:
-                    type: string
-                    format: binary
                 questionId:
                   type: integer
                   format: int64
@@ -406,11 +380,6 @@ paths:
             schema:
               type: object
               properties:
-                imgFile:
-                  type: array
-                  items:
-                    type: string
-                    format: binary
                 questionId:
                   type: integer
                   format: int64
@@ -436,11 +405,6 @@ paths:
             schema:
               type: object
               properties:
-                imgFile:
-                  type: array
-                  items:
-                    type: string
-                    format: binary
                 questionId:
                   type: integer
                   format: int64
@@ -654,6 +618,7 @@ paths:
       summary: 좋아요를 생성합니다.
       tags:
         - like
+      description: answerUserId 는 answer 작성자의 id로 작성자가 받은 좋아요 수를 업데이트 시켜주는 데 사용함
       requestBody:
         content:
           application/json:
@@ -684,6 +649,7 @@ paths:
       summary: 좋아요를 삭제합니다.
       tags:
         - like
+      description: answerUserId 는 answer 작성자의 id로 작성자가 받은 좋아요 수를 업데이트 시켜주는 데 사용함
       parameters:
         - name: answerId
           in: query
@@ -715,6 +681,7 @@ paths:
       summary: 좋아요를 생성합니다.
       tags:
         - like
+      description: questionUserId 는 question 작성자의 id로 작성자가 받은 좋아요 수를 업데이트 시켜주는 데 사용함
       requestBody:
         content:
           application/json:
@@ -745,6 +712,7 @@ paths:
       summary: 좋아요를 삭제합니다.
       tags:
         - like
+      description: questionUserId 는 question 작성자의 id로 작성자가 받은 좋아요 수를 업데이트 시켜주는 데 사용함
       parameters:
         - name: questionId
           in: query

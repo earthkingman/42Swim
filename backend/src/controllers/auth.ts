@@ -14,10 +14,14 @@ const login = (req: Request, res: Response, next: NextFunction) => {
 		if (authError || user == false) {
 			return res.status(400).json({ message: info.message });
 		}
+
+		let photo = user.photo;
+		if (photo == '') {
+			photo = null;
+		}
 		const userInfo = {
-			id: user.id,
 			email: user.email,
-			photo: user.photo,
+			photo: photo,
 			nickname: user.nickname
 		}
 		const accessToken = jwtUtil.accessSign(user);
@@ -48,7 +52,7 @@ const logout = (req: Request, res: Response, next: NextFunction) => {
 
 const signup = async (req: any, res: Response) => {
 	const { nickname, email, password } = req.body;
-	const photo = req.file ? req.file.key : "null";
+	const photo = req.file ? req.file.key : "";
 	const encryptedPassword = await bcrypt.hashSync(password, +process.env.SALT_ROUNDS);
 	const userService: UserService = new UserService();
 
@@ -99,11 +103,13 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
 			console.log(authError);
 			return res.status(400).json({ message: info });
 		}
-		console.log(user);
+		let photo = user.photo;
+		if (photo == '') {
+			photo = null;
+		}
 		const userInfo = {
-			id: user.id,
 			email: user.email,
-			photo: user.photo,
+			photo: photo,
 			nickname: user.nickname
 		}
 		const accessToken = jwtUtil.accessSign(user);
