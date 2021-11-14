@@ -30,7 +30,6 @@ export class QuestionService {
 		try {
 			const hashtagObject: HashTag[] = [];
 			const hashtagNameList = hashtag.split('#')
-			console.log(hashtag, hashtagNameList);
 			for (let i = 0; i < hashtagNameList.length; i++) {
 				try {
 					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashtagNameList[i] } });
