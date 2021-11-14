@@ -12,8 +12,13 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
 	try {
 		const user = await userService.findUserById(id);
 		let image = null;
-		if (user.photo != "") {
-			image = process.env.S3 + user.photo;
+		if (user.photo !== "") {
+			if (user.photo[0] === 'h') {
+				image = user.photo;
+			}
+			else {
+				image = process.env.S3 + user.photo;
+			}
 		}
 		if (user) {
 			res.status(200).json({

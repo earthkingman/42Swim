@@ -50,8 +50,11 @@ const updateQuestion = async (req: DecodedRequest, res: Response, next: NextFunc
 const uploadQuestion = async (req: DecodedRequest, res: Response) => {
     const userId: number = req.decodedId
     const { title, text, hashtag } = req.body;
+    console.log(hashtag)
+
     const questionService: QuestionService = new QuestionService();
     const newHashtag = hashtag.substr(1);
+    console.log(newHashtag)
 
     try {
         const id = await questionService.post({ title, text, userId, hashtag: newHashtag });

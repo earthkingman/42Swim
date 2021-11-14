@@ -54,7 +54,7 @@ const deleteAnswerLike = async (req: DecodedRequest, res: Response, next: NextFu
 	const userId: number = req.decodedId;
 	const likeService: LikeService = new LikeService();
 	let isLike = true;
-	if (req.query.isLike == "false") {
+	if (req.query.isLike === "false") {
 		isLike = false;
 	}
 
@@ -80,7 +80,7 @@ const deleteQuestionLike = async (req: DecodedRequest, res: Response, next: Next
 	const userId = req.decodedId;
 	const likeService: LikeService = new LikeService();
 	let isLike = true;
-	if (req.query.isLike == "false") {
+	if (req.query.isLike === "false") {
 		isLike = false;
 	}
 

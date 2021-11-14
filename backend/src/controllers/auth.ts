@@ -11,12 +11,12 @@ import { UserService } from "../service/user_service";
 
 const login = (req: Request, res: Response, next: NextFunction) => {
 	passport.authenticate("local", (authError, user, info) => {
-		if (authError || user == false) {
+		if (authError || user === false) {
 			return res.status(400).json({ message: info.message });
 		}
 
 		let photo = user.photo;
-		if (photo == '') {
+		if (photo === '') {
 			photo = null;
 		}
 		const userInfo = {
@@ -104,7 +104,7 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
 			return res.status(400).json({ message: info });
 		}
 		let photo = user.photo;
-		if (photo == '') {
+		if (photo === '') {
 			photo = null;
 		}
 		const userInfo = {
