@@ -10,6 +10,7 @@ import A from "../../atoms/A";
 import SettingPanel from "../../molecules/SettingPanel";
 import useAuth from "../../../hooks/useAuth";
 import { Redirect } from "react-router";
+import axios from "axios";
 
 const SettingBtn = styled(Button)`
   width: 153px;
@@ -29,18 +30,36 @@ const SettingPage = ({ ...props }) => {
     file?.click();
   };
 
-  const fileChange = (e: any) => {
-    console.log(e);
-    document.getElementById("imgform").submit();
+  const uploadFile = async () => {
+    const data = new FormData();
+    const imgFile = document.getElementById("uploadImg").files[0];
+    const url = `${import.meta.env.VITE_API_HOST}/users/image`;
+    console.log(imgFile);
+    data.append("imgFile", imgFile);
 
-    e.preventDefault();
+    await axios.patch(url, data, { withCredentials: true }).then((res) => {
+      alert("이미지 업로드를 성공했습니다!");
+      console.log("/users/image", res);
+    });
   };
+
+  const deleteFile = async () => {
+    const data = new FormData();
+    const url = `${import.meta.env.VITE_API_HOST}/users/image`;
+    data.append("imgFile", "");
+
+    await axios.patch(url, data, { withCredentials: true }).then((res) => {
+      alert("이미지를 정상적으로 삭제했습니다!");
+      console.log("/users/image", res);
+    });
+  };
+
   return (
     <BasicTemplate {...props} header={<Header />}>
       <SettingTemplate
         tlPanel={
           <>
-            <CircleBox size="lg" img={user?.photo ? user.photo : null} />
+            <CircleBox size="lg" img={user?.image ? user.image : null} />
             <SettingBtn
               size="sm"
               color="yellow"
@@ -51,18 +70,18 @@ const SettingPage = ({ ...props }) => {
             </SettingBtn>
             <form
               id="imgform"
-              action={`${import.meta.env.VITE_API_HOST}/users/image`}
               method="patch"
               encType="multipart/form-data"
               style={{ display: "none" }}
             >
-              <input
-                id="uploadImg"
-                type="file"
-                onChange={(e) => fileChange(e)}
-              />
+              <input id="uploadImg" type="file" onChange={uploadFile} />
             </form>
-            <SettingBtn size="sm" color="white" shadow={true}>
+            <SettingBtn
+              size="sm"
+              color="white"
+              shadow={true}
+              onClick={deleteFile}
+            >
               이미지 제거
             </SettingBtn>
           </>

@@ -64,7 +64,11 @@ const MainPage = ({ history, ...props }) => {
                 search={search}
                 onSearch={onSearch}
               />
-              <Button onClick={() => history.push("/writing")} size="sm">
+              <Button
+                shadow={true}
+                onClick={() => history.push("/writing")}
+                size="sm"
+              >
                 질문하기 <PlusIcon style={{ marginLeft: "2rem" }} />
               </Button>
             </>
