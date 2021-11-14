@@ -28,14 +28,10 @@ const deleteAnswer = async (req: DecodedRequest, res: Response) => {
 const updateAnswer = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const { questionId, answerId, text } = req.body;
 	const userId = req.decodedId;
-	const files: string[] = [];
-	const size = req.files.length;
 	const answerService: AnswerService = new AnswerService();
 
-	for (let i = 0; i < size; i++)
-		files.push(req.files[i].key);
 	try {
-		await answerService.update({ text, photos: files, answerId, questionId, userId });
+		await answerService.update({ text, answerId, questionId, userId });
 		return res.status(200).json({
 			result: true,
 			message: "Update Success"
@@ -52,15 +48,10 @@ const updateAnswer = async (req: DecodedRequest, res: Response, next: NextFuncti
 const uploadAnswer = async (req: DecodedRequest, res: Response) => {
 	const userId = req.decodedId
 	const { email, text, questionId } = req.body;
-	//const size = req.files.length;
-	const size = 0;
-	const files: string[] = [];
 	const answerService: AnswerService = new AnswerService();
 
-	for (let i = 0; i < size; i++)
-		files.push(process.env.S3 + req.files[i].key);
 	try {
-		await answerService.post({ email, text, userId, questionId, photos: files });
+		await answerService.post({ email, text, userId, questionId });
 		return res.status(200).json({
 			result: true,
 			message: "Upload Success"

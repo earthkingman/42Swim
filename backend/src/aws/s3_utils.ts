@@ -30,38 +30,40 @@ const s3ImageUpload = (config: any) => multer({
 	})
 })
 
-const s3DeletePhoto = async (req: Request, res: Response, next: NextFunction) => {
-	const { questionId } = req.body;
-	const questionService: QuestionService = new QuestionService();
+// const s3DeletePhoto = async (req: Request, res: Response, next: NextFunction) => {
+// 	const { questionId } = req.body;
+// 	const questionService: QuestionService = new QuestionService();
 
-	try {
-		const photos = await questionService.findPhotoByQuestionId(questionId);
-		photos.map(async (photo) => {
-			const url = photo.photo.split('/')    // video에 저장된 fileUrl을 가져옴
-			const delFileName = url[url.length - 1]  // 버킷에 저장된 객체 URL만 가져옴
-			const params = {
-				Bucket: process.env.AWS_BUCKET_NAME + '/author',
-				Key: delFileName
-			}
-			await s3.deleteObject(params, function (err, data) {
-				if (err) {
-					console.log('aws video delete error')
-					console.log(err, err.stack)
-					res.json({
-						error: err
-					})
-				} else {
-					console.log('aws video delete success' + data)
-				}
-			})
-		})
-		next()
-	} catch (error) {
-		return res.json({
-			error: error
-		})
-	}
+// 	try {
+// 		const photos = await questionService.findPhotoByQuestionId(questionId);
+// 		photos.map(async (photo) => {
+// 			const url = photo.photo.split('/')    // video에 저장된 fileUrl을 가져옴
+// 			const delFileName = url[url.length - 1]  // 버킷에 저장된 객체 URL만 가져옴
+// 			const params = {
+// 				Bucket: process.env.AWS_BUCKET_NAME + '/author',
+// 				Key: delFileName
+// 			}
+// 			await s3.deleteObject(params, function (err, data) {
+// 				if (err) {
+// 					console.log('aws video delete error')
+// 					console.log(err, err.stack)
+// 					res.json({
+// 						error: err
+// 					})
+// 				} else {
+// 					console.log('aws video delete success' + data)
+// 				}
+// 			})
+// 		})
+// 		next()
+// 	} catch (error) {
+// 		return res.json({
+// 			error: error
+// 		})
+// 	}
 
-}
+// }
 
-export const s3Util = { s3ImageUpload, s3DeletePhoto }
+// export const s3Util = { s3ImageUpload, s3DeletePhoto }
+
+export const s3Util = { s3ImageUpload }
