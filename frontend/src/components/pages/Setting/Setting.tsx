@@ -41,6 +41,7 @@ const SettingPage = ({ ...props }) => {
       alert("이미지 업로드를 성공했습니다!");
       console.log("/users/image", res);
     });
+    location.reload();
   };
 
   const deleteFile = async () => {
