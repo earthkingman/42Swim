@@ -5,11 +5,10 @@ import { Response, NextFunction } from 'express';
 
 const uploadImage = async (req: any, res: Response, next: NextFunction) => {
     const id = req.decodedId;
-    const photo = req.file;
+    const image = req.file.location;
     try {
-        console.log(photo.location);
         return res.status(200).json({
-            photo: photo.location
+            image: image
         })
     } catch (error) {
         res.status(500).json({
