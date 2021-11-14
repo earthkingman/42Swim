@@ -14,12 +14,12 @@ import { validationMiddleware } from "../middlewares/validation.middleware"
 export const postRouter = express.Router();
 
 postRouter.delete('/answer', authJwt, AnswerController.deleteAnswer);
-postRouter.post('/answer', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), validationMiddleware(Answer, true), AnswerController.uploadAnswer);
-postRouter.patch('/answer', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), validationMiddleware(Answer), AnswerController.updateAnswer);
+postRouter.post('/answer', authJwt, validationMiddleware(Answer, true), AnswerController.uploadAnswer);
+postRouter.patch('/answer', authJwt, validationMiddleware(Answer), AnswerController.updateAnswer);
 
 postRouter.delete('/question', authJwt, QuestionController.deleteQuestion);
-postRouter.post('/question', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), validationMiddleware(Question, true), QuestionController.uploadQuestion);
-postRouter.patch('/question', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).array("imgFile"), validationMiddleware(Question), QuestionController.updateQuestion);
+postRouter.post('/question', authJwt,  validationMiddleware(Question, true), QuestionController.uploadQuestion);
+postRouter.patch('/question', authJwt, validationMiddleware(Question), QuestionController.updateQuestion);
 
 postRouter.delete('/comment', authJwt, CommentController.deleteComment);
 postRouter.post('/comment', authJwt, validationMiddleware(Comment, true), CommentController.uploadComment);
