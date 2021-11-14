@@ -97,7 +97,9 @@ export class QuestionService {
 			}
 			question.title = title || question.title;
 			question.text = text || question.text;
-			question.hashtag = hashtagObject || question.hashtag;
+			if (hashtagObject.length > 0) {
+				question.hashtag = hashtagObject;
+			}
 			await this.questionRepository.save(question);
 			await this.queryRunner.commitTransaction();
 		} catch (error) {

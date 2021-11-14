@@ -30,10 +30,10 @@ const updateQuestion = async (req: DecodedRequest, res: Response, next: NextFunc
     const { questionId, title, text, hashtag } = req.body;
     const userId: number = req.decodedId
     const questionService: QuestionService = new QuestionService();
-    const newHashTag = hashtag.substr(1);
+    const newHashtag = hashtag.substr(1);
 
     try {
-        await questionService.update({ title, text, questionId, newHashTag, userId });
+        await questionService.update({ title, text, questionId, hashtag: newHashtag, userId });
         return res.status(200).json({
             result: true,
             message: "Update Success"
@@ -49,12 +49,12 @@ const updateQuestion = async (req: DecodedRequest, res: Response, next: NextFunc
 
 const uploadQuestion = async (req: DecodedRequest, res: Response) => {
     const userId: number = req.decodedId
-    const { email, title, text, hashtag } = req.body;
+    const { title, text, hashtag } = req.body;
     const questionService: QuestionService = new QuestionService();
-    const newHashTag = hashtag.substr(1);
+    const newHashtag = hashtag.substr(1);
 
     try {
-        const id = await questionService.post({ email, title, text, userId, hashtag: newHashTag });
+        const id = await questionService.post({ title, text, userId, hashtag: newHashtag });
         return res.status(200).json({
             id: id,
             result: true,
