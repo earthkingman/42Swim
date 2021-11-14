@@ -40,9 +40,9 @@ const MarkdownEditor = ({
 
     try {
       //axios post 로 수정 필요.
-      const a = await new Promise((res) => {
+      const a = await new Promise((resolve) => {
         setTimeout(() => {
-          res("done...");
+          resolve("done...");
         }, 3000);
       });
       console.log(a);
