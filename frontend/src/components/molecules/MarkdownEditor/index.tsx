@@ -4,6 +4,7 @@ import * as Showdown from "showdown";
 import showdownHighlight from "showdown-highlight";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { MarkDownEditorWrap } from "./style";
+import axios from "axios";
 
 interface MarkdownEditorProps {
   value?: string;
@@ -40,13 +41,28 @@ const MarkdownEditor = ({
 
     try {
       //axios post 로 수정 필요.
-      const a = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("done...");
-        }, 3000);
+      const res = await new Promise((resolve) => {
+        const form = new FormData();
+        const imgFile = new File([data], "Image");
+        const url = `${import.meta.env.VITE_API_HOST}/posts/image`;
+
+        console.log("ArrayBuffer", data);
+        console.log("ArrayBufferType", typeof data);
+
+        console.log("imgFile", imgFile);
+        console.log("imgFileType", typeof imgFile);
+
+        form.append("imgFile", imgFile);
+
+        axios.post(url, form, { withCredentials: true }).then((res) => {
+          if (res.status === 200) resolve("done...");
+        });
+        // setTimeout(() => {
+        //   resolve("done...");
+        // }, 3000);
       });
-      console.log(a);
-      yield a;
+      console.log(res);
+      yield res;
     } catch (error) {
       console.log(error);
       alert("사진 전송 실패");
