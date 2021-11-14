@@ -49,7 +49,7 @@ const AnswerCard = ({
         onDownClick={onDownClick}
       />
       <PostBox isChecked={is_choosen}>
-        <Answer {...props} />
+        <Answer {...props} user={user} />
         {commentsComponents}
         <CommentInput answerId={id} />
       </PostBox>
