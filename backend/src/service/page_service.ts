@@ -24,6 +24,9 @@ export class PageService {
 
 	async setQuestionViewCount(questionId) {
 		const questionInfo = await this.questionRepository.findOne({ where: { id: questionId } })
+		if (questionInfo === undefined) {
+			throw new Error("The questionPost doesn't exist.");
+		}
 		console.log(questionInfo.view_count);
 		questionInfo.view_count = questionInfo.view_count + 1;
 		await this.questionRepository.save(questionInfo);
