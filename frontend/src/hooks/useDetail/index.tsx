@@ -4,7 +4,7 @@ import queryString from "query-string";
 
 //todo: utils에꺼 가져오는걸로 수정
 const fetcher = (url: string) =>
-  axios.get(url).then((res) => {
+  axios.get(url, { withCredentials: true }).then((res) => {
     console.log(res);
     return res.data;
   });
@@ -18,16 +18,32 @@ const useDetail = () => {
     fetcher
   );
 
-  const thumbPost = (
+  const QuestionThumbPost = (
     userId: number,
     id: number,
     isLike: boolean,
-    isQuestion: boolean
+    isDel: boolean
   ) => {
     if (data) {
-      let likeCount = data.questionInfo.like_count;
-      likeCount = isLike ? likeCount + 1 : likeCount - 1;
-      if (isQuestion) {
+      if (isDel) {
+        axios
+          .delete(
+            `${
+              import.meta.env.VITE_API_HOST
+            }/posts/question/like?questionId=${id}&questionUserId=${userId}&isLike=${isLike}`,
+            {
+              withCredentials: true,
+            }
+          )
+          .then(() => mutate())
+          .catch((err) => {
+            alert(err);
+            console.error(err);
+            mutate();
+          });
+      } else {
+        let likeCount = data.questionInfo.like_count;
+        likeCount = isLike ? likeCount + 1 : likeCount - 1;
         mutate(
           {
             questionInfo: {
@@ -59,38 +75,71 @@ const useDetail = () => {
             console.error(err);
             mutate();
           });
-      } else {
-        const newData = data.questionInfo.answer.map((item: any) => {
-          if (item.id === id) {
-            item.like_count = likeCount;
-            item.is_like = isLike;
-          }
-          return item;
-        });
-        mutate(
+      }
+    }
+  };
+
+  const AnswerThumbPost = (
+    userId: number,
+    id: number,
+    isLike: boolean,
+    isDel: boolean
+  ) => {
+    if (isDel) {
+      axios
+        .delete(
+          `${
+            import.meta.env.VITE_API_HOST
+          }/posts/answer/like?answerId=${id}&answerUserId=${userId}&isLike=${isLike}`,
           {
-            questionInfo: {
-              ...data.questionInfo,
-              answer: newData,
-            },
+            withCredentials: true,
+          }
+        )
+        .then(() => mutate())
+        .catch((err) => {
+          alert(err);
+          console.error(err);
+          mutate();
+        });
+    } else {
+      let likeCount = data.questionInfo.like_count;
+      likeCount = isLike ? likeCount + 1 : likeCount - 1;
+      const newData = data.questionInfo.answer.map((item: any) => {
+        if (item.id === id) {
+          item.like_count = likeCount;
+          item.is_like = isLike;
+        }
+        return item;
+      });
+      mutate(
+        {
+          questionInfo: {
+            ...data.questionInfo,
+            answer: newData,
           },
-          false
-        );
-        axios
-          .post(`${import.meta.env.VITE_API_HOST}/posts/answer/like`, {
+        },
+        false
+      );
+      axios
+        .post(
+          `${import.meta.env.VITE_API_HOST}/posts/answer/like`,
+          {
             answerUserId: userId,
             answerId: id,
             isLike: isLike,
-          })
-          .then(() => {
-            mutate();
-          })
-          .catch((err) => {
-            alert(err);
-            console.error(err);
-            mutate();
-          });
-      }
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then(() => {
+          mutate();
+        })
+        .catch((err) => {
+          alert(err);
+          console.error(err);
+          mutate();
+        });
     }
   };
 
@@ -159,14 +208,17 @@ const useDetail = () => {
       console.error(error);
     }
   };
+
   return {
     question: data ? data.questionInfo : null,
     answer: data ? data.questionInfo.answer : null,
     isLoading: !error && !data,
     isError: error,
-    thumbPost,
+    QuestionThumbPost,
+    AnswerThumbPost,
     CommentPost,
     AnswerPost,
   };
 };
+
 export default useDetail;
