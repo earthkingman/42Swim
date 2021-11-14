@@ -55,7 +55,8 @@ const MarkdownEditor = ({
         form.append("imgFile", imgFile);
 
         axios.post(url, form, { withCredentials: true }).then((res) => {
-          if (res.status === 200) resolve("done...");
+          console.log("/posts/image", res);
+          if (res.status === 200) resolve(res?.data?.image);
         });
         // setTimeout(() => {
         //   resolve("done...");
