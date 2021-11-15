@@ -8,7 +8,7 @@ export const authRouter = express.Router();
 
 authRouter.post("/login", AuthController.login);
 
-authRouter.post("/signup", s3Util.s3ImageUpload({ folder: 'author' }).single("imgFile"), AuthController.signup);
+authRouter.post("/signup", AuthController.signup);
 
 authRouter.get("/42login", passport.authenticate("42", { session: false }));
 
