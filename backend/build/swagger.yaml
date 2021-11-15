@@ -16,6 +16,8 @@ tags:
     description: 페이지
   - name: hashtag
     description: hashtag
+  - name: post
+    description: 게시글
   - name: question
     description: 질문 게시글
   - name: answer
@@ -254,6 +256,25 @@ paths:
           description: 해시태그 질문 리스트 요청 성공
         '404':
           description: Hashtag doesn't exist
+  /posts/image:
+    post:
+      summary: 사진을 업로드합니다.
+      tags:
+        - post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                imgFile:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: fail
   /posts/question:
     get:
       summary: 질문 게시글을 반환합니다.
@@ -282,9 +303,8 @@ paths:
         - question
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
               properties:
                 title:
                   type: string
@@ -294,7 +314,7 @@ paths:
                   example: test question text
                 hashtag:
                   type: string
-                  example: test#hashtag
+                  example: '#test#hashtag'
               required:
                 - title
                 - text
@@ -309,9 +329,8 @@ paths:
         - question
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
               properties:
                 questionId:
                   type: integer
@@ -325,7 +344,7 @@ paths:
                   example: update test question text
                 hashtag:
                   type: string
-                  example: updatetest#hashtag
+                  example: '#updatetest#hashtag'
               required:
                 - questionId
                 - title
@@ -376,9 +395,8 @@ paths:
         - answer
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
               properties:
                 questionId:
                   type: integer
@@ -401,9 +419,8 @@ paths:
         - answer
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
               properties:
                 questionId:
                   type: integer
