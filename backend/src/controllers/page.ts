@@ -28,6 +28,72 @@ const getQuestionListPage = async (req: any, res: Response, next: NextFunction) 
 	}
 }
 
+const getQuestionListPageOrderByLike = async (req: any, res: Response, next: NextFunction) => {
+	const pageNumber = Number(req.query.pageNumber) - 1;
+	const limit = 8;
+	const offset = pageNumber * limit;
+	const pageInfo = { limit, offset };
+	const pageService: PageService = new PageService();
+
+	try {
+		const { questionList, questionCount } = await pageService.getQuestionListOrderByLikeCount(pageInfo);
+		return res.status(200).json({
+			quesiontList: questionList,
+			questionCount: questionCount,
+			message: "getList success",
+		})
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
+const getQuestionListPageUnsolved = async (req: any, res: Response, next: NextFunction) => {
+	const pageNumber = Number(req.query.pageNumber) - 1;
+	const limit = 8;
+	const offset = pageNumber * limit;
+	const pageInfo = { limit, offset };
+	const pageService: PageService = new PageService();
+
+	try {
+		const { questionList, questionCount } = await pageService.getQuestionListUnsolved(pageInfo);
+		return res.status(200).json({
+			quesiontList: questionList,
+			questionCount: questionCount,
+			message: "getList success",
+		})
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
+const getQuestionListPageByKeyword = async (req: any, res: Response, next: NextFunction) => {
+	const pageNumber = Number(req.query.pageNumber) - 1;
+	const limit = 8;
+	const offset = pageNumber * limit;
+	const pageInfo = { limit, offset };
+	const pageService: PageService = new PageService();
+
+	try {
+		const { questionList, questionCount } = await pageService.getQuestionListByKeyword(pageInfo);
+		return res.status(200).json({
+			quesiontList: questionList,
+			questionCount: questionCount,
+			message: "getList success",
+		})
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
 const getQuestionDetailPage = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const questionId = Number(req.query.questionId);
 	const userId = req.decodedId;
@@ -46,5 +112,6 @@ const getQuestionDetailPage = async (req: DecodedRequest, res: Response, next: N
 }
 
 export const PageController = {
-	getQuestionListPage, getQuestionDetailPage
+	getQuestionListPage, getQuestionDetailPage, getQuestionListPageOrderByLike, getQuestionListPageUnsolved,
+	getQuestionListPageByKeyword
 }
