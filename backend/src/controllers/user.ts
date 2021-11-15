@@ -41,7 +41,7 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
 
 const updateUserImage = async (req: any, res: Response, next: NextFunction) => {
 	const id = req.decodedId;
-	const photo = req.file.key;
+	const photo = req.file.location;
 	const userService: UserService = new UserService();
 
 	try {
