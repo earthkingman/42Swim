@@ -20,7 +20,9 @@ const CommentInput = ({
   if (!isLoading) {
     const onClick = (event: Event) => {
       event.preventDefault();
-      if (user) {
+      if (!value) {
+        alert("댓글울 입력해주세요");
+      } else if (user) {
         CommentPost(value, questionId, answerId);
         setValue("");
       } else {
