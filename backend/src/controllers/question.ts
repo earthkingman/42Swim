@@ -30,10 +30,9 @@ const updateQuestion = async (req: DecodedRequest, res: Response, next: NextFunc
     const { questionId, title, text, hashtag } = req.body;
     const userId: number = req.decodedId
     const questionService: QuestionService = new QuestionService();
-    const newHashtag = hashtag.substr(1);
 
     try {
-        await questionService.update({ title, text, questionId, hashtag: newHashtag, userId });
+        await questionService.update({ title, text, questionId, hashtag, userId });
         return res.status(200).json({
             result: true,
             message: "Update Success"
