@@ -45,14 +45,13 @@ const SettingPage = ({ ...props }) => {
   };
 
   const deleteFile = async () => {
-    const data = new FormData();
     const url = `${import.meta.env.VITE_API_HOST}/users/image`;
-    data.append("imgFile", "");
 
-    await axios.patch(url, data, { withCredentials: true }).then((res) => {
+    await axios.delete(url, { withCredentials: true }).then((res) => {
       alert("이미지를 정상적으로 삭제했습니다!");
       console.log("/users/image", res);
     });
+    location.reload();
   };
 
   return (
