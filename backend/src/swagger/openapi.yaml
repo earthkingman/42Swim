@@ -318,8 +318,10 @@ paths:
                   type: string
                   example: "test question text"
                 hashtag:
-                  type: string
-                  example: "#test#hashtag"
+                  type: array
+                  items:
+                    type: string
+                  example: ["ft_printf", "libft"]
               required:
                 - title
                 - text
@@ -349,8 +351,10 @@ paths:
                   type: string
                   example: "update test question text"
                 hashtag:
-                  type: string
-                  example: "#updatetest#hashtag"
+                  type: array
+                  items:
+                    type: string
+                  example: ["gnl", "b2br"]
               required:
                 - questionId
                 - title
