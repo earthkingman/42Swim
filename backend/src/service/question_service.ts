@@ -29,12 +29,11 @@ export class QuestionService {
 		await this.queryRunner.startTransaction();
 		try {
 			const hashtagObject: HashTag[] = [];
-			const hashtagNameList = hashtag.split('#')
-			for (let i = 0; i < hashtagNameList.length; i++) {
+			for (let i = 0; i < hashtag.length; i++) {
 				try {
-					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashtagNameList[i] } });
+					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashtag[i] } });
 					if (exHashTag === undefined) {
-						const newHashTag = await this.hashtagRepository.save({ name: hashtagNameList[i] });
+						const newHashTag = await this.hashtagRepository.save({ name: hashtag[i] });
 						hashtagObject.push(newHashTag);
 					}
 					else {
@@ -82,11 +81,10 @@ export class QuestionService {
 		try {
 			const hashtagObject: HashTag[] = [];
 			if (hashtag !== undefined) {
-				const hashtagNameList = hashtag.split('#')
-				for (let i = 0; i < hashtagNameList.length; i++) {
-					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashtagNameList[i] } });
+				for (let i = 0; i < hashtag.length; i++) {
+					const exHashTag = await this.hashtagRepository.findOne({ where: { name: hashtag[i] } });
 					if (exHashTag === undefined) {
-						const newHashTag = await this.hashtagRepository.save({ name: hashtagNameList[i] });
+						const newHashTag = await this.hashtagRepository.save({ name: hashtag[i] });
 						hashtagObject.push(newHashTag);
 					}
 					else {
