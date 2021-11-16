@@ -51,10 +51,8 @@ const uploadQuestion = async (req: DecodedRequest, res: Response) => {
     const userId: number = req.decodedId
     const { title, text, hashtag } = req.body;
     const questionService: QuestionService = new QuestionService();
-    const newHashtag = hashtag.substr(1);
-
     try {
-        const id = await questionService.post({ title, text, userId, hashtag: newHashtag });
+        const id = await questionService.post({ title, text, userId, hashtag });
         return res.status(200).json({
             id: id,
             result: true,
