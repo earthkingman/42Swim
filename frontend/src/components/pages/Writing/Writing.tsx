@@ -7,8 +7,9 @@ const WritingPage = ({ isLogin, nickname, ...props }: any) => {
     <BasicTemplate
       {...props}
       header={<Header isLogin={isLogin} nickname={nickname} />}
-      content={<QuestionWriting />}
-    />
+    >
+      <QuestionWriting />
+    </BasicTemplate>
   );
 };
 

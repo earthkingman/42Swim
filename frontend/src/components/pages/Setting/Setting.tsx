@@ -23,9 +23,11 @@ const SettingBtn = styled(Button)`
 
 const SettingPage = ({ ...props }) => {
   const { user, isLoading, isError } = useAuth();
-  const { value: nickname, onChange: nicknameChange } = useInput(
-    user?.nickname
-  );
+  const {
+    value: nickname,
+    onChange: nicknameChange,
+    setValue: setNickname,
+  } = useInput(user?.nickname);
   const [editNick, setEditNick] = useState(false);
 
   if (isError) {
@@ -117,19 +119,24 @@ const SettingPage = ({ ...props }) => {
                 fontcolor="yellow"
                 underline={true}
                 to="#"
-                onClick={() => setEditNick(true)}
+                onClick={() => {
+                  setNickname(user?.nickname);
+                  setEditNick(true);
+                }}
               >
                 수정
               </A>
             </HideDiv>
             <NickHideDiv visible={editNick}>
-              <EditNicknameInput value={nickname} onChange={nicknameChange} />
+              <EditNicknameInput
+                value={nickname || ""}
+                onChange={nicknameChange}
+              />
               <Button
                 size="sm"
                 color="lightyellow"
                 shadow={true}
                 onClick={editNickname}
-                s
               >
                 수정하기
               </Button>

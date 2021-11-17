@@ -26,14 +26,13 @@ const DetailPage = ({ isLogin, nickname, ...props }: any) => {
       <BasicTemplate
         {...props}
         header={<Header isLogin={isLogin} nickname={nickname} />}
-        content={
-          <DetailTemplat
-            question={<QuestionCard />}
-            answer={answerArr}
-            answerWriting={<AnswerWriting />}
-          />
-        }
-      />
+      >
+        <DetailTemplat
+          question={<QuestionCard />}
+          answer={answerArr}
+          answerWriting={<AnswerWriting />}
+        />
+      </BasicTemplate>
     );
 };
 
