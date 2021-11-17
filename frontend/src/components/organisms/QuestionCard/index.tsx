@@ -1,11 +1,12 @@
 import useAuth from "../../../hooks/useAuth";
 import useDetail from "../../../hooks/useDetail";
+import A from "../../atoms/A";
 import PostBox from "../../atoms/PostBox";
 import Comment from "../../molecules/Comment";
 import CommentInput from "../../molecules/InputComment";
 import Question from "../../molecules/Question";
 import ThumbCount from "../../molecules/ThumbCount";
-import { QuestionCardWrapper } from "./sytle";
+import * as S from "./sytle";
 
 const QuestionCard = ({ ...props }) => {
   const { question, isLoading, isError, QuestionThumbPost } = useDetail();
@@ -34,7 +35,7 @@ const QuestionCard = ({ ...props }) => {
       <Comment key={item.id} {...item}></Comment>
     ));
     return (
-      <QuestionCardWrapper {...props}>
+      <S.QuestionCardWrapper {...props}>
         <ThumbCount
           like_count={question.like_count}
           is_like={question.is_like}
@@ -43,10 +44,24 @@ const QuestionCard = ({ ...props }) => {
         />
         <PostBox>
           <Question {...question} />
+          <S.ButtonWraper display={false}>
+            <A
+              fontcolor="deepgray"
+              small={true}
+              style={{
+                marginRight: "1rem",
+              }}
+            >
+              수정
+            </A>
+            <A fontcolor="deepgray" small={true}>
+              삭제
+            </A>
+          </S.ButtonWraper>
           {commentsComponents}
           <CommentInput questionId={question.id} />
         </PostBox>
-      </QuestionCardWrapper>
+      </S.QuestionCardWrapper>
     );
   } else if (isError || userError) return <div>Err...</div>;
   else return <div>loading...</div>;
