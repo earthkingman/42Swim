@@ -61,6 +61,7 @@ const QuestionList = ({ menu, setMenu, ...props }: Props) => {
                   id={d.id}
                   title={d.title}
                   text={d.text}
+                  photo={d.user.photo}
                   nickname={d?.user?.nickname}
                   is_solved={d.is_solved}
                   answer_cnt={d.answer_count}

@@ -30,7 +30,7 @@ const Profile = ({
   if (size === "sm") {
     return (
       <ProfileWrapper size={size}>
-        <ProfileCircleImg size="xsm" img={photo ? "" : photo} />
+        <ProfileCircleImg size="xsm" img={photo ? photo : ""} />
         <Text size="14" color="grey">
           {nickname}
         </Text>
