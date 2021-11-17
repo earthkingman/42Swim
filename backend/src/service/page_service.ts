@@ -243,25 +243,25 @@ export class PageService {
 
 		const questionSearchList = await this.questionRepository
 			.createQueryBuilder('covers')
-			.select(['covers.id', 'covers.title'])
-			.where('covers.title like :title', { title: `%${"2"}%` })
-			.orderBy('covers.id', 'DESC')
+			.select(['covers.id'])
+			.where('covers.text like :text', { text: `%${"123"}%` })
+			// .orderBy('covers.id', 'DESC')
 			.limit(pageInfo.limit)
 			.offset(pageInfo.offset)
 
-		console.log(questionSearchList)
+		// console.log(questionSearchList)
 
 		const questionList = await this.questionRepository
-			.createQueryBuilder('question')
-			.innerJoin(`(${questionSearchList.getQuery()})`, 'covers', 'question.id = covers.covers_id')
-
-			.innerJoinAndSelect('question.user', 'user')
+			.createQueryBuilder('boards')
+			.innerJoin(`(${questionSearchList.getQuery()})`, 'covers',
+				'boards.id = covers.covers_id')
+			.innerJoinAndSelect('boards.user', 'user')
 			// .select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
 			// 	'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
 			// ])
 			.getMany();
 
-		// console.log(questionList)
+		console.log(questionList)
 
 		// for (let i = 0; i < questionList.length; i++) {
 		// 	const questionId = questionList[i].id;
@@ -274,8 +274,7 @@ export class PageService {
 		// 	questionList[i].hashtag = hashtags;
 		// }
 
-		const questionCount = await this.questionRepository
-			.count();
+		const questionCount = 1
 		return { questionList: questionSearchList, questionCount };
 	}
 
