@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
+import { useLocation } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import useDetail from "../../../hooks/useDetail";
 import useInput from "../../../hooks/useInput";
@@ -28,8 +30,8 @@ const AnswerCard = ({
   const { user: loginUser } = useAuth();
   const [isEdit, setisEdit] = useState(false);
   const { value: editVal, setValue: setEditVal } = useInput(props.text);
-
   const isLogin = loginUser ? true : false;
+  const location = useLocation();
 
   const checkUserAndPost = (isLike: boolean) => {
     if (!isLogin) alert("로그인 후 좋아요를 눌러주세요!");
@@ -48,6 +50,38 @@ const AnswerCard = ({
     checkUserAndPost(false);
   };
 
+  const editComment = async () => {
+    const url = `${import.meta.env.VITE_API_HOST}/posts/answer`;
+    const questionId = new URLSearchParams(location.search).get("id");
+    const data = {
+      questionId: questionId,
+      answerId: id,
+      text: editVal,
+    };
+
+    console.log(questionId);
+    await axios.patch(url, data, { withCredentials: true }).then((res) => {
+      alert("답변 수정이 완료되었습니다!");
+      console.log("/posts/answer (patch)", res);
+    });
+
+    setisEdit(false);
+  };
+
+  const deleteComment = async () => {
+    const questionId = new URLSearchParams(location.search).get("id");
+    const url = `${
+      import.meta.env.VITE_API_HOST
+    }/posts/answer?questionId=${questionId}&answerId=${id}`;
+
+    await axios.delete(url, { withCredentials: true }).then((res) => {
+      alert("답변 삭제가 완료되었습니다!");
+      console.log("/posts/answer (delete)", res);
+    });
+
+    setisEdit(false);
+  };
+
   const commentsComponents = comment?.map((item) => {
     return <Comment key={item.id} {...item}></Comment>;
   });
@@ -64,7 +98,9 @@ const AnswerCard = ({
       <HideDiv width="100%" visible={!isEdit}>
         <PostBox isChecked={is_choosen}>
           <Answer {...props} user={user} />
-          <S.EditWrapper>
+          <S.EditWrapper
+            visible={user?.email === loginUser?.email ? true : false}
+          >
             <S.EditButton
               fontcolor="deepgray"
               small={true}
@@ -75,7 +111,11 @@ const AnswerCard = ({
             >
               수정
             </S.EditButton>
-            <S.EditButton fontcolor="deepgray" small={true}>
+            <S.EditButton
+              onClick={deleteComment}
+              fontcolor="deepgray"
+              small={true}
+            >
               삭제
             </S.EditButton>
           </S.EditWrapper>
@@ -87,7 +127,7 @@ const AnswerCard = ({
       <HideDiv width="100%" height="100%" visible={isEdit}>
         <S.EditPostBox>
           <MarkdownEditor value={editVal} setValue={setEditVal} />
-          <S.EditWrapper>
+          <S.EditWrapper visible={true}>
             <S.EditButton
               fontcolor="deepgray"
               small={true}
@@ -98,7 +138,12 @@ const AnswerCard = ({
             >
               취소
             </S.EditButton>
-            <S.EditButton fontcolor="yellow" bold={true} small={true}>
+            <S.EditButton
+              onClick={editComment}
+              fontcolor="yellow"
+              bold={true}
+              small={true}
+            >
               확인
             </S.EditButton>
           </S.EditWrapper>

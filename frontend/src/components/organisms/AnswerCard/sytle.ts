@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import theme from "../../../style/theme";
 import A from "../../atoms/A";
+import HideDiv from "../../atoms/HideDiv";
 import PostBox from "../../atoms/PostBox";
 import ThumbCount from "../../molecules/ThumbCount";
 
@@ -32,7 +33,7 @@ export const EditPostBox = styled(PostBox)`
   }
 `;
 
-export const EditWrapper = styled.div`
+export const EditWrapper = styled(HideDiv)`
   display: flex;
   justify-content: flex-end;
   padding-bottom: 2rem;
