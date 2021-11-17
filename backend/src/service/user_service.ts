@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import * as bcrypt from 'bcrypt';
 import dotenv from "dotenv";
 dotenv.config();
 
