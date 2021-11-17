@@ -128,58 +128,53 @@ export class PageService {
 	}
 
 	async getQuestionList(pageInfo) {
-		const questionList = await this.questionRepository
-			.createQueryBuilder('question')
-			.leftJoinAndSelect('question.user', 'question_user')
-			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
-				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
-			])
-			.orderBy('question.id', 'DESC')
+
+		const subQuery = await this.questionRepository
+			.createQueryBuilder('covers')
+			.select(['covers.id'])
+			.addOrderBy('covers.id', 'DESC')
 			.limit(pageInfo.limit)
 			.offset(pageInfo.offset)
-			.disableEscaping()
-			.getMany()
 
-		for (let i = 0; i < questionList.length; i++) {
-			const questionId = questionList[i].id;
-			const hashtags = await this.hashtagRepository
-				.createQueryBuilder('hashtag')
-				.leftJoin('hashtag.question', 'question')
-				.where('question.id = :id', { id: questionId })
-				.select(['hashtag.id', 'hashtag.name'])
-				.getMany();
-			questionList[i].hashtag = hashtags;
-		}
+		const questionList = await this.questionRepository
+			.createQueryBuilder('question')
+			.innerJoin(`(${subQuery.getQuery()})`, 'covers',
+				'question.id = covers.covers_id')
+			.innerJoinAndSelect('question.user', 'question_user')
+			.leftJoin('question.hashtag', 'question_hashtag')
+			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
+				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
+				'question_hashtag.id', 'question_hashtag.name'
+			])
+			.getMany();
 
 		const questionCount = await this.questionRepository
 			.count();
-		return { questionList, questionCount };
+		return { questionList, questionCount: 1 };
 	}
 
 	async getQuestionListOrderByLikeCount(pageInfo) {
-		const questionList = await this.questionRepository
-			.createQueryBuilder('question')
-			.leftJoinAndSelect('question.user', 'question_user')
-			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
-				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
-			])
-			.orderBy('question.like_count', 'DESC')
-			.addOrderBy('question.id', 'DESC')
+
+
+		const subQuery = await this.questionRepository
+			.createQueryBuilder('covers')
+			.select(['covers.id', 'covers.like_count'])
+			.orderBy('covers.like_count', 'DESC')
+			.addOrderBy('covers.id', 'DESC')
 			.limit(pageInfo.limit)
 			.offset(pageInfo.offset)
-			.disableEscaping()
-			.getMany()
 
-		for (let i = 0; i < questionList.length; i++) {
-			const questionId = questionList[i].id;
-			const hashtags = await this.hashtagRepository
-				.createQueryBuilder('hashtag')
-				.leftJoin('hashtag.question', 'question')
-				.where('question.id = :id', { id: questionId })
-				.select(['hashtag.id', 'hashtag.name'])
-				.getMany();
-			questionList[i].hashtag = hashtags;
-		}
+		const questionList = await this.questionRepository
+			.createQueryBuilder('question')
+			.innerJoin(`(${subQuery.getQuery()})`, 'covers',
+				'question.id = covers.covers_id')
+			.innerJoinAndSelect('question.user', 'question_user')
+			.leftJoin('question.hashtag', 'question_hashtag')
+			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
+				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
+				'question_hashtag.id', 'question_hashtag.name'
+			])
+			.getMany();
 
 		const questionCount = await this.questionRepository
 			.count();
