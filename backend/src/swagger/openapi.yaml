@@ -626,6 +626,75 @@ paths:
         "404":
           description: Page doesn't exist
 
+  /pages/list/question/like:
+    get:
+      summary: 질문 리스트를 추천순으로 반환합니다.
+      tags:
+        - page
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+      responses:
+        "200":
+          description: 페이지 요청 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MainPage"
+        "404":
+          description: Page doesn't exist
+
+  /pages/list/question/keyword:
+    get:
+      summary: 질문 리스트를 검색하여 반환합니다.
+      tags:
+        - page
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+      responses:
+        "200":
+          description: 페이지 요청 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MainPage"
+        "404":
+          description: Page doesn't exist
+
+  /pages/list/question/unsolved:
+    get:
+      summary: 해결되지 않은 질문 리스트를 반환합니다.
+      tags:
+        - page
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+      responses:
+        "200":
+          description: 페이지 요청 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MainPage"
+        "404":
+          description: Page doesn't exist
+
   /pages/detail/question:
     get:
       summary: 질문 페이지를 반환합니다.
