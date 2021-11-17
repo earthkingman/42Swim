@@ -17,6 +17,7 @@ export const Container = styled.div`
 
 export const Header = styled.div`
   height: 5%;
+  margin-bottom: 2rem;
 `;
 
 export default {};

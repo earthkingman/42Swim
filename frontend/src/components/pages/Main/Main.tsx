@@ -50,14 +50,7 @@ const MainPage = ({ history, ...props }) => {
         onClose={setIsLoginModal}
       />
       <RegisterPage visible={isRegistModal} onClose={setIsRegistModal} />
-      <BasicTemplate
-        header={
-          <Header
-            onLoginClick={setIsLoginModal}
-            // isLogin={user === null ? false : true}
-          />
-        }
-      >
+      <BasicTemplate header={<Header onLoginClick={setIsLoginModal} />}>
         <MainTemplate
           panel={
             <>
