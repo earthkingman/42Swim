@@ -651,6 +651,13 @@ paths:
             format: int64
           example: 1
           required: true
+        - name: keyword
+          in: query
+          schema:
+            type: string
+            format: int64
+          example: question
+          required: true
       responses:
         '200':
           description: 페이지 요청 성공

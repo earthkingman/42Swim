@@ -74,9 +74,10 @@ const getQuestionListPageUnsolved = async (req: any, res: Response, next: NextFu
 
 const getQuestionListPageByKeyword = async (req: any, res: Response, next: NextFunction) => {
 	const pageNumber = Number(req.query.pageNumber) - 1;
+	const keyword = req.query.keyword;
 	const limit = 8;
 	const offset = pageNumber * limit;
-	const pageInfo = { limit, offset };
+	const pageInfo = { limit, offset, keyword };
 	const pageService: PageService = new PageService();
 
 	try {
