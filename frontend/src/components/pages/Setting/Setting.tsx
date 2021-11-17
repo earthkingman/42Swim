@@ -71,7 +71,7 @@ const SettingPage = ({ ...props }) => {
             <form
               id="imgform"
               method="patch"
-              encType="multipart/form-data"
+              encType="application/json"
               style={{ display: "none" }}
             >
               <input id="uploadImg" type="file" onChange={uploadFile} />
