@@ -1,11 +1,15 @@
+import { useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useDetail from "../../../hooks/useDetail";
+import useInput from "../../../hooks/useInput";
+import HideDiv from "../../atoms/HideDiv";
 import PostBox from "../../atoms/PostBox";
 import Answer, { AnswerProps } from "../../molecules/Answer";
 import Comment, { CommentProps } from "../../molecules/Comment";
 import CommentInput from "../../molecules/InputComment";
+import MarkdownEditor from "../../molecules/MarkdownEditor";
 import ThumbCount, { ThumbProps } from "../../molecules/ThumbCount";
-import { AnswerCardWrapper } from "./sytle";
+import * as S from "./sytle";
 
 export interface AnswerCardProps extends ThumbProps, AnswerProps {
   comment?: Array<CommentProps>;
@@ -22,6 +26,8 @@ const AnswerCard = ({
 }: AnswerCardProps) => {
   const { AnswerThumbPost } = useDetail();
   const { user: loginUser } = useAuth();
+  const [isEdit, setisEdit] = useState(false);
+  const { value: editVal, setValue: setEditVal } = useInput(props.text);
 
   const isLogin = loginUser ? true : false;
 
@@ -47,7 +53,7 @@ const AnswerCard = ({
   });
 
   return (
-    <AnswerCardWrapper {...props}>
+    <S.AnswerCardWrapper {...props}>
       <ThumbCount
         is_choosen={is_choosen}
         like_count={like_count}
@@ -55,12 +61,50 @@ const AnswerCard = ({
         onUpClick={onUpClick}
         onDownClick={onDownClick}
       />
-      <PostBox isChecked={is_choosen}>
-        <Answer {...props} user={user} />
-        {commentsComponents}
-        <CommentInput answerId={id} />
-      </PostBox>
-    </AnswerCardWrapper>
+      <HideDiv width="100%" visible={!isEdit}>
+        <PostBox isChecked={is_choosen}>
+          <Answer {...props} user={user} />
+          <S.EditWrapper>
+            <S.EditButton
+              fontcolor="deepgray"
+              small={true}
+              style={{
+                marginRight: "1rem",
+              }}
+              onClick={() => setisEdit(true)}
+            >
+              수정
+            </S.EditButton>
+            <S.EditButton fontcolor="deepgray" small={true}>
+              삭제
+            </S.EditButton>
+          </S.EditWrapper>
+          {commentsComponents}
+          <CommentInput answerId={id} />
+        </PostBox>
+      </HideDiv>
+
+      <HideDiv width="100%" height="100%" visible={isEdit}>
+        <S.EditPostBox>
+          <MarkdownEditor value={editVal} setValue={setEditVal} />
+          <S.EditWrapper>
+            <S.EditButton
+              fontcolor="deepgray"
+              small={true}
+              style={{
+                marginRight: "1rem",
+              }}
+              onClick={() => setisEdit(false)}
+            >
+              취소
+            </S.EditButton>
+            <S.EditButton fontcolor="yellow" bold={true} small={true}>
+              확인
+            </S.EditButton>
+          </S.EditWrapper>
+        </S.EditPostBox>
+      </HideDiv>
+    </S.AnswerCardWrapper>
   );
 };
 
