@@ -1,6 +1,5 @@
 import { getConnection, QueryRunner, Repository } from "typeorm";
 
-import { Photo } from "../entity/photo";
 import { Question } from "../entity/question";
 import { Answer } from "../entity/answer";
 import { User } from "../entity/user";
@@ -10,14 +9,12 @@ export class AnswerService {
 	private userRepository: Repository<User>;
 	private questionRepository: Repository<Question>;
 	private answerRepository: Repository<Answer>;
-	private photoRepository: Repository<Photo>;
 
 	constructor() {
 		this.queryRunner = getConnection().createQueryRunner();
 		this.userRepository = this.queryRunner.manager.getRepository(User);
 		this.questionRepository = this.queryRunner.manager.getRepository(Question);
 		this.answerRepository = this.queryRunner.manager.getRepository(Answer);
-		this.photoRepository = this.queryRunner.manager.getRepository(Photo);
 	}
 
 	async post(uploadAnswerInfo) {
@@ -42,9 +39,6 @@ export class AnswerService {
 			question.answer_count += 1;
 			await this.questionRepository.save(question);
 			const answer = await this.answerRepository.save(answerInfo);
-			// await Promise.all(photos.map(async (photo) => {
-			// 	await this.photoRepository.save({ photo, question, answer });
-			// }));
 			await this.queryRunner.commitTransaction();
 		} catch (error) {
 			console.error(error);
@@ -56,7 +50,7 @@ export class AnswerService {
 	}
 
 	async update(updateAnswerInfo) {
-		const { text, photos, questionId, answerId, userId } = updateAnswerInfo;
+		const { text, questionId, answerId, userId } = updateAnswerInfo;
 
 		const answer = await this.answerRepository
 			.findOne({
@@ -86,12 +80,8 @@ export class AnswerService {
 		}
 		await this.queryRunner.startTransaction();
 		try {
-			await this.photoRepository.delete({ answer: answer });
 			answer.text = text || answer.text;
 			await this.answerRepository.save(answer);
-			await Promise.all(photos.map(async (photo) => {
-				await this.photoRepository.save({ photo, answer });
-			}));
 			await this.queryRunner.commitTransaction();
 		} catch (error) {
 			console.error(error);
@@ -147,15 +137,4 @@ export class AnswerService {
 			await this.queryRunner.release();
 		}
 	}
-
-	async findPhotoByAnswerId(answerId) {
-		const photos = await this.photoRepository
-			.find({
-				where: { answer: { id: answerId } },
-				relations: ["answer"]
-			});
-		await this.queryRunner.release();
-		return photos;
-	}
-
 }

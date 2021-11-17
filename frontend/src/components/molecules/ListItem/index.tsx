@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import dateChange from "../../../utils/dateChange";
 import { RowSBDiv } from "../../atoms/Div";
 import Tag from "../../atoms/Tag";
+import Profile from "../Profile";
 import SortCounter from "../SortCounter";
 import * as S from "./style";
 
@@ -9,6 +10,7 @@ export interface Props {
   id: number;
   title: string;
   text: string;
+  photo: any;
   nickname?: string;
   is_solved: boolean;
   answer_cnt: number;
@@ -23,6 +25,8 @@ const ListItem = ({
   title,
   text,
   is_solved,
+  photo,
+  nickname,
   answer_cnt = 1,
   like_count,
   view_count,
@@ -39,14 +43,17 @@ const ListItem = ({
         <S.Desc size="18" weight="normal" color="grey">
           {text}
         </S.Desc>
-        <RowSBDiv>
-          <S.Time size="14" weight="normal" color="grey">
-            {dateChange(created_at)}
-          </S.Time>
-          {hashtag.map((data, idx) => (
-            <Tag name={data?.name} key={idx} />
-          ))}
-        </RowSBDiv>
+        <S.Bottom>
+          <RowSBDiv>
+            <S.Time size="14" weight="normal" color="grey">
+              {dateChange(created_at)}
+            </S.Time>
+            {hashtag.map((data, idx) => (
+              <Tag name={data?.name} key={idx} />
+            ))}
+          </RowSBDiv>
+          <Profile size="sm" photo={photo} nickname={nickname} id={0} />
+        </S.Bottom>
       </S.Content>
       {/* <S.Check>{check ? <CheckImg /> : <></>}</S.Check> */}
       <S.Counter>

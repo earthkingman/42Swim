@@ -4,7 +4,10 @@ import showdownHighlight from "showdown-highlight";
 import "react-mde/lib/styles/css/react-mde-all.css";
 
 const SMainText = styled.p`
+  padding-bottom: 8rem;
   white-space: pre-line;
+  word-break: break-all;
+  line-height: 1.5;
   font-size: 16px !important;
   color: black;
   font-family: Roboto;
@@ -96,6 +99,9 @@ const SMainText = styled.p`
   }
   ol li {
     list-style: decimal;
+  }
+  img {
+    width: 400px;
   }
 `;
 

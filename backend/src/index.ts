@@ -29,8 +29,8 @@ app.use(cookieParser());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 const corsOptions = {
-  origin: ["http://localhost:3000","http://3.36.121.236","http://42sof.justdev.net/"],
-  credentials: true,
+	origin: ["http://localhost:3000", "http://3.36.121.236", "http://42sof.justdev.net/"],
+	credentials: true,
 };
 app.use(cors(corsOptions));
 app.use(applicationRouter);
@@ -38,8 +38,8 @@ app.use(errorMiddleware);
 
 
 app.listen(5000, async () => {
-  console.log("서버 가동");
-  await createConnection();
-  console.log("DB 연결");
-  //await insertSeed();
+	console.log("서버 가동");
+	await createConnection();
+	console.log("DB 연결");
+	// await insertSeed();
 });

@@ -1,3 +1,4 @@
+import useAuth from "../../../hooks/useAuth";
 import useDetail from "../../../hooks/useDetail";
 import PostBox from "../../atoms/PostBox";
 import Answer, { AnswerProps } from "../../molecules/Answer";
@@ -19,18 +20,24 @@ const AnswerCard = ({
   user,
   ...props
 }: AnswerCardProps) => {
-  const { thumbPost } = useDetail();
+  const { AnswerThumbPost } = useDetail();
+  const { user: loginUser } = useAuth();
 
-  //todo: isLogin 정보 받아오기.
-  const isLogin = 1;
+  const isLogin = loginUser ? true : false;
 
   const checkUserAndPost = (isLike: boolean) => {
     if (!isLogin) alert("로그인 후 좋아요를 눌러주세요!");
-    else thumbPost(user.id, id, isLike, false);
+    else if (is_like === isLike) AnswerThumbPost(user.id, id, isLike, true);
+    else if (is_like === !isLike) alert("좋아요/싫어요는 하나만 가능합니다!");
+    else {
+      AnswerThumbPost(user.id, id, isLike, false);
+    }
   };
+
   const onUpClick = () => {
     checkUserAndPost(true);
   };
+
   const onDownClick = () => {
     checkUserAndPost(false);
   };
@@ -49,7 +56,7 @@ const AnswerCard = ({
         onDownClick={onDownClick}
       />
       <PostBox isChecked={is_choosen}>
-        <Answer {...props} />
+        <Answer {...props} user={user} />
         {commentsComponents}
         <CommentInput answerId={id} />
       </PostBox>

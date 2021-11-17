@@ -3,12 +3,14 @@ const color = {
     yellow: "#FFB84D",
     white: "#FFFFFF",
     red: "#FF5D39",
+    lightyellow: "#FFDCA8",
   },
   a: {
     yellow: "#FFB84D",
     white: "#FFFFFF",
     red: "#FF5D39",
     black: "#000000",
+    deepgray: "#C4C4C4",
   },
   background: {
     white: "#FFFFFF",
@@ -32,6 +34,7 @@ const color = {
   lightgrey: "#EAEAEA",
   black: "#000000",
   lightblack: "#545454",
+  lightyelloew: "#FFDCA8",
 };
 
 const theme = {

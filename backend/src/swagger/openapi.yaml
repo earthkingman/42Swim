@@ -17,6 +17,8 @@ tags:
     description: 페이지
   - name: hashtag
     description: hashtag
+  - name: post
+    description: 게시글
   - name: question
     description: 질문 게시글
   - name: answer
@@ -109,10 +111,6 @@ components:
           type: string
         text:
           type: string
-        images:
-          type: array
-          items:
-            $ref: "#/components/schemas/Image"
         hashtags:
           type: array
           items:
@@ -133,10 +131,6 @@ components:
           type: string
         text:
           type: string
-        images:
-          type: array
-          items:
-            $ref: "#/components/schemas/Image"
         hashtags:
           type: array
           items:
@@ -156,10 +150,6 @@ components:
           type: boolean
         text:
           type: string
-        images:
-          type: array
-          items:
-            $ref: "#/components/schemas/Image"
       required:
         - id
         - text
@@ -172,10 +162,6 @@ components:
           format: int64
         text:
           type: string
-        images:
-          type: array
-          items:
-            $ref: "#/components/schemas/Image"
       required:
         - text
     Comment:
@@ -274,7 +260,25 @@ paths:
           description: 해시태그 질문 리스트 요청 성공
         "404":
           description: Hashtag doesn't exist
-
+  /posts/image:
+    post:
+      summary: 사진을 업로드합니다.
+      tags:
+        - post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                imgFile:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: fail
   /posts/question:
     get:
       summary: 질문 게시글을 반환합니다.
@@ -304,15 +308,9 @@ paths:
         - question
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
               properties:
-                imgFile:
-                  type: array
-                  items:
-                    type: string
-                    format: binary
                 title:
                   type: string
                   example: "test question title"
@@ -320,8 +318,10 @@ paths:
                   type: string
                   example: "test question text"
                 hashtag:
-                  type: string
-                  example: "test#hashtag"
+                  type: array
+                  items:
+                    type: string
+                  example: ["ft_printf", "libft"]
               required:
                 - title
                 - text
@@ -337,15 +337,9 @@ paths:
         - question
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
               properties:
-                imgFile:
-                  type: array
-                  items:
-                    type: string
-                    format: binary
                 questionId:
                   type: integer
                   format: int64
@@ -357,8 +351,10 @@ paths:
                   type: string
                   example: "update test question text"
                 hashtag:
-                  type: string
-                  example: "updatetest#hashtag"
+                  type: array
+                  items:
+                    type: string
+                  example: ["gnl", "b2br"]
               required:
                 - questionId
                 - title
@@ -412,15 +408,9 @@ paths:
         - answer
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
               properties:
-                imgFile:
-                  type: array
-                  items:
-                    type: string
-                    format: binary
                 questionId:
                   type: integer
                   format: int64
@@ -443,15 +433,9 @@ paths:
         - answer
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
               properties:
-                imgFile:
-                  type: array
-                  items:
-                    type: string
-                    format: binary
                 questionId:
                   type: integer
                   format: int64
@@ -670,6 +654,7 @@ paths:
       summary: 좋아요를 생성합니다.
       tags:
         - like
+      description: answerUserId 는 answer 작성자의 id로 작성자가 받은 좋아요 수를 업데이트 시켜주는 데 사용함
       requestBody:
         content:
           application/json:
@@ -701,6 +686,7 @@ paths:
       summary: 좋아요를 삭제합니다.
       tags:
         - like
+      description: answerUserId 는 answer 작성자의 id로 작성자가 받은 좋아요 수를 업데이트 시켜주는 데 사용함
       parameters:
         - name: answerId
           in: query
@@ -733,6 +719,7 @@ paths:
       summary: 좋아요를 생성합니다.
       tags:
         - like
+      description: questionUserId 는 question 작성자의 id로 작성자가 받은 좋아요 수를 업데이트 시켜주는 데 사용함
       requestBody:
         content:
           application/json:
@@ -764,6 +751,7 @@ paths:
       summary: 좋아요를 삭제합니다.
       tags:
         - like
+      description: questionUserId 는 question 작성자의 id로 작성자가 받은 좋아요 수를 업데이트 시켜주는 데 사용함
       parameters:
         - name: questionId
           in: query
@@ -884,6 +872,16 @@ paths:
                 imgFile:
                   type: string
                   format: binary
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: User doesn't exist
+
+    delete:
+      summary: 프로필 사진을 삭제합니다.
+      tags:
+        - user
       responses:
         "200":
           description: OK

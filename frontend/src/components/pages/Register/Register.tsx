@@ -48,7 +48,10 @@ const Register = ({ onClose, ...props }: Props) => {
     console.log("regist user");
     const res: { data: any; status: number } = await axios.post(
       `${import.meta.env.VITE_API_HOST}/auth/signup`,
-      userData
+      userData,
+      {
+        withCredentials: true,
+      }
     );
     console.log(res);
     setUserData({
@@ -61,6 +64,7 @@ const Register = ({ onClose, ...props }: Props) => {
     if (res.data.result === true) {
       onClose(false);
     }
+    location.reload();
   };
 
   return (

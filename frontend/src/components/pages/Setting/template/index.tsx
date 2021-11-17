@@ -42,6 +42,13 @@ const NamePanel = styled.div`
   > * {
     margin-bottom: 1.5rem;
   }
+  * {
+    margin-bottom: 1.5rem;
+  }
+
+  > * > button {
+    float: right;
+  }
 `;
 
 const BottonPanel = styled.div`

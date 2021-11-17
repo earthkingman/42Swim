@@ -20,6 +20,7 @@ import { Props as ListProps } from "../../molecules/ListItem";
 import BasicTemplate from "../BasicTemplate";
 import useAuth from "../../../hooks/useAuth";
 import CatWork from "../../asset/png/Cats-at-Work.png";
+import useInput from "../../../hooks/useInput";
 
 interface ResponseProps {
   quesiontList: ListProps[];
@@ -33,11 +34,12 @@ const MainPage = ({ history, ...props }) => {
   const [isLoginModal, setIsLoginModal] = useState(false);
   const [isRegistModal, setIsRegistModal] = useState(false);
   const [menu, setMenu] = useState(0);
-  const [search, setSearch] = useState("");
+  const { value: searchVal, onChange: onChangesearchVal, setValue } = useInput(
+    ""
+  );
 
   const onSearch = () => {
     console.log("search");
-    setSearch("hihi");
   };
 
   return (
@@ -48,23 +50,20 @@ const MainPage = ({ history, ...props }) => {
         onClose={setIsLoginModal}
       />
       <RegisterPage visible={isRegistModal} onClose={setIsRegistModal} />
-      <BasicTemplate
-        header={
-          <Header
-            onLoginClick={setIsLoginModal}
-            // isLogin={user === null ? false : true}
-          />
-        }
-      >
+      <BasicTemplate header={<Header onLoginClick={setIsLoginModal} />}>
         <MainTemplate
           panel={
             <>
               <SearchInput
-                onChange={() => console.log("search")}
-                search={search}
+                onChange={onChangesearchVal}
+                search={searchVal}
                 onSearch={onSearch}
               />
-              <Button onClick={() => history.push("/writing")} size="sm">
+              <Button
+                shadow={true}
+                onClick={() => history.push("/writing")}
+                size="sm"
+              >
                 질문하기 <PlusIcon style={{ marginLeft: "2rem" }} />
               </Button>
             </>

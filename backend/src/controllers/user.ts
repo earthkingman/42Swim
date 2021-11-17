@@ -11,11 +11,20 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
 	const userService: UserService = new UserService();
 	try {
 		const user = await userService.findUserById(id);
+		let image = null;
+		if (user.photo !== "") {
+			if (user.photo[0] === 'h') {
+				image = user.photo;
+			}
+			else {
+				image = process.env.S3 + user.photo;
+			}
+		}
 		if (user) {
 			res.status(200).json({
 				email: user.email,
 				nickname: user.nickname,
-				image: user.photo
+				image: image
 			})
 		}
 		else {
@@ -32,7 +41,7 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
 
 const updateUserImage = async (req: any, res: Response, next: NextFunction) => {
 	const id = req.decodedId;
-	const photo = req.file.key;
+	const photo = req.file.location;
 	const userService: UserService = new UserService();
 
 	try {
@@ -40,6 +49,31 @@ const updateUserImage = async (req: any, res: Response, next: NextFunction) => {
 		if (user) {
 			res.json({
 				exUser: user
+			})
+		}
+		else {
+			res.status(400).json({
+				result: false,
+				message: "User doesn't exist"
+			})
+		}
+	} catch (error) {
+		res.status(500).json({
+			result: false,
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
+const deleteUserImage = async (req: any, res: Response, next: NextFunction) => {
+	const id = req.decodedId;
+	const userService: UserService = new UserService();
+
+	try {
+		const user = await userService.deleteUserPhoto(id);
+		if (user) {
+			res.status(200).json({
+				result: true
 			})
 		}
 		else {
@@ -84,8 +118,8 @@ const updateUserNickname = async (req: DecodedRequest, res: Response, next: Next
 	try {
 		const user = await userService.updateUserNickname(id, nickname);
 		if (user) {
-			res.json({
-				exUser: user
+			res.status(200).json({
+				result: true
 			})
 		}
 		else {
@@ -126,5 +160,6 @@ export const UserController = {
 	updateUserNickname,
 	updateUserImage,
 	updateUserPassword,
-	updateUserEmail
+	updateUserEmail,
+	deleteUserImage
 }
