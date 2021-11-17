@@ -1,3 +1,4 @@
+import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
 import useDetail from "../../../hooks/useDetail";
 import A from "../../atoms/A";
@@ -14,7 +15,6 @@ const QuestionCard = ({ ...props }) => {
 
   if (!isLoading && !userLoading) {
     const isLogin = user ? true : false;
-
     const checkUserAndPost = (isLike: boolean) => {
       if (!isLogin) alert("로그인 후 좋아요를 눌러주세요!");
       else if (isLike === question.is_like)
@@ -44,7 +44,9 @@ const QuestionCard = ({ ...props }) => {
         />
         <PostBox>
           <Question {...question} />
-          <S.ButtonWraper display={false}>
+          <S.ButtonWraper
+            visible={user?.email === question.user.email ? true : false}
+          >
             <A
               fontcolor="deepgray"
               small={true}
@@ -54,7 +56,25 @@ const QuestionCard = ({ ...props }) => {
             >
               수정
             </A>
-            <A fontcolor="deepgray" small={true}>
+            <A
+              fontcolor="deepgray"
+              small={true}
+              onClick={(e: Event) => {
+                if (!confirm("게시글을 삭제하시겠습니까?")) e.preventDefault();
+                else {
+                  //todo: 네트워크 보기
+                  //e.preventDefault();
+                  axios.delete(
+                    `${
+                      import.meta.env.VITE_API_HOST
+                    }/posts/question?questionId=${question.id}`,
+                    {
+                      withCredentials: true,
+                    }
+                  );
+                }
+              }}
+            >
               삭제
             </A>
           </S.ButtonWraper>
