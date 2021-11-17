@@ -20,6 +20,7 @@ import { Props as ListProps } from "../../molecules/ListItem";
 import BasicTemplate from "../BasicTemplate";
 import useAuth from "../../../hooks/useAuth";
 import CatWork from "../../asset/png/Cats-at-Work.png";
+import useInput from "../../../hooks/useInput";
 
 interface ResponseProps {
   quesiontList: ListProps[];
@@ -33,11 +34,12 @@ const MainPage = ({ history, ...props }) => {
   const [isLoginModal, setIsLoginModal] = useState(false);
   const [isRegistModal, setIsRegistModal] = useState(false);
   const [menu, setMenu] = useState(0);
-  const [search, setSearch] = useState("");
+  const { value: searchVal, onChange: onChangesearchVal, setValue } = useInput(
+    ""
+  );
 
   const onSearch = () => {
     console.log("search");
-    setSearch("hihi");
   };
 
   return (
@@ -60,8 +62,8 @@ const MainPage = ({ history, ...props }) => {
           panel={
             <>
               <SearchInput
-                onChange={() => console.log("search")}
-                search={search}
+                onChange={onChangesearchVal}
+                search={searchVal}
                 onSearch={onSearch}
               />
               <Button

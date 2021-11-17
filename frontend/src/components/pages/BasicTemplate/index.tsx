@@ -5,15 +5,14 @@ import { Container, Header, Wrapper } from "./style";
 interface Props {
   header: React.ReactNode;
   children: any;
-  content?: React.ReactNode;
+  //   content?: React.ReactNode;
 }
 
-const BasicTemplate = ({ header, content, children, ...props }: Props) => {
+const BasicTemplate = ({ header, children, ...props }: Props) => {
   return (
     <Wrapper>
       <Container {...props}>
         <Header>{header}</Header>
-        {content}
         {children}
       </Container>
       <Footer />

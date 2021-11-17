@@ -9,6 +9,7 @@ export const SearchBox = styled.div`
   background: white;
   padding-right: 5px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   border: none;
   &:hover {
@@ -28,6 +29,7 @@ export const SInput = styled(Input)`
 export const SButton = styled.button`
   width: 44px;
   height: 41px;
+  float: right;
   border-radius: 0 20px 20px 0;
   background: white;
   &:hover,
