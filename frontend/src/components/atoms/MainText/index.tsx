@@ -4,6 +4,7 @@ import showdownHighlight from "showdown-highlight";
 import "react-mde/lib/styles/css/react-mde-all.css";
 
 const SMainText = styled.p`
+  padding-bottom: 8rem;
   white-space: pre-line;
   word-break: break-all;
   line-height: 1.5;

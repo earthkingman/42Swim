@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Text from "../../atoms/Text";
 
 export const QuestionWrapper = styled.div`
-  margin-bottom: 80px;
   display: block;
   white-space: normal;
 `;

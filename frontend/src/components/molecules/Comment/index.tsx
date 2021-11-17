@@ -28,7 +28,7 @@ const Comment = ({ created_at, user, text, id }: CommentProps) => {
         </Text>
       </CommentHeaderWrapper>
       <CommentTextWrapper>
-        <Text size="18" color="grey">
+        <Text size="16" color="grey">
           {text}
         </Text>
         <MoreBtn />
