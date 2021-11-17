@@ -20,7 +20,7 @@ const StyledPostBox = styled.div`
   /*display: flex;*/
   border-radius: 16px;
   background-color: white;
-  padding: 60px;
+  padding: 50px 60px;
   padding-bottom: 30px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
   ${PostBoxStyles};

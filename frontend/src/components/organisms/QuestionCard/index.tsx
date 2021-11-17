@@ -44,7 +44,7 @@ const QuestionCard = ({ ...props }) => {
         />
         <PostBox>
           <Question {...question} />
-          <S.ButtonWraper display={false}>
+          <S.ButtonWraper>
             <A
               fontcolor="deepgray"
               small={true}
