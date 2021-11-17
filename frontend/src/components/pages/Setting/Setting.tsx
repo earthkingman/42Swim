@@ -76,7 +76,7 @@ const SettingPage = ({ ...props }) => {
       console.log("/users/nickname", res);
     });
     mutate(`${import.meta.env.VITE_API_HOST}/users/info`);
-    location.reload();
+    setEditNick(false);
   };
   return (
     <BasicTemplate {...props} header={<Header />}>
