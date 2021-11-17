@@ -11,6 +11,11 @@ import SettingPanel from "../../molecules/SettingPanel";
 import useAuth from "../../../hooks/useAuth";
 import { Redirect } from "react-router";
 import axios from "axios";
+import HideDiv from "../../atoms/HideDiv";
+import { EditNicknameInput, NickHideDiv } from "./style";
+import useInput from "../../../hooks/useInput";
+import { useState } from "react";
+import { mutate } from "swr";
 
 const SettingBtn = styled(Button)`
   width: 153px;
@@ -18,6 +23,10 @@ const SettingBtn = styled(Button)`
 
 const SettingPage = ({ ...props }) => {
   const { user, isLoading, isError } = useAuth();
+  const { value: nickname, onChange: nicknameChange } = useInput(
+    user?.nickname
+  );
+  const [editNick, setEditNick] = useState(false);
 
   if (isError) {
     alert("로그인을 해주세요");
@@ -54,6 +63,19 @@ const SettingPage = ({ ...props }) => {
     location.reload();
   };
 
+  const editNickname = async () => {
+    const url = `${import.meta.env.VITE_API_HOST}/users/nickname`;
+    const data = {
+      nickname: nickname,
+    };
+
+    await axios.patch(url, data, { withCredentials: true }).then((res) => {
+      alert("닉네임 수정이 완료되었습니다!");
+      console.log("/users/nickname", res);
+    });
+    mutate(`${import.meta.env.VITE_API_HOST}/users/info`);
+    location.reload();
+  };
   return (
     <BasicTemplate {...props} header={<Header />}>
       <SettingTemplate
@@ -88,11 +110,38 @@ const SettingPage = ({ ...props }) => {
         }
         trPanel={
           <>
-            <Title size="h1">{user?.nickname}</Title>
-            <Divider weight="bold" width="4rem" />
-            <A fontcolor="yellow" underline={true}>
-              수정
-            </A>
+            <HideDiv visible={!editNick}>
+              <Title size="h1">{user?.nickname}</Title>
+              <Divider weight="bold" width="4rem" />
+              <A
+                fontcolor="yellow"
+                underline={true}
+                to="#"
+                onClick={() => setEditNick(true)}
+              >
+                수정
+              </A>
+            </HideDiv>
+            <NickHideDiv visible={editNick}>
+              <EditNicknameInput value={nickname} onChange={nicknameChange} />
+              <Button
+                size="sm"
+                color="lightyellow"
+                shadow={true}
+                onClick={editNickname}
+                s
+              >
+                수정하기
+              </Button>
+              <A
+                fontcolor="deepgray"
+                underline={true}
+                to="#"
+                onClick={() => setEditNick(false)}
+              >
+                취소
+              </A>
+            </NickHideDiv>
           </>
         }
         bPanel={

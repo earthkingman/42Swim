@@ -10,9 +10,9 @@ export interface Props {
   id: number;
   title: string;
   text: string;
+  photo: any;
   nickname?: string;
   is_solved: boolean;
-  nickname: string;
   answer_cnt: number;
   like_count: number;
   view_count: number;
@@ -25,6 +25,7 @@ const ListItem = ({
   title,
   text,
   is_solved,
+  photo,
   nickname,
   answer_cnt = 1,
   like_count,
@@ -51,7 +52,7 @@ const ListItem = ({
               <Tag name={data?.name} key={idx} />
             ))}
           </RowSBDiv>
-          <Profile size="sm" nickname={nickname} id={0} />
+          <Profile size="sm" photo={photo} nickname={nickname} id={0} />
         </S.Bottom>
       </S.Content>
       {/* <S.Check>{check ? <CheckImg /> : <></>}</S.Check> */}
