@@ -157,4 +157,7 @@ export const MarkDownEditorWrap = styled.div`
   ol li {
     list-style: decimal;
   }
+  img {
+    max-width: 100%;
+  }
 `;
