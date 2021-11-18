@@ -1,20 +1,19 @@
 import React from "react";
 import Footer from "../../organisms/Footer";
-import { Container, Header, Wrapper } from "./style";
+import Header from "../../organisms/Header";
+import { Container, Wrapper } from "./style";
 
 interface Props {
-  header: React.ReactNode;
+  header?: React.ReactNode;
   children: any;
   //   content?: React.ReactNode;
 }
 
-const BasicTemplate = ({ header, children, ...props }: Props) => {
+const BasicTemplate = ({ children, ...props }: Props) => {
   return (
     <Wrapper>
-      <Container {...props}>
-        <Header>{header}</Header>
-        {children}
-      </Container>
+      <Header />
+      <Container {...props}>{children}</Container>
       <Footer />
     </Wrapper>
   );

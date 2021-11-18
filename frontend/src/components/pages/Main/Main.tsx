@@ -1,38 +1,26 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PlusIcon from "../../asset/icons/PlusIcon";
 import Box from "../../atoms/Box";
 import Button from "../../atoms/Button";
-import { ColumnSADiv, RowSADiv } from "../../atoms/Div";
+import { RowSADiv } from "../../atoms/Div";
 import Title from "../../atoms/Title";
 import Text from "../../atoms/Text";
 import SearchInput from "../../molecules/SearchInput";
 import Header from "../../organisms/Header";
 import QuestionList from "../../organisms/QuestionList";
-import LoginPage from "../Login/Login";
 import MainTemplate from "./template";
 import Crown from "../../asset/icons/Crown";
-import RegisterPage from "../Register/Register";
-import useSWR from "swr";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { Props as ListProps } from "../../molecules/ListItem";
 import BasicTemplate from "../BasicTemplate";
-import useAuth from "../../../hooks/useAuth";
 import CatWork from "../../asset/png/Cats-at-Work.png";
 import useInput from "../../../hooks/useInput";
 
-interface ResponseProps {
-  quesiontList: ListProps[];
-  questionCount: number;
-  message: string;
+interface Props {
+  history: any;
 }
 
-const MainPage = ({ history, ...props }) => {
-  //   const { user, isLoading, isError } = useAuth();
-  //   const [user, setUser] = useState(null);
-  const [isLoginModal, setIsLoginModal] = useState(false);
-  const [isRegistModal, setIsRegistModal] = useState(false);
+const MainPage = ({ history, ...props }: Props) => {
   const [menu, setMenu] = useState(0);
   const { value: searchVal, onChange: onChangesearchVal, setValue } = useInput(
     ""
@@ -44,13 +32,7 @@ const MainPage = ({ history, ...props }) => {
 
   return (
     <>
-      <LoginPage
-        onRegist={setIsRegistModal}
-        visible={isLoginModal}
-        onClose={setIsLoginModal}
-      />
-      <RegisterPage visible={isRegistModal} onClose={setIsRegistModal} />
-      <BasicTemplate header={<Header onLoginClick={setIsLoginModal} />}>
+      <BasicTemplate header={<Header />}>
         <MainTemplate
           panel={
             <>
