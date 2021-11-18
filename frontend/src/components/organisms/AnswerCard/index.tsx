@@ -97,7 +97,7 @@ const AnswerCard = ({
       />
       <HideDiv width="100%" visible={!isEdit}>
         <PostBox isChecked={is_choosen}>
-          <Answer {...props} user={user} />
+          <Answer {...props} id={id} user={user} />
           <S.EditWrapper
             visible={user?.email === loginUser?.email ? true : false}
           >
