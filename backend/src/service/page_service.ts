@@ -223,8 +223,10 @@ export class PageService {
 				'question.id = covers.covers_id')
 			.setParameters(subQuery.getParameters())
 			.innerJoinAndSelect('question.user', 'question_user')
+			.leftJoin('question.hashtag', 'question_hashtag')
 			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
 				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
+				'question_hashtag.id', 'question_hashtag.name'
 			])
 			.getMany();
 

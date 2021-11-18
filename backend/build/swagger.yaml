@@ -36,9 +36,13 @@ components:
       properties:
         id:
           type: integer
-        nickname:
+        created_at:
           type: string
         email:
+          type: string
+        nickname:
+          type: string
+        photo:
           type: string
       required:
         - id
@@ -46,35 +50,19 @@ components:
         - email
     MainPage:
       properties:
-        questions:
+        questionList:
           type: array
           items:
             type: object
             properties:
               question:
-                $ref: '#/components/schemas/QuestionInfo'
-              user:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Question'
         questionCount:
           type: integer
     QuestionPage:
       properties:
         questionInfo:
-          type: object
-          properties:
-            question:
-              $ref: '#/components/schemas/QuestionInfo'
-            user:
-              $ref: '#/components/schemas/User'
-            comments:
-              type: array
-              items:
-                type: object
-                properties:
-                  comment:
-                    $ref: '#/components/schemas/Comment'
-                  user:
-                    $ref: '#/components/schemas/User'
+          $ref: '#/components/schemas/QuestionInfo'
         answerInfos:
           type: array
           items:
@@ -93,23 +81,27 @@ components:
                       $ref: '#/components/schemas/Comment'
                     user:
                       $ref: '#/components/schemas/User'
-    QuestionInfo:
+    Question:
       properties:
         id:
           type: integer
-        likeCount:
-          type: integer
-        viewCount:
-          type: integer
-        isSolved:
+        created_at:
+          type: string
+        is_solved:
           type: boolean
-        isLike:
-          type: boolean
+        answer_count:
+          type: integer
+        like_count:
+          type: integer
+        view_count:
+          type: integer
         title:
           type: string
         text:
           type: string
-        hashtags:
+        user:
+          $ref: '#/components/schemas/User'
+        hashtag:
           type: array
           items:
             $ref: '#/components/schemas/Hashtag'
@@ -120,34 +112,61 @@ components:
         - viewCount
         - likeCount
         - isSolved
-    Question:
+    QuestionInfo:
       properties:
         id:
           type: integer
-          format: int64
+        created_at:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+        answer:
+          $ref: '#/components/schemas/AnswerInfo'
+        comment:
+          $ref: '#/components/schemas/Comment'
+        hashtag:
+          type: array
+          items:
+            $ref: '#/components/schemas/Hashtag'
+        is_solved:
+          type: boolean
+        like_count:
+          type: integer
+        view_count:
+          type: integer
         title:
           type: string
         text:
           type: string
-        hashtags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Hashtag'
+        is_like:
+          type: boolean
       required:
+        - id
         - title
         - text
+        - viewCount
+        - likeCount
+        - isSolved
     AnswerInfo:
       properties:
         id:
           type: integer
+        created_at:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+        comment:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
         likeCount:
           type: integer
+        text:
+          type: string
         isChosen:
           type: boolean
         isLike:
           type: boolean
-        text:
-          type: string
       required:
         - id
         - text
@@ -167,8 +186,12 @@ components:
         id:
           type: integer
           format: int64
+        created_at:
+          type: string
         text:
           type: string
+        user:
+          $ref: '#/components/schemas/User'
       required:
         - id
         - text
@@ -185,11 +208,11 @@ components:
       properties:
         id:
           type: integer
-        tag:
+        name:
           type: string
       required:
         - id
-        - tag
+        - name
   requestBodies:
     Comment:
       content:
