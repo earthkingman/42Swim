@@ -44,13 +44,9 @@ const QuestionCard = ({ ...props }) => {
         />
         <PostBox>
           <Question {...question} />
-<<<<<<< HEAD
-          <S.ButtonWraper>
-=======
           <S.ButtonWraper
             visible={user?.email === question.user.email ? true : false}
           >
->>>>>>> ccc9eff (✨: feature : delete question)
             <A
               fontcolor="deepgray"
               small={true}
