@@ -29,7 +29,11 @@ const AnswerWriting = () => {
       return (
         <S.WritingAnswerWrap>
           <S.STitle size="h2">내 답변 달기</S.STitle>
-          <Divider weight="bold" width="3rem" />
+          <Divider
+            weight="bold"
+            width="3rem"
+            style={{ marginBottom: "1.5rem" }}
+          />
           <MarkdownEditor
             value={value}
             setValue={setValue}

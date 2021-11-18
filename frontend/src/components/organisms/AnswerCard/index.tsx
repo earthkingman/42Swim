@@ -4,6 +4,7 @@ import { useLocation } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import useDetail from "../../../hooks/useDetail";
 import useInput from "../../../hooks/useInput";
+import A from "../../atoms/A";
 import HideDiv from "../../atoms/HideDiv";
 import PostBox from "../../atoms/PostBox";
 import Answer, { AnswerProps } from "../../molecules/Answer";
@@ -101,7 +102,7 @@ const AnswerCard = ({
           <S.EditWrapper
             visible={user?.email === loginUser?.email ? true : false}
           >
-            <S.EditButton
+            <A
               fontcolor="deepgray"
               small={true}
               style={{
@@ -110,14 +111,10 @@ const AnswerCard = ({
               onClick={() => setisEdit(true)}
             >
               수정
-            </S.EditButton>
-            <S.EditButton
-              onClick={deleteComment}
-              fontcolor="deepgray"
-              small={true}
-            >
+            </A>
+            <A onClick={deleteComment} fontcolor="deepgray" small={true}>
               삭제
-            </S.EditButton>
+            </A>
           </S.EditWrapper>
           {commentsComponents}
           <CommentInput answerId={id} />
@@ -128,7 +125,7 @@ const AnswerCard = ({
         <S.EditPostBox>
           <MarkdownEditor value={editVal} setValue={setEditVal} />
           <S.EditWrapper visible={true}>
-            <S.EditButton
+            <A
               fontcolor="deepgray"
               small={true}
               style={{
@@ -137,15 +134,15 @@ const AnswerCard = ({
               onClick={() => setisEdit(false)}
             >
               취소
-            </S.EditButton>
-            <S.EditButton
+            </A>
+            <A
               onClick={editComment}
               fontcolor="yellow"
               bold={true}
               small={true}
             >
               확인
-            </S.EditButton>
+            </A>
           </S.EditWrapper>
         </S.EditPostBox>
       </HideDiv>
