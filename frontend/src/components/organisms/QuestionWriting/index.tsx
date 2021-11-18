@@ -36,9 +36,8 @@ const QuestionWriting = () => {
         `${import.meta.env.VITE_API_HOST}/posts/question`,
         {
           title: title.value,
-          hashtag: tag ? tag : null,
+          hashtag: tag,
           text: text.value,
-          files: null,
         },
         {
           withCredentials: true,
