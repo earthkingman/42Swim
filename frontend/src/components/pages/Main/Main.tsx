@@ -15,10 +15,20 @@ import Crown from "../../asset/icons/Crown";
 import BasicTemplate from "../BasicTemplate";
 import CatWork from "../../asset/png/Cats-at-Work.png";
 import useInput from "../../../hooks/useInput";
+import styled from "styled-components";
 
 interface Props {
   history: any;
 }
+
+const RankingDiv = styled.div`
+  width: 27%;
+
+  @media (max-width: 910px) {
+    display: none;
+    background-color: pink;
+  }
+`;
 
 const MainPage = ({ history, ...props }: Props) => {
   const [menu, setMenu] = useState(0);
@@ -52,7 +62,7 @@ const MainPage = ({ history, ...props }: Props) => {
           }
           content1={<QuestionList menu={menu} setMenu={setMenu} />}
           content2={
-            <div style={{ width: "27%" }}>
+            <RankingDiv>
               <RowSADiv
                 style={{
                   height: "50px",
@@ -89,7 +99,7 @@ const MainPage = ({ history, ...props }: Props) => {
                   }}
                 />
               </Box>
-            </div>
+            </RankingDiv>
           }
         />
       </BasicTemplate>

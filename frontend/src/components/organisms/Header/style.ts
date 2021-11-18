@@ -9,6 +9,8 @@ export const HeaderWrapper = styled.div`
   background-color: ${theme.color.background.grey};
   height: 130px;
   width: 100%;
+
+  margin-bottom: 3rem;
 `;
 export const HeaderTitleWrapper = styled.div``;
 export const HeaderBtnWrapper = styled.div``;
@@ -17,9 +19,10 @@ export const AHeader = styled.button`
   font-weight: 700;
   cursor: pointer;
   border-radius: 25px;
-  border: 1px solid black;
+  border: 1px solid ${theme.color.lightblack};
+  color: ${theme.color.lightblack};
   margin-left: 10px;
-  padding: 5px 2rem;
+  padding: 5px 1rem;
   &:hover {
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
