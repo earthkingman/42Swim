@@ -7,6 +7,7 @@ import Comment from "../../molecules/Comment";
 import CommentInput from "../../molecules/InputComment";
 import Question from "../../molecules/Question";
 import ThumbCount from "../../molecules/ThumbCount";
+import queryString from "query-string";
 import * as S from "./sytle";
 
 const QuestionCard = ({ ...props }) => {
@@ -66,6 +67,7 @@ const QuestionCard = ({ ...props }) => {
               style={{
                 marginRight: "1rem",
               }}
+              to={`/edit?id=${queryString.parse(location.search).id}`}
             >
               수정
             </A>
