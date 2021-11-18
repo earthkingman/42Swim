@@ -33,6 +33,7 @@ const AnswerCard = ({
   const { value: editVal, setValue: setEditVal } = useInput(props.text);
   const isLogin = loginUser ? true : false;
   const location = useLocation();
+  const questionId = new URLSearchParams(location.search).get("id");
 
   const checkUserAndPost = (isLike: boolean) => {
     if (!isLogin) alert("로그인 후 좋아요를 눌러주세요!");
@@ -53,7 +54,6 @@ const AnswerCard = ({
 
   const editComment = async () => {
     const url = `${import.meta.env.VITE_API_HOST}/posts/answer`;
-    const questionId = new URLSearchParams(location.search).get("id");
     const data = {
       questionId: questionId,
       answerId: id,
@@ -70,7 +70,6 @@ const AnswerCard = ({
   };
 
   const deleteComment = async () => {
-    const questionId = new URLSearchParams(location.search).get("id");
     const url = `${
       import.meta.env.VITE_API_HOST
     }/posts/answer?questionId=${questionId}&answerId=${id}`;
@@ -84,7 +83,14 @@ const AnswerCard = ({
   };
 
   const commentsComponents = comment?.map((item) => {
-    return <Comment key={item.id} {...item}></Comment>;
+    return (
+      <Comment
+        key={item.id}
+        questionId={questionId}
+        answerId={id}
+        {...item}
+      ></Comment>
+    );
   });
 
   return (
