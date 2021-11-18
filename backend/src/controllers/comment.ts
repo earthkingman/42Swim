@@ -8,9 +8,13 @@ import { CommentService } from '../service/comment_service';
 
 const deleteComment = async (req: DecodedRequest, res: Response) => {
 	const questionId = Number(req.query.questionId);
-	const answerId = Number(req.query.answerId);
 	const commentId = Number(req.query.commentId);
 	const userId: number = req.decodedId;
+	let answerId = undefined;
+	if (req.query.answerId){
+		answerId = Number(req.query.answerId);
+	}
+
 	const commentService: CommentService = new CommentService();
 	try {
 		await commentService.delete({ userId, questionId, answerId, commentId });

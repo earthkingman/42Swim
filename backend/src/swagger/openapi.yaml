@@ -625,7 +625,6 @@ paths:
             type: integer
             format: int64
           example: 1
-          required: true
         - name: commentId
           in: query
           schema:
