@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Auth from "./components/pages/Auth";
 import DetailPage from "./components/pages/Detail/Detail";
+import EditPage from "./components/pages/Edit/Edit";
 import MainPage from "./components/pages/Main/Main";
 import SettingPage from "./components/pages/Setting/Setting";
 import WritingPage from "./components/pages/Writing/Writing";
@@ -25,6 +26,11 @@ const App: React.FC = () => {
             path="/writing"
             exact
             render={(props: any) => <WritingPage {...props} />}
+          />
+          <Route
+            path="/edit"
+            exact
+            render={(props: any) => <EditPage {...props} />}
           />
           <Route
             path="/setting"

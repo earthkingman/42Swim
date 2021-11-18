@@ -1,19 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
 import useInput from "../../../hooks/useInput";
+import A from "../../atoms/A";
 import Button from "../../atoms/Button";
 import Divider from "../../atoms/Divider";
 import InputTag from "../../molecules/InputTag";
 import MarkdownEditor from "../../molecules/MarkdownEditor";
 import * as S from "./style";
 
-const QuestionWriting = () => {
-  const textDefault = `질문을 남겨보세요!
-  \`\`\`C
-  printf("helloWord");
-  \`\`\``;
+const QuestionEdit = () => {
   const InputTagValidator = (value: string) => {
-    return /#*[\w]*$/g.test(value);
+    return /^[\w]*$/g.test(value);
   };
   const titleValidator = (value: string) => {
     if (value.length < 20) return true;
@@ -22,7 +19,7 @@ const QuestionWriting = () => {
 
   const inputTag = useInput("", InputTagValidator);
   const title = useInput("", titleValidator);
-  const text = useInput(textDefault);
+  const text = useInput("");
   const [tag, setTag] = useState([]);
 
   const onClick = async (e) => {
@@ -80,12 +77,15 @@ const QuestionWriting = () => {
           setValue={text.setValue}
           placeHolder={"질문을 상세하게 적어주세요!"}
         />
-        <Button size="sm" onClick={onClick}>
-          {"질문 작성하기"}
-        </Button>
+        <S.ButtonWrap>
+          <A style={{ marginRight: "2rem" }}>{"취소"}</A>
+          <Button size="sm" onClick={onClick}>
+            {"질문 작성하기"}
+          </Button>
+        </S.ButtonWrap>
       </S.MarkDownBtnWrap>
     </S.Wrap>
   );
 };
 
-export default QuestionWriting;
+export default QuestionEdit;
