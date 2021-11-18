@@ -31,6 +31,19 @@ const QuestionCard = ({ ...props }) => {
       checkUserAndPost(false);
     };
 
+    const onDelClick = (e: Event) => {
+      if (!confirm("게시글을 삭제하시겠습니까?")) e.preventDefault();
+      else {
+        axios.delete(
+          `${import.meta.env.VITE_API_HOST}/posts/question?questionId=${
+            question.id
+          }`,
+          {
+            withCredentials: true,
+          }
+        );
+      }
+    };
     const commentsComponents = question.comment?.map((item: any) => (
       <Comment key={item.id} {...item}></Comment>
     ));
@@ -56,25 +69,7 @@ const QuestionCard = ({ ...props }) => {
             >
               수정
             </A>
-            <A
-              fontcolor="deepgray"
-              small={true}
-              onClick={(e: Event) => {
-                if (!confirm("게시글을 삭제하시겠습니까?")) e.preventDefault();
-                else {
-                  //todo: 네트워크 보기
-                  //e.preventDefault();
-                  axios.delete(
-                    `${
-                      import.meta.env.VITE_API_HOST
-                    }/posts/question?questionId=${question.id}`,
-                    {
-                      withCredentials: true,
-                    }
-                  );
-                }
-              }}
-            >
+            <A fontcolor="deepgray" small={true} onClick={onDelClick}>
               삭제
             </A>
           </S.ButtonWraper>

@@ -21,15 +21,16 @@ const InputTag = ({
   setTag,
   ...props
 }: InputTagProps) => {
-  const tagMsg = document.getElementsByClassName("tagMsg")[0];
-  const InputTagEl = document.getElementsByClassName("tagInput")[0];
-  const validTag = new RegExp(/^#[a-z_0-9]+$/);
+  const tagMsgEl: HTMLElement = document.getElementsByClassName("tagMsgEl")[0];
+  const InputTagEl: HTMLElement = document.getElementsByClassName(
+    "tagInput"
+  )[0];
 
-  //todo: code 정리
+  const validTag = new RegExp(/^[a-z0-9+#_]+$/);
+
   const putTag = () => {
     const newTag = [...tag];
-    const validValue = value.slice(1);
-    if (validValue && !tag.includes(validValue)) newTag.push(validValue);
+    if (value && !tag.includes(value)) newTag.push(value);
     setValue("");
     setTag(newTag);
     InputTagEl.style.color = "black";
@@ -39,7 +40,7 @@ const InputTag = ({
     e.preventDefault();
     inputChange(e);
     if (e.target.value && validTag.test(e.target.value)) {
-      tagMsg.style.display = "none";
+      tagMsgEl.style.display = "none";
       InputTagEl.style.color = "black";
     }
   };
@@ -47,9 +48,9 @@ const InputTag = ({
   const onKeyPress = (e: Event) => {
     if (e.code === "Enter" || e.code === "Space") {
       e.preventDefault();
-      if (validTag.test(value) || validTag.test(value)) putTag();
+      if (validTag.test(value)) putTag();
       else {
-        tagMsg.style.display = "block";
+        tagMsgEl.style.display = "block";
         InputTagEl.style.color = "red";
       }
     }
@@ -77,12 +78,12 @@ const InputTag = ({
         {...props}
       />
       <Text
-        className="tagMsg"
+        className="tagMsgEl"
         size="12"
         color="red"
         style={{ position: "relative", top: "-2.5rem", display: "none" }}
       >
-        잘못된 태그 형식입니다. 영어소문자와 특수문자 _ 만 가능합니다.
+        잘못된 태그 형식입니다. 영어소문자와 특수문자 #+_ 만 가능합니다.
         ex)ft_pintf
       </Text>
     </S.Wrap>
