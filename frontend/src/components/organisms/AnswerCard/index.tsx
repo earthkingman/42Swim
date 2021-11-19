@@ -4,6 +4,7 @@ import { useLocation } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import useDetail from "../../../hooks/useDetail";
 import useInput from "../../../hooks/useInput";
+import A from "../../atoms/A";
 import HideDiv from "../../atoms/HideDiv";
 import PostBox from "../../atoms/PostBox";
 import Answer, { AnswerProps } from "../../molecules/Answer";
@@ -32,6 +33,7 @@ const AnswerCard = ({
   const { value: editVal, setValue: setEditVal } = useInput(props.text);
   const isLogin = loginUser ? true : false;
   const location = useLocation();
+  const questionId = new URLSearchParams(location.search).get("id");
 
   const checkUserAndPost = (isLike: boolean) => {
     if (!isLogin) alert("로그인 후 좋아요를 눌러주세요!");
@@ -52,7 +54,6 @@ const AnswerCard = ({
 
   const editComment = async () => {
     const url = `${import.meta.env.VITE_API_HOST}/posts/answer`;
-    const questionId = new URLSearchParams(location.search).get("id");
     const data = {
       questionId: questionId,
       answerId: id,
@@ -69,7 +70,6 @@ const AnswerCard = ({
   };
 
   const deleteComment = async () => {
-    const questionId = new URLSearchParams(location.search).get("id");
     const url = `${
       import.meta.env.VITE_API_HOST
     }/posts/answer?questionId=${questionId}&answerId=${id}`;
@@ -83,7 +83,14 @@ const AnswerCard = ({
   };
 
   const commentsComponents = comment?.map((item) => {
-    return <Comment key={item.id} {...item}></Comment>;
+    return (
+      <Comment
+        key={item.id}
+        questionId={questionId}
+        answerId={id}
+        {...item}
+      ></Comment>
+    );
   });
 
   return (
@@ -101,7 +108,7 @@ const AnswerCard = ({
           <S.EditWrapper
             visible={user?.email === loginUser?.email ? true : false}
           >
-            <S.EditButton
+            <A
               fontcolor="deepgray"
               small={true}
               style={{
@@ -110,14 +117,10 @@ const AnswerCard = ({
               onClick={() => setisEdit(true)}
             >
               수정
-            </S.EditButton>
-            <S.EditButton
-              onClick={deleteComment}
-              fontcolor="deepgray"
-              small={true}
-            >
+            </A>
+            <A onClick={deleteComment} fontcolor="deepgray" small={true}>
               삭제
-            </S.EditButton>
+            </A>
           </S.EditWrapper>
           {commentsComponents}
           <CommentInput answerId={id} />
@@ -128,7 +131,7 @@ const AnswerCard = ({
         <S.EditPostBox>
           <MarkdownEditor value={editVal} setValue={setEditVal} />
           <S.EditWrapper visible={true}>
-            <S.EditButton
+            <A
               fontcolor="deepgray"
               small={true}
               style={{
@@ -137,15 +140,15 @@ const AnswerCard = ({
               onClick={() => setisEdit(false)}
             >
               취소
-            </S.EditButton>
-            <S.EditButton
+            </A>
+            <A
               onClick={editComment}
               fontcolor="yellow"
               bold={true}
               small={true}
             >
               확인
-            </S.EditButton>
+            </A>
           </S.EditWrapper>
         </S.EditPostBox>
       </HideDiv>

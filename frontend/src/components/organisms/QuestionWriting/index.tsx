@@ -13,8 +13,7 @@ const QuestionWriting = () => {
   printf("helloWord");
   \`\`\``;
   const InputTagValidator = (value: string) => {
-    const rt = /#*[\w]*$/g.test(value);
-    return rt;
+    return /#*[\w]*$/g.test(value);
   };
   const titleValidator = (value: string) => {
     if (value.length < 20) return true;
@@ -37,9 +36,8 @@ const QuestionWriting = () => {
         `${import.meta.env.VITE_API_HOST}/posts/question`,
         {
           title: title.value,
-          hashtag: tag ? tag : null,
+          hashtag: tag,
           text: text.value,
-          files: null,
         },
         {
           withCredentials: true,

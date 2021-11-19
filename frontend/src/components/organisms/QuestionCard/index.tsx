@@ -1,3 +1,4 @@
+import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
 import useDetail from "../../../hooks/useDetail";
 import A from "../../atoms/A";
@@ -6,6 +7,7 @@ import Comment from "../../molecules/Comment";
 import CommentInput from "../../molecules/InputComment";
 import Question from "../../molecules/Question";
 import ThumbCount from "../../molecules/ThumbCount";
+import queryString from "query-string";
 import * as S from "./sytle";
 
 const QuestionCard = ({ ...props }) => {
@@ -14,7 +16,6 @@ const QuestionCard = ({ ...props }) => {
 
   if (!isLoading && !userLoading) {
     const isLogin = user ? true : false;
-
     const checkUserAndPost = (isLike: boolean) => {
       if (!isLogin) alert("로그인 후 좋아요를 눌러주세요!");
       else if (isLike === question.is_like)
@@ -31,8 +32,21 @@ const QuestionCard = ({ ...props }) => {
       checkUserAndPost(false);
     };
 
+    const onDelClick = (e: Event) => {
+      if (!confirm("게시글을 삭제하시겠습니까?")) e.preventDefault();
+      else {
+        axios.delete(
+          `${import.meta.env.VITE_API_HOST}/posts/question?questionId=${
+            question.id
+          }`,
+          {
+            withCredentials: true,
+          }
+        );
+      }
+    };
     const commentsComponents = question.comment?.map((item: any) => (
-      <Comment key={item.id} {...item}></Comment>
+      <Comment key={item.id} questionId={question.id} {...item}></Comment>
     ));
     return (
       <S.QuestionCardWrapper {...props}>
@@ -44,17 +58,20 @@ const QuestionCard = ({ ...props }) => {
         />
         <PostBox>
           <Question {...question} />
-          <S.ButtonWraper>
+          <S.ButtonWraper
+            visible={user?.email === question.user.email ? true : false}
+          >
             <A
               fontcolor="deepgray"
               small={true}
               style={{
                 marginRight: "1rem",
               }}
+              to={`/edit?id=${queryString.parse(location.search).id}`}
             >
               수정
             </A>
-            <A fontcolor="deepgray" small={true}>
+            <A fontcolor="deepgray" small={true} onClick={onDelClick}>
               삭제
             </A>
           </S.ButtonWraper>
