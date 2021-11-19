@@ -3,7 +3,7 @@ import Box from "../../atoms/Box";
 import { RowSADiv } from "../../atoms/Div";
 import Title from "../../atoms/Title";
 // eslint-disable-next-line import/no-unresolved
-import Catwork from "../../asset/png/Cats-at-work.png";
+import Cats from "../../asset/png/Cats.png";
 import * as S from "./style";
 
 const Ranking = () => {
@@ -34,7 +34,7 @@ const Ranking = () => {
           <br /> 준비중...
         </Title>
         <img
-          src={Catwork}
+          src={Cats}
           alt="img"
           style={{
             position: "absolute",

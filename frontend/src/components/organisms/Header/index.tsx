@@ -30,7 +30,7 @@ const Header = () => {
 
   const on42Login = () => {
     console.log("on42Login");
-    location.href = `${import.meta.env.VITE_API_HOST}//auth/42login`;
+    location.href = `${import.meta.env.VITE_API_HOST}/auth/42login`;
 
     setLoading(true);
   };
