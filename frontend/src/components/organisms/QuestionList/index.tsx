@@ -57,7 +57,8 @@ const QuestionList = ({ menu, setMenu, ...props }: Props) => {
                   <Skeleton />
                 </S.SkeletonItem>
               ))
-            : question?.quesiontList.map((d, idx) => (
+            : question?.quesiontList &&
+              question?.quesiontList.map((d, idx) => (
                 <ListItem
                   id={d.id}
                   title={d.title}
