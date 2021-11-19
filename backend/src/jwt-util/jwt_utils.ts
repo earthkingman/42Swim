@@ -8,9 +8,9 @@ import { redisClient } from "../lib/redis";
 
 const secret = process.env.TOKEN_SECRET_KEY;
 
-const accessSign = (user) => {
+const accessSign = (userId) => {
   const payload = {
-    id: user.id,
+    id: userId,
   };
   return jwt.sign(payload, secret, {
     expiresIn: "30m",
