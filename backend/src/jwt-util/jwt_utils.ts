@@ -8,17 +8,16 @@ import { redisClient } from "../lib/redis";
 
 const secret = process.env.TOKEN_SECRET_KEY;
 
-const accessSign = (user) => {
+const accessSign = (userId) => {
   const payload = {
-    id: user.id,
+    id: userId,
   };
   return jwt.sign(payload, secret, {
-    expiresIn: "300m",
+    expiresIn: "30m",
   });
 }
 
 const accessVerify = (access_token) => {
-  // access token이 null 인 경우를 생각해야하나?
   let decoded = null;
   try {
     decoded = jwt.verify(access_token, secret);

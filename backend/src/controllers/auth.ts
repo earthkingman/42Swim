@@ -4,6 +4,7 @@ dotenv.config();
 import { Request, Response, NextFunction } from 'express';
 import passport from "passport";
 import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from 'uuid';
 
 import { jwtUtil } from "../jwt-util/jwt_utils";
 import { redisClient } from "../lib/redis";
@@ -24,9 +25,17 @@ const login = (req: Request, res: Response, next: NextFunction) => {
 			photo: photo,
 			nickname: user.nickname
 		}
-		const accessToken = jwtUtil.accessSign(user);
+		const guestId = uuidv4();
+		const accessToken = jwtUtil.accessSign(user.id);
 		const refreshToken = jwtUtil.refreshSign();
-		redisClient.set(user.id, refreshToken);
+
+		redisClient.set(guestId, user.id, 'EX', 60 * 60 * 24 * 14);
+		redisClient.set(user.id, refreshToken, 'EX', 60 * 60 * 24 * 14);
+
+		res.cookie("guestId", guestId, {
+			maxAge: 60000 * 60 * 24 * 14,
+			httpOnly: true,
+			});
 		res.cookie("refresh", refreshToken, {
 			maxAge: 60000 * 60 * 24 * 14,
 			httpOnly: true,
@@ -70,8 +79,17 @@ const signup = async (req: any, res: Response) => {
 				photo: newUser.photo,
 				nickname: newUser.nickname
 			}
-			const accessToken = jwtUtil.accessSign(newUser);
+			const guestId = uuidv4();
+			const accessToken = jwtUtil.accessSign(newUser.id);
 			const refreshToken = jwtUtil.refreshSign();
+			redisClient.set(guestId, newUser.id, 'EX', 60 * 60 * 24 * 14);
+			redisClient.set(newUser.id, refreshToken, 'EX', 60 * 60 * 24 * 14);
+
+			res.cookie("guestId", guestId, {
+			maxAge: 60000 * 60 * 24 * 14,
+			httpOnly: true,
+			});
+
 			res.cookie("refresh", refreshToken, {
 				maxAge: 60000 * 60 * 24 * 14,
 				httpOnly: true,
@@ -79,7 +97,7 @@ const signup = async (req: any, res: Response) => {
 			res.cookie("authorization", accessToken, {
 				maxAge: 60000 * 30,
 				httpOnly: true,
-			});
+			})
 			res.status(200).json({
 				result: true,
 				message: "signup successful",
@@ -111,9 +129,15 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
 			photo: photo,
 			nickname: user.nickname
 		}
-		const accessToken = jwtUtil.accessSign(user);
+		const guestId = uuidv4();
+		const accessToken = jwtUtil.accessSign(user.id);
 		const refreshToken = jwtUtil.refreshSign();
-		redisClient.set(user.id, refreshToken);
+		redisClient.set(guestId, user.id, 'EX', 60 * 60 * 24 * 14);
+		redisClient.set(user.id, refreshToken, 'EX', 60 * 60 * 24 * 14);
+		res.cookie("guestId", guestId, {
+			maxAge: 60000 * 60 * 24 * 14,
+			httpOnly: true,
+		});
 		res.cookie("refresh", refreshToken, {
 			maxAge: 60000 * 60 * 24 * 14,
 			httpOnly: true,
