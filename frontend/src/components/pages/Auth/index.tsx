@@ -8,7 +8,9 @@ const Auth = ({ ...props }) => {
   console.log("query", query);
 
   useEffect(() => {
-    const data = axios.get(`http://localhost/auth/authResult${query}`);
+    const data = axios.get(
+      `${import.meta.env.VITE_API_HOST}/auth/authResult${query}`
+    );
     console.log("data", data);
   }, [query]);
 
