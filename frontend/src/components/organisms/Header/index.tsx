@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import useAuth from "../../../hooks/useAuth";
+import Loading from "../../atoms/Loading";
 import Text from "../../atoms/Text";
 import ProfileDropbox from "../../molecules/ProfileDropbox";
 import LoginPage from "../../pages/Login/Login";
@@ -25,8 +26,17 @@ const Header = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { user, isLoading, isError } = useAuth();
 
+  const [loading, setLoading] = useState(false);
+
+  const on42Login = () => {
+    console.log("on42Login");
+    location.href = `${import.meta.env.VITE_API_HOST}//auth/42login`;
+
+    setLoading(true);
+  };
   return (
     <>
+      <Loading visible={loading} />
       <LoginPage
         onRegist={setIsRegistModal}
         visible={isLoginModal}
@@ -46,7 +56,8 @@ const Header = () => {
           <ProfileDropbox user={user} />
         ) : (
           <HeaderBtnWrapper>
-            <AHeader onClick={() => setIsLoginModal(true)}>로그인</AHeader>
+            {/* <AHeader onClick={() => setIsLoginModal(true)}>로그인</AHeader> */}
+            <AHeader onClick={on42Login}>42 로그인</AHeader>
           </HeaderBtnWrapper>
         )}
       </HeaderWrapper>
