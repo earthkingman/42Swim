@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 const corsOptions = {
-	origin: ["http://localhost:3000", "http://3.36.121.236", "http://42sof.justdev.net"],
+	origin: ["http://localhost:3000", "http://3.36.121.236", "http://42sof.justdev.net","https://42sof.justdev.net"],
 	credentials: true,
 };
 app.use(cors(corsOptions));
