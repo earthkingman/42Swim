@@ -1,12 +1,11 @@
 import useDetail from "../../../hooks/useDetail";
 import AnswerCard from "../../organisms/AnswerCard";
 import AnswerWriting from "../../organisms/AnswerWriting";
-import Header from "../../organisms/Header";
 import QuestionCard from "../../organisms/QuestionCard";
 import BasicTemplate from "../BasicTemplate";
 import DetailTemplat from "./template";
 
-const DetailPage = ({ isLogin, nickname, ...props }: any) => {
+const DetailPage = ({ ...props }: any) => {
   const { answer, isLoading, isError } = useDetail();
   let answerArr;
   if (!isLoading) {
@@ -23,10 +22,7 @@ const DetailPage = ({ isLogin, nickname, ...props }: any) => {
     );
   } else
     return (
-      <BasicTemplate
-        {...props}
-        header={<Header isLogin={isLogin} nickname={nickname} />}
-      >
+      <BasicTemplate {...props}>
         <DetailTemplat
           question={<QuestionCard />}
           answer={answerArr}

@@ -6,7 +6,7 @@ import Profile, { ProfileProps } from "../Profile";
 import { AnswerTitleWrapper, AnswerWrapper } from "./sytle";
 
 export interface AnswerProps {
-  id: number;
+  key?: number;
   user: ProfileProps;
   created_at: string;
   text: string;

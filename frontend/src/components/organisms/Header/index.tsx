@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import useAuth from "../../../hooks/useAuth";
 import Text from "../../atoms/Text";
 import ProfileDropbox from "../../molecules/ProfileDropbox";
+import LoginPage from "../../pages/Login/Login";
+import RegisterPage from "../../pages/Register/Register";
 import {
   HeaderWrapper,
   TitleHeader,
@@ -17,35 +19,38 @@ export interface Props {
   onLoginClick?: any;
 }
 
-const Header = ({ onLoginClick }: Props) => {
+const Header = () => {
+  const [isLoginModal, setIsLoginModal] = useState(false);
+  const [isRegistModal, setIsRegistModal] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { user, isLoading, isError } = useAuth();
-  //   const user = {
-  //     id: 3,
-  //     email: "chloek@gmail.com",
-  //     photo: "https://avatars.githubusercontent.com/u/51353146?v=4",
-  //     nickname: "Chloek",
-  //   };
-  //   const user = null;
 
   return (
-    <HeaderWrapper>
-      <HeaderTitleWrapper>
-        <Link to="/">
-          <TitleHeader size="h1">42Code</TitleHeader>
-        </Link>
-        <Text size="14" color="lightgrey">
-          42seoul
-        </Text>
-      </HeaderTitleWrapper>
-      {user ? (
-        <ProfileDropbox user={user} />
-      ) : (
-        <HeaderBtnWrapper>
-          <AHeader onClick={() => onLoginClick(true)}>로그인</AHeader>
-        </HeaderBtnWrapper>
-      )}
-    </HeaderWrapper>
+    <>
+      <LoginPage
+        onRegist={setIsRegistModal}
+        visible={isLoginModal}
+        onClose={setIsLoginModal}
+      />
+      <RegisterPage visible={isRegistModal} onClose={setIsRegistModal} />
+      <HeaderWrapper>
+        <HeaderTitleWrapper>
+          <Link to="/">
+            <TitleHeader size="h1">42Code</TitleHeader>
+          </Link>
+          <Text size="14" color="lightgrey">
+            42seoul
+          </Text>
+        </HeaderTitleWrapper>
+        {user ? (
+          <ProfileDropbox user={user} />
+        ) : (
+          <HeaderBtnWrapper>
+            <AHeader onClick={() => setIsLoginModal(true)}>로그인</AHeader>
+          </HeaderBtnWrapper>
+        )}
+      </HeaderWrapper>
+    </>
   );
 };
 

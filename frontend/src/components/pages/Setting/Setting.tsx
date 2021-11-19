@@ -1,5 +1,4 @@
 import BasicTemplate from "../BasicTemplate";
-import Header from "../../organisms/Header";
 import SettingTemplate from "./template";
 import CircleBox from "../../atoms/CircleBox";
 import Button from "../../atoms/Button";
@@ -76,10 +75,10 @@ const SettingPage = ({ ...props }) => {
       console.log("/users/nickname", res);
     });
     mutate(`${import.meta.env.VITE_API_HOST}/users/info`);
-    location.reload();
+    setEditNick(false);
   };
   return (
-    <BasicTemplate {...props} header={<Header />}>
+    <BasicTemplate {...props}>
       <SettingTemplate
         tlPanel={
           <>

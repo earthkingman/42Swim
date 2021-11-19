@@ -7,6 +7,7 @@ export const STitle = styled(Title)`
 `;
 
 export const WritingAnswerWrap = styled.div`
+  margin-left: 9rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

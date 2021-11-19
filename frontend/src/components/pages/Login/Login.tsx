@@ -5,6 +5,7 @@ import { mutate } from "swr";
 import A from "../../atoms/A";
 import Button from "../../atoms/Button";
 import Input from "../../atoms/Input";
+import Loading from "../../atoms/Loading";
 import Modal, { Props } from "../../molecules/Modal";
 import { ModalContent, ModalGroup } from "../../molecules/Modal/style";
 
@@ -18,9 +19,9 @@ const LoginPage = ({ onClose, onRegist, ...props }: LoginProps) => {
     password: "",
   });
   const { email, password } = input;
+  const [loading, setLoading] = useState(false);
 
   const onLogin = async () => {
-    // 여기 유저 post 함수 재사용하 할 수 있을 듯
     try {
       const res: any = await axios.post(
         `${import.meta.env.VITE_API_HOST}/auth/login`,
@@ -31,12 +32,8 @@ const LoginPage = ({ onClose, onRegist, ...props }: LoginProps) => {
       );
       console.log("Login response:", res.data);
       if (res.status === 200) {
-        // localStorage.setItem("refreshToken", res.data.refreshToken);
-        // localStorage.setItem("user", JSON.stringify(res.data.userInfo));
-        // console.log(res.data.userInfo);
         mutate(`${import.meta.env.VITE_API_HOST}/users/info`);
         onClose(false);
-        // onLoginSuccess(res.data.userInfo);
       } else {
         alert("로그인 실패!");
       }
@@ -59,48 +56,53 @@ const LoginPage = ({ onClose, onRegist, ...props }: LoginProps) => {
   const on42Login = () => {
     console.log("on42Login");
     location.href = "http://localhost:5000/auth/42login";
+    onClose(false);
+    setLoading(true);
   };
 
   return (
-    <Modal
-      onClose={() => onClose(false)}
-      title="로그인"
-      subtitle="이메일로 로그인"
-      {...props}
-    >
-      <ModalContent height="392px">
-        <ModalGroup height="265px">
-          <Input
-            name="email"
-            value={email}
-            onChange={onChange}
-            placeholder="이메일을 입력하세요"
-          />
-          <Input
-            name="password"
-            value={password}
-            type="password"
-            onChange={onChange}
-            placeholder="비밀번호를 입력하세요"
-          />
-          <Button onClick={onLogin} size="lg">
-            로그인
-          </Button>
-          <A onClick={on42Login} fontcolor="yellow" underline={true}>
-            42seoul 계정으로 로그인
+    <>
+      <Loading visible={loading} />
+      <Modal
+        onClose={() => onClose(false)}
+        title="로그인"
+        subtitle="이메일로 로그인"
+        {...props}
+      >
+        <ModalContent height="392px">
+          <ModalGroup height="265px">
+            <Input
+              name="email"
+              value={email}
+              onChange={onChange}
+              placeholder="이메일을 입력하세요"
+            />
+            <Input
+              name="password"
+              value={password}
+              type="password"
+              onChange={onChange}
+              placeholder="비밀번호를 입력하세요"
+            />
+            <Button onClick={onLogin} size="lg">
+              로그인
+            </Button>
+            <A onClick={on42Login} fontcolor="yellow" underline={true}>
+              42seoul 계정으로 로그인
+            </A>
+          </ModalGroup>
+          <A
+            onClick={() => {
+              onRegist(true);
+              onClose(false);
+            }}
+            fontcolor="black"
+          >
+            아직 회원이 아니신가요?
           </A>
-        </ModalGroup>
-        <A
-          onClick={() => {
-            onRegist(true);
-            onClose(false);
-          }}
-          fontcolor="black"
-        >
-          아직 회원이 아니신가요?
-        </A>
-      </ModalContent>
-    </Modal>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 

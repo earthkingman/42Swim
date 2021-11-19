@@ -36,6 +36,7 @@ const GlobalStyle = createGlobalStyle`
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
+	height: 100%;
   }
   /* HTML5 display-role reset for older browsers */
   article, aside, details, figcaption, figure,
