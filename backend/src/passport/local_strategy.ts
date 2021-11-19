@@ -1,6 +1,6 @@
 import passport from "passport";
-import Strategy from "passport-local";
-const LocalStrategy = Strategy;
+import passportLocal from "passport-local";
+const LocalStrategy = passportLocal.Strategy;
 import bcrypt from "bcrypt";
 
 import { UserService } from "../service/user_service";

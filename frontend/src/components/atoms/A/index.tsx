@@ -1,5 +1,6 @@
 import { Link, withRouter } from "react-router-dom";
 import styled, { css } from "styled-components";
+import theme from "../../../style/theme";
 interface SA {
   fontcolor?: string;
   underline?: boolean;
@@ -23,6 +24,12 @@ const AStyles = css<SA>`
     css`
       font-weight: normal;
       font-size: 14px;
+      &:hover {
+        color: ${theme.color.lightblack};
+        -webkit-transition: color 0.5s ease;
+        -moz-transition: color 0.5s ease;
+        transition: color 0.5s ease;
+      }
     `};
   ${({ bold }) =>
     bold &&

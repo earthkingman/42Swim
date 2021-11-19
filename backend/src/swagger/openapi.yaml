@@ -38,9 +38,13 @@ components:
       properties:
         id:
           type: integer
-        nickname:
+        created_at:
           type: string
         email:
+          type: string
+        nickname:
+          type: string
+        photo:
           type: string
       required:
         - id
@@ -48,35 +52,33 @@ components:
         - email
     MainPage:
       properties:
-        questions:
+        questionList:
           type: array
           items:
             type: object
             properties:
               question:
-                $ref: "#/components/schemas/QuestionInfo"
-              user:
-                $ref: "#/components/schemas/User"
+                $ref: "#/components/schemas/Question"
         questionCount:
           type: integer
     QuestionPage:
       properties:
         questionInfo:
-          type: object
-          properties:
-            question:
-              $ref: "#/components/schemas/QuestionInfo"
-            user:
-              $ref: "#/components/schemas/User"
-            comments:
-              type: array
-              items:
-                type: object
-                properties:
-                  comment:
-                    $ref: "#/components/schemas/Comment"
-                  user:
-                    $ref: "#/components/schemas/User"
+          $ref: "#/components/schemas/QuestionInfo"
+          # properties:
+          #   question:
+          #     $ref: "#/components/schemas/Question"
+          #   user:
+          #     $ref: "#/components/schemas/User"
+          #   comments:
+          #     type: array
+          #     items:
+          #       type: object
+          #       properties:
+          #         comment:
+          #           $ref: "#/components/schemas/Comment"
+          #         user:
+          #           $ref: "#/components/schemas/User"
         answerInfos:
           type: array
           items:
@@ -95,26 +97,31 @@ components:
                       $ref: "#/components/schemas/Comment"
                     user:
                       $ref: "#/components/schemas/User"
-    QuestionInfo:
+    Question:
       properties:
         id:
           type: integer
-        likeCount:
-          type: integer
-        viewCount:
-          type: integer
-        isSolved:
+        created_at:
+          type: string
+        is_solved:
           type: boolean
-        isLike:
-          type: boolean
+        answer_count:
+          type: integer
+        like_count:
+          type: integer
+        view_count:
+          type: integer
         title:
           type: string
         text:
           type: string
-        hashtags:
+        user:
+          $ref: "#/components/schemas/User"
+        hashtag:
           type: array
           items:
             $ref: "#/components/schemas/Hashtag"
+
       required:
         - id
         - title
@@ -122,34 +129,61 @@ components:
         - viewCount
         - likeCount
         - isSolved
-    Question:
+    QuestionInfo:
       properties:
         id:
           type: integer
-          format: int64
+        created_at:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+        answer:
+          $ref: "#/components/schemas/AnswerInfo"
+        comment:
+          $ref: "#/components/schemas/Comment"
+        hashtag:
+          type: array
+          items:
+            $ref: "#/components/schemas/Hashtag"
+        is_solved:
+          type: boolean
+        like_count:
+          type: integer
+        view_count:
+          type: integer
         title:
           type: string
         text:
           type: string
-        hashtags:
-          type: array
-          items:
-            $ref: "#/components/schemas/Hashtag"
+        is_like:
+          type: boolean
       required:
+        - id
         - title
         - text
+        - viewCount
+        - likeCount
+        - isSolved
     AnswerInfo:
       properties:
         id:
           type: integer
+        created_at:
+          type : string
+        user:
+          $ref: "#/components/schemas/User"
+        comment:
+          type: array
+          items:
+            $ref: "#/components/schemas/Comment"
         likeCount:
           type: integer
+        text:
+          type: string
         isChosen:
           type: boolean
         isLike:
           type: boolean
-        text:
-          type: string
       required:
         - id
         - text
@@ -169,8 +203,12 @@ components:
         id:
           type: integer
           format: int64
+        created_at:
+          type: string
         text:
           type: string
+        user:
+          $ref: "#/components/schemas/User"
       required:
         - id
         - text
@@ -187,11 +225,11 @@ components:
       properties:
         id:
           type: integer
-        tag:
+        name:
           type: string
       required:
         - id
-        - tag
+        - name
   requestBodies:
     Comment:
       content:
@@ -587,7 +625,6 @@ paths:
             type: integer
             format: int64
           example: 1
-          required: true
         - name: commentId
           in: query
           schema:
@@ -606,6 +643,82 @@ paths:
   /pages/list/question:
     get:
       summary: 메인 페이지를 반환합니다.
+      tags:
+        - page
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+      responses:
+        "200":
+          description: 페이지 요청 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MainPage"
+        "404":
+          description: Page doesn't exist
+
+  /pages/list/question/like:
+    get:
+      summary: 질문 리스트를 추천순으로 반환합니다.
+      tags:
+        - page
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+      responses:
+        "200":
+          description: 페이지 요청 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MainPage"
+        "404":
+          description: Page doesn't exist
+
+  /pages/list/question/keyword:
+    get:
+      summary: 질문 리스트를 검색하여 반환합니다.
+      tags:
+        - page
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+        - name: keyword
+          in: query
+          schema:
+            type: string
+            format: int64
+          example: question
+          required: true
+      responses:
+        "200":
+          description: 페이지 요청 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MainPage"
+        "404":
+          description: Page doesn't exist
+
+  /pages/list/question/unsolved:
+    get:
+      summary: 해결되지 않은 질문 리스트를 반환합니다.
       tags:
         - page
       parameters:
