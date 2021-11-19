@@ -1,16 +1,15 @@
 import { Request, Response } from 'express';
 import jwt from "jsonwebtoken";
 
-import { jwtUtil } from '../jwt-util/jwt_utils';
+import { jwtUtil } from './jwt_utils';
 
-const refresh = async (req: Request, res: Response) => {
+export const refresh = async (req: Request, res: Response) => {
   const refresh_token = req.cookies.refresh;
   const access_token = req.cookies.authorization;
   if (refresh_token && access_token) {
     //access token 검증
-    const authResult = jwtUtil.accessVerify(access_token); // 만료가 됬다면 에러발생 -> 데이터를 볼수가 없음
+    const authResult = await jwtUtil.accessVerify(access_token); // 만료가 됬다면 에러발생 -> 데이터를 볼수가 없음
     const decoded = jwt.decode(access_token); // 만료가 되도 데이터를 볼수 있음
-
     // access token 디코딩 결과가 null일 때
     if (decoded === null) {
       res.status(401).json({
@@ -32,11 +31,12 @@ const refresh = async (req: Request, res: Response) => {
       // refresh token은 만료되지 않은 경우
       else {
         const newAccesToken = jwtUtil.accessSign(decoded);
-        res.cookie("accessToken", newAccesToken, {
+        res.cookie("authorization", newAccesToken, {
           maxAge: 60000 * 5,
           httpOnly: true,
         });
         res.status(200).json({
+          newAccesToken: newAccesToken,
           refreshToken: refresh_token,
         });
       }
@@ -56,5 +56,3 @@ const refresh = async (req: Request, res: Response) => {
     });
   }
 };
-
-export default refresh;
