@@ -6,6 +6,10 @@ export const QLWrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   width: 70%;
+
+  @media (max-width: 910px) {
+    width: 100%;
+  }
 `;
 
 export const SkeletonItem = styled.div`

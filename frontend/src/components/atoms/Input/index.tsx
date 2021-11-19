@@ -13,7 +13,7 @@ const inputStyles = css<SInputProps>`
 `;
 
 export const StyledInput = styled.input<SInputProps>`
-  width: 449px;
+  width: 100%;
   height: 60px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 16px;
