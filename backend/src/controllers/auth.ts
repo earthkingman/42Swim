@@ -82,8 +82,8 @@ const signup = async (req: any, res: Response) => {
 			const guestId = uuidv4();
 			const accessToken = jwtUtil.accessSign(newUser.id);
 			const refreshToken = jwtUtil.refreshSign();
-			redisClient.set(guestId, newUser.id);
-			redisClient.set(newUser.id, refreshToken);
+			redisClient.set(guestId, newUser.id, 'EX', 60 * 60 * 24 * 14);
+			redisClient.set(newUser.id, refreshToken, 'EX', 60 * 60 * 24 * 14);
 
 			res.cookie("guestId", guestId, {
 			maxAge: 60000 * 60 * 24 * 14,
@@ -132,8 +132,8 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
 		const guestId = uuidv4();
 		const accessToken = jwtUtil.accessSign(user.id);
 		const refreshToken = jwtUtil.refreshSign();
-		redisClient.set(user.id, refreshToken);
-		redisClient.set(guestId, user.id);
+		redisClient.set(guestId, user.id, 'EX', 60 * 60 * 24 * 14);
+		redisClient.set(user.id, refreshToken, 'EX', 60 * 60 * 24 * 14);
 		res.cookie("guestId", guestId, {
 			maxAge: 60000 * 60 * 24 * 14,
 			httpOnly: true,
