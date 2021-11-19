@@ -151,7 +151,7 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
 		//   refreshToken: refreshToken,
 		// });
 		// res.redirect('http://3.36.121.236');
-		res.redirect('http://localhost:3000');
+		res.redirect(process.env.DEV42URL);
 	})(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
 
