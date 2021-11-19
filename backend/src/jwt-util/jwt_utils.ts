@@ -13,8 +13,7 @@ const accessSign = (user) => {
     id: user.id,
   };
   return jwt.sign(payload, secret, {
-    // expiresIn: "5m",
-    expiresIn: "10s",
+    expiresIn: "30m",
   });
 }
 
