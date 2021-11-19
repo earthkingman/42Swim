@@ -20,6 +20,7 @@ const QuestionList = ({ menu, setMenu, ...props }: Props) => {
   console.log(question);
 
   if (isError) return <div>Error!!</div>;
+  else if (isLoading) return <div>Loading</div>;
   else
     return (
       <S.QLWrapper>
