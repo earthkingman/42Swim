@@ -1,58 +1,34 @@
-import { Request, Response } from 'express';
-import jwt from "jsonwebtoken";
+import { Response } from 'express';
+import util from "util";
 
 import { jwtUtil } from './jwt_utils';
+import { redisClient } from '../lib/redis';
+import { DecodedRequest } from '../definition/decoded_jwt';
 
-export const refresh = async (req: Request, res: Response) => {
+export const refresh = async (req: DecodedRequest, res: Response) => {
   const refresh_token = req.cookies.refresh;
-  const access_token = req.cookies.authorization;
-  if (refresh_token && access_token) {
-    //access token 검증
-    const authResult = await jwtUtil.accessVerify(access_token); // 만료가 됬다면 에러발생 -> 데이터를 볼수가 없음
-    const decoded = jwt.decode(access_token); // 만료가 되도 데이터를 볼수 있음
-    // access token 디코딩 결과가 null일 때
-    if (decoded === null) {
-      res.status(401).json({
-        ok: false,
-        message: "No authorized",
-      });
-    }
-    //refresh token 검증
-    const refreshResult = await jwtUtil.refreshVerify(refresh_token, decoded.id);
-    //access token 만료됬을 경우
-    if (authResult.ok === false && authResult.message === "jwt expired") {
+  const guestId = req.cookies.guestId;
+  if (refresh_token && guestId) {
+      const getAsync = util.promisify(redisClient.get).bind(redisClient);
+      const userId = await getAsync(guestId);
+      const refreshResult = await jwtUtil.refreshVerify(refresh_token, userId);
+
       //refresh token 만료됬을 경우
       if (refreshResult === false) {
-        res.status(401).json({
-          ok: false,
-          message: "No authorized",
-        });
+        throw new Error("No authorized");
       }
       // refresh token은 만료되지 않은 경우
       else {
-        const newAccesToken = jwtUtil.accessSign(decoded);
+        const newAccesToken = jwtUtil.accessSign(userId);
         res.cookie("authorization", newAccesToken, {
-          maxAge: 60000 * 5,
+          maxAge: 60000 * 30,
           httpOnly: true,
         });
-        res.status(200).json({
-          newAccesToken: newAccesToken,
-          refreshToken: refresh_token,
-        });
+        return userId;
       }
-    }
-    //access token이 만료되지 않은경우
-    else {
-      res.status(400).json({
-        message: "Acess token is not expired!",
-      });
-    }
   }
-  // access token 또는 refresh token이 헤더에 없는 경우
+  // guest id 또는 refresh token이 헤더에 없는 경우
   else {
-    res.status(400).json({
-      ok: false,
-      message: "Access token and refresh token are need for refresh!",
-    });
+    throw new Error("refresh token and guest id are need for refresh!");
   }
 };
