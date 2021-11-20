@@ -17,6 +17,9 @@ postRouter.delete('/answer', authJwt, AnswerController.deleteAnswer);
 postRouter.post('/answer', authJwt, validationMiddleware(Answer, true), AnswerController.uploadAnswer);
 postRouter.patch('/answer', authJwt, validationMiddleware(Answer), AnswerController.updateAnswer);
 
+postRouter.post('/answer/choose', authJwt, AnswerController.chooseAnswer);
+
+
 postRouter.delete('/question', authJwt, QuestionController.deleteQuestion);
 postRouter.post('/question', authJwt,  validationMiddleware(Question, true), QuestionController.uploadQuestion);
 postRouter.patch('/question', authJwt, validationMiddleware(Question), QuestionController.updateQuestion);
@@ -29,6 +32,7 @@ postRouter.post('/answer/like', authJwt, LikeController.createAnswerLike);
 postRouter.delete('/answer/like', authJwt, LikeController.deleteAnswerLike);
 postRouter.post('/question/like', authJwt, LikeController.createQuestionLike);
 postRouter.delete('/question/like', authJwt, LikeController.deleteQuestionLike);
+
 
 postRouter.post('/image', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).single("imgFile"), PhotoController.uploadImage);
 //채택하기 api 추가 필요
