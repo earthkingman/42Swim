@@ -1,7 +1,7 @@
 import { HttpException } from "./http_exception";
 
 export class UnauthorizedException extends HttpException {
-    constructor(id: number) {
-        super(401, `사용자 인증이 필요합니다. user ${id} unauthorized`);
+    constructor(msg: string) {
+        super(401, `사용자 인증이 필요합니다. ${msg}`);
     }
 }
