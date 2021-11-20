@@ -5,6 +5,12 @@ import { Comment } from "../entity/comment";
 import { Question } from "../entity/question";
 import { User } from "../entity/user";
 
+import { CommentForbiddenException, CommentNotFoundException } from "../exception/comment_exception";
+import { AnswerNotFoundException } from "../exception/answer_exception";
+import { UserNotFoundException } from "../exception/user_exception";
+import { QuestionNotFoundException } from "../exception/question_exception";
+import { DatabaseInternalServerErrorException } from "../exception/server_exception";
+
 export class CommentService {
 	private userRepository: Repository<User>;
 	private questionRepository: Repository<Question>;
@@ -23,22 +29,21 @@ export class CommentService {
 
 		const user = await this.userRepository
 			.findOne({ where: { id: userId } });
-		if (user === undefined) throw new Error("undefined user");
+		if (user === undefined) throw new UserNotFoundException(userId);
 
 		if (answerId) {
 			const answer = await this.answerRepository
 				.findOne({ where: { id: answerId } });
 			if (answer === undefined) {
-				throw new Error("Comment that doesn't exist or you don't have edit right");
+				throw new AnswerNotFoundException(answerId);
 			}
-
 			await this.commentRepository.save({ user, answer, text });
 		}
 		else {
 			const question = await this.questionRepository
 				.findOne({ where: { id: questionId } });
 			if (question === undefined) {
-				throw new Error("undefined question post");
+				throw new QuestionNotFoundException(questionId);
 			}
 			await this.commentRepository.save({ user, question, text });
 		}
@@ -62,13 +67,13 @@ export class CommentService {
 						relations: ['answer']
 					});
 				if (answer === undefined) {
-					throw new Error("The answer doesn't exist.");
+					throw new AnswerNotFoundException(answerId);
 				}
 				else if (noAuthComment) {
-					throw new Error("You don't have edit right.");
+					throw new CommentForbiddenException(commentId);
 				}
 				else {
-					throw new Error("The comment doesn't exist.");
+					throw new CommentNotFoundException(commentId);
 				}
 			}
 			comment.text = text;
@@ -89,13 +94,13 @@ export class CommentService {
 						relations: ['answer']
 					});
 				if (question === undefined) {
-					throw new Error("The question doesn't exist.");
+					throw new QuestionNotFoundException(questionId);
 				}
 				else if (noAuthComment) {
-					throw new Error("You don't have edit right.");
+					throw new CommentForbiddenException(commentId);
 				}
 				else {
-					throw new Error("The comment doesn't exist.");
+					throw new CommentNotFoundException(commentId);
 				}
 			}
 			comment.text = text;
@@ -121,13 +126,13 @@ export class CommentService {
 						relations: ['answer']
 					});
 				if (answer === undefined) {
-					throw new Error("The answer doesn't exist.");
+					throw new AnswerNotFoundException(answerId);
 				}
 				else if (noAuthComment) {
-					throw new Error("You don't have edit right.");
+					throw new CommentForbiddenException(commentId);
 				}
 				else {
-					throw new Error("The comment doesn't exist.");
+					throw new CommentNotFoundException(commentId);
 				}
 			}
 			await this.commentRepository.remove(comment);
@@ -147,13 +152,13 @@ export class CommentService {
 						relations: ['answer']
 					});
 				if (question === undefined) {
-					throw new Error("The question doesn't exist.");
+					throw new QuestionNotFoundException(questionId);
 				}
 				else if (noAuthComment) {
-					throw new Error("You don't have edit right.");
+					throw new CommentForbiddenException(commentId);
 				}
 				else {
-					throw new Error("The comment doesn't exist.");
+					throw new CommentNotFoundException(commentId);
 				}
 			}
 			await this.commentRepository.remove(comment);
