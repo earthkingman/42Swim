@@ -18,7 +18,7 @@ const deleteAnswer = async (req: DecodedRequest, res: Response) => {
 		})
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})
@@ -38,7 +38,7 @@ const updateAnswer = async (req: DecodedRequest, res: Response, next: NextFuncti
 		})
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})
@@ -58,7 +58,7 @@ const uploadAnswer = async (req: DecodedRequest, res: Response) => {
 		})
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})
