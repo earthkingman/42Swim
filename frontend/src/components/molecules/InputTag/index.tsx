@@ -2,9 +2,6 @@ import Tag from "../../atoms/Tag";
 import Text from "../../atoms/Text";
 import * as S from "./style";
 
-//todo : 타이핑시 목록 드롭박스로 보이기
-//todo : #이후 스페이스시 컴포넌트로 변환
-
 interface InputTagProps {
   value: string;
   inputChange: any;
