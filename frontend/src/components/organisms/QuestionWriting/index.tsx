@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useAuth from "../../../hooks/useAuth";
 import useInput from "../../../hooks/useInput";
 import Button from "../../atoms/Button";
 import Divider from "../../atoms/Divider";
@@ -24,6 +25,14 @@ const QuestionWriting = () => {
   const title = useInput("", titleValidator);
   const text = useInput(textDefault);
   const [tag, setTag] = useState([]);
+  const { isLoading, user } = useAuth();
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      alert("로그인 후 질문 작성이 가능합니다.");
+      location.href = "/";
+    }
+  }, [user]);
 
   const onClick = async (e) => {
     e.preventDefault();
@@ -46,7 +55,7 @@ const QuestionWriting = () => {
       if (res.status === 200) {
         alert("질문 작성이 완료되었습니다!");
         //todo: res로부터 id받아서 해당 detail page로 이동
-        location.href = "/";
+        location.href = `/detail?id=${res.data.id}`;
       } else {
         alert("질문 작성을 실패했습니다.");
         location.href = "/";
