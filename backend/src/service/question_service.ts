@@ -4,6 +4,10 @@ import { Question } from "../entity/question";
 import { User } from "../entity/user";
 import { HashTag } from "../entity/hashtag";
 
+import { UserNotFoundException } from "../exception/user_exception";
+import { QuestionNotFoundException, QuestionForbiddenException } from "../exception/question_exception";
+import { DatabaseInternalServerErrorException } from "../exception/server_exception";
+
 export class QuestionService {
 	private queryRunner: QueryRunner;
 	private userRepository: Repository<User>;
@@ -24,7 +28,7 @@ export class QuestionService {
 		let id = 0;
 		if (user === undefined) {
 			await this.queryRunner.release();
-			throw new Error("The user doesn't exist.");
+			throw new UserNotFoundException(userId);
 		}
 		await this.queryRunner.startTransaction();
 		try {
@@ -41,7 +45,6 @@ export class QuestionService {
 					}
 				} catch (error) {
 					await this.queryRunner.release();
-					console.log(error);
 				}
 			}
 			const questionInfo = { title, text, user, hashtag: hashtagObject };
@@ -51,7 +54,7 @@ export class QuestionService {
 		} catch (error) {
 			console.error(error);
 			await this.queryRunner.rollbackTransaction();
-			throw error;
+			throw new DatabaseInternalServerErrorException(error.message);
 		} finally {
 			await this.queryRunner.release();
 		}
@@ -70,11 +73,11 @@ export class QuestionService {
 				.findOne({ where: { id: questionId } });
 			if (noAuthQuestion !== undefined) {
 				await this.queryRunner.release();
-				throw new Error("You don't have edit permission");
+				throw new QuestionForbiddenException(questionId);
 			}
 			else {
 				await this.queryRunner.release();
-				throw new Error("The questionPost doesn't exist.");
+				throw new QuestionNotFoundException(questionId);
 			}
 		}
 		await this.queryRunner.startTransaction();
@@ -102,7 +105,7 @@ export class QuestionService {
 		} catch (error) {
 			console.error(error);
 			await this.queryRunner.rollbackTransaction();
-			throw error;
+			throw new DatabaseInternalServerErrorException(error.message);
 		} finally {
 			await this.queryRunner.release();
 		}
@@ -120,11 +123,11 @@ export class QuestionService {
 				.findOne({ where: { id: questionId } });
 			if (noAuthQuestion !== undefined) {
 				await this.queryRunner.release();
-				throw new Error("You don't have edit permission");
+				throw new QuestionForbiddenException(questionId);
 			}
 			else {
 				await this.queryRunner.release();
-				throw new Error("The questionPost doesn't exist.");
+				throw new QuestionNotFoundException(questionId);
 			}
 		}
 		await this.queryRunner.startTransaction();
@@ -134,7 +137,7 @@ export class QuestionService {
 		} catch (error) {
 			console.error(error);
 			await this.queryRunner.rollbackTransaction();
-			throw error;
+			throw new DatabaseInternalServerErrorException(error.message);
 		} finally {
 			await this.queryRunner.release();
 		}

@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { jwtUtil } from "../jwt-util/jwt_utils";
 import { redisClient } from "../lib/redis";
 import { UserService } from "../service/user_service";
+import { DecodedRequest } from "../definition/decoded_jwt";
 
 const login = (req: Request, res: Response, next: NextFunction) => {
 	passport.authenticate("local", (authError, user, info) => {
@@ -53,6 +54,8 @@ const login = (req: Request, res: Response, next: NextFunction) => {
 
 const logout = (req: Request, res: Response, next: NextFunction) => {
 	res.clearCookie('authorization')
+	res.clearCookie('refresh')
+	res.clearCookie('guestId')
 	return res.status(200).json({
 		message: "logout",
 		token: req.cookies.authorization
