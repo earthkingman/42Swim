@@ -34,6 +34,9 @@ const ListItem = ({
   hashtag,
   ...props
 }: Props) => {
+  text = text
+    .replace(/[`#*~_>]/g, "")
+    .replace(/^!\[[\w.]*\]\([\w.:/-]+\)/gi, "");
   return (
     <S.ListBox {...props}>
       <S.Content>
