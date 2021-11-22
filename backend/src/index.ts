@@ -33,9 +33,6 @@ app.use(passport.initialize());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.get("/debug-sentry", function mainHandler(req, res) {
-	throw new Error("My first Sentry error!");
-  });
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 const corsOptions = {
