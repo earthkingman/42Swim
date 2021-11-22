@@ -139,7 +139,7 @@ export class AnswerService {
 	}
 
 	async chooseAnswer(chooseAnswerInfo):Promise<any>{
-		const {userId, questionId, answerId} = chooseAnswerInfo;
+		const { userId, questionId, answerId } = chooseAnswerInfo;
 		const answer = await this.answerRepository
 			.findOne({
 				where: { id: answerId, user: { id: userId }, question: { id: questionId } },
@@ -147,6 +147,9 @@ export class AnswerService {
 			});
 		const question = await this.questionRepository
 			.findOne({ where: { id: questionId } });
+		if (question.is_solved == true)
+			throw new Error("This questionPost has been accepted.");
+
 		if (answer === undefined) {
 
 			const noAuthAnswer = await this.answerRepository
@@ -155,7 +158,6 @@ export class AnswerService {
 					relations: ['question']
 				});
 			if (question === undefined) {
-				console.log(question);
 				await this.queryRunner.release();
 				throw new Error("The questionPost doesn't exist.");
 			}
