@@ -141,4 +141,52 @@ export class AnswerService {
 			await this.queryRunner.release();
 		}
 	}
+
+	async chooseAnswer(chooseAnswerInfo):Promise<any>{
+		const { userId, questionId, answerId } = chooseAnswerInfo;
+		const answer = await this.answerRepository
+			.findOne({
+				where: { id: answerId, user: { id: userId }, question: { id: questionId } },
+				relations: ['user', 'question']
+			});
+		const question = await this.questionRepository
+			.findOne({ where: { id: questionId } });
+		if (question.is_solved == true)
+			throw new Error("This questionPost has been accepted.");
+
+		if (answer === undefined) {
+
+			const noAuthAnswer = await this.answerRepository
+				.findOne({
+					where: { id: answerId, question: { id: questionId } },
+					relations: ['question']
+				});
+			if (question === undefined) {
+				await this.queryRunner.release();
+				throw new Error("The questionPost doesn't exist.");
+			}
+			else if (noAuthAnswer === undefined) {
+				await this.queryRunner.release();
+				throw new Error("The answerPost doesn't exist.");
+			}
+			else {
+				await this.queryRunner.release();
+				throw new Error("You don't have permission to choose.");
+			}
+		}
+	await this.queryRunner.startTransaction();
+	try {
+		answer.is_chosen = true;
+		question.is_solved = true;
+		await this.answerRepository.save(answer);
+		await this.questionRepository.save(question);
+		await this.queryRunner.commitTransaction();
+	} catch (error) {
+		console.error(error);
+		await this.queryRunner.rollbackTransaction();
+		throw error;
+	} finally {
+		await this.queryRunner.release();
+	}
+	}
 }
