@@ -16,9 +16,7 @@ export const postRouter = express.Router();
 postRouter.delete('/answer', authJwt, AnswerController.deleteAnswer);
 postRouter.post('/answer', authJwt, validationMiddleware(Answer, true), AnswerController.uploadAnswer);
 postRouter.patch('/answer', authJwt, validationMiddleware(Answer), AnswerController.updateAnswer);
-
-postRouter.post('/answer/choose', authJwt, AnswerController.chooseAnswer);
-
+postRouter.post('/answer/choice', authJwt, AnswerController.chooseAnswer);
 
 postRouter.delete('/question', authJwt, QuestionController.deleteQuestion);
 postRouter.post('/question', authJwt,  validationMiddleware(Question, true), QuestionController.uploadQuestion);
