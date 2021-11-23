@@ -55,7 +55,7 @@ const LoginPage = ({ onClose, onRegist, ...props }: LoginProps) => {
 
   const on42Login = () => {
     console.log("on42Login");
-    location.href = "http://localhost:5000/auth/42login";
+    location.href = "https://localhost:5000/auth/42login";
     onClose(false);
     setLoading(true);
   };
