@@ -67,18 +67,18 @@ const uploadAnswer = async (req: DecodedRequest, res: Response) => {
 
 const chooseAnswer = async (req: DecodedRequest, res: Response)=>{
 	const userId = req.decodedId;
-	const { questionId, answerId } = req.body;
+	const { questionId, answerId, answerUserId } = req.body;
 	const answerService: AnswerService = new AnswerService();
 
 	try {
-		await answerService.chooseAnswer({questionId,answerId,userId});
+		await answerService.chooseAnswer({questionId,answerId,userId, answerUserId});
 		return res.status(200).json({
 			result: true,
 			message: "Choose Success"
 		})
 	}catch (error){
 		console.log(error);
-		return res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})

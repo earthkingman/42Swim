@@ -4,9 +4,9 @@ import { Question } from "../entity/question";
 import { Answer } from "../entity/answer";
 import { User } from "../entity/user";
 
-import { AnswerNotFoundException, AnswerForbiddenException } from "../exception/answer_exception";
+import { AnswerNotFoundException, AnswerForbiddenException, AnswerBadRequestException } from "../exception/answer_exception";
 import { UserNotFoundException } from "../exception/user_exception";
-import { QuestionNotFoundException } from "../exception/question_exception";
+import { QuestionBadRequestException, QuestionForbiddenException, QuestionNotFoundException } from "../exception/question_exception";
 import { DatabaseInternalServerErrorException } from "../exception/server_exception";
 
 export class AnswerService {
@@ -143,50 +143,57 @@ export class AnswerService {
 	}
 
 	async chooseAnswer(chooseAnswerInfo):Promise<any>{
-		const { userId, questionId, answerId } = chooseAnswerInfo;
+		const { userId, questionId, answerId, answerUserId} = chooseAnswerInfo;
 		const answer = await this.answerRepository
 			.findOne({
-				where: { id: answerId, user: { id: userId }, question: { id: questionId } },
+				where: { id: answerId, user: { id: answerUserId }, question: { id: questionId } },
 				relations: ['user', 'question']
 			});
 		const question = await this.questionRepository
-			.findOne({ where: { id: questionId } });
+			.findOne({ 
+				where: { id: questionId, user: {id: userId} },
+				relations: ['user']
+			});
+		if (question === undefined){
+			const noAuthQuestion = await this.questionRepository
+				.findOne({ where: { id: questionId}});
+			if (noAuthQuestion === undefined){
+				throw new QuestionNotFoundException(questionId);
+			}
+			else{
+				throw new QuestionForbiddenException(questionId);
+			}
+		}
 		if (question.is_solved == true)
-			throw new Error("This questionPost has been accepted.");
-
+			throw new QuestionBadRequestException(questionId);
 		if (answer === undefined) {
-
 			const noAuthAnswer = await this.answerRepository
 				.findOne({
 					where: { id: answerId, question: { id: questionId } },
 					relations: ['question']
 				});
-			if (question === undefined) {
+			if (noAuthAnswer === undefined) {
 				await this.queryRunner.release();
-				throw new Error("The questionPost doesn't exist.");
-			}
-			else if (noAuthAnswer === undefined) {
-				await this.queryRunner.release();
-				throw new Error("The answerPost doesn't exist.");
+				throw new AnswerNotFoundException(answerId);
 			}
 			else {
 				await this.queryRunner.release();
-				throw new Error("You don't have permission to choose.");
+				throw new AnswerNotFoundException(answerId);
 			}
 		}
-	await this.queryRunner.startTransaction();
-	try {
-		answer.is_chosen = true;
-		question.is_solved = true;
-		await this.answerRepository.save(answer);
-		await this.questionRepository.save(question);
-		await this.queryRunner.commitTransaction();
-	} catch (error) {
-		console.error(error);
-		await this.queryRunner.rollbackTransaction();
-		throw error;
-	} finally {
-		await this.queryRunner.release();
-	}
+		await this.queryRunner.startTransaction();
+		try {
+			answer.is_chosen = true;
+			question.is_solved = true;
+			await this.answerRepository.save(answer);
+			await this.questionRepository.save(question);
+			await this.queryRunner.commitTransaction();
+		} catch (error) {
+			console.error(error);
+			await this.queryRunner.rollbackTransaction();
+			throw new DatabaseInternalServerErrorException(error.message);
+		} finally {
+			await this.queryRunner.release();
+		}
 	}
 }
