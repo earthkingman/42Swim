@@ -10,7 +10,7 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  - url: 'http://localhost:5000'
+  - url: 'http://localhost:5000/api'
 tags:
   - name: page
     description: 페이지
@@ -492,6 +492,37 @@ paths:
             format: int64
           example: 1
           required: true
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Answer doesn't exist
+  /posts/answer/choice:
+    post:
+      summary: 답변 게시글을 채택합니다.
+      tags:
+        - answer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                questionId:
+                  type: integer
+                  format: int64
+                  example: 1
+                answerId:
+                  type: integer
+                  format: int64
+                  example: 1
+                answerUserId:
+                  type: integer
+                  format: int64
+                  example: 1
+              required:
+                - questionId
+                - answerId
+                - answerUserId
       responses:
         '200':
           description: OK
