@@ -17,11 +17,11 @@ export const insertSeed = async () => {
 
     for (let i = 1; i <= 10; i++) {
         const questionService: QuestionService = new QuestionService();
-        await questionService.post({ email: 'tester' + String(i) + '@gmail.com', title: "tester" + String(i) + "'s question", text: "question text question text question text", userId: i, hashtag: "ft_printf#ft_containers#ft_island" });
+        await questionService.post({ email: 'tester' + String(i) + '@gmail.com', title: "tester" + String(i) + "'s question", text: "question text question text question text", userId: i, hashtag: ["ft_printf", "ft_containers","ft_island"]});
     }
     for (let i = 11; i <= 20; i++) {
         const questionService: QuestionService = new QuestionService();
-        await questionService.post({ email: 'tester' + String(i) + '@gmail.com', title: "tester" + String(i) + "'s question", text: "question text question text question text", userId: i, hashtag: "ft_printf#gnl#born2beroot" });
+        await questionService.post({ email: 'tester' + String(i) + '@gmail.com', title: "tester" + String(i) + "'s question", text: "question text question text question text", userId: i, hashtag: ["ft_printf", "gnl" ,"born2beroot"] });
     }
     console.log("질문 생성 완료")
 
