@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
+import { Redirect } from "react-router";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Auth = ({ ...props }) => {
@@ -17,7 +18,7 @@ const Auth = ({ ...props }) => {
   //   console.log("match", props.match);
   //   console.log("location", props.location);
   //   console.log(location.search);
-  return <div>Hi</div>;
+  return <Redirect to="/" />;
 };
 
 export default Auth;
