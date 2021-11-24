@@ -33,7 +33,6 @@ export class PageService {
 	}
 
 	async getQuestionDetail(questionId, userId) {
-		await this.setQuestionViewCount(questionId);
 		const questionInfo = await this.questionRepository
 			.createQueryBuilder('question')
 			.where('question.id = :questionId', { questionId })
