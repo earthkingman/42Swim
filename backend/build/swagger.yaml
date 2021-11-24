@@ -764,6 +764,28 @@ paths:
                 $ref: '#/components/schemas/QuestionPage'
         '404':
           description: Page doesn't exist
+  /pages/question/viewCount:
+    post:
+      summary: 질문글의 조회수를 증가시킵니다.
+      tags:
+        - page
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                questionId:
+                  type: integer
+                  format: int64
+              required:
+                - questionId
+              example:
+                questionId: 1
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Question doesn't exist
   /posts/answer/like:
     post:
       summary: 좋아요를 생성합니다.
