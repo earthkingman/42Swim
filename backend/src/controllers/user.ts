@@ -6,6 +6,8 @@ import { Response, NextFunction } from 'express';
 import { DecodedRequest } from "../definition/decoded_jwt"
 import { UserService } from "../service/user_service";
 
+import { UserNotFoundException } from "../exception/user_exception";
+
 const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const id: number = req.decodedId
 	const userService: UserService = new UserService();
@@ -33,7 +35,9 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
 			})
 		}
 	} catch (error) {
-		res.status(500).json({
+		console.log(error);
+		return res.status(error.status).json({
+			result: false,
 			message: `An error occurred (${error.message})`
 		})
 	}
@@ -52,13 +56,10 @@ const updateUserImage = async (req: any, res: Response, next: NextFunction) => {
 			})
 		}
 		else {
-			res.status(400).json({
-				result: false,
-				message: "User doesn't exist"
-			})
+			throw new UserNotFoundException(id);
 		}
 	} catch (error) {
-		res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})
@@ -77,13 +78,10 @@ const deleteUserImage = async (req: any, res: Response, next: NextFunction) => {
 			})
 		}
 		else {
-			res.status(400).json({
-				result: false,
-				message: "User doesn't exist"
-			})
+			throw new UserNotFoundException(id);
 		}
 	} catch (error) {
-		res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})
@@ -103,7 +101,7 @@ const updateUserPassword = async (req: DecodedRequest, res: Response, next: Next
 			result: true,
 		})
 	} catch (error) {
-		return res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})
@@ -123,13 +121,10 @@ const updateUserNickname = async (req: DecodedRequest, res: Response, next: Next
 			})
 		}
 		else {
-			res.status(400).json({
-				result: false,
-				message: "User doesn't exist"
-			})
+			throw new UserNotFoundException(id);
 		}
 	} catch (error) {
-		res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})
@@ -148,7 +143,7 @@ const updateUserEmail = async (req: DecodedRequest, res: Response, next: NextFun
 		})
 	}
 	catch (error) {
-		return res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})

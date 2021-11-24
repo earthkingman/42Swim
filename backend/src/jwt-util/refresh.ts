@@ -5,6 +5,8 @@ import { jwtUtil } from './jwt_utils';
 import { redisClient } from '../lib/redis';
 import { DecodedRequest } from '../definition/decoded_jwt';
 
+import { UnauthorizedException } from '../exception/auth_exception'
+
 export const refresh = async (req: DecodedRequest, res: Response) => {
   const refresh_token = req.cookies.refresh;
   const guestId = req.cookies.guestId;
@@ -15,7 +17,7 @@ export const refresh = async (req: DecodedRequest, res: Response) => {
 
       //refresh token 만료됬을 경우
       if (refreshResult === false) {
-        throw new Error("No authorized");
+        throw new UnauthorizedException("refresh token is expired.");
       }
       // refresh token은 만료되지 않은 경우
       else {
@@ -29,6 +31,6 @@ export const refresh = async (req: DecodedRequest, res: Response) => {
   }
   // guest id 또는 refresh token이 헤더에 없는 경우
   else {
-    throw new Error("refresh token and guest id are need for refresh!");
+    throw new UnauthorizedException("refresh token and guest id are need for refresh!");
   }
 };

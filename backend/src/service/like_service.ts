@@ -6,6 +6,12 @@ import { User } from "../entity/user";
 import { Answer } from "../entity/answer";
 import { AnswerLike } from "../entity/answer_like";
 
+import { UserNotFoundException } from "../exception/user_exception";
+import { AnswerNotFoundException } from "../exception/answer_exception";
+import { QuestionNotFoundException } from "../exception/question_exception";
+import { DatabaseInternalServerErrorException } from "../exception/server_exception";
+import { LikeNotFoundException, LikeBadRequestException } from "../exception/like_exception"
+
 export class LikeService {
 	private queryRunner: QueryRunner;
 	private userRepository: Repository<User>;
@@ -29,22 +35,25 @@ export class LikeService {
 		const answerUser = await this.userRepository.findOne({ where: { id: answerUserId } });
 		if (answerUser === undefined) {
 			await this.queryRunner.release();
-			throw new Error("The answerUser doesn't exist.");
+			throw new UserNotFoundException(answerUserId);
 		}
 
 		const answer = await this.answerRepository.findOne({ where: { id: answerId, user: answerUser } });
 		if (answer === undefined) {
 			await this.queryRunner.release();
-			throw new Error("The answer doesn't exist.");
+			throw new AnswerNotFoundException(answerId);
 		}
 
 		const user = await this.userRepository.findOne({ where: { id: userId } });
+		if (user === undefined){
+			throw new UserNotFoundException(userId);
+		}
 
 		const exLike = await this.answerLikeRepository
 			.findOne({ where: { answer: answer, user: user } });
 		if (exLike) {
 			await this.queryRunner.release();
-			throw new Error("The likeData already exists.");
+			throw new LikeBadRequestException("The likeData already exists.");
 		}
 		await this.queryRunner.startTransaction();
 		try {
@@ -66,7 +75,7 @@ export class LikeService {
 		} catch (error) {
 			console.error(error);
 			await this.queryRunner.rollbackTransaction();
-			throw error;
+			throw new DatabaseInternalServerErrorException(error.message);
 		} finally {
 			await this.queryRunner.release();
 		}
@@ -79,22 +88,25 @@ export class LikeService {
 		const questionUser = await this.userRepository.findOne({ where: { id: questionUserId } });
 		if (questionUser === undefined) {
 			await this.queryRunner.release();
-			throw new Error("The questionUser doesn't exist.");
+			throw new UserNotFoundException(questionUserId);
 		}
 
 		const question = await this.questionRepository.findOne({ where: { id: questionId, user: questionUser } });
 		if (question === undefined) {
 			await this.queryRunner.release();
-			throw new Error("The question doesn't exist.");
+			throw new QuestionNotFoundException(questionId);
 		}
 
 		const user = await this.userRepository.findOne({ where: { id: userId } });
+		if (user === undefined){
+			throw new UserNotFoundException(userId);
+		}
 
 		const exLike = await this.questionLikeRepository
 			.findOne({ where: { question: question, user: user } });
 		if (exLike !== undefined) {
 			await this.queryRunner.release();
-			throw new Error("The likeData already exists.");
+			throw new LikeBadRequestException("The likeData already exists.");
 		}
 		await this.queryRunner.startTransaction();
 		try {
@@ -116,7 +128,7 @@ export class LikeService {
 		} catch (error) {
 			console.error(error);
 			await this.queryRunner.rollbackTransaction();
-			throw error;
+			throw new DatabaseInternalServerErrorException(error.message);
 		} finally {
 			await this.queryRunner.release();
 		}
@@ -129,25 +141,28 @@ export class LikeService {
 		const answerUser = await this.userRepository.findOne({ where: { id: answerUserId } });
 		if (answerUser === undefined) {
 			await this.queryRunner.release();
-			throw new Error("The answerUser doesn't exist.");
+			throw new UserNotFoundException(answerUserId);
 		}
 
 		const answer = await this.answerRepository.findOne({ where: { id: answerId, user: answerUser } });
 		if (answer === undefined) {
-			throw new Error("The answer doesn't exist.");
+			throw new AnswerNotFoundException(answerId);
 		}
 
 		const user = await this.userRepository.findOne({ where: { id: userId } });
+		if (user === undefined){
+			throw new UserNotFoundException(userId);
+		}
 
 		const curLike = await this.answerLikeRepository
 			.findOne({ where: { answer: answer, user: user } });
 		if (curLike === undefined) {
 			await this.queryRunner.release();
-			throw new Error("The likeData doesn't exist.");
+			throw new LikeBadRequestException("The likeData doesn't exist.");
 		}
 		if (curLike.is_like !== isLike) {
 			await this.queryRunner.release();
-			throw new Error("The likeData is incorrect.");
+			throw new LikeNotFoundException("The likeData is incorrect.");
 		}
 
 		if (curLike.is_like) {
@@ -168,7 +183,7 @@ export class LikeService {
 		} catch (error) {
 			console.error(error);
 			await this.queryRunner.rollbackTransaction();
-			throw error;
+			throw new DatabaseInternalServerErrorException(error.message);
 		} finally {
 			await this.queryRunner.release();
 		}
@@ -181,13 +196,13 @@ export class LikeService {
 		const questionUser = await this.userRepository.findOne({ where: { id: questionUserId } });
 		if (questionUser === undefined) {
 			await this.queryRunner.release();
-			throw new Error("The questionUser doesn't exist.");
+			throw new UserNotFoundException(questionUserId);
 		}
 
 		const question = await this.questionRepository.findOne({ where: { id: questionId, user: questionUser } });
 		if (question === undefined) {
 			await this.queryRunner.release();
-			throw new Error("The question doesn't exist.");
+			throw new QuestionNotFoundException(questionId);
 		}
 
 		const user = await this.userRepository.findOne({ where: { id: userId } });
@@ -196,11 +211,11 @@ export class LikeService {
 			.findOne({ where: { question: question, user: user } });
 		if (curLike === undefined) {
 			await this.queryRunner.release();
-			throw new Error("The likeData doesn't exist.");
+			throw new LikeBadRequestException("The likeData doesn't exist.");
 		}
 		if (curLike.is_like !== isLike) {
 			await this.queryRunner.release();
-			throw new Error("The likeData is incorrect.");
+			throw new LikeNotFoundException("The likeData is incorrect.");
 		}
 		if (curLike.is_like) {
 			question.like_count -= 1;
@@ -220,7 +235,7 @@ export class LikeService {
 		} catch (error) {
 			console.error(error);
 			await this.queryRunner.rollbackTransaction();
-			throw error;
+			throw new DatabaseInternalServerErrorException(error.message);
 		} finally {
 			await this.queryRunner.release();
 		}

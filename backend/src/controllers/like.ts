@@ -20,7 +20,7 @@ const createAnswerLike = async (req: DecodedRequest, res: Response, next: NextFu
 		})
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})
@@ -41,7 +41,7 @@ const createQuestionLike = async (req: DecodedRequest, res: Response, next: Next
 		})
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})
@@ -67,7 +67,7 @@ const deleteAnswerLike = async (req: DecodedRequest, res: Response, next: NextFu
 		})
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})
@@ -93,7 +93,7 @@ const deleteQuestionLike = async (req: DecodedRequest, res: Response, next: Next
 		})
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json({
+		return res.status(error.status).json({
 			result: false,
 			message: `An error occurred (${error.message})`
 		})

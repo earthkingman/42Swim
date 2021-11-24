@@ -2,7 +2,9 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 dotenv.config();
 
-import { getConnection, QueryRunner, Repository } from "typeorm";
+import { getConnection, Repository } from "typeorm";
+import { UserNotFoundException, UserForbiddenException } from "../exception/user_exception";
+
 
 import { User } from "../entity/user";
 
@@ -29,7 +31,7 @@ export class UserService {
 		const user = await this.userRepository
 			.findOne({ where: { id: id } });
 		if (user === undefined) {
-			throw new Error('존재하지 않는 유저입니다');
+			throw new UserNotFoundException(id);
 		}
 		const result = await bcrypt.compare(curPassword, user.password);
 		if (result) {
@@ -37,7 +39,7 @@ export class UserService {
 			const newUser = await this.userRepository.save(user);
 		}
 		else {
-			throw new Error('비밀번호가 일치하지 않습니다.')
+			throw new UserForbiddenException(id);
 		}
 
 	}
@@ -47,7 +49,7 @@ export class UserService {
 		const user = await this.userRepository
 			.findOne({ where: { id: id } })
 		if (user === undefined) {
-			throw new Error('존재하지 않는 유저입니다');
+			throw new UserNotFoundException(id);
 		}
 		user.photo = photo || user.photo;
 		const newUser = await this.userRepository.save(user);
@@ -58,7 +60,7 @@ export class UserService {
 		const user = await this.userRepository
 			.findOne({ where: { id: id } })
 		if (user === undefined) {
-			throw new Error('존재하지 않는 유저입니다');
+			throw new UserNotFoundException(id);
 		}
 		user.photo = "";
 		const newUser = await this.userRepository.save(user);
@@ -70,7 +72,7 @@ export class UserService {
 		const user = await this.userRepository
 			.findOne({ where: { id: id } })
 		if (user === undefined) {
-			throw new Error('존재하지 않는 유저입니다');
+			throw new UserNotFoundException(id);
 		}
 		user.nickname = nickName || user.nickname;
 		const newUser = await this.userRepository.save(user);
@@ -81,7 +83,7 @@ export class UserService {
 		const user = await this.userRepository
 			.findOne({ where: { id: id } })
 		if (user === undefined) {
-			throw new Error('존재하지 않는 유저입니다');
+			throw new UserNotFoundException(id);
 		}
 		user.email = email || user.email;
 		await this.userRepository.save(user);
