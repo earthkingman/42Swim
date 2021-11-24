@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import A from "../../atoms/A";
 import Box from "../../atoms/Box";
 import { ColumnSADiv } from "../../atoms/Div";
+import HideDiv from "../../atoms/HideDiv";
 
 interface SProps {
   show: boolean;
@@ -20,6 +21,15 @@ export const CommentTextWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+`;
+
+export const EditInput = styled.input`
+  font-size: 16px;
+  background-color: inherit;
+  color: grey;
+  &:disabled {
+    color: black;
+  }
 `;
 
 export const PBox = styled(Box)<SProps>`
@@ -53,8 +63,8 @@ export const PContent = styled(ColumnSADiv)`
 export const PItem = styled(A)`
   /*overflow: auto;*/
   display: block;
-  width: 7rem;
-  padding: 2rem 2rem 0 2rem;
+  width: 3rem;
+  margin: 2rem 2rem 0 2rem;
   ${({ theme }) =>
     theme &&
     css`
@@ -64,6 +74,6 @@ export const PItem = styled(A)`
     `}
 `;
 
-export const MoreWrap = styled.div`
+export const MoreWrap = styled(HideDiv)`
   position: relative;
 `;

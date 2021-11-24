@@ -86,6 +86,7 @@ const AnswerCard = ({
     return (
       <Comment
         key={item.id}
+        userEmail={loginUser?.email}
         questionId={questionId}
         answerId={id}
         {...item}

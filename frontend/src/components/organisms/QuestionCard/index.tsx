@@ -46,7 +46,12 @@ const QuestionCard = ({ ...props }) => {
       }
     };
     const commentsComponents = question.comment?.map((item: any) => (
-      <Comment key={item.id} questionId={question.id} {...item}></Comment>
+      <Comment
+        key={item.id}
+        userEmail={user?.email}
+        questionId={question.id}
+        {...item}
+      ></Comment>
     ));
     return (
       <S.QuestionCardWrapper {...props}>
