@@ -149,7 +149,7 @@ export class PageService {
 
 		const questionCount = await this.questionRepository
 			.count();
-		return { questionList, questionCount: 1 };
+		return { questionList, questionCount };
 	}
 
 	async getQuestionListOrderByLikeCount(pageInfo) {
