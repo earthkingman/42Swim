@@ -35,14 +35,18 @@ const QuestionCard = ({ ...props }) => {
     const onDelClick = (e: Event) => {
       if (!confirm("게시글을 삭제하시겠습니까?")) e.preventDefault();
       else {
-        axios.delete(
-          `${import.meta.env.VITE_API_HOST}/posts/question?questionId=${
-            question.id
-          }`,
-          {
-            withCredentials: true,
-          }
-        );
+        axios
+          .delete(
+            `${import.meta.env.VITE_API_HOST}/posts/question?questionId=${
+              question.id
+            }`,
+            {
+              withCredentials: true,
+            }
+          )
+          .then(() => {
+            location.href = "/";
+          });
       }
     };
     const commentsComponents = question.comment?.map((item: any) => (
