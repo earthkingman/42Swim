@@ -1,3 +1,4 @@
+import { Request } from "aws-sdk";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -112,7 +113,23 @@ const getQuestionDetailPage = async (req: DecodedRequest, res: Response, next: N
 	}
 }
 
+const increaseQuestionViewCount = async (req: any, res:Response, next: NextFunction)=>{
+	const questionId = req.body.questionId;
+	const pageService: PageService = new PageService();
+
+	try {
+		const questionInfo = await pageService.setQuestionViewCount(questionId);
+		return res.status(200).json({
+			result: true
+		})
+	} catch (error) {
+		return res.status(500).json({
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
 export const PageController = {
 	getQuestionListPage, getQuestionDetailPage, getQuestionListPageOrderByLike, getQuestionListPageUnsolved,
-	getQuestionListPageByKeyword
+	getQuestionListPageByKeyword, increaseQuestionViewCount
 }

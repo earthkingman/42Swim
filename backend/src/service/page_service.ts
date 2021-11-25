@@ -33,7 +33,6 @@ export class PageService {
 	}
 
 	async getQuestionDetail(questionId, userId) {
-		await this.setQuestionViewCount(questionId);
 		const questionInfo = await this.questionRepository
 			.createQueryBuilder('question')
 			.where('question.id = :questionId', { questionId })
@@ -150,7 +149,7 @@ export class PageService {
 
 		const questionCount = await this.questionRepository
 			.count();
-		return { questionList, questionCount: 1 };
+		return { questionList, questionCount };
 	}
 
 	async getQuestionListOrderByLikeCount(pageInfo) {
