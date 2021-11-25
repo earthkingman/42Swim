@@ -20,9 +20,9 @@ const deleteQuestion = async (req: DecodedRequest, res: Response, next: NextFunc
     } catch (error) {
         console.log(error);
         return res.status(error.status).json({
-			result: false,
-			message: `An error occurred (${error.message})`
-		})
+            result: false,
+            message: `An error occurred (${error.message})`
+        })
     }
 }
 
@@ -40,17 +40,15 @@ const updateQuestion = async (req: DecodedRequest, res: Response, next: NextFunc
     } catch (error) {
         console.log(error);
         return res.status(error.status).json({
-			result: false,
-			message: `An error occurred (${error.message})`
-		})
+            result: false,
+            message: `An error occurred (${error.message})`
+        })
     }
 }
 
 const uploadQuestion = async (req: DecodedRequest, res: Response) => {
     const userId: number = req.decodedId
     const { title, text, hashtag } = req.body;
-    console.log(userId)
-
     const questionService: QuestionService = new QuestionService();
     try {
         const id = await questionService.post({ title, text, userId, hashtag });
@@ -62,9 +60,9 @@ const uploadQuestion = async (req: DecodedRequest, res: Response) => {
     } catch (error) {
         console.log(error);
         return res.status(error.status).json({
-			result: false,
-			message: `An error occurred (${error.message})`
-		})
+            result: false,
+            message: `An error occurred (${error.message})`
+        })
     }
 }
 
