@@ -279,6 +279,28 @@ paths:
           description: 해시태그 질문 리스트 요청 성공
         '404':
           description: Hashtag doesn't exist
+  /hashtags/count:
+    get:
+      summary: 해시테그 별 질문 갯수
+      tags:
+        - hashtag
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+      responses:
+        '200':
+          description: 페이지 요청 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MainPage'
+        '404':
+          description: Page doesn't exist
   /posts/image:
     post:
       summary: 사진을 업로드합니다.

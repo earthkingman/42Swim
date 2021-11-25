@@ -5,3 +5,4 @@ export const hashTagRouter = express.Router();
 
 hashTagRouter.get('/list', HashTagController.getAllHashTagList);
 hashTagRouter.get('/questions', HashTagController.getQuestionByHashTag);
+hashTagRouter.get('/count', HashTagController.getQuestionCountOfHashTag)

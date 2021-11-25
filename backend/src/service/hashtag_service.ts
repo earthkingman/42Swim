@@ -55,4 +55,17 @@ export class HashtagService {
     async postHashTag(): Promise<any> {
 
     }
+
+    async getQuestionCountOfHashTag(pageInfo): Promise<any> {
+        const hashTagList = await this.hashtagRepository
+            .createQueryBuilder('hashtag')
+            .innerJoin('hashtag.question', 'question')
+            .select('hashtag.name')
+            .addSelect('COUNT(*) AS  questionCount')
+            .groupBy('hashtag.name')
+            .limit(pageInfo.limit)
+            .offset(pageInfo.offset)
+            .getRawMany();
+        return hashTagList;
+    }
 }

@@ -41,5 +41,25 @@ const getQuestionByHashTag = async (req: Request, res: Response, next: NextFunct
     }
 }
 
+const getQuestionCountOfHashTag = async (req: Request, res: Response, next: NextFunction) => {
+    const hashtag: string = String(req.query.hashtag);
+    const pageNumber = Number(req.query.pageNumber) - 1 | 0;
+    const limit = 30;
+    const offset = pageNumber * limit;
+    const pageInfo = { hashtag, limit, offset };
+    const hashtagService: HashtagService = new HashtagService();
+    try {
+        const hashTagList = await hashtagService.getQuestionCountOfHashTag(pageInfo);
+        return res.status(200).json({
+            hashtags: hashTagList,
+            result: true,
+        })
+    } catch (error) {
+        return res.status(500).json({
+            result: false,
+            message: `An error occurred (${error.message})`
+        })
+    }
+}
 
-export const HashTagController = { getAllHashTagList, getQuestionByHashTag }
+export const HashTagController = { getAllHashTagList, getQuestionByHashTag, getQuestionCountOfHashTag }
