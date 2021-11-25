@@ -16,9 +16,6 @@ export const fourtyTwoStrategy = () => {
         callbackURL: process.env.RETURN_URL,
       },
       async function (accessToken, refreshToken, profile, done) {
-        console.log("요청 들어옴");
-        console.log("accessToken", accessToken, "refreshToken", refreshToken);
-        console.log("FortyTwoStrategy");
         try {
           const userService: UserService = new UserService();
           const { exUser, newUser } = await userService.createUser({

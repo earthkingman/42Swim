@@ -27,7 +27,6 @@ export class PageService {
 		if (questionInfo === undefined) {
 			throw new Error("The questionPost doesn't exist.");
 		}
-		console.log(questionInfo.view_count);
 		questionInfo.view_count = questionInfo.view_count + 1;
 		await this.questionRepository.save(questionInfo);
 	}
