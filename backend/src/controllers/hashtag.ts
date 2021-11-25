@@ -8,7 +8,7 @@ const getAllHashTagList = async (req: Request, res: Response, next: NextFunction
     try {
         const hashtagList = await hashtagService.getAllHashTagList();
         return res.status(200).json({
-            hashtags: hashtagList,
+            hashtag: hashtagList,
             result: true,
 
         })
@@ -30,7 +30,7 @@ const getQuestionByHashTag = async (req: Request, res: Response, next: NextFunct
     try {
         const questionList = await hashtagService.getQuestionByHashTag(pageInfo);
         return res.status(200).json({
-            hashtags: questionList,
+            questionList: questionList,
             result: true,
         })
     } catch (error) {
@@ -49,9 +49,9 @@ const getQuestionCountOfHashTag = async (req: Request, res: Response, next: Next
     const pageInfo = { hashtag, limit, offset };
     const hashtagService: HashtagService = new HashtagService();
     try {
-        const hashTagList = await hashtagService.getQuestionCountOfHashTag(pageInfo);
+        const hashtagList = await hashtagService.getQuestionCountOfHashTag(pageInfo);
         return res.status(200).json({
-            hashtags: hashTagList,
+            hashtag: hashtagList,
             result: true,
         })
     } catch (error) {

@@ -57,7 +57,7 @@ export class HashtagService {
         const hashTagList = await this.hashtagRepository
             .createQueryBuilder('hashtag')
             .innerJoin('hashtag.question', 'question')
-            .select('hashtag.name')
+            .select(['hashtag.id AS id','hashtag.name AS name'])
             .addSelect('COUNT(*) AS  questionCount')
             .groupBy('hashtag.name')
             .orderBy('questionCount', 'DESC')
