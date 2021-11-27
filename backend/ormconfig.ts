@@ -9,7 +9,7 @@ export = {
 	password: process.env.MYSQL_ROOT_PASSWORD,
 	database: process.env.MYSQL_DATABASE,
 	synchronize: false,
-	logging: true,
+	logging: false,
 	entities: ["src/entity/**/*.ts"],
 	migrations: ["src/migration/**/*.ts"],
 	subscribers: ["src/subscriber/**/*.ts"],
