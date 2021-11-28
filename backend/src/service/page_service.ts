@@ -27,23 +27,36 @@ export class PageService {
 		if (questionInfo === undefined) {
 			throw new Error("The questionPost doesn't exist.");
 		}
-		console.log(questionInfo.view_count);
 		questionInfo.view_count = questionInfo.view_count + 1;
 		await this.questionRepository.save(questionInfo);
 	}
 
 	async getQuestionDetail(questionId, userId) {
+
+		const subQuery = await this.questionRepository
+			.createQueryBuilder('covers')
+			.select(['covers.id'])
+			.where('covers.id = :questionId', { questionId })
+
 		const questionInfo = await this.questionRepository
 			.createQueryBuilder('question')
-			.where('question.id = :questionId', { questionId })
-			.leftJoinAndSelect('question.user', 'question_user')
-			.leftJoinAndSelect('question.hashtag', 'hashtag')
-			.leftJoinAndSelect('question.comment', 'question_comment')
-			.leftJoinAndSelect('question.answer', 'answer')
-			.leftJoinAndSelect('answer.comment', 'answer_comment')
-			.leftJoinAndSelect('answer.user', 'answer_user')
-			.leftJoinAndSelect('question_comment.user', 'question_comment_user')
-			.leftJoinAndSelect('answer_comment.user', 'answer_comment_user')
+			.innerJoin(`(${subQuery.getQuery()})`, 'covers',
+				'question.id = covers.covers_id')
+			.setParameters(subQuery.getParameters())
+			.andWhere('question_like_user.id = :question_like_userId', {question_like_userId:userId})
+			.andWhere('answer_like_user.id = :answer_like_userId', {answer_like_userId:userId})
+			.leftJoin('question.hashtag', 'hashtag')
+			.leftJoin('question.user', 'question_user')
+			.leftJoin('question.comment', 'question_comment')
+			.leftJoin('question.answer', 'answer')
+			.leftJoin('answer.comment', 'answer_comment')
+			.leftJoin('answer.user', 'answer_user')
+			.leftJoin('question_comment.user', 'question_comment_user')
+			.leftJoin('answer_comment.user', 'answer_comment_user')
+			.leftJoin('question.question_like', 'question_like')
+			.leftJoin('question_like.user', 'question_like_user')
+			.leftJoin('answer.answer_like', 'answer_like')
+			.leftJoin('answer_like.user', 'answer_like_user')
 			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.title', 'question.text',
 				'answer.id', 'answer.created_at', 'answer.like_count', 'answer.text', 'answer.is_chosen',
 				'question_comment.id', 'question_comment.created_at', 'question_comment.text',
@@ -52,7 +65,9 @@ export class PageService {
 				'question_comment_user.id', 'question_comment_user.created_at', 'question_comment_user.email', 'question_comment_user.nickname', 'question_comment_user.photo',
 				'answer_user.id', 'answer_user.created_at', 'answer_user.email', 'answer_user.nickname', 'answer_user.photo',
 				'answer_comment_user.id', 'answer_comment_user.created_at', 'answer_comment_user.email', 'answer_comment_user.nickname', 'answer_comment_user.photo',
-				'hashtag.id', 'hashtag.name'
+				'hashtag.id', 'hashtag.name',
+				'question_like.is_like',
+				'answer_like.is_like'
 			])
 			.disableEscaping()
 			.getOne();
@@ -65,7 +80,7 @@ export class PageService {
 			answer: [],
 			comment: questionInfo.comment,
 			hashtag: questionInfo.hashtag,
-			question_like: questionInfo.question_like,
+			question_like: undefined,
 			is_solved: questionInfo.is_solved,
 			answer_count: questionInfo.answer_count,
 			like_count: questionInfo.like_count,
@@ -84,7 +99,7 @@ export class PageService {
 					question: curAnswer.question,
 					user: curAnswer.user,
 					comment: curAnswer.comment,
-					answer_like: curAnswer.answer_like,
+					answer_like: undefined,
 					like_count: curAnswer.like_count,
 					text: curAnswer.text,
 					is_chosen: curAnswer.is_chosen,
@@ -95,30 +110,15 @@ export class PageService {
 		}
 
 		if (userId) {
-			const questionLike = await this.questionLikeRepository
-				.createQueryBuilder('question_like')
-				.leftJoin('question_like.question', 'question')
-				.leftJoin('question_like.user', 'user')
-				.where('question.id = :question_id', { question_id: questionInfo.id })
-				.andWhere('user.id = :user_id', { user_id: userId })
-				.select(['question_like.is_like'])
-				.getOne();
+			const questionLike = questionInfo.question_like[0].is_like;
 			if (questionLike) {
-				questionDetailInfo.is_like = questionLike.is_like;
+				questionDetailInfo.is_like = questionLike;
 			}
 			if (questionInfo.answer) {
-				console.log('yes');
 				for (let i = 0; i < questionInfo.answer.length; i++) {
-					const answerLike = await this.answerLikeRepository
-						.createQueryBuilder('answer_like')
-						.leftJoin('answer_like.answer', 'answer')
-						.leftJoin('answer_like.user', 'user')
-						.where('answer.id = :answer_id', { answer_id: questionInfo.answer[i].id })
-						.andWhere('user.id = :user_id', { user_id: userId })
-						.select(['answer_like.is_like'])
-						.getOne();
+					const answerLike = questionInfo.answer[i].answer_like[0].is_like;
 					if (answerLike) {
-						questionDetailInfo.answer[i].is_like = answerLike.is_like;
+						questionDetailInfo.answer[i].is_like = answerLike;
 					}
 				}
 			}

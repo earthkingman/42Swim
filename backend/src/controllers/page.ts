@@ -113,7 +113,7 @@ const getQuestionDetailPage = async (req: DecodedRequest, res: Response, next: N
 	}
 }
 
-const increaseQuestionViewCount = async (req: any, res:Response, next: NextFunction)=>{
+const increaseQuestionViewCount = async (req: any, res: Response, next: NextFunction) => {
 	const questionId = req.body.questionId;
 	const pageService: PageService = new PageService();
 
