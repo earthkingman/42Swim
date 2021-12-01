@@ -5,7 +5,7 @@ dotenv.config();
 import { Response, NextFunction } from 'express';
 import { DecodedRequest } from "../definition/decoded_jwt"
 import { UserService } from "../service/user_service";
-
+import { RankService } from "../service/rank_service";
 import { UserNotFoundException } from "../exception/user_exception";
 
 const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) => {
@@ -47,9 +47,11 @@ const updateUserImage = async (req: any, res: Response, next: NextFunction) => {
 	const id = req.decodedId;
 	const photo = req.file.location;
 	const userService: UserService = new UserService();
+	const rankService: RankService = new RankService();
 
 	try {
 		const user = await userService.updateUserPhoto(id, photo);
+		await rankService.setUserProfile(id,photo);	
 		if (user) {
 			res.json({
 				exUser: user
@@ -69,9 +71,11 @@ const updateUserImage = async (req: any, res: Response, next: NextFunction) => {
 const deleteUserImage = async (req: any, res: Response, next: NextFunction) => {
 	const id = req.decodedId;
 	const userService: UserService = new UserService();
+	const rankService: RankService = new RankService();
 
 	try {
 		const user = await userService.deleteUserPhoto(id);
+		await rankService.setUserProfile(id,"");
 		if (user) {
 			res.status(200).json({
 				result: true
@@ -112,9 +116,11 @@ const updateUserNickname = async (req: DecodedRequest, res: Response, next: Next
 	const id = req.decodedId;
 	const { nickname } = req.body;
 	const userService: UserService = new UserService();
+	const rankService: RankService = new RankService();
 
 	try {
 		const user = await userService.updateUserNickname(id, nickname);
+		await rankService.setUserName(id, nickname);
 		if (user) {
 			res.status(200).json({
 				result: true

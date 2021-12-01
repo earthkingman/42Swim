@@ -6,6 +6,7 @@ import { Response, NextFunction } from 'express';
 
 import { DecodedRequest } from '../definition/decoded_jwt'
 import { PageService } from '../service/page_service';
+import { RankService } from "../service/rank_service";
 
 const getQuestionListPage = async (req: any, res: Response, next: NextFunction) => {
 	const pageNumber = Number(req.query.pageNumber) - 1;
@@ -13,12 +14,17 @@ const getQuestionListPage = async (req: any, res: Response, next: NextFunction) 
 	const offset = pageNumber * limit;
 	const pageInfo = { limit, offset };
 	const pageService: PageService = new PageService();
+	const rankService: RankService = new RankService();
 
 	try {
 		const { questionList, questionCount } = await pageService.getQuestionList(pageInfo);
+		const totalRankerInfo = await rankService.getTotalRankerInfo(10);
+		const monthRankerInfo = await rankService.getMonthRankerInfo(10);
 		return res.status(200).json({
 			quesiontList: questionList,
 			questionCount: questionCount,
+			totalRankerInfo: totalRankerInfo,
+			monthRankerInfo: monthRankerInfo,
 			message: "getList success",
 		})
 	} catch (error) {
@@ -35,12 +41,17 @@ const getQuestionListPageOrderByLike = async (req: any, res: Response, next: Nex
 	const offset = pageNumber * limit;
 	const pageInfo = { limit, offset };
 	const pageService: PageService = new PageService();
+	const rankService: RankService = new RankService();
 
 	try {
 		const { questionList, questionCount } = await pageService.getQuestionListOrderByLikeCount(pageInfo);
+		const totalRankerInfo = await rankService.getTotalRankerInfo(10);
+		const monthRankerInfo = await rankService.getMonthRankerInfo(10);
 		return res.status(200).json({
 			quesiontList: questionList,
 			questionCount: questionCount,
+			totalRankerInfo: totalRankerInfo,
+			monthRankerInfo: monthRankerInfo,
 			message: "getList success",
 		})
 	} catch (error) {
@@ -57,12 +68,17 @@ const getQuestionListPageUnsolved = async (req: any, res: Response, next: NextFu
 	const offset = pageNumber * limit;
 	const pageInfo = { limit, offset };
 	const pageService: PageService = new PageService();
+	const rankService: RankService = new RankService();
 
 	try {
 		const { questionList, questionCount } = await pageService.getQuestionListUnsolved(pageInfo);
+		const totalRankerInfo = await rankService.getTotalRankerInfo(10);
+		const monthRankerInfo = await rankService.getMonthRankerInfo(10);
 		return res.status(200).json({
 			quesiontList: questionList,
 			questionCount: questionCount,
+			totalRankerInfo: totalRankerInfo,
+			monthRankerInfo: monthRankerInfo,
 			message: "getList success",
 		})
 	} catch (error) {
@@ -80,12 +96,17 @@ const getQuestionListPageByKeyword = async (req: any, res: Response, next: NextF
 	const offset = pageNumber * limit;
 	const pageInfo = { limit, offset, keyword };
 	const pageService: PageService = new PageService();
+	const rankService: RankService = new RankService();
 
 	try {
 		const { questionList, questionCount } = await pageService.getQuestionListByKeyword(pageInfo);
+		const totalRankerInfo = await rankService.getTotalRankerInfo(10);
+		const monthRankerInfo = await rankService.getMonthRankerInfo(10);
 		return res.status(200).json({
 			quesiontList: questionList,
 			questionCount: questionCount,
+			totalRankerInfo: totalRankerInfo,
+			monthRankerInfo: monthRankerInfo,
 			message: "getList success",
 		})
 	} catch (error) {

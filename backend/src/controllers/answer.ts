@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { AnswerService } from '../service/answer_service';
+import { RankService } from '../service/rank_service';
 
 const deleteAnswer = async (req: DecodedRequest, res: Response) => {
 	const questionId = Number(req.query.questionId);
@@ -69,9 +70,12 @@ const chooseAnswer = async (req: DecodedRequest, res: Response)=>{
 	const userId = req.decodedId;
 	const { questionId, answerId, answerUserId } = req.body;
 	const answerService: AnswerService = new AnswerService();
+	const rankService: RankService = new RankService();
 
 	try {
 		await answerService.chooseAnswer({questionId,answerId,userId, answerUserId});
+		await rankService.updateRank(answerUserId, 15);
+		await rankService.updateRank(userId, 5);
 		return res.status(200).json({
 			result: true,
 			message: "Choose Success"
