@@ -1,3 +1,5 @@
+import util from "util";
+
 import { redisClient } from "../lib/redis";
 
 export class RankService {
@@ -26,16 +28,15 @@ export class RankService {
     }
 
     async getTotalRanker(range: number) {
-        return await redisClient.zrevrange('total_rank', 0, range-1, 'withscores', (err, result) => {
-            if (err) console.log(err);
-            console.log(result);
-            return result;
-        })
+        const getAsync = util.promisify(redisClient.zrevrange).bind(redisClient);
+        const temp = await getAsync('total_rank', 0, range-1, 'withscores');
+        return temp;
     }
 
     async getMonthRanker(range: number) {
-        const temp = await redisClient.zrevrange('month_rank', 0, range-1, 'withscores');
-        console.log("no callback : ",temp);
+        const getAsync = util.promisify(redisClient.zrevrange).bind(redisClient);
+        const temp = await getAsync('month_rank', 0, range-1, 'withscores');
+        return temp;
     }
 
     async getTotalRankerInfo(range: number){
@@ -80,19 +81,15 @@ export class RankService {
     }
 
     async getUserTotalRank(userId:number){
-        redisClient.zrank('total_rank', String(userId), (err, result)=> {
-            if (err) console.log(err);
-            console.log(result);
-            return result;
-        })
+        const getAsync = util.promisify(redisClient.zrank).bind(redisClient);
+        const userTotalRank = await getAsync('total_rank', String(userId));
+        return userTotalRank;
     }
 
     async getUserMonthRank(userId:number){
-        redisClient.zrank('month_rank', String(userId), (err, result)=> {
-            if (err) console.log(err);
-            console.log(result);
-            return result;
-        })
+        const getAsync = util.promisify(redisClient.zrank).bind(redisClient);
+        const userMonthRank = await getAsync('month_rank', String(userId));
+        return userMonthRank;
     }
 
     async setUserProfile(userId:number, profile:string){
@@ -110,18 +107,14 @@ export class RankService {
     }
 
     async getUserProfile(userId:number){
-        redisClient.get(String(userId) + "profile", (err, result) => {
-            if (err) console.log(err);
-            console.log(result);
-            return result;
-        })
+        const getAsync = util.promisify(redisClient.get).bind(redisClient);
+        const userProfile = await getAsync(String(userId) + "profile");
+        return userProfile;
     }
 
     async getUserName(userId:number){
-        redisClient.get(String(userId) + "name", (err, result) => {
-            if (err) console.log(err);
-            console.log(result);
-            return result;
-        })
+        const getAsync = util.promisify(redisClient.get).bind(redisClient);
+        const userName = await getAsync(String(userId) + "name");
+        return userName;
     }
 }
