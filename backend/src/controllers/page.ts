@@ -18,10 +18,6 @@ const getQuestionListPage = async (req: any, res: Response, next: NextFunction) 
 
 	try {
 		const { questionList, questionCount } = await pageService.getQuestionList(pageInfo);
-		const temp = await rankService.getTotalRanker(10);
-		console.log("test : ",temp);
-		const temp2 = await rankService.getMonthRanker(10);
-		console.log("test : ",temp2);
 		const totalRankerInfo = await rankService.getTotalRankerInfo(10);
 		const monthRankerInfo = await rankService.getMonthRankerInfo(10);
 		return res.status(200).json({

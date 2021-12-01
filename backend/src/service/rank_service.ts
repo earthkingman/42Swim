@@ -6,24 +6,20 @@ export class RankService {
     async setRank(userId:number) {
         redisClient.zadd('total_rank', 0, String(userId), (err, result) => {
             if (err) console.log(err);
-            console.log(result);
         })
 
         redisClient.zadd('month_rank', 0, String(userId), (err, result) => {
             if (err) console.log(err);
-            console.log(result);
         })
     }
 	
     async updateRank(userId:number, score:number) {
         redisClient.zincrby('total_rank', score, String(userId), (err, result) => {
             if (err) console.log(err);
-            console.log(result);
         })
     
         redisClient.zincrby('month_rank', score, String(userId), (err, result) => {
             if (err) console.log(err);
-            console.log(result);
         })
     }
 
@@ -41,7 +37,6 @@ export class RankService {
 
     async getTotalRankerInfo(range: number){
         const totalRanker = await this.getTotalRanker(range);
-        console.log("total : ", totalRanker);
         const totalRankerInfo = [];
         for (let i = 0; i < range ; i++){
             const id = Number(totalRanker[i*2]);
@@ -55,14 +50,11 @@ export class RankService {
             };
             totalRankerInfo.push(ranker);
         }
-        console.log("total : ", totalRankerInfo);
         return totalRankerInfo;
     }
 
     async getMonthRankerInfo(range: number){
         const monthRanker = await this.getMonthRanker(range);
-        console.log("month : ", monthRanker);
-
         const monthRankerInfo = [];
         for (let i = 0; i < range; i++){
             const id = Number(monthRanker[i*2]);
@@ -76,7 +68,6 @@ export class RankService {
             };
             monthRankerInfo.push(ranker);
         }
-        console.log('month : ',monthRankerInfo);
         return monthRankerInfo;
     }
 
@@ -95,14 +86,12 @@ export class RankService {
     async setUserProfile(userId:number, profile:string){
         redisClient.set(String(userId) + "profile", profile, (err, result) => {
             if (err) console.log(err);
-            console.log(result);
         })
     }
 
     async setUserName(userId:number, name:string){
         redisClient.set(String(userId) + "name", name, (err, result) => {
             if (err) console.log(err);
-            console.log(result);
         })
     }
 
