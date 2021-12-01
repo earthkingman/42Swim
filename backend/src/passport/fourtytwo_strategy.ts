@@ -29,9 +29,9 @@ export const fourtyTwoStrategy = () => {
             return done(null, exUser);
           } else {
             const rankService: RankService = new RankService();
-            rankService.setRank(newUser.id);
-            rankService.setUserName(newUser.id, newUser.nickname);
-            rankService.setUserProfile(newUser.id, newUser.photo);
+            await rankService.setRank(newUser.id);
+            await rankService.setUserName(newUser.id, newUser.nickname);
+            await rankService.setUserProfile(newUser.id, newUser.photo);
             return done(null, newUser);
           }
         } catch (error) {

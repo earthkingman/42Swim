@@ -51,7 +51,7 @@ const updateUserImage = async (req: any, res: Response, next: NextFunction) => {
 
 	try {
 		const user = await userService.updateUserPhoto(id, photo);
-		rankService.setUserProfile(id,photo);	
+		await rankService.setUserProfile(id,photo);	
 		if (user) {
 			res.json({
 				exUser: user
@@ -75,7 +75,7 @@ const deleteUserImage = async (req: any, res: Response, next: NextFunction) => {
 
 	try {
 		const user = await userService.deleteUserPhoto(id);
-		rankService.setUserProfile(id,"");
+		await rankService.setUserProfile(id,"");
 		if (user) {
 			res.status(200).json({
 				result: true
@@ -120,7 +120,7 @@ const updateUserNickname = async (req: DecodedRequest, res: Response, next: Next
 
 	try {
 		const user = await userService.updateUserNickname(id, nickname);
-		rankService.setUserName(id, nickname);
+		await rankService.setUserName(id, nickname);
 		if (user) {
 			res.status(200).json({
 				result: true
