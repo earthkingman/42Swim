@@ -66,24 +66,29 @@ export class PageService {
 				'answer_user.id', 'answer_user.created_at', 'answer_user.email', 'answer_user.nickname', 'answer_user.photo',
 				'answer_comment_user.id', 'answer_comment_user.created_at', 'answer_comment_user.email', 'answer_comment_user.nickname', 'answer_comment_user.photo',
 				'hashtag.id', 'hashtag.name',
-				'question_like.id',
-				'answer_like.id'
+				'question_like_user.id',
+				'question_like.is_like',
+				'answer_like_user.id',
+				'answer_like.is_like',
 			])
 			.disableEscaping()
 			.getOne();
-		console.log(questionInfo)
-		// const question_like = questionInfo.question_like.filter((like_list) => {
-		// 	if (like_list.id == userId)
-		// 		return true
-		// })
-		// const answer_like = [];
-		// for (let i = 0; i < questionInfo.answer.length; i++) {
-		// 	for (let j = 0; j < questionInfo.answer[i].answer_like.length; j++) {
-		// 		// console.log(questionInfo.answer[i].answer_like[j].id)
-		// 		if (questionInfo.answer[i].answer_like[j].id == userId)
-		// 			answer_like.push(i, true);
-		// 	}
-		// }
+
+		const question_like = questionInfo.question_like.filter((like_list) => {
+			if (like_list.user.id == userId)
+				return true
+		})
+
+		const answer_like = [];
+		
+		for (let i = 0; i < questionInfo.answer.length; i++) {
+			const cur_answer_like = questionInfo.answer[i].answer_like.filter((like_list) => {
+				if (like_list.user.id == userId)
+					return true
+			})
+			answer_like.push(cur_answer_like);
+		}
+
 		const questionDetailInfo: QuestionDetail = {
 			id: questionInfo.id,
 			created_at: questionInfo.created_at,
@@ -99,9 +104,8 @@ export class PageService {
 			view_count: questionInfo.view_count,
 			title: questionInfo.title,
 			text: questionInfo.text,
-			is_like: question_like != undefined ? true : null,
+			is_like: question_like !== undefined ? question_like[0].is_like : null,
 		};
-		// console.log(questionDetailInfo)
 		if (questionInfo.answer) {
 			for (let i = 0; i < questionInfo.answer.length; i++) {
 				const curAnswer = questionInfo.answer[i];
@@ -116,7 +120,7 @@ export class PageService {
 					like_count: curAnswer.like_count,
 					text: curAnswer.text,
 					is_chosen: curAnswer.is_chosen,
-					is_like: questionInfo.answer[i].answer_like[0].is_like || false,
+					is_like: answer_like[i][0] !== undefined ? answer_like[i][0].is_like : null,
 				}
 				questionDetailInfo.answer.push(AnswerDetail);
 			}
