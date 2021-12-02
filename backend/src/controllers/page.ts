@@ -123,13 +123,13 @@ const getQuestionDetailPage = async (req: DecodedRequest, res: Response, next: N
 	const pageService: PageService = new PageService();
 
 	try {
-		if (userId === undefined){
+		if (userId === undefined) {
 			const questionInfo = await pageService.getQuestionDetailNoAuth(questionId);
 			return res.status(200).json({
 				questionInfo: questionInfo
 			})
 		}
-		else{
+		else {
 			const questionInfo = await pageService.getQuestionDetail(questionId, userId);
 			return res.status(200).json({
 				questionInfo: questionInfo

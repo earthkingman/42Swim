@@ -43,8 +43,8 @@ export class PageService {
 			.innerJoin(`(${subQuery.getQuery()})`, 'covers',
 				'question.id = covers.covers_id')
 			.setParameters(subQuery.getParameters())
-			.andWhere('question_like_user.id = :question_like_userId', {question_like_userId:userId})
-			.andWhere('answer_like_user.id = :answer_like_userId', {answer_like_userId:userId})
+			// .andWhere('question_like_user.id = :question_like_userId', {question_like_userId:userId})
+			// .andWhere('answer_like_user.id = :answer_like_userId', {answer_like_userId:userId})
 			.leftJoin('question.hashtag', 'hashtag')
 			.leftJoin('question.user', 'question_user')
 			.leftJoin('question.comment', 'question_comment')
@@ -66,12 +66,24 @@ export class PageService {
 				'answer_user.id', 'answer_user.created_at', 'answer_user.email', 'answer_user.nickname', 'answer_user.photo',
 				'answer_comment_user.id', 'answer_comment_user.created_at', 'answer_comment_user.email', 'answer_comment_user.nickname', 'answer_comment_user.photo',
 				'hashtag.id', 'hashtag.name',
-				'question_like.is_like',
-				'answer_like.is_like'
+				'question_like.id',
+				'answer_like.id'
 			])
 			.disableEscaping()
 			.getOne();
-
+		console.log(questionInfo)
+		// const question_like = questionInfo.question_like.filter((like_list) => {
+		// 	if (like_list.id == userId)
+		// 		return true
+		// })
+		// const answer_like = [];
+		// for (let i = 0; i < questionInfo.answer.length; i++) {
+		// 	for (let j = 0; j < questionInfo.answer[i].answer_like.length; j++) {
+		// 		// console.log(questionInfo.answer[i].answer_like[j].id)
+		// 		if (questionInfo.answer[i].answer_like[j].id == userId)
+		// 			answer_like.push(i, true);
+		// 	}
+		// }
 		const questionDetailInfo: QuestionDetail = {
 			id: questionInfo.id,
 			created_at: questionInfo.created_at,
@@ -87,8 +99,9 @@ export class PageService {
 			view_count: questionInfo.view_count,
 			title: questionInfo.title,
 			text: questionInfo.text,
-			is_like: questionInfo.question_like[0].is_like,
+			is_like: question_like != undefined ? true : null,
 		};
+		// console.log(questionDetailInfo)
 		if (questionInfo.answer) {
 			for (let i = 0; i < questionInfo.answer.length; i++) {
 				const curAnswer = questionInfo.answer[i];
@@ -103,7 +116,7 @@ export class PageService {
 					like_count: curAnswer.like_count,
 					text: curAnswer.text,
 					is_chosen: curAnswer.is_chosen,
-					is_like: questionInfo.answer[i].answer_like[0].is_like,
+					is_like: questionInfo.answer[i].answer_like[0].is_like || false,
 				}
 				questionDetailInfo.answer.push(AnswerDetail);
 			}
