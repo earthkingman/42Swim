@@ -123,10 +123,18 @@ const getQuestionDetailPage = async (req: DecodedRequest, res: Response, next: N
 	const pageService: PageService = new PageService();
 
 	try {
-		const questionInfo = await pageService.getQuestionDetail(questionId, userId);
-		return res.status(200).json({
-			questionInfo: questionInfo
-		})
+		if (userId === undefined) {
+			const questionInfo = await pageService.getQuestionDetailNoAuth(questionId);
+			return res.status(200).json({
+				questionInfo: questionInfo
+			})
+		}
+		else {
+			const questionInfo = await pageService.getQuestionDetail(questionId, userId);
+			return res.status(200).json({
+				questionInfo: questionInfo
+			})
+		}
 	} catch (error) {
 		return res.status(500).json({
 			message: `An error occurred (${error.message})`
