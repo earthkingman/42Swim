@@ -43,8 +43,6 @@ export class PageService {
 			.innerJoin(`(${subQuery.getQuery()})`, 'covers',
 				'question.id = covers.covers_id')
 			.setParameters(subQuery.getParameters())
-			// .andWhere('question_like_user.id = :question_like_userId', {question_like_userId:userId})
-			// .andWhere('answer_like_user.id = :answer_like_userId', {answer_like_userId:userId})
 			.leftJoin('question.hashtag', 'hashtag')
 			.leftJoin('question.user', 'question_user')
 			.leftJoin('question.comment', 'question_comment')
