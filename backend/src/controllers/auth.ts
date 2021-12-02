@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { jwtUtil } from "../jwt-util/jwt_utils";
 import { redisClient } from "../lib/redis";
 import { UserService } from "../service/user_service";
+import { RankService } from "../service/rank_service";
 import { DecodedRequest } from "../definition/decoded_jwt";
 
 const login = (req: Request, res: Response, next: NextFunction) => {
@@ -66,6 +67,7 @@ const signup = async (req: any, res: Response) => {
 	const { nickname, email, password } = req.body;
 	const encryptedPassword = await bcrypt.hashSync(password, +process.env.SALT_ROUNDS);
 	const userService: UserService = new UserService();
+	const rankService: RankService = new RankService();
 
 	try {
 		const { exUser, newUser } = await userService.createUser({ email, nickname, password: encryptedPassword, photo: "" });
@@ -87,6 +89,9 @@ const signup = async (req: any, res: Response) => {
 			const refreshToken = jwtUtil.refreshSign();
 			redisClient.set(guestId, newUser.id, 'EX', 60 * 60 * 24 * 14);
 			redisClient.set(newUser.id, refreshToken, 'EX', 60 * 60 * 24 * 14);
+			await rankService.setRank(newUser.id);
+			await rankService.setUserName(newUser.id, newUser.nickname);
+			await rankService.setUserProfile(newUser.id, newUser.photo);
 
 			res.cookie("guestId", guestId, {
 			maxAge: 60000 * 60 * 24 * 14,

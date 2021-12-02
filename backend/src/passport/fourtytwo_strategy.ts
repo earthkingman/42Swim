@@ -5,6 +5,7 @@ import Strategy from "passport-42";
 const FortyTwoStrategy = Strategy;
 
 import { UserService } from "../service/user_service";
+import { RankService } from "../service/rank_service";
 
 export const fourtyTwoStrategy = () => {
 
@@ -27,6 +28,10 @@ export const fourtyTwoStrategy = () => {
           if (exUser) {
             return done(null, exUser);
           } else {
+            const rankService: RankService = new RankService();
+            await rankService.setRank(newUser.id);
+            await rankService.setUserName(newUser.id, newUser.nickname);
+            await rankService.setUserProfile(newUser.id, newUser.photo);
             return done(null, newUser);
           }
         } catch (error) {

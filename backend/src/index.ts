@@ -24,7 +24,7 @@ dotenv.config();
 const swaggerSpec = YAML.load(path.join(__dirname, '../build/swagger.yaml'))
 const app = express();
 if (process.env.NODE_ENV === 'production') {
-	Sentry.init({dsn: process.env.SENTRY_DSN});
+	Sentry.init({ dsn: process.env.SENTRY_DSN });
 	app.use(Sentry.Handlers.requestHandler());
 }
 
@@ -36,7 +36,7 @@ app.use(cookieParser());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 const corsOptions = {
-	origin: ["http://localhost:3000", "http://3.36.121.236", "http://42sof.justdev.net","https://42sof.justdev.net","https://3.36.121.236"],
+	origin: ["http://localhost:3000", "http://3.36.121.236", "http://42sof.justdev.net", "https://42sof.justdev.net", "https://3.36.121.236"],
 	credentials: true,
 };
 app.use(cors(corsOptions));
