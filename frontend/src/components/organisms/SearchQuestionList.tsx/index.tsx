@@ -11,12 +11,11 @@ const QuestionList = ({ ...props }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [menu, setMenu] = useState(0);
   const [page, setPage] = useState(1);
-  const { question, isLoading, isError } = useList(menu, page);
+  const { question, isLoading, isError } = useList(0, page);
 
   console.log(question);
 
   if (isError) return <div>Error!!</div>;
-  else if (isLoading) return <div>Loading</div>;
   else
     return (
       <S.QLWrapper>
@@ -53,8 +52,7 @@ const QuestionList = ({ ...props }) => {
                   <Skeleton />
                 </S.SkeletonItem>
               ))
-            : question?.quesiontList &&
-              question?.quesiontList.map((d, idx) => (
+            : question?.quesiontList.map((d, idx) => (
                 <ListItem
                   id={d.id}
                   title={d.title}

@@ -16,7 +16,6 @@ interface Props {
 }
 
 const MainPage = ({ history, ...props }: Props) => {
-  const [menu, setMenu] = useState(0);
   const { value: searchVal, onChange: onChangesearchVal, setValue } = useInput(
     ""
   );
@@ -45,7 +44,7 @@ const MainPage = ({ history, ...props }: Props) => {
               </Button>
             </>
           }
-          content1={<QuestionList menu={menu} setMenu={setMenu} />}
+          content1={<QuestionList />}
           content2={<Ranking />}
         />
       </BasicTemplate>
