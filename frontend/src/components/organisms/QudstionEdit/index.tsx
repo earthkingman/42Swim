@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import useInput from "../../../hooks/useInput";
 import A from "../../atoms/A";
 import Button from "../../atoms/Button";
@@ -29,7 +29,7 @@ const QuestionEdit = () => {
   }, [isLoading]);
 
   if (!isLoading && !isError) {
-    const onClick = async (e) => {
+    const onClick = async (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       if (!title.value || !text.value) {
         alert("제목과 내용을 모두 완성해주세요.");

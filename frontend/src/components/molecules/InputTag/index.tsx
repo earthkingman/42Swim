@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import Tag from "../../atoms/Tag";
 import Text from "../../atoms/Text";
 import * as S from "./style";
@@ -18,10 +19,12 @@ const InputTag = ({
   setTag,
   ...props
 }: InputTagProps) => {
-  const tagMsgEl: HTMLElement = document.getElementsByClassName("tagMsgEl")[0];
-  const InputTagEl: HTMLElement = document.getElementsByClassName(
+  const tagMsgEl: HTMLDivElement = document.getElementsByClassName(
+    "tagMsgEl"
+  )[0] as HTMLDivElement;
+  const InputTagEl: HTMLInputElement = document.getElementsByClassName(
     "tagInput"
-  )[0];
+  )[0] as HTMLInputElement;
 
   const validTag = new RegExp(/^[a-z0-9+#_]+$/);
 
@@ -33,7 +36,7 @@ const InputTag = ({
     InputTagEl.style.color = "black";
   };
 
-  const onChange = (e: Event) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     inputChange(e);
     if (e.target.value && validTag.test(e.target.value)) {
@@ -42,15 +45,17 @@ const InputTag = ({
     }
   };
 
-  const onKeyPress = (e: Event) => {
-    if (e.code === "Enter" || e.code === "Space") {
-      e.preventDefault();
-      if (validTag.test(value)) putTag();
-      else {
-        tagMsgEl.style.display = "block";
-        InputTagEl.style.color = "red";
+  const onKeyPress = () => {
+    return (e: KeyboardEvent) => {
+      if (e.code === "Enter" || e.code === "Space") {
+        e.preventDefault();
+        if (validTag.test(value)) putTag();
+        else {
+          tagMsgEl.style.display = "block";
+          InputTagEl.style.color = "red";
+        }
       }
-    }
+    };
   };
 
   const onDelCLick = (name: string) => {

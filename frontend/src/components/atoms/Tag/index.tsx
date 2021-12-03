@@ -4,8 +4,8 @@ import Text from "../Text";
 import DeleteBtn from "../../asset/icons/DeleteBtn";
 
 export interface TagProps {
+  key: string;
   name: string;
-  id: number;
   isDel: boolean;
   onDelClick: any;
 }
