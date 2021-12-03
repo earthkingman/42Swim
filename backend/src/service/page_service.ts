@@ -11,15 +11,9 @@ import { AnswerDetail } from "../definition/response_data";
 
 export class PageService {
 	private questionRepository: Repository<Question>;
-	private hashtagRepository: Repository<HashTag>;
-	private questionLikeRepository: Repository<QuestionLike>;
-	private answerLikeRepository: Repository<AnswerLike>;
 
 	constructor() {
 		this.questionRepository = getConnection().getRepository(Question);
-		this.hashtagRepository = getConnection().getRepository(HashTag);
-		this.questionLikeRepository = getConnection().getRepository(QuestionLike);
-		this.answerLikeRepository = getConnection().getRepository(AnswerLike);
 	}
 
 	async setQuestionViewCount(questionId) {
@@ -55,7 +49,7 @@ export class PageService {
 			.leftJoin('question_like.user', 'question_like_user')
 			.leftJoin('answer.answer_like', 'answer_like')
 			.leftJoin('answer_like.user', 'answer_like_user')
-			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.title', 'question.text',
+			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.title', 'question.text', 'question.answer_count',
 				'answer.id', 'answer.created_at', 'answer.like_count', 'answer.text', 'answer.is_chosen',
 				'question_comment.id', 'question_comment.created_at', 'question_comment.text',
 				'answer_comment.id', 'answer_comment.created_at', 'answer_comment.text',
@@ -72,19 +66,19 @@ export class PageService {
 			.disableEscaping()
 			.getOne();
 
-		const question_like = questionInfo.question_like.filter((like_list) => {
-			if (like_list.user.id == userId)
+		const questionLike = questionInfo.question_like.filter((likeList) => {
+			if (likeList.user.id == userId)
 				return true
 		})
 
-		const answer_like = [];
-		
+		const answerLike = [];
+
 		for (let i = 0; i < questionInfo.answer.length; i++) {
-			const cur_answer_like = questionInfo.answer[i].answer_like.filter((like_list) => {
-				if (like_list.user.id == userId)
+			const curAnswerLike = questionInfo.answer[i].answer_like.filter((likeList) => {
+				if (likeList.user.id == userId)
 					return true
 			})
-			answer_like.push(cur_answer_like);
+			answerLike.push(curAnswerLike);
 		}
 
 		const questionDetailInfo: QuestionDetail = {
@@ -102,8 +96,9 @@ export class PageService {
 			view_count: questionInfo.view_count,
 			title: questionInfo.title,
 			text: questionInfo.text,
-			is_like: question_like !== undefined ? question_like[0].is_like : null,
+			is_like: questionLike.length > 0 ? questionLike[0].is_like : null,
 		};
+
 		if (questionInfo.answer) {
 			for (let i = 0; i < questionInfo.answer.length; i++) {
 				const curAnswer = questionInfo.answer[i];
@@ -118,7 +113,7 @@ export class PageService {
 					like_count: curAnswer.like_count,
 					text: curAnswer.text,
 					is_chosen: curAnswer.is_chosen,
-					is_like: answer_like[i][0] !== undefined ? answer_like[i][0].is_like : null,
+					is_like: answerLike[i][0] !== undefined ? answerLike[i][0].is_like : null,
 				}
 				questionDetailInfo.answer.push(AnswerDetail);
 			}
