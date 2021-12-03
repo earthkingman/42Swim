@@ -1,15 +1,26 @@
 import useSWR from "swr";
 import axios from "axios";
-
 const fetcher = async (url: string) => {
   const res = await axios.get(url);
   console.log(res.data);
   return res.data;
 };
 
-const useList = (category: string, page: number) => {
+const useList = (menu: number, page: number) => {
   const url =
-    category === "normal"
+    menu === 0
+      ? `${
+          import.meta.env.VITE_API_HOST
+        }/pages/list/question?pageNumber=${page}`
+      : menu === 1
+      ? `${
+          import.meta.env.VITE_API_HOST
+        }/pages/list/question/like?pageNumber=${page}`
+      : menu === 2
+      ? `${
+          import.meta.env.VITE_API_HOST
+        }/pages/list/question/unsolved?pageNumber=${page}`
+      : menu === 3
       ? `${
           import.meta.env.VITE_API_HOST
         }/pages/list/question?pageNumber=${page}`

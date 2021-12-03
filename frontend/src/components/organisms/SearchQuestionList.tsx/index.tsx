@@ -11,7 +11,7 @@ const QuestionList = ({ ...props }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [menu, setMenu] = useState(0);
   const [page, setPage] = useState(1);
-  const { question, isLoading, isError } = useList(menu, page);
+  const { question, isLoading, isError } = useList(0, page);
 
   console.log(question);
 
