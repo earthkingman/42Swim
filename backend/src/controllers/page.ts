@@ -92,6 +92,7 @@ const getQuestionListPageUnsolved = async (req: any, res: Response, next: NextFu
 const getQuestionListPageByKeyword = async (req: any, res: Response, next: NextFunction) => {
 	const pageNumber = Number(req.query.pageNumber) - 1;
 	const keyword = req.query.keyword;
+	const orderBy = req.query.orderBy;
 	const limit = 8;
 	const offset = pageNumber * limit;
 	const pageInfo = { limit, offset, keyword };
@@ -99,7 +100,7 @@ const getQuestionListPageByKeyword = async (req: any, res: Response, next: NextF
 	const rankService: RankService = new RankService();
 
 	try {
-		const { questionList, questionCount } = await pageService.getQuestionListByKeyword(pageInfo);
+		const { questionList, questionCount } = await pageService.getQuestionListByKeyword(pageInfo, orderBy);
 		const totalRankerInfo = await rankService.getTotalRankerInfo(10);
 		const monthRankerInfo = await rankService.getMonthRankerInfo(10);
 		return res.status(200).json({
