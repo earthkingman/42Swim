@@ -20,6 +20,7 @@ const QuestionList = ({ menu, setMenu, ...props }: Props) => {
   console.log(question);
 
   if (isError) return <div>Error!!</div>;
+  else if (isLoading) return <div>Loading</div>;
   else
     return (
       <S.QLWrapper>
@@ -56,7 +57,8 @@ const QuestionList = ({ menu, setMenu, ...props }: Props) => {
                   <Skeleton />
                 </S.SkeletonItem>
               ))
-            : question?.quesiontList.map((d, idx) => (
+            : question?.quesiontList &&
+              question?.quesiontList.map((d, idx) => (
                 <ListItem
                   id={d.id}
                   title={d.title}
