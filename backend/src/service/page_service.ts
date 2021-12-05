@@ -277,6 +277,7 @@ export class PageService {
 
 	async getQuestionListByKeyword(pageInfo, orderBy) {
 		let subQuery;
+<<<<<<< Updated upstream
 
 		if (orderBy === "time") {
 			subQuery = await this.questionRepository
@@ -286,6 +287,22 @@ export class PageService {
 				.orderBy('covers.id', 'DESC')
 				.limit(pageInfo.limit)
 				.offset(pageInfo.offset)
+=======
+		pageInfo.keyword = ["123", "456", "789"]
+		if (orderBy === "time"){
+		subQuery = this.questionRepository
+			.createQueryBuilder('covers')
+			.where('covers.title like :title', { title: `%${pageInfo.keyword[0]}%` })
+		for(let i = 1; i < pageInfo.keyword.length; i++){
+			const subStr = 'covers.title like :title' + String(i);
+			const subTitle = "title"+ String(i);
+			subQuery.orWhere(subStr, { subTitle: `%${pageInfo.keyword[i]}%` })
+		}
+		subQuery.select(['covers.id'])
+			.orderBy('covers.id', 'DESC')
+			.limit(pageInfo.limit)
+			.offset(pageInfo.offset)
+>>>>>>> Stashed changes
 		}
 		else if (orderBy === "like") {
 			subQuery = await this.questionRepository
