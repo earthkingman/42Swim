@@ -278,34 +278,34 @@ export class PageService {
 	async getQuestionListByKeyword(pageInfo, orderBy) {
 		let subQuery;
 
-		if (orderBy === "time"){
-		subQuery = await this.questionRepository
-			.createQueryBuilder('covers')
-			.select(['covers.id'])
-			.where('covers.title like :title', { title: `%${pageInfo.keyword}%` })
-			.orderBy('covers.id', 'DESC')
-			.limit(pageInfo.limit)
-			.offset(pageInfo.offset)
+		if (orderBy === "time") {
+			subQuery = await this.questionRepository
+				.createQueryBuilder('covers')
+				.select(['covers.id'])
+				.where('covers.title like :title', { title: `%${pageInfo.keyword}%` })
+				.orderBy('covers.id', 'DESC')
+				.limit(pageInfo.limit)
+				.offset(pageInfo.offset)
 		}
-		else if (orderBy === "like"){
-		subQuery = await this.questionRepository
-			.createQueryBuilder('covers')
-			.select(['covers.id', 'covers.like_count'])
-			.where('covers.title like :title', { title: `%${pageInfo.keyword}%` })
-			.orderBy('covers.like_count', 'DESC')
-			.addOrderBy('covers.id', 'DESC')
-			.limit(pageInfo.limit)
-			.offset(pageInfo.offset)
+		else if (orderBy === "like") {
+			subQuery = await this.questionRepository
+				.createQueryBuilder('covers')
+				.select(['covers.id', 'covers.like_count'])
+				.where('covers.title like :title', { title: `%${pageInfo.keyword}%` })
+				.orderBy('covers.like_count', 'DESC')
+				.addOrderBy('covers.id', 'DESC')
+				.limit(pageInfo.limit)
+				.offset(pageInfo.offset)
 		}
-		else if (orderBy === "solving"){
-		subQuery = await this.questionRepository
-			.createQueryBuilder('covers')
-			.select(['covers.id', 'covers.like_count'])
-			.where('covers.title like :title', { title: `%${pageInfo.keyword}%` })
-			.andWhere('covers.is_solved = :is_solved', { is_solved: false })
-			.addOrderBy('covers.id', 'DESC')
-			.limit(pageInfo.limit)
-			.offset(pageInfo.offset)
+		else if (orderBy === "solving") {
+			subQuery = await this.questionRepository
+				.createQueryBuilder('covers')
+				.select(['covers.id', 'covers.like_count'])
+				.where('covers.title like :title', { title: `%${pageInfo.keyword}%` })
+				.andWhere('covers.is_solved = :is_solved', { is_solved: false })
+				.addOrderBy('covers.id', 'DESC')
+				.limit(pageInfo.limit)
+				.offset(pageInfo.offset)
 		}
 
 		const questionList = await this.questionRepository
