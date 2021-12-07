@@ -16,29 +16,29 @@ export class HashtagService {
             .find();
         return hashtags;
     }
-
+    //해시 테그로 검색하기
     async getQuestionByHashTag(pageInfo): Promise<any> {
         const subQuery = await this.questionRepository
-			.createQueryBuilder('covers')
-			.select(['covers.id'])
+            .createQueryBuilder('covers')
+            .select(['covers.id'])
             .leftJoin('covers.hashtag', 'hashtag')
             .where('hashtag.name = :name', { name: pageInfo.hashtag })
-			.orderBy('covers.id', 'DESC')
-			.limit(pageInfo.limit)
-			.offset(pageInfo.offset)
+            .orderBy('covers.id', 'DESC')
+            .limit(pageInfo.limit)
+            .offset(pageInfo.offset)
 
-		const questionList = await this.questionRepository
-			.createQueryBuilder('question')
-			.innerJoin(`(${subQuery.getQuery()})`, 'covers',
-				'question.id = covers.covers_id')
+        const questionList = await this.questionRepository
+            .createQueryBuilder('question')
+            .innerJoin(`(${subQuery.getQuery()})`, 'covers',
+                'question.id = covers.covers_id')
             .setParameters(subQuery.getParameters())
             .innerJoinAndSelect('question.user', 'question_user')
-			.leftJoin('question.hashtag', 'question_hashtag')
-			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
-				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
-				'question_hashtag.id', 'question_hashtag.name'
-			])
-			.getMany();
+            .leftJoin('question.hashtag', 'question_hashtag')
+            .select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
+                'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
+                'question_hashtag.id', 'question_hashtag.name'
+            ])
+            .getMany();
 
         const hashtageQuestionCount = await await this.hashtagRepository
             .createQueryBuilder('hashtag')
@@ -49,18 +49,24 @@ export class HashtagService {
 
         return { questionList, questionCount: hashtageQuestionCount.count };
     }
-
+    //해세 테그별 질문 갯수 조회하기
     async getQuestionCountOfHashTag(pageInfo): Promise<any> {
         const hashTagList = await this.hashtagRepository
             .createQueryBuilder('hashtag')
             .innerJoin('hashtag.question', 'question')
-            .select(['hashtag.id AS id','hashtag.name AS name'])
+            .select(['hashtag.id AS id', 'hashtag.name AS name'])
             .addSelect('COUNT(*) AS  questionCount')
             .groupBy('hashtag.name')
             .orderBy('questionCount', 'DESC')
             .limit(pageInfo.limit)
             .offset(pageInfo.offset)
             .getRawMany();
-        return hashTagList;
+
+        const hashTagListCount = await this.hashtagRepository
+            .createQueryBuilder('hashtag')
+            .innerJoin('hashtag.question', 'question')
+            .select('COUNT(*) AS count')
+            .getRawMany();
+        return { hashTagList, hashTagListCount: hashTagListCount[0].count };
     }
 }
