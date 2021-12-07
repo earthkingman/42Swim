@@ -15,6 +15,7 @@ import ThumbCount, { ThumbProps } from "../../molecules/ThumbCount";
 import * as S from "./sytle";
 
 export interface AnswerCardProps extends ThumbProps, AnswerProps {
+  id?: number;
   comment?: Array<CommentProps>;
 }
 
@@ -22,6 +23,7 @@ const AnswerCard = ({
   like_count,
   is_like,
   is_choosen,
+  isChoosable,
   comment,
   id,
   user,
@@ -29,8 +31,10 @@ const AnswerCard = ({
 }: AnswerCardProps) => {
   const { AnswerThumbPost } = useDetail();
   const { user: loginUser } = useAuth();
+
   const [isEdit, setisEdit] = useState(false);
   const { value: editVal, setValue: setEditVal } = useInput(props.text);
+
   const isLogin = loginUser ? true : false;
   const location = useLocation();
   const questionId = new URLSearchParams(location.search).get("id");
@@ -87,7 +91,6 @@ const AnswerCard = ({
       <Comment
         key={item.id}
         userEmail={loginUser?.email}
-        questionId={questionId}
         answerId={id}
         {...item}
       ></Comment>
@@ -100,15 +103,14 @@ const AnswerCard = ({
         is_choosen={is_choosen}
         like_count={like_count}
         is_like={is_like}
+        isChoosable={isChoosable}
         onUpClick={onUpClick}
         onDownClick={onDownClick}
       />
       <HideDiv width="100%" visible={!isEdit}>
         <PostBox isChecked={is_choosen}>
           <Answer {...props} id={id} user={user} />
-          <S.EditWrapper
-            visible={user?.email === loginUser?.email ? true : false}
-          >
+          <S.EditWrapper visible={user?.email === loginUser?.email}>
             <A
               fontcolor="deepgray"
               small={true}

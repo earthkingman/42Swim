@@ -1,3 +1,4 @@
+import useAuth from "../../../hooks/useAuth";
 import useDetail from "../../../hooks/useDetail";
 import AnswerCard from "../../organisms/AnswerCard";
 import AnswerWriting from "../../organisms/AnswerWriting";
@@ -6,11 +7,16 @@ import BasicTemplate from "../BasicTemplate";
 import DetailTemplat from "./template";
 
 const DetailPage = ({ ...props }: any) => {
-  const { answer, isLoading, isError } = useDetail();
+  const { question, answer, isLoading, isError } = useDetail();
+  const { user: loginUser, isLoading: loginUserLoading } = useAuth();
   let answerArr;
-  if (!isLoading) {
+  if (!isLoading && !loginUserLoading) {
     answerArr = answer?.map((item: any) => (
-      <AnswerCard key={item.id} {...item} />
+      <AnswerCard
+        key={item.id}
+        isChoosable={question.user.email === loginUser.email}
+        {...item}
+      />
     ));
   }
   if (isError) {
