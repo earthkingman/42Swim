@@ -14,6 +14,10 @@ const SearchInput = ({ onChange, onSearch, search, ...props }: Props) => {
     border: "1px solid #FFB84D",
   };
 
+  const onKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") onSearch();
+  };
+
   return (
     <>
       <SearchBox style={focus ? activeStyle : {}} {...props}>
@@ -21,6 +25,7 @@ const SearchInput = ({ onChange, onSearch, search, ...props }: Props) => {
           placeholder="검색할 내용을 입력하세요"
           value={search}
           border={false}
+          onKeyPress={onKeyPress}
           onChange={onChange}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}

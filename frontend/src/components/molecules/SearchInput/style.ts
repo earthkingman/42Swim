@@ -20,7 +20,14 @@ export const SearchBox = styled.div`
   }
 `;
 
-export const SInput = styled(Input)`
+interface SInputProps {
+  onKeyPress: any;
+  onChange: any;
+  onFocus: any;
+  onBlur: any;
+}
+
+export const SInput = styled(Input)<SInputProps>`
   width: 500px;
   height: 41px;
   border-radius: 20px 0 0 20px;
