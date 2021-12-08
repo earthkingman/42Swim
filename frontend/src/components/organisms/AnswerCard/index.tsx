@@ -15,7 +15,7 @@ import ThumbCount, { ThumbProps } from "../../molecules/ThumbCount";
 import * as S from "./sytle";
 
 export interface AnswerCardProps extends ThumbProps, AnswerProps {
-  id?: number;
+  id: number;
   comment?: Array<CommentProps>;
 }
 
@@ -29,7 +29,7 @@ const AnswerCard = ({
   user,
   ...props
 }: AnswerCardProps) => {
-  const { AnswerThumbPost } = useDetail();
+  const { AnswerThumbPost, ChoicePost } = useDetail();
   const { user: loginUser } = useAuth();
 
   const [isEdit, setisEdit] = useState(false);
@@ -54,6 +54,14 @@ const AnswerCard = ({
 
   const onDownClick = () => {
     checkUserAndPost(false);
+  };
+
+  const onChooseClick = () => {
+    if (
+      confirm("해당 답변을 채택하겠습니까? 채택 후에는 취소가 불가능합니다.") &&
+      questionId
+    )
+      ChoicePost(parseInt(questionId), id, user.id);
   };
 
   const editComment = async () => {
@@ -106,6 +114,7 @@ const AnswerCard = ({
         isChoosable={isChoosable}
         onUpClick={onUpClick}
         onDownClick={onDownClick}
+        onChooseClick={onChooseClick}
       />
       <HideDiv width="100%" visible={!isEdit}>
         <PostBox isChecked={is_choosen}>

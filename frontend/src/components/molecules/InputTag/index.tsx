@@ -9,6 +9,7 @@ interface InputTagProps {
   setValue: any;
   tag: Array<string>;
   setTag: any;
+  placeholder: string;
 }
 
 const InputTag = ({
@@ -17,6 +18,7 @@ const InputTag = ({
   setValue,
   tag,
   setTag,
+  placeholder,
   ...props
 }: InputTagProps) => {
   const tagMsgEl: HTMLDivElement = document.getElementsByClassName(
@@ -45,17 +47,15 @@ const InputTag = ({
     }
   };
 
-  const onKeyPress = () => {
-    return (e: KeyboardEvent) => {
-      if (e.code === "Enter" || e.code === "Space") {
-        e.preventDefault();
-        if (validTag.test(value)) putTag();
-        else {
-          tagMsgEl.style.display = "block";
-          InputTagEl.style.color = "red";
-        }
+  const onKeyPress = (e: KeyboardEvent) => {
+    if (e.code === "Enter" || e.code === "Space") {
+      e.preventDefault();
+      if (validTag.test(value)) putTag();
+      else {
+        tagMsgEl.style.display = "block";
+        InputTagEl.style.color = "red";
       }
-    };
+    }
   };
 
   const onDelCLick = (name: string) => {
@@ -69,7 +69,7 @@ const InputTag = ({
     );
   });
   return (
-    <S.Wrap>
+    <S.Wrap {...props}>
       <S.WrapTag>{tagPreView}</S.WrapTag>
       <S.Input
         value={value}
@@ -77,7 +77,7 @@ const InputTag = ({
         onChange={onChange}
         onBlur={putTag}
         onKeyPress={onKeyPress}
-        {...props}
+        placeholder={placeholder}
       />
       <Text
         className="tagMsgEl"

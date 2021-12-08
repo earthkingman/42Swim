@@ -79,7 +79,7 @@ const QuestionWriting = () => {
         setValue={inputTag.setValue}
         tag={tag}
         setTag={setTag}
-        placeholder="태그를 입력하세요 ex) #ft_printf"
+        placeholder="태그를 입력하세요 ex) ft_printf"
       />
       <Divider weight="bold" width="4rem" />
       <S.MarkDownBtnWrap>

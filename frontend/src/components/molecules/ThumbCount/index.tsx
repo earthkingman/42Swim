@@ -1,4 +1,4 @@
-import ChoiceBtn from "../../atoms/ChoiceBtn";
+import ChooseBtn from "../../atoms/ChooseBtn";
 import Text from "../../atoms/Text";
 import ThumbDownBtn from "../../atoms/ThumbDownBtn";
 import ThumbUpBtn from "../../atoms/ThumbUpBtn";
@@ -10,6 +10,7 @@ export interface ThumbProps {
   isChoosable?: boolean;
   onUpClick?: any;
   onDownClick?: any;
+  onChooseClick?: any;
 }
 
 const ThumbCount = ({
@@ -19,6 +20,7 @@ const ThumbCount = ({
   is_choosen,
   onUpClick,
   onDownClick,
+  onChooseClick,
   ...props
 }: ThumbProps) => {
   //todo: set like api
@@ -42,7 +44,11 @@ const ThumbCount = ({
           active={is_like === false ? true : false}
         />
       </ThumbCountIconWrapper>
-      <ChoiceBtn isChoosen={is_choosen} isChoosable={isChoosable}></ChoiceBtn>
+      <ChooseBtn
+        isChoosen={is_choosen}
+        isChoosable={isChoosable}
+        onClick={onChooseClick}
+      ></ChooseBtn>
     </ThumbCountWrapper>
   );
 };
