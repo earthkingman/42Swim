@@ -24,33 +24,21 @@ export class UserService {
 		this.commentRepository = getConnection().getRepository(Comment);
 	}
 
-	async getUserProfile(userId: number){
+	async getUserProfile(userId: number) {
 		const user = await this.userRepository
 			.createQueryBuilder('user')
+			.innerJoinAndSelect('user.question', 'question')
+			.innerJoinAndSelect('user.answer', 'answer')
+			.innerJoinAndSelect('user.comment', 'comment')
 			.where('user.id = :userId', { userId })
-			.select(['user.id', 'user.nickname', 'user.email', 'user.photo', 'user.liked_count'])
 			.getOne();
 
-
-		const questionCount = await this.questionRepository
-			.createQueryBuilder('question')
-			.innerJoin('user', 'question_user')
-			.where('question_user.id =: userId', {userId})
-			.getCount();
-
-		const answerCount = await this.answerRepository
-			.createQueryBuilder('answer')
-			.innerJoin('user', 'answer_user')
-			.where('answer_user.id =: userId', {userId})
-			.getCount();
-
-		const commentCount = await this.commentRepository
-			.createQueryBuilder('comment')
-			.innerJoin('user', 'comment_user')
-			.where('comment_user.id =: userId', {userId})
-			.getCount();
-		
-		const userProfile = {user, questionCount, answerCount, commentCount};
+		const userProfile = {
+			user: user,
+			questionCount: user.question.length,
+			answerCount: user.answer.length,
+			commentCount: user.comment.length
+		};
 		return userProfile;
 	}
 

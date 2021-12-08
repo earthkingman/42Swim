@@ -9,7 +9,7 @@ import { RankService } from "../service/rank_service";
 import { UserNotFoundException } from "../exception/user_exception";
 
 const getProfile = async (req: DecodedRequest, res: Response, next: NextFunction) => {
-	const userId:number = Number(req.query.userId);
+	const userId: number = Number(req.query.userId);
 	const userService: UserService = new UserService();
 	const rankService: RankService = new RankService();
 
@@ -32,12 +32,12 @@ const getProfile = async (req: DecodedRequest, res: Response, next: NextFunction
 			res.status(200).json({
 				email: user.email,
 				nickname: user.nickname,
-				image : image,
-				monthScore : userMonthScore,
-				totalScore : userTotalScore,
-				questionCount : userProfile.questionCount,
-				answerCount : userProfile.answerCount,
-				commentCount : userProfile.commentCount,
+				image: image,
+				monthScore: userMonthScore,
+				totalScore: userTotalScore,
+				questionCount: userProfile.questionCount,
+				answerCount: userProfile.answerCount,
+				commentCount: userProfile.commentCount,
 			})
 		}
 		else {
@@ -98,7 +98,7 @@ const updateUserImage = async (req: any, res: Response, next: NextFunction) => {
 
 	try {
 		const user = await userService.updateUserPhoto(id, photo);
-		await rankService.setUserProfile(id,photo);	
+		await rankService.setUserProfile(id, photo);
 		if (user) {
 			res.json({
 				exUser: user
@@ -122,7 +122,7 @@ const deleteUserImage = async (req: any, res: Response, next: NextFunction) => {
 
 	try {
 		const user = await userService.deleteUserPhoto(id);
-		await rankService.setUserProfile(id,"");
+		await rankService.setUserProfile(id, "");
 		if (user) {
 			res.status(200).json({
 				result: true
