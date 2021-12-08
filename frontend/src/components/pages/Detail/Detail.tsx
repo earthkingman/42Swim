@@ -15,6 +15,7 @@ const DetailPage = ({ ...props }: any) => {
       <AnswerCard
         key={item.id}
         isChoosable={question.user.email === loginUser.email}
+        is_solved={question.is_solved}
         {...item}
       />
     ));

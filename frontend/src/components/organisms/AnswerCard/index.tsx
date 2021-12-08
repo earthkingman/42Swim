@@ -16,10 +16,12 @@ import * as S from "./sytle";
 
 export interface AnswerCardProps extends ThumbProps, AnswerProps {
   id: number;
+  is_solved?: boolean;
   comment?: Array<CommentProps>;
 }
 
 const AnswerCard = ({
+  is_solved,
   like_count,
   is_like,
   is_choosen,
@@ -108,6 +110,7 @@ const AnswerCard = ({
   return (
     <S.AnswerCardWrapper {...props}>
       <ThumbCount
+        is_solved={is_solved}
         is_choosen={is_choosen}
         like_count={like_count}
         is_like={is_like}

@@ -4,26 +4,22 @@ import CheckActive from "../../asset/icons/Check/active";
 import CheckInactive from "../../asset/icons/Check/inactive";
 
 interface ChooseBtnProps {
+  is_solved?: boolean;
   isChoosen?: boolean;
   isChoosable?: boolean;
   onClick?: any;
 }
 
 const ChooseBtn = ({
+  is_solved,
   isChoosen,
   isChoosable,
   onClick,
   ...props
 }: ChooseBtnProps) => {
   const [hover, setHover] = useState(false);
-  if (isChoosen && !isChoosable) return <Check {...props} />;
-  else if (isChoosen && isChoosable)
-    return (
-      <button onClick={onClick}>
-        <Check />
-      </button>
-    );
-  else if (isChoosable)
+  if (is_solved && isChoosen) return <Check {...props} />;
+  else if (!is_solved && isChoosable)
     return (
       <button
         onClick={onClick}
