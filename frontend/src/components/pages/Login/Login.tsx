@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 import { mutate } from "swr";
-// import useAuth from "../../../hooks/useAuth";
 import A from "../../atoms/A";
 import Button from "../../atoms/Button";
 import Input from "../../atoms/Input";

@@ -5,20 +5,20 @@ import CheckInactive from "../../asset/icons/Check/inactive";
 
 interface ChooseBtnProps {
   is_solved?: boolean;
-  isChoosen?: boolean;
+  isChosen?: boolean;
   isChoosable?: boolean;
   onClick?: any;
 }
 
 const ChooseBtn = ({
   is_solved,
-  isChoosen,
+  isChosen,
   isChoosable,
   onClick,
   ...props
 }: ChooseBtnProps) => {
   const [hover, setHover] = useState(false);
-  if (is_solved && isChoosen) return <Check {...props} />;
+  if (is_solved && isChosen) return <Check {...props} />;
   else if (!is_solved && isChoosable)
     return (
       <button

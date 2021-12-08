@@ -14,7 +14,9 @@ const DetailPage = ({ ...props }: any) => {
     answerArr = answer?.map((item: any) => (
       <AnswerCard
         key={item.id}
-        isChoosable={question.user.email === loginUser.email}
+        isChoosable={
+          loginUser ? question.user.email === loginUser.email : false
+        }
         is_solved={question.is_solved}
         {...item}
       />

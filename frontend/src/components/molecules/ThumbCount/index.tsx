@@ -7,7 +7,7 @@ export interface ThumbProps {
   like_count: number;
   is_solved?: boolean;
   is_like?: boolean;
-  is_choosen?: boolean;
+  is_chosen?: boolean;
   isChoosable?: boolean;
   onUpClick?: any;
   onDownClick?: any;
@@ -19,7 +19,7 @@ const ThumbCount = ({
   is_solved,
   is_like,
   isChoosable,
-  is_choosen,
+  is_chosen,
   onUpClick,
   onDownClick,
   onChooseClick,
@@ -47,7 +47,7 @@ const ThumbCount = ({
         />
       </ThumbCountIconWrapper>
       <ChooseBtn
-        isChoosen={is_choosen}
+        isChosen={is_chosen}
         isChoosable={isChoosable}
         onClick={onChooseClick}
         is_solved={is_solved}

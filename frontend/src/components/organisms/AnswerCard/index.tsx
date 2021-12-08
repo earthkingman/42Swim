@@ -24,7 +24,7 @@ const AnswerCard = ({
   is_solved,
   like_count,
   is_like,
-  is_choosen,
+  is_chosen,
   isChoosable,
   comment,
   id,
@@ -111,7 +111,7 @@ const AnswerCard = ({
     <S.AnswerCardWrapper {...props}>
       <ThumbCount
         is_solved={is_solved}
-        is_choosen={is_choosen}
+        is_chosen={is_chosen}
         like_count={like_count}
         is_like={is_like}
         isChoosable={isChoosable}
@@ -120,9 +120,11 @@ const AnswerCard = ({
         onChooseClick={onChooseClick}
       />
       <HideDiv width="100%" visible={!isEdit}>
-        <PostBox isChecked={is_choosen}>
+        <PostBox isChecked={is_chosen}>
           <Answer {...props} id={id} user={user} />
-          <S.EditWrapper visible={user?.email === loginUser?.email}>
+          <S.EditWrapper
+            visible={isLogin ? user?.email === loginUser?.email : false}
+          >
             <A
               fontcolor="deepgray"
               small={true}
