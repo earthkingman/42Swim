@@ -1,3 +1,4 @@
+import { RowSBDiv } from "./../../atoms/Div/index";
 import styled from "styled-components";
 import Box from "../../atoms/Box";
 
@@ -5,11 +6,23 @@ export const QLWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 70%;
+  width: 100%;
 
   @media (max-width: 910px) {
     width: 100%;
   }
+`;
+
+export const FilterPanel = styled(RowSBDiv)`
+  width: 100%;
+  padding: 0 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+`;
+
+export const ResultSpan = styled.span`
+  font-size: 18px;
+  font-weight: 700;
 `;
 
 export const SkeletonItem = styled.div`

@@ -4,14 +4,17 @@ import Pagination from "../../molecules/Pagination";
 import { ColumnSADiv } from "../../atoms/Div";
 import Tab, { TabItem } from "../../molecules/Tab";
 import { useState } from "react";
-import useList from "../../../hooks/useList";
 import Skeleton from "../../atoms/Skeleton";
+import useSearchList from "../../../hooks/useSearchList";
 
-const QuestionList = ({ ...props }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface Props {
+  keyword: string;
+}
+
+const SearchQuestionList = ({ keyword, ...props }: Props) => {
   const [menu, setMenu] = useState(0);
   const [page, setPage] = useState(1);
-  const { question, isLoading, isError } = useList(0, page);
+  const { question, isLoading, isError } = useSearchList(menu, page, keyword);
 
   console.log(question);
 
@@ -19,33 +22,33 @@ const QuestionList = ({ ...props }) => {
   else
     return (
       <S.QLWrapper>
-        <Tab {...props}>
-          <TabItem
-            active={menu === 0 ? true : false}
-            onTabClick={() => setMenu(0)}
-          >
-            최신순
-          </TabItem>
-          <TabItem
-            active={menu === 1 ? true : false}
-            onTabClick={() => setMenu(1)}
-          >
-            인기순
-          </TabItem>
-          <TabItem
-            active={menu === 2 ? true : false}
-            onTabClick={() => setMenu(2)}
-          >
-            답변 필요
-          </TabItem>
-          <TabItem
-            active={menu === 3 ? true : false}
-            onTabClick={() => setMenu(3)}
-          >
-            태그
-          </TabItem>
-        </Tab>
         <S.List>
+          <S.FilterPanel>
+            <S.ResultSpan>검색결과 ({question.questionCount}건)</S.ResultSpan>
+            <Tab size="sm" {...props}>
+              <TabItem
+                size="sm"
+                active={menu === 0 ? true : false}
+                onTabClick={() => setMenu(0)}
+              >
+                최신순
+              </TabItem>
+              <TabItem
+                size="sm"
+                active={menu === 1 ? true : false}
+                onTabClick={() => setMenu(1)}
+              >
+                인기순
+              </TabItem>
+              <TabItem
+                size="sm"
+                active={menu === 2 ? true : false}
+                onTabClick={() => setMenu(2)}
+              >
+                답변 필요
+              </TabItem>
+            </Tab>
+          </S.FilterPanel>
           {isLoading
             ? [...Array(8)].map((d, idx) => (
                 <S.SkeletonItem key={idx}>
@@ -81,4 +84,4 @@ const QuestionList = ({ ...props }) => {
     );
 };
 
-export default QuestionList;
+export default SearchQuestionList;
