@@ -7,12 +7,14 @@ const fetcher = async (url: string) => {
   return res.data;
 };
 
-const useList = (keyword: string, page: number) => {
+const useSearchList = (menu: number, page: number, keyword: string) => {
+  const orderBy = menu === 0 ? "time" : menu === 1 ? "like" : "solving";
   const url = `${
     import.meta.env.VITE_API_HOST
-  }/pages/list/question/keyword?pageNumber=${page}&keyword=${keyword}`;
+  }/pages/list/question/keyword?pageNumber=${page}&keyword=${keyword}&orderBy=${orderBy}`;
   const { data, error } = useSWR(url, fetcher);
 
+  console.log("url", url);
   return {
     question: data,
     isLoading: !error && !data,
@@ -20,4 +22,4 @@ const useList = (keyword: string, page: number) => {
   };
 };
 
-export default useList;
+export default useSearchList;
