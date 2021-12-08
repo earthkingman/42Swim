@@ -42,7 +42,7 @@ export class PageService {
 			.leftJoinAndSelect('question_comment.user', 'question_comment_user')
 			.leftJoinAndSelect('answer_comment.user', 'answer_comment_user')
 			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.title', 'question.text',
-				'answer.id', 'answer.created_at', 'answer.like_count', 'answer.text', 'answer.is_chosen',
+				'answer.id', 'answer.created_at', 'answer.like_count', 'answer.text', 'answer.is_choosen',
 				'question_comment.id', 'question_comment.created_at', 'question_comment.text',
 				'answer_comment.id', 'answer_comment.created_at', 'answer_comment.text',
 				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
@@ -84,7 +84,7 @@ export class PageService {
 					answer_like: curAnswer.answer_like,
 					like_count: curAnswer.like_count,
 					text: curAnswer.text,
-					is_chosen: curAnswer.is_chosen,
+					is_choosen: curAnswer.is_choosen,
 					is_like: null,
 				}
 				questionDetailInfo.answer.push(AnswerDetail);
@@ -143,7 +143,7 @@ export class PageService {
 			.leftJoin('question_comment.user', 'question_comment_user')
 			.leftJoin('answer_comment.user', 'answer_comment_user')
 			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.title', 'question.text',
-				'answer.id', 'answer.created_at', 'answer.like_count', 'answer.text', 'answer.is_chosen',
+				'answer.id', 'answer.created_at', 'answer.like_count', 'answer.text', 'answer.is_choosen',
 				'question_comment.id', 'question_comment.created_at', 'question_comment.text',
 				'answer_comment.id', 'answer_comment.created_at', 'answer_comment.text',
 				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
@@ -185,7 +185,7 @@ export class PageService {
 					answer_like: undefined,
 					like_count: curAnswer.like_count,
 					text: curAnswer.text,
-					is_chosen: curAnswer.is_chosen,
+					is_choosen: curAnswer.is_choosen,
 					is_like: null,
 				}
 				questionDetailInfo.answer.push(AnswerDetail);
@@ -277,40 +277,40 @@ export class PageService {
 
 	async getQuestionListByKeyword(pageInfo, orderBy) {
 		const keywords = pageInfo.keyword.split(" ");
-		
+
 		let subQuery;
 
 		subQuery = this.questionRepository
 			.createQueryBuilder('covers')
 			.where('covers.title like :title', { title: `%${keywords[0]}%` })
-		for(let i = 1; i < keywords.length; i++){
+		for (let i = 1; i < keywords.length; i++) {
 			const subStr = 'covers.title like :title' + String(i);
-			const subTitle = "title"+ String(i);
-			subQuery.orWhere(subStr, { [subTitle] : `%${keywords[i]}%` })
+			const subTitle = "title" + String(i);
+			subQuery.orWhere(subStr, { [subTitle]: `%${keywords[i]}%` })
 		}
 
-		if (orderBy === "time"){
-		subQuery.select(['covers.id'])
-			.orderBy('covers.id', 'DESC')
-			.limit(pageInfo.limit)
-			.offset(pageInfo.offset)
+		if (orderBy === "time") {
+			subQuery.select(['covers.id'])
+				.orderBy('covers.id', 'DESC')
+				.limit(pageInfo.limit)
+				.offset(pageInfo.offset)
 		}
-		else if (orderBy === "like"){
-		subQuery
-			.select(['covers.id', 'covers.like_count'])
-			.orderBy('covers.like_count', 'DESC')
-			.addOrderBy('covers.id', 'DESC')
-			.limit(pageInfo.limit)
-			.offset(pageInfo.offset)
+		else if (orderBy === "like") {
+			subQuery
+				.select(['covers.id', 'covers.like_count'])
+				.orderBy('covers.like_count', 'DESC')
+				.addOrderBy('covers.id', 'DESC')
+				.limit(pageInfo.limit)
+				.offset(pageInfo.offset)
 		}
 
-		else if (orderBy === "solving"){
-		subQuery 
-			.select(['covers.id', 'covers.like_count'])
-			.andWhere('covers.is_solved = :is_solved', { is_solved: false })
-			.addOrderBy('covers.id', 'DESC')
-			.limit(pageInfo.limit)
-			.offset(pageInfo.offset)
+		else if (orderBy === "solving") {
+			subQuery
+				.select(['covers.id', 'covers.like_count'])
+				.andWhere('covers.is_solved = :is_solved', { is_solved: false })
+				.addOrderBy('covers.id', 'DESC')
+				.limit(pageInfo.limit)
+				.offset(pageInfo.offset)
 		}
 
 		const questionList = await this.questionRepository

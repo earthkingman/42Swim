@@ -31,5 +31,5 @@ export class Answer extends Base {
     text: string;
 
     @Column({ default: false })
-    is_chosen: boolean
+    is_choosen: boolean
 }

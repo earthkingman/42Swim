@@ -142,25 +142,25 @@ export class AnswerService {
 		}
 	}
 
-	async chooseAnswer(chooseAnswerInfo):Promise<any>{
-		const { userId, questionId, answerId, answerUserId} = chooseAnswerInfo;
+	async chooseAnswer(chooseAnswerInfo): Promise<any> {
+		const { userId, questionId, answerId, answerUserId } = chooseAnswerInfo;
 		const answer = await this.answerRepository
 			.findOne({
 				where: { id: answerId, user: { id: answerUserId }, question: { id: questionId } },
 				relations: ['user', 'question']
 			});
 		const question = await this.questionRepository
-			.findOne({ 
-				where: { id: questionId, user: {id: userId} },
+			.findOne({
+				where: { id: questionId, user: { id: userId } },
 				relations: ['user']
 			});
-		if (question === undefined){
+		if (question === undefined) {
 			const noAuthQuestion = await this.questionRepository
-				.findOne({ where: { id: questionId}});
-			if (noAuthQuestion === undefined){
+				.findOne({ where: { id: questionId } });
+			if (noAuthQuestion === undefined) {
 				throw new QuestionNotFoundException(questionId);
 			}
-			else{
+			else {
 				throw new QuestionForbiddenException(questionId);
 			}
 		}
@@ -183,7 +183,7 @@ export class AnswerService {
 		}
 		await this.queryRunner.startTransaction();
 		try {
-			answer.is_chosen = true;
+			answer.is_choosen = true;
 			question.is_solved = true;
 			await this.answerRepository.save(answer);
 			await this.questionRepository.save(question);
