@@ -15,22 +15,28 @@ import ThumbCount, { ThumbProps } from "../../molecules/ThumbCount";
 import * as S from "./sytle";
 
 export interface AnswerCardProps extends ThumbProps, AnswerProps {
+  id: number;
+  is_solved?: boolean;
   comment?: Array<CommentProps>;
 }
 
 const AnswerCard = ({
+  is_solved,
   like_count,
   is_like,
-  is_choosen,
+  is_chosen,
+  isChoosable,
   comment,
   id,
   user,
   ...props
 }: AnswerCardProps) => {
-  const { AnswerThumbPost } = useDetail();
+  const { AnswerThumbPost, ChoicePost } = useDetail();
   const { user: loginUser } = useAuth();
+
   const [isEdit, setisEdit] = useState(false);
   const { value: editVal, setValue: setEditVal } = useInput(props.text);
+
   const isLogin = loginUser ? true : false;
   const location = useLocation();
   const questionId = new URLSearchParams(location.search).get("id");
@@ -50,6 +56,14 @@ const AnswerCard = ({
 
   const onDownClick = () => {
     checkUserAndPost(false);
+  };
+
+  const onChooseClick = () => {
+    if (
+      confirm("해당 답변을 채택하겠습니까? 채택 후에는 취소가 불가능합니다.") &&
+      questionId
+    )
+      ChoicePost(parseInt(questionId), id, user.id);
   };
 
   const editComment = async () => {
@@ -87,7 +101,6 @@ const AnswerCard = ({
       <Comment
         key={item.id}
         userEmail={loginUser?.email}
-        questionId={questionId}
         answerId={id}
         {...item}
       ></Comment>
@@ -97,17 +110,20 @@ const AnswerCard = ({
   return (
     <S.AnswerCardWrapper {...props}>
       <ThumbCount
-        is_choosen={is_choosen}
+        is_solved={is_solved}
+        is_chosen={is_chosen}
         like_count={like_count}
         is_like={is_like}
+        isChoosable={isChoosable}
         onUpClick={onUpClick}
         onDownClick={onDownClick}
+        onChooseClick={onChooseClick}
       />
       <HideDiv width="100%" visible={!isEdit}>
-        <PostBox isChecked={is_choosen}>
+        <PostBox isChecked={is_chosen}>
           <Answer {...props} id={id} user={user} />
           <S.EditWrapper
-            visible={user?.email === loginUser?.email ? true : false}
+            visible={isLogin ? user?.email === loginUser?.email : false}
           >
             <A
               fontcolor="deepgray"

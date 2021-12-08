@@ -62,6 +62,7 @@ const GlobalStyle = createGlobalStyle`
     border-spacing: 0;
   }
   button {
+    background-color: inherit;
     border: none;
     padding: 0;
   }
