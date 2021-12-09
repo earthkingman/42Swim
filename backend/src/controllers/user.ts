@@ -17,27 +17,13 @@ const getProfile = async (req: DecodedRequest, res: Response, next: NextFunction
 		const userProfile = await userService.getUserProfile(userId);
 		const userMonthScore = await rankService.getUserMonthRank(userId);
 		const userTotalScore = await rankService.getUserTotalRank(userId);
-		const user = userProfile.user;
 
-		let image = null;
-		if (user.photo !== "") {
-			if (user.photo[0] === 'h') {
-				image = user.photo;
-			}
-			else {
-				image = process.env.S3 + user.photo;
-			}
+		if (userProfile.photo == ""){
+			userProfile.photo = null;
 		}
-		if (user) {
+		if (userProfile) {
 			res.status(200).json({
-				email: user.email,
-				nickname: user.nickname,
-				image: image,
-				monthScore: userMonthScore,
-				totalScore: userTotalScore,
-				questionCount: userProfile.questionCount,
-				answerCount: userProfile.answerCount,
-				commentCount: userProfile.commentCount,
+				userProfile
 			})
 		}
 		else {

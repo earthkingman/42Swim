@@ -1,5 +1,5 @@
-import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 dotenv.config();
 
 import { getConnection, Repository } from "typeorm";
@@ -27,19 +27,14 @@ export class UserService {
 	async getUserProfile(userId: number) {
 		const user = await this.userRepository
 			.createQueryBuilder('user')
-			.innerJoinAndSelect('user.question', 'question')
-			.innerJoinAndSelect('user.answer', 'answer')
-			.innerJoinAndSelect('user.comment', 'comment')
 			.where('user.id = :userId', { userId })
+			.loadRelationCountAndMap('user.questionCount', 'user.question')
+			.loadRelationCountAndMap('user.answerCount', 'user.answer')
+			.loadRelationCountAndMap('user.commentCount', 'user.comment')
+			.select(['user.id', 'user.nickname', 'user.email', 'user.photo', 'user.liked_count'])
 			.getOne();
 
-		const userProfile = {
-			user: user,
-			questionCount: user.question.length,
-			answerCount: user.answer.length,
-			commentCount: user.comment.length
-		};
-		return userProfile;
+		return user;
 	}
 
 	async findUserByEmail(email: string) {
