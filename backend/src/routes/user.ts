@@ -6,7 +6,7 @@ import { s3Util } from "../aws/s3_utils";
 export const userRouter = express.Router();
 
 userRouter.get('/info', authJwt, UserController.userInfo);
-userRouter.get('/profile', authJwt, UserController.getProfile);
+userRouter.get('/profile', UserController.getProfile);
 userRouter.patch('/image', authJwt, s3Util.s3ImageUpload({ folder: 'author' }).single("imgFile"), UserController.updateUserImage);
 userRouter.delete('/image', authJwt, UserController.deleteUserImage);
 userRouter.patch('/nickname', authJwt, UserController.updateUserNickname)

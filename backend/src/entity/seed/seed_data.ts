@@ -66,7 +66,6 @@ export const insertSeed = async () => {
 
     console.log("시드데이터 삽입 완료");
 }
-
 export const insertSeed10000 = async () => {
 
     for (let i = 1; i <= 10000; i++) {
@@ -131,3 +130,31 @@ export const insertSeed10000 = async () => {
 
     console.log("시드데이터 삽입 완료");
 }
+
+export const insertSeed1000 = async () => {
+
+    for (let i = 1; i <= 2000; i++) {
+        const questionService: QuestionService = new QuestionService();
+        await questionService.post({ email: 'tester' + String(i) + '@gmail.com', title: "tester" + String(i) + "'s question", text: "question text question text question text", userId: 1, hashtag: ["ft_printf", "ft_containers","ft_island"]});
+    }
+    console.log("질문 생성 완료")
+
+    for (let i = 1; i <= 2000; i++) {
+        const answerService: AnswerService = new AnswerService();
+        await answerService.post({ email: 'tester' + String(i) + '@gmail.com', text: "ansewr answer answer answer" + String(i), userId: 1, questionId: 1 });
+    }
+
+    console.log("답변 생성 완료")
+
+    for (let j = 0; j < 5; j++){
+
+    for (let i = 1; i <= 2000; i++) {
+        const commentService: CommentService = new CommentService();
+        await commentService.post({ userId: 1, questionId: 1, text: "comment " + String(i) });
+    }
+    }
+
+    console.log("댓글 생성 완료")
+    console.log("시드데이터 삽입 완료");
+}
+
