@@ -8,6 +8,39 @@ import { UserService } from "../service/user_service";
 import { RankService } from "../service/rank_service";
 import { UserNotFoundException } from "../exception/user_exception";
 
+const getProfile = async (req: DecodedRequest, res: Response, next: NextFunction) => {
+	const userId: number = Number(req.query.userId);
+	const userService: UserService = new UserService();
+	const rankService: RankService = new RankService();
+
+	try {
+		const userProfile = await userService.getUserProfile(userId);
+		const userMonthScore = await rankService.getUserMonthRank(userId);
+		const userTotalScore = await rankService.getUserTotalRank(userId);
+
+		if (userProfile.photo == ""){
+			userProfile.photo = null;
+		}
+		if (userProfile) {
+			res.status(200).json({
+				userProfile
+			})
+		}
+		else {
+			res.status(400).json({
+				message: "User doesn't exist"
+			})
+		}
+	} catch (error) {
+		console.log(error);
+		return res.status(error.status).json({
+			result: false,
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
+
 const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const id: number = req.decodedId
 	const userService: UserService = new UserService();
@@ -51,7 +84,7 @@ const updateUserImage = async (req: any, res: Response, next: NextFunction) => {
 
 	try {
 		const user = await userService.updateUserPhoto(id, photo);
-		await rankService.setUserProfile(id,photo);	
+		await rankService.setUserProfile(id, photo);
 		if (user) {
 			res.json({
 				exUser: user
@@ -75,7 +108,7 @@ const deleteUserImage = async (req: any, res: Response, next: NextFunction) => {
 
 	try {
 		const user = await userService.deleteUserPhoto(id);
-		await rankService.setUserProfile(id,"");
+		await rankService.setUserProfile(id, "");
 		if (user) {
 			res.status(200).json({
 				result: true
@@ -158,6 +191,7 @@ const updateUserEmail = async (req: DecodedRequest, res: Response, next: NextFun
 
 export const UserController = {
 	userInfo,
+	getProfile,
 	updateUserNickname,
 	updateUserImage,
 	updateUserPassword,

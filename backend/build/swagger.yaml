@@ -1010,6 +1010,24 @@ paths:
           description: 유저 정보 요청 성공
         '404':
           description: User doesn't exist
+  /users/profile:
+    get:
+      summary: 다른 유저 프로필을 조회합니다.
+      tags:
+        - user
+      parameters:
+        - name: userId
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+      responses:
+        '200':
+          description: 유저 프로필 요청 성공
+        '404':
+          description: User doesn't exist
   /users/image:
     patch:
       summary: 프로필 사진을 업데이트합니다.
