@@ -10,19 +10,20 @@ import MainTemplate from "./template";
 import BasicTemplate from "../BasicTemplate";
 import useInput from "../../../hooks/useInput";
 import Ranking from "../../organisms/Ranking";
+import SearchQuestionList from "../../organisms/SearchQuestionList.tsx";
+import { Redirect } from "react-router";
 
 interface Props {
   history: any;
 }
 
 const MainPage = ({ history, ...props }: Props) => {
-  const [menu, setMenu] = useState(0);
-  const { value: searchVal, onChange: onChangesearchVal, setValue } = useInput(
-    ""
-  );
+  const { value: searchVal, onChange: onChangesearchVal } = useInput("");
 
   const onSearch = () => {
     console.log("search");
+    history.push(`/search?keyword=${searchVal}`);
+    // search 페이지로 라우팅해주기
   };
 
   return (
@@ -45,7 +46,7 @@ const MainPage = ({ history, ...props }: Props) => {
               </Button>
             </>
           }
-          content1={<QuestionList menu={menu} setMenu={setMenu} />}
+          content1={<QuestionList />}
           content2={<Ranking />}
         />
       </BasicTemplate>

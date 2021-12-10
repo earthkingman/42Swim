@@ -1,6 +1,6 @@
-import { TabWrapper, StyledTabItem } from "./style";
+import { TabWrapper, StyledTabItem, TabProps } from "./style";
 
-export interface ItemProps {
+export interface ItemProps extends TabProps {
   children?: any;
   onTabClick?: any;
   active?: boolean;

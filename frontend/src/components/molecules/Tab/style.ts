@@ -1,15 +1,17 @@
 import styled, { css } from "styled-components";
 
-interface TabProps {
+export interface TabProps {
   width?: string;
   height?: string;
+  size?: "sm" | "lg";
 }
 export const TabWrapper = styled.ul<TabProps>`
   width: 380px;
   height: 41px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
+  /* margin-bottom: 1rem; */
 
   ${({ width }) =>
     width &&
@@ -21,9 +23,15 @@ export const TabWrapper = styled.ul<TabProps>`
     css`
       width: ${height};
     `}
+  ${({ size }) =>
+    size === "sm" &&
+    css`
+      height: 21px;
+      width: 224px;
+    `}
 `;
 
-export const StyledTabItem = styled.li`
+export const StyledTabItem = styled.li<TabProps>`
   color: #c4c4c4;
   font-size: 24px;
   border: none;
@@ -37,6 +45,12 @@ export const StyledTabItem = styled.li`
   &:hover {
     cursor: pointer;
   }
+  ${({ size }) =>
+    size === "sm" &&
+    css`
+      font-size: 18px;
+      width: 67px;
+    `}
 `;
 
 export default {};

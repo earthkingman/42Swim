@@ -12,7 +12,7 @@ import * as S from "./sytle";
 
 const QuestionCard = ({ ...props }) => {
   const { question, isLoading, isError, QuestionThumbPost } = useDetail();
-  const { user, isLoading: userLoading, isError: userError } = useAuth();
+  const { user, isLoading: userLoading } = useAuth();
 
   if (!isLoading && !userLoading) {
     const isLogin = user ? true : false;
@@ -68,7 +68,7 @@ const QuestionCard = ({ ...props }) => {
         <PostBox>
           <Question {...question} />
           <S.ButtonWraper
-            visible={user?.email === question.user.email ? true : false}
+            visible={user ? user.email === question.user.email : false}
           >
             <A
               fontcolor="deepgray"
@@ -89,7 +89,7 @@ const QuestionCard = ({ ...props }) => {
         </PostBox>
       </S.QuestionCardWrapper>
     );
-  } else if (isError || userError) return <div>Err...</div>;
+  } else if (isError) return <div>Err...</div>;
   else return <div>loading...</div>;
 };
 

@@ -209,6 +209,40 @@ const useDetail = () => {
     }
   };
 
+  const ChoicePost = async (
+    questionId: number,
+    answerId: number,
+    answerUserId: number
+  ) => {
+    try {
+      const newData = { ...data };
+      newData.is_solved = true;
+      newData.questionInfo.answer = newData.questionInfo.answer.map((item) => {
+        if (item.id === answerId) item.is_solved = true;
+        return item;
+      });
+      mutate(newData, false);
+      const url = `${import.meta.env.VITE_API_HOST}/posts/answer/choice`;
+      const res = await axios.post(
+        url,
+        {
+          questionId: questionId,
+          answerId: answerId,
+          answerUserId: answerUserId,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(res);
+      mutate();
+    } catch (e) {
+      alert(e);
+      console.error(e);
+    }
+    console.log("choose", questionId, answerId, answerUserId);
+  };
+
   return {
     question: data ? data.questionInfo : null,
     answer: data ? data.questionInfo.answer : null,
@@ -218,6 +252,7 @@ const useDetail = () => {
     AnswerThumbPost,
     CommentPost,
     AnswerPost,
+    ChoicePost,
   };
 };
 

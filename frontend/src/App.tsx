@@ -3,6 +3,7 @@ import Auth from "./components/pages/Auth";
 import DetailPage from "./components/pages/Detail/Detail";
 import EditPage from "./components/pages/Edit/Edit";
 import MainPage from "./components/pages/Main/Main";
+import SearchPage from "./components/pages/Search/Search";
 import SettingPage from "./components/pages/Setting/Setting";
 import WritingPage from "./components/pages/Writing/Writing";
 import GlobalThemeProvider from "./style/GlobalThemeProvider";
@@ -16,6 +17,10 @@ const App: React.FC = () => {
             path="/"
             exact
             render={(props: any) => <MainPage {...props} />}
+          />
+          <Route
+            path="/search"
+            render={(props: any) => <SearchPage {...props} />}
           />
           <Route
             path="/detail"
