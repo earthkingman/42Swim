@@ -199,7 +199,7 @@ export class PageService {
 		const subQuery = await this.questionRepository
 			.createQueryBuilder('covers')
 			.select(['covers.id'])
-			.addOrderBy('covers.id', 'DESC')
+			.orderBy('covers.id', 'DESC')
 			.limit(pageInfo.limit)
 			.offset(pageInfo.offset)
 
@@ -213,6 +213,7 @@ export class PageService {
 				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
 				'question_hashtag.id', 'question_hashtag.name'
 			])
+			.orderBy('question.id', 'DESC')
 			.getMany();
 
 		const questionCount = await this.questionRepository
@@ -239,6 +240,8 @@ export class PageService {
 				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
 				'question_hashtag.id', 'question_hashtag.name'
 			])
+			.orderBy('question.like_count', 'DESC')
+			.addOrderBy('question.id', 'DESC')
 			.getMany();
 
 		const questionCount = await this.questionRepository
@@ -266,6 +269,7 @@ export class PageService {
 				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
 				'question_hashtag.id', 'question_hashtag.name'
 			])
+			.orderBy('question.id', 'DESC')
 			.getMany();
 
 		const questionCount = await this.questionRepository
@@ -324,6 +328,7 @@ export class PageService {
 				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
 				'question_hashtag.id', 'question_hashtag.name'
 			])
+			.orderBy('question.id', 'DESC')
 			.getMany();
 
 		const questionCount = await this.questionRepository
