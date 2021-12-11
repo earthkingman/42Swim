@@ -9,8 +9,8 @@ const fetcher = async (url: string) => {
   })
     .then((response) => response.data)
     .catch((err) => {
-      console.error("err", err);
-      throw err;
+      console.log("hihi", err);
+      console.log("hihi im error", err.response);
     });
   return res;
 };
@@ -20,7 +20,7 @@ const useAuth = () => {
   const url = `${import.meta.env.VITE_API_HOST}/users/info`;
   const { data, error } = useSWRImmutable(url, fetcher);
 
-  //   console.log("user/info", data);
+  console.log("user/info", data);
 
   // mutate 사용해서 logout 구현하기 파라미터 어떻게 구현할지 생각해보기
   return {

@@ -20,6 +20,7 @@ const App: React.FC = () => {
           />
           <Route
             path="/search"
+            exact
             render={(props: any) => <SearchPage {...props} />}
           />
           <Route
