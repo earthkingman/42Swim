@@ -1,5 +1,5 @@
-import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 dotenv.config();
 
 import { getConnection, Repository } from "typeorm";
@@ -7,12 +7,34 @@ import { UserNotFoundException, UserForbiddenException } from "../exception/user
 
 
 import { User } from "../entity/user";
+import { Question } from "../entity/question";
+import { Answer } from "../entity/answer"
+import { Comment } from "../entity/comment";
 
 export class UserService {
 	private userRepository: Repository<User>;
+	private questionRepository: Repository<Question>;
+	private answerRepository: Repository<Answer>;
+	private commentRepository: Repository<Comment>;
 
 	constructor() {
+		this.questionRepository = getConnection().getRepository(Question);
+		this.answerRepository = getConnection().getRepository(Answer);
 		this.userRepository = getConnection().getRepository(User);
+		this.commentRepository = getConnection().getRepository(Comment);
+	}
+
+	async getUserProfile(userId: number) {
+		const user = await this.userRepository
+			.createQueryBuilder('user')
+			.where('user.id = :userId', { userId })
+			.loadRelationCountAndMap('user.questionCount', 'user.question')
+			.loadRelationCountAndMap('user.answerCount', 'user.answer')
+			.loadRelationCountAndMap('user.commentCount', 'user.comment')
+			.select(['user.id', 'user.nickname', 'user.email', 'user.photo', 'user.liked_count'])
+			.getOne();
+
+		return user;
 	}
 
 	async findUserByEmail(email: string) {
