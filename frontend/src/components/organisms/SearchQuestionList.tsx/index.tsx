@@ -24,7 +24,7 @@ const SearchQuestionList = ({ keyword, ...props }: Props) => {
       <S.QLWrapper>
         <S.List>
           <S.FilterPanel>
-            <S.ResultSpan>검색결과 ({question.questionCount}건)</S.ResultSpan>
+            <S.ResultSpan>검색결과 ({question?.questionCount}건)</S.ResultSpan>
             <Tab size="sm" {...props}>
               <TabItem
                 size="sm"
@@ -45,7 +45,7 @@ const SearchQuestionList = ({ keyword, ...props }: Props) => {
                 active={menu === 2 ? true : false}
                 onTabClick={() => setMenu(2)}
               >
-                답변 필요
+                답변필요
               </TabItem>
             </Tab>
           </S.FilterPanel>

@@ -16,7 +16,6 @@ const QuestionList = ({ ...props }) => {
   console.log(question);
 
   if (isError) return <div>Error!!</div>;
-  else if (isLoading) return <div>Loading</div>;
   else
     return (
       <S.QLWrapper>
@@ -37,7 +36,7 @@ const QuestionList = ({ ...props }) => {
             active={menu === 2 ? true : false}
             onTabClick={() => setMenu(2)}
           >
-            답변 필요
+            답변필요
           </TabItem>
           <TabItem
             active={menu === 3 ? true : false}
