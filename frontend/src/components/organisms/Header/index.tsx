@@ -46,7 +46,17 @@ const Header = () => {
       <HeaderWrapper>
         <HeaderTitleWrapper>
           <Link to="/">
-            <TitleHeader size="h1">42Code</TitleHeader>
+            <TitleHeader size="h1">
+              42{" "}
+              <span
+                role="img"
+                aria-label="swim"
+                style={{ fontSize: "inherit" }}
+              >
+                🏊🏻‍♂️
+              </span>{" "}
+              Swim
+            </TitleHeader>
           </Link>
           <Text size="14" color="lightgrey">
             42seoul
