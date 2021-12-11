@@ -11,7 +11,7 @@ const Ranking = () => {
     <S.RankingDiv>
       <RowSADiv
         style={{
-          height: "50px",
+          height: "45px",
           justifyContent: "flex-start",
           alignItems: "flex-start",
         }}
