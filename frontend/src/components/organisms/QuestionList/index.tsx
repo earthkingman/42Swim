@@ -6,6 +6,7 @@ import Tab, { TabItem } from "../../molecules/Tab";
 import { useState } from "react";
 import useList from "../../../hooks/useList";
 import Skeleton from "../../atoms/Skeleton";
+import TagList from "../TagList";
 
 const QuestionList = ({ ...props }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,39 +46,43 @@ const QuestionList = ({ ...props }) => {
             태그
           </TabItem>
         </Tab>
-        <S.List>
-          {isLoading
-            ? [...Array(8)].map((d, idx) => (
-                <S.SkeletonItem key={idx}>
-                  <Skeleton />
-                </S.SkeletonItem>
-              ))
-            : question?.quesiontList &&
-              question?.quesiontList.map((d, idx) => (
-                <ListItem
-                  id={d.id}
-                  title={d.title}
-                  text={d.text}
-                  photo={d.user.photo}
-                  nickname={d?.user?.nickname}
-                  is_solved={d.is_solved}
-                  answer_cnt={d.answer_count}
-                  like_count={d.like_count}
-                  view_count={d.view_count}
-                  hashtag={d.hashtag}
-                  created_at={d.created_at}
-                  key={idx}
-                  {...props}
-                />
-              ))}
-          <ColumnSADiv height="115px">
-            <Pagination
-              questionCount={question?.questionCount}
-              page={page}
-              onPage={setPage}
-            />
-          </ColumnSADiv>
-        </S.List>
+        {menu === 3 ? (
+          <TagList />
+        ) : (
+          <S.List>
+            {isLoading
+              ? [...Array(8)].map((d, idx) => (
+                  <S.SkeletonItem key={idx}>
+                    <Skeleton />
+                  </S.SkeletonItem>
+                ))
+              : question?.quesiontList &&
+                question?.quesiontList.map((d, idx) => (
+                  <ListItem
+                    id={d.id}
+                    title={d.title}
+                    text={d.text}
+                    photo={d.user.photo}
+                    nickname={d?.user?.nickname}
+                    is_solved={d.is_solved}
+                    answer_cnt={d.answer_count}
+                    like_count={d.like_count}
+                    view_count={d.view_count}
+                    hashtag={d.hashtag}
+                    created_at={d.created_at}
+                    key={idx}
+                    {...props}
+                  />
+                ))}
+            <ColumnSADiv height="115px">
+              <Pagination
+                questionCount={question?.questionCount}
+                page={page}
+                onPage={setPage}
+              />
+            </ColumnSADiv>
+          </S.List>
+        )}
       </S.QLWrapper>
     );
 };
