@@ -1,7 +1,9 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import theme from "../../../style/theme";
-
-export const TagBox = styled.div`
+interface Props {
+  name?: string;
+}
+export const TagBox = styled.div<Props>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -11,10 +13,13 @@ export const TagBox = styled.div`
   height: 20px;
   background-color: ${theme.color.tag.yellow};
   box-sizing: border-box;
-  & + & {
-    margin-left: 1rem;
-  }
+  margin: 1rem 0rem 0rem 1rem;
   padding: 0px 10px;
+  ${({ name }) =>
+    name === "..." &&
+    css`
+      background-color: ${theme.color.lightgrey};
+    `}
 `;
 
 export const ButtonS = styled.button`

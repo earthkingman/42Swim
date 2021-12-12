@@ -4,14 +4,14 @@ import Text from "../Text";
 import DeleteBtn from "../../asset/icons/DeleteBtn";
 
 export interface TagProps {
-  key: string;
+  key: string | number;
   name: string;
   isDel: boolean;
   onDelClick: any;
 }
 const Tag = ({ name, isDel, onDelClick, ...props }: TagProps) => {
   return (
-    <S.TagBox {...props}>
+    <S.TagBox {...props} name={name}>
       <Text size="14" style={{ wordBreak: "normal", color: "#424040" }}>
         {name}
       </Text>
