@@ -45,11 +45,7 @@ const Number = ({ number, active, onClick, ...props }: PNProps) => {
 };
 
 function makePageRange(pageNum: number, offset: MutableRefObject<number>) {
-  console.log("pageNum", pageNum);
-  console.log("offset", offset);
-
   const sp = 10 * (offset.current - 1) + 1;
-  console.log("sp", sp);
   let size;
   if (pageNum <= 10) size = pageNum;
   else if (sp + 9 >= pageNum) size = pageNum - sp + 1;
@@ -60,30 +56,28 @@ function makePageRange(pageNum: number, offset: MutableRefObject<number>) {
     .map((x, y) => x + y);
 }
 
-function countPageNum(questionCount: number) {
-  const limit = 8;
+function countPageNum(limit: number, questionCount: number) {
   let size = parseInt(questionCount / limit);
-  console.log("size", size);
   if (questionCount % limit === 0) size = size - 1;
   const pageNum = size + 1;
-  console.log("HellopageNum", pageNum);
-
   return pageNum;
 }
 
 export interface Props {
   page: number;
+  limit?: number;
   questionCount: number;
   onPage: any;
 }
 
 const Pagination = ({
   page = 1,
+  limit = 8,
   onPage,
   questionCount = 10,
   ...props
 }: Props) => {
-  const pageNum = countPageNum(questionCount);
+  const pageNum = countPageNum(limit, questionCount);
   const offset = useRef(1);
 
   const onFront = () => {
