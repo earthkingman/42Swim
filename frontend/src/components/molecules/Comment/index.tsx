@@ -57,7 +57,6 @@ const Comment = ({
 
   const onEditClick = () => {
     setisEdit(true);
-    console.log(inputRef);
     setTimeout(function () {
       inputRef.current.focus();
     }, 1);

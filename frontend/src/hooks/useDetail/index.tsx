@@ -2,7 +2,6 @@ import useSWR from "swr";
 import axios from "axios";
 import queryString from "query-string";
 
-//todo: utils에꺼 가져오는걸로 수정
 const fetcher = (url: string) =>
   axios.get(url, { withCredentials: true }).then((res) => {
     console.log(res);
@@ -26,6 +25,18 @@ const useDetail = () => {
   ) => {
     if (data) {
       if (isDel) {
+        let likeCount = data.questionInfo.like_count;
+        likeCount = isLike ? likeCount - 1 : likeCount + 1;
+        mutate(
+          {
+            questionInfo: {
+              ...data.questionInfo,
+              like_count: likeCount,
+              is_like: null,
+            },
+          },
+          false
+        );
         axios
           .delete(
             `${
@@ -35,12 +46,11 @@ const useDetail = () => {
               withCredentials: true,
             }
           )
-          .then(() => mutate())
           .catch((err) => {
             alert(err);
             console.error(err);
-            mutate();
-          });
+          })
+          .finally(() => mutate());
       } else {
         let likeCount = data.questionInfo.like_count;
         likeCount = isLike ? likeCount + 1 : likeCount - 1;
