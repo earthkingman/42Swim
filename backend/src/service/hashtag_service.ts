@@ -65,8 +65,9 @@ export class HashtagService {
         const hashTagListCount = await this.hashtagRepository
             .createQueryBuilder('hashtag')
             .innerJoin('hashtag.question', 'question')
-            .select('COUNT(*) AS count')
+            .select('COUNT(hashtag.id) AS count')
+            .groupBy('hashtag.id')
             .getRawMany();
-        return { hashTagList, hashTagListCount: hashTagListCount[0].count };
+        return { hashTagList, hashTagListCount: hashTagListCount.length };
     }
 }
