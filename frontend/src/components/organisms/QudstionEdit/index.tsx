@@ -12,8 +12,9 @@ import useDetail from "../../../hooks/useDetail";
 const QuestionEdit = () => {
   const { question, isLoading, isError } = useDetail();
 
-  const InputTagValidator = (value: string) => /^[\w]*$/g.test(value);
-  const titleValidator = (value: string) => value.length < 20;
+  const InputTagValidator = (value: string) =>
+    /^[\w]*$/g.test(value) && value.length < 20;
+  const titleValidator = (value: string) => value.length < 40;
 
   const inputTag = useInput("", InputTagValidator);
   const title = useInput("", titleValidator);

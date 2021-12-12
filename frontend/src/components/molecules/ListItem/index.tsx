@@ -37,6 +37,12 @@ const ListItem = ({
   text = text
     .replace(/[`#*~_>]/g, "")
     .replace(/^!\[[\w.]*\]\([\w.:/-]+\)/gi, "");
+  if (hashtag.length > 5) {
+    hashtag = hashtag.slice(0, 3);
+    hashtag.push({
+      name: "...",
+    });
+  }
   return (
     <S.ListBox {...props}>
       <S.Content>
@@ -52,13 +58,12 @@ const ListItem = ({
               {dateChange(created_at)}
             </S.Time>
             {hashtag.map((data, idx) => (
-              <Tag name={data?.name} key={idx} />
+              <Tag name={data?.name} key={idx} style={{ marginTop: "0px" }} />
             ))}
           </RowSBDiv>
           <Profile size="sm" photo={photo} nickname={nickname} id={0} />
         </S.Bottom>
       </S.Content>
-      {/* <S.Check>{check ? <CheckImg /> : <></>}</S.Check> */}
       <S.Counter>
         <SortCounter
           name="답변"
