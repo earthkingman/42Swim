@@ -14,10 +14,10 @@ const QuestionWriting = () => {
   printf("helloWord");
   \`\`\``;
   const InputTagValidator = (value: string) => {
-    return /#*[\w]*$/g.test(value);
+    return /[\w]*$/g.test(value) && value.length < 20;
   };
   const titleValidator = (value: string) => {
-    if (value.length < 20) return true;
+    if (value.length < 40) return true;
     else return false;
   };
 
