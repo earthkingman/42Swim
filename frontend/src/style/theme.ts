@@ -23,6 +23,7 @@ const color = {
     black: "#000000",
     lightgrey: "#a6a6a6",
     grey: "#565656",
+    deepgray: "#C4C4C4",
   },
   tag: {
     yellow: "#FFDCA8",
@@ -35,6 +36,7 @@ const color = {
   black: "#000000",
   lightblack: "#545454",
   lightyelloew: "#FFDCA8",
+  primary: "#FFB84D",
 };
 
 const theme = {

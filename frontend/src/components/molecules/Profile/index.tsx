@@ -1,12 +1,12 @@
 import Text from "../../atoms/Text";
-import { ProfileWrapper, ProfileCircleImg } from "./style";
+import { ProfileWrapper, ProfileCircleImg, CircleProps } from "./style";
 
 type sizeType = "sm" | "lg";
 
 interface SProfileProps {
   size: sizeType;
 }
-export interface ProfileProps extends SProfileProps {
+export interface ProfileProps extends SProfileProps, CircleProps {
   id?: number;
   nickname: string;
   color?: string;
@@ -26,11 +26,12 @@ const Profile = ({
   onMouseEnter,
   onMouseLeave,
   onClick,
+  border,
 }: ProfileProps) => {
   if (size === "sm") {
     return (
       <ProfileWrapper size={size}>
-        <ProfileCircleImg size="xsm" img={photo ? photo : ""} />
+        <ProfileCircleImg size="xsm" img={photo ? photo : ""} border={border} />
         <Text size="14" color="grey">
           {nickname}
         </Text>
@@ -45,7 +46,7 @@ const Profile = ({
         onClick={onClick}
         size={size}
       >
-        <ProfileCircleImg size="sm" img={photo ? photo : ""} />
+        <ProfileCircleImg size="sm" img={photo ? photo : ""} border={border} />
         <Text size="18" weight="bold" color={color}>
           {nickname}
         </Text>

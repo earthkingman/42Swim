@@ -3,13 +3,14 @@ import styled, { css } from "styled-components";
 export interface TabProps {
   width?: string;
   height?: string;
-  size?: "sm" | "lg";
+  size?: "xsm" | "sm" | "lg";
 }
 export const TabWrapper = styled.ul<TabProps>`
-  width: 380px;
-  height: 41px;
+  /* width: 380px; */
+  /* height: 41px; */
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
   margin: 1rem 0;
   /* margin-bottom: 1rem; */
 
@@ -27,16 +28,22 @@ export const TabWrapper = styled.ul<TabProps>`
     size === "sm" &&
     css`
       height: 21px;
-      width: 224px;
+      /* width: 224px; */
+    `}
+	${({ size }) =>
+    size === "xsm" &&
+    css`
+      margin: 0 0;
     `}
 `;
 
 export const StyledTabItem = styled.li<TabProps>`
   color: #c4c4c4;
-  font-size: 24px;
+  font-size: 20px;
   border: none;
   font-weight: 700;
-  width: 95px;
+  margin: 0.2rem 1.1rem;
+  /* width: 95px; */
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -49,7 +56,15 @@ export const StyledTabItem = styled.li<TabProps>`
     size === "sm" &&
     css`
       font-size: 18px;
-      width: 67px;
+      margin: 0 0.8rem;
+      /* width: 67px; */
+    `}
+  ${({ size }) =>
+    size === "xsm" &&
+    css`
+      font-size: 14px;
+      margin: 0 0;
+      /* width: 67px; */
     `}
 `;
 

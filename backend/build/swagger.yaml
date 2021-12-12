@@ -1028,6 +1028,14 @@ paths:
           description: 유저 프로필 요청 성공
         '404':
           description: User doesn't exist
+  /users/ranking:
+    get:
+      summary: 랭킹 정보를 가져옵니다.
+      tags:
+        - user
+      responses:
+        '200':
+          description: 랭킹 요청 성공
   /users/image:
     patch:
       summary: 프로필 사진을 업데이트합니다.
