@@ -1,3 +1,5 @@
+import * as S from "./style";
+
 interface TagListItemType {
   id: number;
   name: string;
@@ -10,9 +12,9 @@ export default function TagListItem({
   ...props
 }: TagListItemType) {
   return (
-    <div {...props}>
-      <p>{name}</p>
-      <p>{questionCount}</p>
-    </div>
+    <S.Wrap {...props}>
+      <S.Title>{name}</S.Title>
+      <S.Sub>질문 {questionCount}개</S.Sub>
+    </S.Wrap>
   );
 }
