@@ -4,7 +4,7 @@ import { Question } from "../entity/question";
 import { Answer } from "../entity/answer";
 import { User } from "../entity/user";
 
-import { AnswerNotFoundException, AnswerForbiddenException, AnswerBadRequestException } from "../exception/answer_exception";
+import { AnswerNotFoundException, AnswerForbiddenException, AnswerMySelfException, AnswerBadRequestException } from "../exception/answer_exception";
 import { UserNotFoundException } from "../exception/user_exception";
 import { QuestionBadRequestException, QuestionForbiddenException, QuestionNotFoundException } from "../exception/question_exception";
 import { DatabaseInternalServerErrorException } from "../exception/server_exception";
@@ -24,6 +24,15 @@ export class AnswerService {
 
 	async post(uploadAnswerInfo) {
 		const { email, text, questionId, userId } = uploadAnswerInfo;
+
+		//자신의 글은 자기가 답변할 수 없습니다.
+		const questionInfo = await this.questionRepository
+			.findOne({
+				where: { id: questionId },
+				relations: ['user']
+			});
+		if (questionInfo.user.id == userId)
+			throw new AnswerMySelfException(questionId);
 
 		const user = await this.userRepository
 			.findOne({ where: { id: userId } });
@@ -142,25 +151,30 @@ export class AnswerService {
 		}
 	}
 
-	async chooseAnswer(chooseAnswerInfo):Promise<any>{
-		const { userId, questionId, answerId, answerUserId} = chooseAnswerInfo;
+	async chooseAnswer(chooseAnswerInfo): Promise<any> {
+		const { userId, questionId, answerId, answerUserId } = chooseAnswerInfo;
+
+		if (userId == answerUserId){
+			throw new AnswerBadRequestException(answerId);
+		}
+
 		const answer = await this.answerRepository
 			.findOne({
 				where: { id: answerId, user: { id: answerUserId }, question: { id: questionId } },
 				relations: ['user', 'question']
 			});
 		const question = await this.questionRepository
-			.findOne({ 
-				where: { id: questionId, user: {id: userId} },
+			.findOne({
+				where: { id: questionId, user: { id: userId } },
 				relations: ['user']
 			});
-		if (question === undefined){
+		if (question === undefined) {
 			const noAuthQuestion = await this.questionRepository
-				.findOne({ where: { id: questionId}});
-			if (noAuthQuestion === undefined){
+				.findOne({ where: { id: questionId } });
+			if (noAuthQuestion === undefined) {
 				throw new QuestionNotFoundException(questionId);
 			}
-			else{
+			else {
 				throw new QuestionForbiddenException(questionId);
 			}
 		}
