@@ -97,6 +97,54 @@ const getQuestionListPageByKeyword = async (req: any, res: Response, next: NextF
 	}
 }
 
+const getQuestionListPageByHashtagId = async (req: any, res: Response, next: NextFunction) => {
+	const pageNumber = Number(req.query.pageNumber) - 1;
+	const hashtagId = req.query.hashtagId;
+	const orderBy = req.query.orderBy;
+	const limit = 8;
+	const offset = pageNumber * limit;
+	const pageInfo = { limit, offset, hashtagId };
+	const pageService: PageService = new PageService();
+
+	try {
+		const { questionList, questionCount } = await pageService.getQuestionListByHashtagId(pageInfo, orderBy);
+		return res.status(200).json({
+			quesiontList: questionList,
+			questionCount: questionCount,
+			message: "getList success",
+		})
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
+const getQuestionListPageByHashtagName = async (req: any, res: Response, next: NextFunction) => {
+	const pageNumber = Number(req.query.pageNumber) - 1;
+	const hashtagName = req.query.hashtagName;
+	const orderBy = req.query.orderBy;
+	const limit = 8;
+	const offset = pageNumber * limit;
+	const pageInfo = { limit, offset, hashtagName };
+	const pageService: PageService = new PageService();
+
+	try {
+		const { questionList, questionCount } = await pageService.getQuestionListByHashtagName(pageInfo, orderBy);
+		return res.status(200).json({
+			quesiontList: questionList,
+			questionCount: questionCount,
+			message: "getList success",
+		})
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
 const getQuestionDetailPage = async (req: DecodedRequest, res: Response, next: NextFunction) => {
 	const questionId = Number(req.query.questionId);
 	const userId = req.decodedId;
@@ -140,5 +188,5 @@ const increaseQuestionViewCount = async (req: any, res: Response, next: NextFunc
 
 export const PageController = {
 	getQuestionListPage, getQuestionDetailPage, getQuestionListPageOrderByLike, getQuestionListPageUnsolved,
-	getQuestionListPageByKeyword, increaseQuestionViewCount
+	getQuestionListPageByKeyword, getQuestionListPageByHashtagId, getQuestionListPageByHashtagName, increaseQuestionViewCount
 }

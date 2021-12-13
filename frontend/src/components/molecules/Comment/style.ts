@@ -23,17 +23,18 @@ export const CommentTextWrapper = styled.div`
   align-items: flex-end;
 `;
 
-export const EditInput = styled.input`
+export const EditInput = styled.p`
   font-size: 16px;
+  width: 80%;
   background-color: inherit;
   color: grey;
-  &:disabled {
+  outline: none;
+  &:focus-visible {
     color: black;
   }
 `;
 
 export const PBox = styled(Box)<SProps>`
-  /*margin-top: 54px;*/
   width: inherit;
   display: none;
   z-index: 1;

@@ -35,6 +35,7 @@ const AnswerCard = ({
   const { user: loginUser } = useAuth();
 
   const [isEdit, setisEdit] = useState(false);
+  const [likeFlag, setLikeFlag] = useState(false);
   const { value: editVal, setValue: setEditVal } = useInput(props.text);
 
   const isLogin = loginUser ? true : false;
@@ -42,11 +43,21 @@ const AnswerCard = ({
   const questionId = new URLSearchParams(location.search).get("id");
 
   const checkUserAndPost = (isLike: boolean) => {
-    if (!isLogin) alert("로그인 후 좋아요를 눌러주세요!");
-    else if (is_like === isLike) AnswerThumbPost(user.id, id, isLike, true);
-    else if (is_like === !isLike) alert("좋아요/싫어요는 하나만 가능합니다!");
-    else {
-      AnswerThumbPost(user.id, id, isLike, false);
+    if (!isLogin) return alert("로그인 후 좋아요를 눌러주세요!");
+    if (likeFlag === false) {
+      setLikeFlag(true);
+
+      if (is_like === isLike) AnswerThumbPost(user.id, id, isLike, true);
+      else if (is_like === !isLike) alert("좋아요/싫어요는 하나만 가능합니다!");
+      else {
+        AnswerThumbPost(user.id, id, isLike, false);
+      }
+
+      setTimeout(() => {
+        setLikeFlag(false);
+      }, 10000);
+    } else {
+      alert("좋아요/싫어요 버튼 클릭은 10초에 한번으로 제한됩니다.");
     }
   };
 

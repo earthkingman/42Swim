@@ -17,3 +17,10 @@ export class AnswerNotFoundException extends HttpException {
         super(404, `해당 답변글을 찾을 수 없습니다. Answer ${id} not found.`);
     }
 }
+
+
+export class AnswerMySelfException extends HttpException {
+    constructor(id: number) {
+        super(400, `스스로 답변할 수 없습니다. ${id} bad request.`);
+    }
+}
