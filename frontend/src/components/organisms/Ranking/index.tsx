@@ -5,6 +5,7 @@ import Help from "../../asset/icons/Help";
 import Tab, { TabItem } from "../../molecules/Tab";
 import { useState } from "react";
 import Profile from "../../molecules/Profile";
+import useRanking from "../../../hooks/useRanking";
 
 interface WinnerProps {
   rank: number;
@@ -23,36 +24,13 @@ const Winner = ({ rank, photo, nickname }: WinnerProps) => {
   );
 };
 
-const month = [
-  {
-    id: 20,
-    score: "5",
-    photo: null,
-    nickname: "iha",
-  },
-  {
-    id: 16,
-    score: "5",
-    photo: null,
-    nickname: "yejeong",
-  },
-  {
-    id: 17,
-    score: "5",
-    photo: null,
-    nickname: "ji-park",
-  },
-  {
-    id: 21,
-    score: "5",
-    photo: "https://cdn.intra.42.fr/users/nkim.jpg",
-    nickname: "nkim",
-  },
-];
-
 const Ranking = () => {
+  const { ranking, isLoading, isError } = useRanking();
+  const { month, total } = ranking;
   const [menu, setMenu] = useState(0);
 
+  if (isLoading) return <div>loading</div>;
+  if (isError) return <div>error</div>;
   return (
     <S.RankingWrapper>
       <RowSADiv
@@ -89,14 +67,23 @@ const Ranking = () => {
           </Tab>
         </S.TabWrapper>
         <S.WinnerListWrapper>
-          {month.map((profile, idx: number) => (
-            <Winner
-              key={profile.id}
-              rank={idx}
-              nickname={profile.nickname}
-              photo={profile.photo}
-            />
-          ))}
+          {menu === 0
+            ? month.map((profile, idx: number) => (
+                <Winner
+                  key={profile.id}
+                  rank={idx}
+                  nickname={profile.nickname}
+                  photo={profile.photo}
+                />
+              ))
+            : total.map((profile, idx: number) => (
+                <Winner
+                  key={profile.id}
+                  rank={idx}
+                  nickname={profile.nickname}
+                  photo={profile.photo}
+                />
+              ))}
         </S.WinnerListWrapper>
       </S.RankingDiv>
     </S.RankingWrapper>
