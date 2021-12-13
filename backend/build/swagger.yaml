@@ -687,7 +687,7 @@ paths:
                 $ref: '#/components/schemas/MainPage'
         '404':
           description: Page doesn't exist
-  /pages/list/question/hashtag:
+  /pages/list/question/hashtag/id:
     get:
       summary: 해시태그 아이디로 질문글 리스트를 반환합니다.
       tags:
@@ -707,6 +707,41 @@ paths:
             type: integer
             format: int64
           example: 1
+          required: true
+        - name: orderBy
+          in: query
+          schema:
+            type: string
+          example: time
+          required: true
+      responses:
+        '200':
+          description: 페이지 요청 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MainPage'
+        '404':
+          description: Page doesn't exist
+  /pages/list/question/hashtag/name:
+    get:
+      summary: 해시태그 이름으로 질문글 리스트를 반환합니다.
+      tags:
+        - page
+      description: '데이터를 최신순으로 정렬하려면 orderBy = "time", 좋아요 순으로 정렬하려면 "like", 해결되지 않은 질문 리스트를 응답 받으려면 "solving" 사용'
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+        - name: hashtagName
+          in: query
+          schema:
+            type: string
+          example: ft_printf
           required: true
         - name: orderBy
           in: query
