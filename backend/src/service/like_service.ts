@@ -32,6 +32,10 @@ export class LikeService {
 	async createAnswerLike(likeInfo) {
 		const { answerId, userId, isLike, answerUserId } = likeInfo;
 
+		if (userId == answerUserId){
+			throw new LikeBadRequestException("자신의 글에는 좋아요를 누를 수 없습니다.");
+		}
+
 		const answerUser = await this.userRepository.findOne({ where: { id: answerUserId } });
 		if (answerUser === undefined) {
 			await this.queryRunner.release();
@@ -84,6 +88,10 @@ export class LikeService {
 
 	async createQuestionLike(likeInfo) {
 		const { questionId, userId, isLike, questionUserId } = likeInfo;
+		console.log(questionUserId, userId)
+		if (userId == questionUserId){
+			throw new LikeBadRequestException("자신의 글에는 좋아요를 누를 수 없습니다.");
+		}
 
 		const questionUser = await this.userRepository.findOne({ where: { id: questionUserId } });
 		if (questionUser === undefined) {
