@@ -15,6 +15,8 @@ pageRouter.get('/list/question/unsolved', PageController.getQuestionListPageUnso
 
 pageRouter.get('/list/question/keyword', PageController.getQuestionListPageByKeyword);
 
+pageRouter.get('/list/question/hashtag', PageController.getQuestionListPageByHashtagId);
+
 pageRouter.post('/question/viewCount', PageController.increaseQuestionViewCount);
 
 // router.delete('/delete', authticate_JWT, s3.s3DeletePhoto, QuestionController.deleteQuestion)
