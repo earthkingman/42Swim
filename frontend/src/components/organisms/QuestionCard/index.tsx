@@ -9,20 +9,32 @@ import Question from "../../molecules/Question";
 import ThumbCount from "../../molecules/ThumbCount";
 import queryString from "query-string";
 import * as S from "./sytle";
+import { useState } from "react";
 
 const QuestionCard = ({ ...props }) => {
   const { question, isLoading, isError, QuestionThumbPost } = useDetail();
   const { user, isLoading: userLoading } = useAuth();
+  const [likeFlag, setLikeFlag] = useState(false);
 
   if (!isLoading && !userLoading) {
     const isLogin = user ? true : false;
     const checkUserAndPost = (isLike: boolean) => {
-      if (!isLogin) alert("로그인 후 좋아요를 눌러주세요!");
-      else if (isLike === question.is_like)
-        QuestionThumbPost(question.user.id, question.id, isLike, true);
-      else if (!isLike === question.is_like)
-        alert("좋아요/싫어요는 하나만 가능합니다.");
-      else QuestionThumbPost(question.user.id, question.id, isLike, false);
+      if (!isLogin) return alert("로그인 후 좋아요를 눌러주세요!");
+      if (likeFlag === false) {
+        setLikeFlag(true);
+
+        if (isLike === question.is_like)
+          QuestionThumbPost(question.user.id, question.id, isLike, true);
+        else if (!isLike === question.is_like)
+          alert("좋아요/싫어요는 하나만 가능합니다.");
+        else QuestionThumbPost(question.user.id, question.id, isLike, false);
+
+        setTimeout(() => {
+          setLikeFlag(false);
+        }, 10000);
+      } else {
+        alert("좋아요/싫어요 버튼 클릭은 10초에 한번으로 제한됩니다.");
+      }
     };
 
     const onUpClick = () => {

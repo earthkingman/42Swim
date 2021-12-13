@@ -2,10 +2,8 @@ import useSWR from "swr";
 import axios from "axios";
 import queryString from "query-string";
 
-//todo: utils에꺼 가져오는걸로 수정
 const fetcher = (url: string) =>
   axios.get(url, { withCredentials: true }).then((res) => {
-    console.log(res);
     return res.data;
   });
 
@@ -26,6 +24,18 @@ const useDetail = () => {
   ) => {
     if (data) {
       if (isDel) {
+        let likeCount = data.questionInfo.like_count;
+        likeCount = isLike ? likeCount - 1 : likeCount + 1;
+        mutate(
+          {
+            questionInfo: {
+              ...data.questionInfo,
+              like_count: likeCount,
+              is_like: null,
+            },
+          },
+          false
+        );
         axios
           .delete(
             `${
@@ -35,12 +45,11 @@ const useDetail = () => {
               withCredentials: true,
             }
           )
-          .then(() => mutate())
           .catch((err) => {
             alert(err);
             console.error(err);
-            mutate();
-          });
+          })
+          .finally(() => mutate());
       } else {
         let likeCount = data.questionInfo.like_count;
         likeCount = isLike ? likeCount + 1 : likeCount - 1;
@@ -86,6 +95,24 @@ const useDetail = () => {
     isDel: boolean
   ) => {
     if (isDel) {
+      let likeCount = data.questionInfo.like_count;
+      likeCount = isLike ? likeCount - 1 : likeCount + 1;
+      const newData = data.questionInfo.answer.map((item: any) => {
+        if (item.id === id) {
+          item.like_count = likeCount;
+          item.is_like = null;
+        }
+        return item;
+      });
+      mutate(
+        {
+          questionInfo: {
+            ...data.questionInfo,
+            answer: newData,
+          },
+        },
+        false
+      );
       axios
         .delete(
           `${
@@ -164,32 +191,114 @@ const useDetail = () => {
             withCredentials: true,
           }
         )
-        .then(() => {
-          mutate();
-        })
         .catch((err) => {
           alert(err);
           console.error(err);
-          mutate();
-        });
+        })
+        .finally(() => mutate());
     }
   };
 
-  const AnswerPost = async (
+  const CommentEdit = (
+    value: string,
+    commentId: number,
+    quesitonId: number,
+    answerId?: number
+  ) => {
+    if (data) {
+      const apiUrl = `${import.meta.env.VITE_API_HOST}/posts/comment`;
+
+      const newData = { ...data };
+      if (answerId) {
+        newData.questionInfo.answer = newData.questionInfo.answer.map(
+          (item) => {
+            if (item.id === answerId)
+              item.comment = item.comment.map((i) => {
+                if (i.id === commentId) i.text = value;
+                return i;
+              });
+            return item;
+          }
+        );
+      } else {
+        newData.questionInfo.answer = newData.questionInfo.comment.map((i) => {
+          if (i.id === commentId) i.text = value;
+          return i;
+        });
+      }
+
+      mutate(newData, false);
+      axios
+        .patch(
+          apiUrl,
+          {
+            text: value,
+            commentId: commentId,
+            questionId: quesitonId,
+            answerId: answerId,
+          },
+          { withCredentials: true }
+        )
+        .catch((e) => alert(e))
+        .finally(() => mutate());
+    }
+  };
+
+  const CommentDelete = (
+    commentId: number,
+    questionId: number,
+    answerId?: number
+  ) => {
+    if (data) {
+      const apiUrl = `${
+        import.meta.env.VITE_API_HOST
+      }/posts/comment?commentId=${commentId}&questionId=${questionId}${
+        answerId ? `&answerId=${answerId}` : ""
+      }`;
+      const newData = { ...data };
+
+      if (answerId) {
+        newData.questionInfo.answer = newData.questionInfo.answer.map(
+          (answer: any) => {
+            if (answer.id === answerId)
+              answer.comment = answer.comment.filter(
+                (com: any) => com.id !== commentId
+              );
+            return answer;
+          }
+        );
+      } else {
+        newData.questionInfo.comment = newData.questionInfo.comment.filter(
+          (com) => com.id !== commentId
+        );
+      }
+
+      mutate(newData, false);
+      axios
+        .delete(apiUrl, { withCredentials: true })
+        .catch((e) => {
+          console.error(e);
+          alert(e);
+        })
+        .finally(() => mutate());
+    }
+  };
+
+  const AnswerPost = (
     questionId: number,
     text: string,
     userName: string,
     setValue: any
   ) => {
-    try {
-      if (data) {
-        const newData = { ...data };
-        newData.questionInfo.answer.push({
-          text: text,
-          user: { nickname: userName },
-        });
-        mutate(newData, false);
-        const res = await axios.post(
+    if (data) {
+      const newData = { ...data };
+      newData.questionInfo.answer.push({
+        text: text,
+        user: { nickname: userName },
+      });
+      mutate(newData, false);
+      axios
+        .post(
           `${import.meta.env.VITE_API_HOST}/posts/answer`,
           {
             questionId: questionId,
@@ -198,14 +307,10 @@ const useDetail = () => {
           {
             withCredentials: true,
           }
-        );
-        mutate();
-        setValue("");
-        console.log(res);
-      }
-    } catch (error) {
-      alert(error);
-      console.error(error);
+        )
+        .then(() => setValue(""))
+        .catch((e) => alert(e))
+        .finally(() => mutate());
     }
   };
 
@@ -221,9 +326,10 @@ const useDetail = () => {
         if (item.id === answerId) item.is_solved = true;
         return item;
       });
-      mutate(newData, false);
       const url = `${import.meta.env.VITE_API_HOST}/posts/answer/choice`;
-      const res = await axios.post(
+
+      mutate(newData, false);
+      await axios.post(
         url,
         {
           questionId: questionId,
@@ -234,13 +340,11 @@ const useDetail = () => {
           withCredentials: true,
         }
       );
-      console.log(res);
       mutate();
     } catch (e) {
       alert(e);
       console.error(e);
     }
-    console.log("choose", questionId, answerId, answerUserId);
   };
 
   return {
@@ -251,6 +355,8 @@ const useDetail = () => {
     QuestionThumbPost,
     AnswerThumbPost,
     CommentPost,
+    CommentEdit,
+    CommentDelete,
     AnswerPost,
     ChoicePost,
   };

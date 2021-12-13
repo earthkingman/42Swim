@@ -37,25 +37,15 @@ const MarkdownEditor = ({
 
   //todo: 이미지 업로드 axios 서버 통신: data를 보내면 됨.
   const save: SaveImageHandler = async function* (data: ArrayBuffer) {
-    console.log(data);
-
     try {
       //axios post 로 수정 필요.
       const res = await new Promise((resolve) => {
         const form = new FormData();
         const imgFile = new File([data], "Image");
         const url = `${import.meta.env.VITE_API_HOST}/posts/image`;
-
-        console.log("ArrayBuffer", data);
-        console.log("ArrayBufferType", typeof data);
-
-        console.log("imgFile", imgFile);
-        console.log("imgFileType", typeof imgFile);
-
         form.append("imgFile", imgFile);
 
         axios.post(url, form, { withCredentials: true }).then((res) => {
-          console.log("/posts/image", res);
           if (res.status === 200) resolve(res?.data?.image);
         });
         // setTimeout(() => {
