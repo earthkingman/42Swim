@@ -339,15 +339,38 @@ export class PageService {
 		return { questionList, questionCount }
 	}
 
-	async getQuestionListByHashtagId(pageInfo): Promise<any> {
-        const subQuery = await this.questionRepository
+	async getQuestionListByHashtagId(pageInfo, orderBy): Promise<any> {
+		let subQuery;
+
+        subQuery = await this.questionRepository
             .createQueryBuilder('covers')
             .select(['covers.id'])
             .leftJoin('covers.hashtag', 'hashtag')
             .where('hashtag.id = :id', { id: pageInfo.hashtagId })
-            .orderBy('covers.id', 'DESC')
-            .limit(pageInfo.limit)
-            .offset(pageInfo.offset)
+	
+		if (orderBy === "time"){
+			subQuery.select(['covers.id'])
+				.orderBy('covers.id', 'DESC')
+				.limit(pageInfo.limit)
+				.offset(pageInfo.offset)
+		}
+		else if (orderBy === "like"){
+			subQuery
+				.select(['covers.id', 'covers.like_count'])
+				.orderBy('covers.like_count', 'DESC')
+				.addOrderBy('covers.id', 'DESC')
+				.limit(pageInfo.limit)
+				.offset(pageInfo.offset)
+		}
+	
+		else if (orderBy === "solving"){
+			subQuery 
+				.select(['covers.id', 'covers.like_count'])
+				.andWhere('covers.is_solved = :is_solved', { is_solved: false })
+				.addOrderBy('covers.id', 'DESC')
+				.limit(pageInfo.limit)
+				.offset(pageInfo.offset)
+		}
 
         const questionList = await this.questionRepository
             .createQueryBuilder('question')
