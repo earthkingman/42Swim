@@ -4,11 +4,10 @@ import { ProfileProps } from "../Profile";
 import dateChange from "../../../utils/dateChange";
 import * as S from "./style";
 import { useRef, useState } from "react";
-import axios from "axios";
-import { mutate } from "swr";
 import useInput from "../../../hooks/useInput";
 import A from "../../atoms/A";
 import HideDiv from "../../atoms/HideDiv";
+import useDetail from "../../../hooks/useDetail";
 
 export interface CommentProps {
   id: number;
@@ -29,29 +28,20 @@ const Comment = ({
   userEmail,
   id,
 }: CommentProps) => {
+  const { CommentEdit, CommentDelete } = useDetail();
+
   const createAt = dateChange(created_at);
+
   const [show, setShow] = useState(false);
   const [isEdit, setisEdit] = useState(false);
   const { value, setValue, onChange } = useInput(text);
+
   const inputRef = useRef();
 
   const onDelClick = async () => {
     if (confirm("댓글을 삭제하시겠습니까?")) {
-      await axios.delete(
-        `${
-          import.meta.env.VITE_API_HOST
-        }/posts/comment?commentId=${id}&questionId=${questionId}${
-          answerId ? `&answerId=${answerId}` : ""
-        }`,
-        { withCredentials: true }
-      );
-      mutate(
-        `${
-          import.meta.env.VITE_API_HOST
-        }/pages/detail/question?questionId=${questionId}}`
-      );
+      CommentDelete(id, questionId, answerId);
     }
-
     setShow(false);
   };
 
@@ -65,21 +55,7 @@ const Comment = ({
   };
 
   const onEditDone = async () => {
-    await axios.patch(
-      `${import.meta.env.VITE_API_HOST}/posts/comment`,
-      {
-        text: value,
-        commentId: id,
-        questionId: questionId,
-        answerId: answerId,
-      },
-      { withCredentials: true }
-    );
-    mutate(
-      `${
-        import.meta.env.VITE_API_HOST
-      }/pages/detail/question?questionId=${questionId}}`
-    );
+    CommentEdit(value, id, questionId, answerId);
     setisEdit(false);
   };
 
