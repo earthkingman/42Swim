@@ -692,6 +692,7 @@ paths:
       summary: 해시태그 아이디로 질문글 리스트를 반환합니다.
       tags:
         - page
+      description: '데이터를 최신순으로 정렬하려면 orderBy = "time", 좋아요 순으로 정렬하려면 "like", 해결되지 않은 질문 리스트를 응답 받으려면 "solving" 사용'
       parameters:
         - name: pageNumber
           in: query
@@ -706,6 +707,12 @@ paths:
             type: integer
             format: int64
           example: 1
+          required: true
+        - name: orderBy
+          in: query
+          schema:
+            type: string
+          example: time
           required: true
       responses:
         '200':
