@@ -5,12 +5,13 @@ import { QuestionLike } from "../entity/question_like";
 import { User } from "../entity/user";
 import { Answer } from "../entity/answer";
 import { AnswerLike } from "../entity/answer_like";
+import { RankService } from "../service/rank_service";
 
 import { UserNotFoundException } from "../exception/user_exception";
 import { AnswerNotFoundException } from "../exception/answer_exception";
 import { QuestionNotFoundException } from "../exception/question_exception";
 import { DatabaseInternalServerErrorException } from "../exception/server_exception";
-import { LikeNotFoundException, LikeBadRequestException } from "../exception/like_exception"
+import { LikeNotFoundException, LikeBadRequestException, HateException } from "../exception/like_exception"
 
 export class LikeService {
 	private queryRunner: QueryRunner;
@@ -19,6 +20,7 @@ export class LikeService {
 	private answerRepository: Repository<Answer>;
 	private questionLikeRepository: Repository<QuestionLike>;
 	private answerLikeRepository: Repository<AnswerLike>;
+	private rankService: RankService;
 
 	constructor() {
 		this.queryRunner = getConnection().createQueryRunner();
@@ -27,12 +29,17 @@ export class LikeService {
 		this.answerRepository = this.queryRunner.manager.getRepository(Answer);
 		this.questionLikeRepository = this.queryRunner.manager.getRepository(QuestionLike);
 		this.answerLikeRepository = this.queryRunner.manager.getRepository(AnswerLike);
+		this.rankService = new RankService();
 	}
 
 	async createAnswerLike(likeInfo) {
 		const { answerId, userId, isLike, answerUserId } = likeInfo;
 
-		if (userId == answerUserId){
+		if (await this.rankService.getUserTotalRank(userId) <= 0) {
+			throw new HateException();
+		}
+
+		if (userId == answerUserId) {
 			throw new LikeBadRequestException("자신의 글에는 좋아요를 누를 수 없습니다.");
 		}
 
@@ -49,7 +56,7 @@ export class LikeService {
 		}
 
 		const user = await this.userRepository.findOne({ where: { id: userId } });
-		if (user === undefined){
+		if (user === undefined) {
 			throw new UserNotFoundException(userId);
 		}
 
@@ -88,8 +95,12 @@ export class LikeService {
 
 	async createQuestionLike(likeInfo) {
 		const { questionId, userId, isLike, questionUserId } = likeInfo;
-		console.log(questionUserId, userId)
-		if (userId == questionUserId){
+
+		if (await this.rankService.getUserTotalRank(userId) <= 0) {
+			throw new HateException();
+		}
+
+		if (userId == questionUserId) {
 			throw new LikeBadRequestException("자신의 글에는 좋아요를 누를 수 없습니다.");
 		}
 
@@ -106,7 +117,7 @@ export class LikeService {
 		}
 
 		const user = await this.userRepository.findOne({ where: { id: userId } });
-		if (user === undefined){
+		if (user === undefined) {
 			throw new UserNotFoundException(userId);
 		}
 
@@ -158,7 +169,7 @@ export class LikeService {
 		}
 
 		const user = await this.userRepository.findOne({ where: { id: userId } });
-		if (user === undefined){
+		if (user === undefined) {
 			throw new UserNotFoundException(userId);
 		}
 
