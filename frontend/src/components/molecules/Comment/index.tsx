@@ -71,11 +71,13 @@ const Comment = ({
       </S.CommentHeaderWrapper>
       <S.CommentTextWrapper>
         <S.EditInput
+          contentEditable={isEdit}
           onChange={onChange}
-          disabled={!isEdit}
-          value={value}
           ref={inputRef}
-        ></S.EditInput>
+          suppressContentEditableWarning
+        >
+          {value}
+        </S.EditInput>
         {user.email === userEmail ? (
           <>
             <S.MoreWrap visible={!isEdit}>
