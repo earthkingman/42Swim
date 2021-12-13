@@ -385,7 +385,7 @@ export class PageService {
             ])
             .getMany();
 
-        const questionCount = await await this.hashtagRepository
+        const questionCount = await this.hashtagRepository
             .createQueryBuilder('hashtag')
             .leftJoinAndSelect('hashtag.question', 'question')
             .where('hashtag.name = :name', { name: pageInfo.hashtag })
