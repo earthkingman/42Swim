@@ -788,6 +788,103 @@ paths:
         "404":
           description: Page doesn't exist
 
+  /pages/list/question/userId:
+    get:
+      summary: 유저 아이디로 질문글 리스트를 반환합니다.
+      tags:
+        - page
+      description: 데이터를 최신순으로 정렬하려면 orderBy = "time", 좋아요 순으로 정렬하려면 "like", 해결되지 않은 질문 리스트를 응답 받으려면 "solving" 사용
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+        - name: userId
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+        - name: orderBy
+          in: query
+          schema:
+            type: string
+          example: time
+          required: true
+      responses:
+        "200":
+          description: 페이지 요청 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MainPage"
+        "404":
+          description: Page doesn't exist
+
+  /pages/list/answer/userId:
+    get:
+      summary: 유저 아이디로 답변글 리스트를 반환합니다.
+      tags:
+        - page
+      description: 데이터를 최신순으로 정렬하려면 orderBy = "time", 좋아요 순으로 정렬하려면 "like", 채택된 답변 리스트를 응답 받으려면 "chosen" 사용
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+        - name: userId
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+        - name: orderBy
+          in: query
+          schema:
+            type: string
+          example: time
+          required: true
+      responses:
+        "200":
+          description: 페이지 요청 성공
+        "404":
+          description: Page doesn't exist
+
+  /pages/list/comment/userId:
+    get:
+      summary: 유저 아이디로 댓글 리스트를 반환합니다.
+      tags:
+        - page
+      description: 댓글은 최신순으로 정렬하여 응답합니다.
+      parameters:
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+        - name: userId
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
+      responses:
+        "200":
+          description: 페이지 요청 성공
+        "404":
+          description: Page doesn't exist
+
   /pages/list/question/like:
     get:
       summary: 질문 리스트를 추천순으로 반환합니다.
