@@ -77,6 +77,14 @@ export class RankService {
         return userTotalRank;
     }
 
+
+    async getUserTotalPoint(userId: number) {
+        const getAsync = util.promisify(redisClient.zscore).bind(redisClient);
+        const userTotalRank = await getAsync('total_rank', String(userId));
+        return userTotalRank;
+    }
+
+
     async getUserMonthRank(userId: number) {
         const getAsync = util.promisify(redisClient.zrank).bind(redisClient);
         const userMonthRank = await getAsync('month_rank', String(userId));

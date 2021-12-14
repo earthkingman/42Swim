@@ -34,8 +34,9 @@ export class LikeService {
 
 	async createAnswerLike(likeInfo) {
 		const { answerId, userId, isLike, answerUserId } = likeInfo;
+		const score = await this.rankService.getUserTotalPoint(userId);
 
-		if (await this.rankService.getUserTotalRank(userId) <= 0 && isLike == false) {
+		if (score <= 0 && isLike == false) {
 			throw new HateException();
 		}
 		if (userId == answerUserId) {
@@ -93,10 +94,12 @@ export class LikeService {
 
 	async createQuestionLike(likeInfo) {
 		const { questionId, userId, isLike, questionUserId } = likeInfo;
+		const score = await this.rankService.getUserTotalPoint(userId);
 
-		if (await this.rankService.getUserTotalRank(userId) <= 0 && isLike == false) {
+		if (score <= 0 && isLike == false) {
 			throw new HateException();
 		}
+
 		if (userId == questionUserId) {
 			throw new LikeBadRequestException("자신의 글에는 좋아요를 누를 수 없습니다.");
 		}
