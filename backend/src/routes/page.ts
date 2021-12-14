@@ -21,6 +21,12 @@ pageRouter.get('/list/question/hashtag/name', PageController.getQuestionListPage
 
 pageRouter.post('/question/viewCount', PageController.increaseQuestionViewCount);
 
+pageRouter.get('/list/question/userId', PageController.getQuestionListPageByUserId);
+
+pageRouter.get('/list/answer/userId', PageController.getAnswerListPageByUserId);
+
+pageRouter.get('/list/comment/userId', PageController.getCommentListPageByUserId);
+
 // router.delete('/delete', authticate_JWT, s3.s3DeletePhoto, QuestionController.deleteQuestion)
 
 // router.post('/uploads', authticate_JWT, s3.s3ImageUpload({ folder: 'author' }).array("imgFile"), QuestionController.uploadQuestion)
