@@ -155,7 +155,7 @@ const getQuestionListPageByUserId = async (req: any, res: Response, next: NextFu
 	const pageService: PageService = new PageService();
 
 	try {
-		const { questionList, questionCount } = await pageService.getQuestionListByHashtagName(pageInfo, orderBy);
+		const { questionList, questionCount } = await pageService.getQuestionListByUserId(pageInfo, orderBy);
 		return res.status(200).json({
 			questionList: questionList,
 			questionCount: questionCount,

@@ -486,7 +486,7 @@ export class PageService {
 	
 		else if (orderBy === "solving"){
 			subQuery 
-				.select(['covers.id', 'covers.like_count'])
+				.select(['covers.id'])
 				.andWhere('covers.is_solved = :is_solved', { is_solved: false })
 				.addOrderBy('covers.id', 'DESC')
 				.limit(pageInfo.limit)
@@ -543,7 +543,7 @@ export class PageService {
 		else if (orderBy === "chosen"){
 			subQuery 
 				.select(['covers.id', 'covers.like_count'])
-				.andWhere('covers.is_chosen = :is_chosen', { chosen: true })
+				.andWhere('covers.is_chosen = :is_chosen', { is_chosen: true })
 				.addOrderBy('covers.id', 'DESC')
 				.limit(pageInfo.limit)
 				.offset(pageInfo.offset)
