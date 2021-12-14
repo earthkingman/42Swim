@@ -493,7 +493,7 @@ export class PageService {
 		}
 
 		else if (orderBy === "chosen") {
-			count = subQuery
+			count = await subQuery
 				.select(['covers.id'])
 				.andWhere('covers.is_chosen = :is_chosen', { is_chosen: true })
 				.getCount();
@@ -503,6 +503,7 @@ export class PageService {
 				.addOrderBy('covers.id', 'DESC')
 				.limit(pageInfo.limit)
 				.offset(pageInfo.offset)
+			console.log(count);
 		}
 		return { subQuery, count };
 	}
