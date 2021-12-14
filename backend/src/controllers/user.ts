@@ -15,15 +15,21 @@ const getProfile = async (req: DecodedRequest, res: Response, next: NextFunction
 
 	try {
 		const userProfile = await userService.getUserProfile(userId);
-		const userMonthScore = await rankService.getUserMonthRank(userId);
-		const userTotalScore = await rankService.getUserTotalRank(userId);
+		const userMonthScore = await rankService.getUserMonthScore(userId);
+		const userTotalScore = await rankService.getUserTotalScore(userId);
+		const userMonthRank = await rankService.getUserMonthRank(userId);
+		const userTotalRank = await rankService.getUserTotalRank(userId);
 
 		if (userProfile.photo == ""){
 			userProfile.photo = null;
 		}
 		if (userProfile) {
 			res.status(200).json({
-				userProfile
+				userProfile,
+				userMonthScore,
+				userTotalScore,
+				userMonthRank,
+				userTotalRank
 			})
 		}
 		else {

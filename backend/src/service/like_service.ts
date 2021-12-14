@@ -34,7 +34,7 @@ export class LikeService {
 
 	async createAnswerLike(likeInfo) {
 		const { answerId, userId, isLike, answerUserId } = likeInfo;
-		const score = await this.rankService.getUserTotalPoint(userId);
+		const score = await this.rankService.getUserTotalScore(userId);
 
 		if (score <= 0 && isLike == false) {
 			throw new HateException();
@@ -94,7 +94,7 @@ export class LikeService {
 
 	async createQuestionLike(likeInfo) {
 		const { questionId, userId, isLike, questionUserId } = likeInfo;
-		const score = await this.rankService.getUserTotalPoint(userId);
+		const score = await this.rankService.getUserTotalScore(userId);
 
 		if (score <= 0 && isLike == false) {
 			throw new HateException();
