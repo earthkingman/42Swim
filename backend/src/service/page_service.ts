@@ -205,7 +205,6 @@ export class PageService {
 	}
 
 	async getQuestionList(pageInfo) {
-
 		const subQuery = await this.questionRepository
 			.createQueryBuilder('covers')
 			.select(['covers.id'])
@@ -291,47 +290,23 @@ export class PageService {
 
 	async getQuestionListByKeyword(pageInfo, orderBy) {
 		const keywords = pageInfo.keyword.split(" ");
-		
 		let subQuery;
 
 		subQuery = this.questionRepository
 			.createQueryBuilder('covers')
 			.where('covers.title like :title', { title: `%${keywords[0]}%` })
-		for(let i = 1; i < keywords.length; i++){
+		for (let i = 1; i < keywords.length; i++) {
 			const subStr = 'covers.title like :title' + String(i);
-			const subTitle = "title"+ String(i);
-			subQuery.orWhere(subStr, { [subTitle] : `%${keywords[i]}%` })
+			const subTitle = "title" + String(i);
+			subQuery.orWhere(subStr, { [subTitle]: `%${keywords[i]}%` })
 		}
-
-		if (orderBy === "time"){
-		subQuery.select(['covers.id'])
-			.orderBy('covers.id', 'DESC')
-			.limit(pageInfo.limit)
-			.offset(pageInfo.offset)
-		}
-		else if (orderBy === "like"){
-		subQuery
-			.select(['covers.id', 'covers.like_count'])
-			.orderBy('covers.like_count', 'DESC')
-			.addOrderBy('covers.id', 'DESC')
-			.limit(pageInfo.limit)
-			.offset(pageInfo.offset)
-		}
-
-		else if (orderBy === "solving"){
-		subQuery 
-			.select(['covers.id', 'covers.like_count'])
-			.andWhere('covers.is_solved = :is_solved', { is_solved: false })
-			.addOrderBy('covers.id', 'DESC')
-			.limit(pageInfo.limit)
-			.offset(pageInfo.offset)
-		}
-
+		const orderByData = await this.orderByList(subQuery, orderBy, pageInfo);
+		const questionCount = orderByData.count;
 		const questionList = await this.questionRepository
 			.createQueryBuilder('question')
-			.innerJoin(`(${subQuery.getQuery()})`, 'covers',
+			.innerJoin(`(${orderByData.subQuery.getQuery()})`, 'covers',
 				'question.id = covers.covers_id')
-			.setParameters(subQuery.getParameters())
+			.setParameters(orderByData.subQuery.getParameters())
 			.innerJoinAndSelect('question.user', 'question_user')
 			.leftJoin('question.hashtag', 'question_hashtag')
 			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
@@ -340,142 +315,157 @@ export class PageService {
 			])
 			.orderBy('question.id', 'DESC')
 			.getMany();
-
-		const questionCount = await this.questionRepository
-			.createQueryBuilder('question')
-			.where('question.title like :title', { title: `%${pageInfo.keyword}%` })
-			.getCount();
 		return { questionList, questionCount }
 	}
 
 	async getQuestionListByHashtagId(pageInfo, orderBy): Promise<any> {
 		let subQuery;
 
-        subQuery = await this.questionRepository
-            .createQueryBuilder('covers')
-            .select(['covers.id'])
-            .leftJoin('covers.hashtag', 'hashtag')
-            .where('hashtag.id = :id', { id: pageInfo.hashtagId })
-	
-		if (orderBy === "time"){
-			subQuery.select(['covers.id'])
-				.orderBy('covers.id', 'DESC')
-				.limit(pageInfo.limit)
-				.offset(pageInfo.offset)
-		}
-		else if (orderBy === "like"){
-			subQuery
-				.select(['covers.id', 'covers.like_count'])
-				.orderBy('covers.like_count', 'DESC')
-				.addOrderBy('covers.id', 'DESC')
-				.limit(pageInfo.limit)
-				.offset(pageInfo.offset)
-		}
-	
-		else if (orderBy === "solving"){
-			subQuery 
-				.select(['covers.id', 'covers.like_count'])
-				.andWhere('covers.is_solved = :is_solved', { is_solved: false })
-				.addOrderBy('covers.id', 'DESC')
-				.limit(pageInfo.limit)
-				.offset(pageInfo.offset)
-		}
+		subQuery = await this.questionRepository
+			.createQueryBuilder('covers')
+			.select(['covers.id'])
+			.leftJoin('covers.hashtag', 'hashtag')
+			.where('hashtag.id = :id', { id: pageInfo.hashtagId })
 
-        const questionList = await this.questionRepository
-            .createQueryBuilder('question')
-            .innerJoin(`(${subQuery.getQuery()})`, 'covers',
-                'question.id = covers.covers_id')
-            .setParameters(subQuery.getParameters())
-            .innerJoinAndSelect('question.user', 'question_user')
-            .leftJoin('question.hashtag', 'question_hashtag')
-            .select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
-                'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
-                'question_hashtag.id', 'question_hashtag.name'
-            ])
-            .getMany();
-
-        const questionCount = await this.hashtagRepository
-            .createQueryBuilder('hashtag')
-            .leftJoinAndSelect('hashtag.question', 'question')
-            .where('hashtag.name = :name', { name: pageInfo.hashtag })
-            .select('COUNT(*) AS count')
-            .getRawOne();
-
-        return { questionList, questionCount: questionCount.count };
-    }
+		const orderByData = await this.orderByList(subQuery, orderBy, pageInfo);
+		const questionCount = orderByData.count;
+		const questionList = await this.questionRepository
+			.createQueryBuilder('question')
+			.innerJoin(`(${orderByData.subQuery.getQuery()})`, 'covers',
+				'question.id = covers.covers_id')
+			.setParameters(orderByData.subQuery.getParameters())
+			.innerJoinAndSelect('question.user', 'question_user')
+			.leftJoin('question.hashtag', 'question_hashtag')
+			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
+				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
+				'question_hashtag.id', 'question_hashtag.name'
+			])
+			.getMany();
+		return { questionList, questionCount };
+	}
 
 	async getQuestionListByHashtagName(pageInfo, orderBy): Promise<any> {
 		let subQuery;
 
-        subQuery = await this.questionRepository
-            .createQueryBuilder('covers')
-            .select(['covers.id'])
-            .leftJoin('covers.hashtag', 'hashtag')
-            .where('hashtag.name = :name', { name: pageInfo.hashtagName })
-	
-		if (orderBy === "time"){
-			subQuery.select(['covers.id'])
-				.orderBy('covers.id', 'DESC')
-				.limit(pageInfo.limit)
-				.offset(pageInfo.offset)
-		}
-		else if (orderBy === "like"){
-			subQuery
-				.select(['covers.id', 'covers.like_count'])
-				.orderBy('covers.like_count', 'DESC')
-				.addOrderBy('covers.id', 'DESC')
-				.limit(pageInfo.limit)
-				.offset(pageInfo.offset)
-		}
-	
-		else if (orderBy === "solving"){
-			subQuery 
-				.select(['covers.id', 'covers.like_count'])
-				.andWhere('covers.is_solved = :is_solved', { is_solved: false })
-				.addOrderBy('covers.id', 'DESC')
-				.limit(pageInfo.limit)
-				.offset(pageInfo.offset)
-		}
-
-        const questionList = await this.questionRepository
-            .createQueryBuilder('question')
-            .innerJoin(`(${subQuery.getQuery()})`, 'covers',
-                'question.id = covers.covers_id')
-            .setParameters(subQuery.getParameters())
-            .innerJoinAndSelect('question.user', 'question_user')
-            .leftJoin('question.hashtag', 'question_hashtag')
-            .select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
-                'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
-                'question_hashtag.id', 'question_hashtag.name'
-            ])
-            .getMany();
-
-        const questionCount = await await this.hashtagRepository
-            .createQueryBuilder('hashtag')
-            .leftJoinAndSelect('hashtag.question', 'question')
-            .where('hashtag.name = :name', { name: pageInfo.hashtag })
-            .select('COUNT(*) AS count')
-            .getRawOne();
-
-        return { questionList, questionCount: questionCount.count };
-    }
+		subQuery = await this.questionRepository
+			.createQueryBuilder('covers')
+			.select(['covers.id'])
+			.leftJoin('covers.hashtag', 'hashtag')
+			.where('hashtag.name = :name', { name: pageInfo.hashtagName })
+		const orderByData = await this.orderByList(subQuery, orderBy, pageInfo);
+		const questionCount = orderByData.count;
+		const questionList = await this.questionRepository
+			.createQueryBuilder('question')
+			.innerJoin(`(${orderByData.subQuery.getQuery()})`, 'covers',
+				'question.id = covers.covers_id')
+			.setParameters(orderByData.subQuery.getParameters())
+			.innerJoinAndSelect('question.user', 'question_user')
+			.leftJoin('question.hashtag', 'question_hashtag')
+			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
+				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
+				'question_hashtag.id', 'question_hashtag.name'
+			])
+			.getMany();
+		return { questionList, questionCount };
+	}
 
 	async getQuestionListByUserId(pageInfo, orderBy): Promise<any> {
 		let subQuery;
 
-        subQuery = await this.questionRepository
-            .createQueryBuilder('covers')
-            .select(['covers.id'])
-            .leftJoin('covers.user', 'user')
-            .where('user.id = :id', { id: pageInfo.userId })
-	
-		if (orderBy === "time"){
+		subQuery = await this.questionRepository
+			.createQueryBuilder('covers')
+			.select(['covers.id'])
+			.leftJoin('covers.user', 'user')
+			.where('user.id = :id', { id: pageInfo.userId })
+
+		const orderByData = await this.orderByList(subQuery, orderBy, pageInfo);
+		const questionCount = orderByData.count;
+		const questionList = await this.questionRepository
+			.createQueryBuilder('question')
+			.innerJoin(`(${orderByData.subQuery.getQuery()})`, 'covers',
+				'question.id = covers.covers_id')
+			.setParameters(orderByData.subQuery.getParameters())
+			.innerJoinAndSelect('question.user', 'question_user')
+			.leftJoin('question.hashtag', 'question_hashtag')
+			.select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
+				'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
+				'question_hashtag.id', 'question_hashtag.name'
+			])
+			.getMany();
+		return { questionList, questionCount };
+	}
+
+	async getAnswerListByUserId(pageInfo, orderBy): Promise<any> {
+		let subQuery;
+
+		subQuery = await this.answerRepository
+			.createQueryBuilder('covers')
+			.select(['covers.id'])
+			.leftJoin('covers.user', 'user')
+			.where('user.id = :id', { id: pageInfo.userId })
+
+		const orderByData = await this.orderByList(subQuery, orderBy, pageInfo);
+		const answerCount = orderByData.count;
+		const answerList = await this.answerRepository
+			.createQueryBuilder('answer')
+			.innerJoin(`(${orderByData.subQuery.getQuery()})`, 'covers',
+				'answer.id = covers.covers_id')
+			.setParameters(orderByData.subQuery.getParameters())
+			.innerJoinAndSelect('answer.user', 'answer_user')
+			.select(['answer.id', 'answer.created_at', 'answer.like_count', 'answer.text',
+				'answer_user.id', 'answer_user.created_at', 'answer_user.email', 'answer_user.nickname', 'answer_user.photo',
+			])
+			.getMany();
+		return { answerList, answerCount };
+	}
+
+	async getCommentListByUserId(pageInfo): Promise<any> {
+		const subQuery = await this.commentRepository
+			.createQueryBuilder('covers')
+			.select(['covers.id'])
+			.leftJoin('covers.user', 'user')
+			.where('user.id = :id', { id: pageInfo.userId })
+			.orderBy('covers.id', 'DESC')
+			.limit(pageInfo.limit)
+			.offset(pageInfo.offset)
+
+		const commentList = await this.commentRepository
+			.createQueryBuilder('comment')
+			.innerJoin(`(${subQuery.getQuery()})`, 'covers',
+				'comment.id = covers.covers_id')
+			.setParameters(subQuery.getParameters())
+			.innerJoinAndSelect('comment.user', 'comment_user')
+			.select(['comment.id', 'comment.created_at', 'comment.text',
+				'comment_user.id', 'comment_user.created_at', 'comment_user.email', 'comment_user.nickname', 'comment_user.photo',
+			])
+			.getMany();
+
+		const commentCount = await this.userRepository
+			.createQueryBuilder('user')
+			.leftJoinAndSelect('user.comment', 'comment')
+			.where('user.id = :id', { id: pageInfo.userId })
+			.select('COUNT(*) AS count')
+			.getRawOne();
+
+		return { commentList, commentCount: commentCount.count };
+	}
+
+	async orderByList(subQuery, orderBy: string, pageInfo) {
+		let count = 0;
+
+		if (orderBy === "time") {
+			count = await subQuery
+				.select(['covers.id'])
+				.getCount();
 			subQuery.select(['covers.id'])
 				.orderBy('covers.id', 'DESC')
 				.limit(pageInfo.limit)
 				.offset(pageInfo.offset)
 		}
-		else if (orderBy === "like"){
+		else if (orderBy === "like") {
+			count = await subQuery
+				.select(['covers.id'])
+				.getCount();
 			subQuery
 				.select(['covers.id', 'covers.like_count'])
 				.orderBy('covers.like_count', 'DESC')
@@ -483,9 +473,13 @@ export class PageService {
 				.limit(pageInfo.limit)
 				.offset(pageInfo.offset)
 		}
-	
-		else if (orderBy === "solving"){
-			subQuery 
+
+		else if (orderBy === "solving") {
+			count = await subQuery
+				.select(['covers.id'])
+				.andWhere('covers.is_solved = :is_solved', { is_solved: false })
+				.getCount();
+			subQuery
 				.select(['covers.id'])
 				.andWhere('covers.is_solved = :is_solved', { is_solved: false })
 				.addOrderBy('covers.id', 'DESC')
@@ -493,111 +487,18 @@ export class PageService {
 				.offset(pageInfo.offset)
 		}
 
-        const questionList = await this.questionRepository
-            .createQueryBuilder('question')
-            .innerJoin(`(${subQuery.getQuery()})`, 'covers',
-                'question.id = covers.covers_id')
-            .setParameters(subQuery.getParameters())
-            .innerJoinAndSelect('question.user', 'question_user')
-            .leftJoin('question.hashtag', 'question_hashtag')
-            .select(['question.id', 'question.created_at', 'question.is_solved', 'question.like_count', 'question.view_count', 'question.answer_count', 'question.title', 'question.text',
-                'question_user.id', 'question_user.created_at', 'question_user.email', 'question_user.nickname', 'question_user.photo',
-                'question_hashtag.id', 'question_hashtag.name'
-            ])
-            .getMany();
-
-        const questionCount = await await this.userRepository
-            .createQueryBuilder('user')
-            .leftJoinAndSelect('user.question', 'question')
-            .where('user.id = :id', { id: pageInfo.userId })
-            .select('COUNT(*) AS count')
-            .getRawOne();
-
-        return { questionList, questionCount: questionCount.count };
-    }
-
-	async getAnswerListByUserId(pageInfo, orderBy): Promise<any> {
-		let subQuery;
-
-        subQuery = await this.answerRepository
-            .createQueryBuilder('covers')
-            .select(['covers.id'])
-            .leftJoin('covers.user', 'user')
-            .where('user.id = :id', { id: pageInfo.userId })
-	
-		if (orderBy === "time"){
-			subQuery.select(['covers.id'])
-				.orderBy('covers.id', 'DESC')
-				.limit(pageInfo.limit)
-				.offset(pageInfo.offset)
-		}
-		else if (orderBy === "like"){
+		else if (orderBy === "chosen") {
+			count = await subQuery
+				.select(['covers.id'])
+				.andWhere('covers.is_chosen = :is_chosen', { is_chosen: true })
+				.getCount();
 			subQuery
-				.select(['covers.id', 'covers.like_count'])
-				.orderBy('covers.like_count', 'DESC')
-				.addOrderBy('covers.id', 'DESC')
-				.limit(pageInfo.limit)
-				.offset(pageInfo.offset)
-		}
-	
-		else if (orderBy === "chosen"){
-			subQuery 
 				.select(['covers.id', 'covers.like_count'])
 				.andWhere('covers.is_chosen = :is_chosen', { is_chosen: true })
 				.addOrderBy('covers.id', 'DESC')
 				.limit(pageInfo.limit)
 				.offset(pageInfo.offset)
 		}
-
-        const answerList = await this.answerRepository
-            .createQueryBuilder('answer')
-            .innerJoin(`(${subQuery.getQuery()})`, 'covers',
-                'answer.id = covers.covers_id')
-            .setParameters(subQuery.getParameters())
-            .innerJoinAndSelect('answer.user', 'answer_user')
-            .select(['answer.id', 'answer.created_at', 'answer.like_count', 'answer.text',
-                'answer_user.id', 'answer_user.created_at', 'answer_user.email', 'answer_user.nickname', 'answer_user.photo',
-            ])
-            .getMany();
-
-        const answerCount = await await this.userRepository
-            .createQueryBuilder('user')
-            .leftJoinAndSelect('user.answer', 'answer')
-            .where('user.id = :id', { id: pageInfo.userId })
-            .select('COUNT(*) AS count')
-            .getRawOne();
-
-        return { answerList, answerCount: answerCount.count };
-    }
-
-	async getCommentListByUserId(pageInfo): Promise<any> {
-        const subQuery = await this.commentRepository
-            .createQueryBuilder('covers')
-            .select(['covers.id'])
-            .leftJoin('covers.user', 'user')
-            .where('user.id = :id', { id: pageInfo.userId })
-			.orderBy('covers.id', 'DESC')
-			.limit(pageInfo.limit)
-			.offset(pageInfo.offset)
-
-        const commentList = await this.commentRepository
-            .createQueryBuilder('comment')
-            .innerJoin(`(${subQuery.getQuery()})`, 'covers',
-                'comment.id = covers.covers_id')
-            .setParameters(subQuery.getParameters())
-            .innerJoinAndSelect('comment.user', 'comment_user')
-            .select(['comment.id', 'comment.created_at', 'comment.text',
-                'comment_user.id', 'comment_user.created_at', 'comment_user.email', 'comment_user.nickname', 'comment_user.photo',
-            ])
-            .getMany();
-
-        const commentCount = await await this.userRepository
-            .createQueryBuilder('user')
-            .leftJoinAndSelect('user.comment', 'comment')
-            .where('user.id = :id', { id: pageInfo.userId })
-            .select('COUNT(*) AS count')
-            .getRawOne();
-
-        return { commentList, commentCount: commentCount.count };
-    }
+		return { subQuery, count };
+	}
 }
