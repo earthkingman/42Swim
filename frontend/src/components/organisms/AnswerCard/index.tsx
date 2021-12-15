@@ -171,7 +171,7 @@ const AnswerCard = ({
             </A>
             <A
               onClick={editComment}
-              fontcolor="yellow"
+              fontcolor="primary"
               bold={true}
               small={true}
             >

@@ -64,9 +64,10 @@ const Ranking = () => {
       ></RowSADiv>
       <S.RankingDiv>
         <S.Title>
-          <Text size="18" weight="bold">
-            42<S.Blue>Swimmer</S.Blue> 랭킹
+          <Text size="18" weight="bold" style={{ zIndex: "2" }}>
+            42Swimmer 랭킹
           </Text>
+          <S.Blue></S.Blue>
           <Help />
         </S.Title>
         <S.TabWrapper>

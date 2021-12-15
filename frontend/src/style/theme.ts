@@ -1,14 +1,13 @@
 const color = {
   button: {
-    primary: "#3EC2EC",
+    primary: "#1896BD",
     yellow: "#FFB84D",
     white: "#FFFFFF",
     red: "#FF5D39",
-    lightyellow: "#FFDCA8",
+    lightprimary: "#a7deef",
   },
   a: {
     primary: "#1896BD",
-    yellow: "#FFB84D",
     white: "#FFFFFF",
     red: "#FF5D39",
     black: "#000000",
@@ -16,23 +15,23 @@ const color = {
   },
   background: {
     white: "#FFFFFF",
-    lightgrey: "#F4F5F7",
+    lightgrey: "#F3F3F3",
   },
   text: {
     primary: "#1896BD",
     white: "#FFFFFF",
     yellow: "#FFB84D",
     red: "#FF5D39",
+
     black: "#000000",
     lightgrey: "#a6a6a6",
     grey: "#565656",
     deepgray: "#C4C4C4",
   },
   tag: {
-    primary: "#9CE7FF",
-    yellow: "#FFDCA8",
+    primary: "#1896BD",
   },
-  primary: "#3EC2EC",
+  primary: "#1896BD",
   yellow: "#FFB84D",
   white: "#FFFFFF",
   red: "#FF5D39",
@@ -41,7 +40,6 @@ const color = {
   black: "#000000",
   lightblack: "#545454",
   lightyelloew: "#FFDCA8",
-  primary: "#FFB84D",
 };
 
 const theme = {
