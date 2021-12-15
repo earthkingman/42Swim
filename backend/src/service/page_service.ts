@@ -300,11 +300,6 @@ export class PageService {
 			const subTitle = "title" + String(i);
 			subQuery.orWhere(subStr, { [subTitle]: `%${keywords[i]}%` })
 		}
-		subQuery = await this.questionRepository
-			.createQueryBuilder('covers')
-			.select(['covers.id'])
-			.leftJoin('covers.hashtag', 'hashtag')
-			.where('hashtag.id = :id', { id: pageInfo.hashtagId })
 		const orderByData = await this.orderByList(subQuery, orderBy, pageInfo);
 		const questionCount = orderByData.count;
 		const questionList = await this.questionRepository
@@ -503,7 +498,6 @@ export class PageService {
 				.addOrderBy('covers.id', 'DESC')
 				.limit(pageInfo.limit)
 				.offset(pageInfo.offset)
-			console.log(count);
 		}
 		return { subQuery, count };
 	}
