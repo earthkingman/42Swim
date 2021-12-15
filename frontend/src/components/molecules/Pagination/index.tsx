@@ -33,7 +33,7 @@ const Number = ({ number, active, onClick, ...props }: PNProps) => {
     <CircleBox
       onClick={onClick}
       size="sm"
-      color={active ? theme.color.yellow : theme.color.white}
+      color={active ? theme.color.primary : theme.color.white}
       style={style}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

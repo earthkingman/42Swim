@@ -37,7 +37,7 @@ const CommentInput = ({
           border={false}
           onChange={onChange}
         ></CommnetInputStyle>
-        <CommentInputA fontcolor="yellow" underline={false} onClick={onClick}>
+        <CommentInputA fontcolor="primary" underline={false} onClick={onClick}>
           댓글 입력
         </CommentInputA>
       </CommentInputWrapper>

@@ -86,7 +86,7 @@ const LoginPage = ({ onClose, onRegist, ...props }: LoginProps) => {
             <Button onClick={onLogin} size="lg">
               로그인
             </Button>
-            <A onClick={on42Login} fontcolor="yellow" underline={true}>
+            <A onClick={on42Login} fontcolor="primary" underline={true}>
               42seoul 계정으로 로그인
             </A>
           </ModalGroup>

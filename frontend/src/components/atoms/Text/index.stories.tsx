@@ -29,7 +29,7 @@ export const Sizes = (props: TextProps) => {
 export const Color = (props: TextProps) => {
   return (
     <div>
-      <Template size="18" color="yellow" {...props}>
+      <Template size="18" color="primary" {...props}>
         {" 노란색 텍스트 "}
       </Template>
       <Template size="18" color="red" {...props}>

@@ -17,7 +17,7 @@ const getQuestionListPage = async (req: any, res: Response, next: NextFunction) 
 	try {
 		const { questionList, questionCount } = await pageService.getQuestionList(pageInfo);
 		return res.status(200).json({
-			quesiontList: questionList,
+			questionList: questionList,
 			questionCount: questionCount,
 			message: "getList success",
 		})
@@ -39,7 +39,7 @@ const getQuestionListPageOrderByLike = async (req: any, res: Response, next: Nex
 	try {
 		const { questionList, questionCount } = await pageService.getQuestionListOrderByLikeCount(pageInfo);
 		return res.status(200).json({
-			quesiontList: questionList,
+			questionList: questionList,
 			questionCount: questionCount,
 			message: "getList success",
 		})
@@ -61,7 +61,7 @@ const getQuestionListPageUnsolved = async (req: any, res: Response, next: NextFu
 	try {
 		const { questionList, questionCount } = await pageService.getQuestionListUnsolved(pageInfo);
 		return res.status(200).json({
-			quesiontList: questionList,
+			questionList: questionList,
 			questionCount: questionCount,
 			message: "getList success",
 		})
@@ -85,7 +85,7 @@ const getQuestionListPageByKeyword = async (req: any, res: Response, next: NextF
 	try {
 		const { questionList, questionCount } = await pageService.getQuestionListByKeyword(pageInfo, orderBy);
 		return res.status(200).json({
-			quesiontList: questionList,
+			questionList: questionList,
 			questionCount: questionCount,
 			message: "getList success",
 		})
@@ -109,7 +109,7 @@ const getQuestionListPageByHashtagId = async (req: any, res: Response, next: Nex
 	try {
 		const { questionList, questionCount } = await pageService.getQuestionListByHashtagId(pageInfo, orderBy);
 		return res.status(200).json({
-			quesiontList: questionList,
+			questionList: questionList,
 			questionCount: questionCount,
 			message: "getList success",
 		})
@@ -133,8 +133,79 @@ const getQuestionListPageByHashtagName = async (req: any, res: Response, next: N
 	try {
 		const { questionList, questionCount } = await pageService.getQuestionListByHashtagName(pageInfo, orderBy);
 		return res.status(200).json({
-			quesiontList: questionList,
+			questionList: questionList,
 			questionCount: questionCount,
+			message: "getList success",
+		})
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
+const getQuestionListPageByUserId = async (req: any, res: Response, next: NextFunction) => {
+	const pageNumber = Number(req.query.pageNumber) - 1;
+	const userId = req.query.userId;
+	const orderBy = req.query.orderBy;
+	const limit = 8;
+	const offset = pageNumber * limit;
+	const pageInfo = { limit, offset, userId };
+	const pageService: PageService = new PageService();
+
+	try {
+		const { questionList, questionCount } = await pageService.getQuestionListByUserId(pageInfo, orderBy);
+		return res.status(200).json({
+			questionList: questionList,
+			questionCount: questionCount,
+			message: "getList success",
+		})
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
+const getAnswerListPageByUserId = async (req: any, res: Response, next: NextFunction) => {
+	const pageNumber = Number(req.query.pageNumber) - 1;
+	const userId = req.query.userId;
+	const orderBy = req.query.orderBy;
+	const limit = 8;
+	const offset = pageNumber * limit;
+	const pageInfo = { limit, offset, userId };
+	const pageService: PageService = new PageService();
+
+	try {
+		const { answerList, answerCount } = await pageService.getAnswerListByUserId(pageInfo, orderBy);
+		return res.status(200).json({
+			answerList: answerList,
+			answerCount: answerCount,
+			message: "getList success",
+		})
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			message: `An error occurred (${error.message})`
+		})
+	}
+}
+
+const getCommentListPageByUserId = async (req: any, res: Response, next: NextFunction) => {
+	const pageNumber = Number(req.query.pageNumber) - 1;
+	const userId = req.query.userId;
+	const limit = 8;
+	const offset = pageNumber * limit;
+	const pageInfo = { limit, offset, userId };
+	const pageService: PageService = new PageService();
+
+	try {
+		const { commentList, commentCount } = await pageService.getCommentListByUserId(pageInfo);
+		return res.status(200).json({
+			commentList: commentList,
+			commentCount: commentCount,
 			message: "getList success",
 		})
 	} catch (error) {
@@ -188,5 +259,6 @@ const increaseQuestionViewCount = async (req: any, res: Response, next: NextFunc
 
 export const PageController = {
 	getQuestionListPage, getQuestionDetailPage, getQuestionListPageOrderByLike, getQuestionListPageUnsolved,
-	getQuestionListPageByKeyword, getQuestionListPageByHashtagId, getQuestionListPageByHashtagName, increaseQuestionViewCount
+	getQuestionListPageByKeyword, getQuestionListPageByHashtagId, getQuestionListPageByHashtagName, increaseQuestionViewCount,
+	getQuestionListPageByUserId, getAnswerListPageByUserId, getCommentListPageByUserId
 }

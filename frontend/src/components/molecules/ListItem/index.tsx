@@ -68,7 +68,7 @@ const ListItem = ({
         <SortCounter
           name="답변"
           count={answer_cnt}
-          color={is_solved ? "yellow" : "black"}
+          color={is_solved ? "primary" : "black"}
         />
         <SortCounter name="추천" count={like_count} />
         <SortCounter name="조회" count={view_count} />

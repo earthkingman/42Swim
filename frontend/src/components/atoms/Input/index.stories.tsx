@@ -37,7 +37,7 @@ export const Basic = (props: InputProps) => {
 //   return (
 //     <div>
 //       <div>
-//         <Template size="sm" color="yellow" {...props}>
+//         <Template size="sm" color="primary" {...props}>
 //           Button
 //         </Template>
 //         <Template size="sm" color="white" shadow={true} {...props}>

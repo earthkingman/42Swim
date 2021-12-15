@@ -9,7 +9,7 @@ const PostBoxStyles = css<SPostBoxProps>`
   ${({ isChecked }) =>
     isChecked == true &&
     css`
-      border: 3px solid ${theme.color.yellow};
+      border: 3px solid ${theme.color.primary};
       box-shadow: none;
     `}
 `;

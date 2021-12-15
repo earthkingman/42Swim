@@ -38,7 +38,7 @@ const LoadingDiv = styled.div`
   width: 84px;
   height: 84px;
   border: 5px solid white;
-  border-top: 5px solid ${theme.color.yellow};
+  border-top: 5px solid ${theme.color.primary};
   border-radius: 50%;
 
   background-color: white;

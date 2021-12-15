@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
-import globalTheme from "../../../style/theme";
 import { darken, lighten } from "polished";
+import theme from "../../../style/theme";
 
 type sizeType = "sm" | "lg";
 
@@ -10,8 +10,8 @@ const sizes = {
 };
 
 interface SButtonProps {
-  color?: keyof typeof globalTheme.color.button;
-  fontColor?: keyof typeof globalTheme.color.button;
+  color?: keyof typeof theme.color.button;
+  fontColor?: keyof typeof theme.color.button;
   size?: sizeType;
   shadow?: boolean;
 }
@@ -48,7 +48,7 @@ const buttonStyles = css<SButtonProps>`
 `;
 
 export const StyledButton = styled.button<SButtonProps>`
-  background-color: #ffb84c;
+  background-color: ${theme.color.button.primary};
   color: black;
   font-weight: 700;
   cursor: pointer;
@@ -62,11 +62,11 @@ export const StyledButton = styled.button<SButtonProps>`
   transition: all 0.5s ease;
   padding: 0px 18px;
   &:hover {
-    background: ${lighten(0.1, "#ffb84c")};
+    background: ${lighten(0.1, `${theme.color.primary}`)};
     color: ${lighten(0.1, "black")};
   }
   &:active {
-    background: ${darken(0.1, "#ffb84c")};
+    background: ${darken(0.1, `${theme.color.primary}`)};
   }
   ${buttonStyles}
 `;
