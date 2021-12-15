@@ -47,7 +47,7 @@ export const Colors = (props: ButtonProps) => {
   return (
     <div>
       <div>
-        <Template size="sm" color="yellow" {...props}>
+        <Template size="sm" color="primary" {...props}>
           Button
         </Template>
         <Template size="sm" color="white" shadow={true} {...props}>

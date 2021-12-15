@@ -88,7 +88,7 @@ const QuestionWriting = () => {
           setValue={text.setValue}
           placeHolder={"질문을 상세하게 적어주세요!"}
         />
-        <Button size="sm" onClick={onClick}>
+        <Button size="sm" onClick={onClick} fontColor="white">
           {"질문 작성하기"}
         </Button>
       </S.MarkDownBtnWrap>

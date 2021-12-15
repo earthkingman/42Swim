@@ -27,9 +27,14 @@ export const Blue = styled.span`
   ${({ theme }) =>
     theme &&
     css`
-      color: ${theme.color.primary};
+      background-color: ${theme.color.primary};
     `}
-  font-size: inherit;
+  position: absolute;
+  width: 130px;
+  height: 15px;
+  top: 75px;
+  opacity: 30%;
+  z-index: 0;
 `;
 
 export const TabWrapper = styled.div`

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import useAuth from "../../../hooks/useAuth";
+import LogoSwim from "../../asset/logo/LogoSwim";
 import Loading from "../../atoms/Loading";
 import Text from "../../atoms/Text";
 import ProfileDropbox from "../../molecules/ProfileDropbox";
@@ -29,7 +30,6 @@ const Header = () => {
   const [loading, setLoading] = useState(false);
 
   const on42Login = () => {
-    console.log("on42Login");
     location.href = `${import.meta.env.VITE_API_HOST}/auth/42login`;
 
     setLoading(true);
@@ -47,15 +47,7 @@ const Header = () => {
         <HeaderTitleWrapper>
           <Link to="/">
             <TitleHeader size="h1">
-              42{" "}
-              <span
-                role="img"
-                aria-label="swim"
-                style={{ fontSize: "inherit" }}
-              >
-                🏊🏻‍♂️
-              </span>{" "}
-              Swim
+              <LogoSwim />
             </TitleHeader>
           </Link>
           <Text size="14" color="lightgrey">

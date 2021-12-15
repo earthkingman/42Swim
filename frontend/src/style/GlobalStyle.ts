@@ -6,7 +6,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0 !important;
     overflow-y: scroll;
 	height: 100%;
-	background: #F4F5F7;
+	background: #f9f9f9;
   }
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,

@@ -39,7 +39,7 @@ const AnswerWriting = () => {
             setValue={setValue}
             placeHolder={"답변을 달아주세요!"}
           ></MarkdownEditor>
-          <Button onClick={onClick} size="sm">
+          <Button onClick={onClick} size="sm" fontColor="white">
             {"답변 작성하기"}
           </Button>
         </S.WritingAnswerWrap>

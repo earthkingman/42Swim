@@ -27,7 +27,7 @@ const QuestionEdit = () => {
     setTag(hashtag);
     title.setValue(question ? question.title : "");
     text.setValue(question ? question.text : "");
-  }, [isLoading]);
+  }, []);
 
   if (!isLoading && !isError) {
     const onClick = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -92,7 +92,7 @@ const QuestionEdit = () => {
             >
               {"취소"}
             </A>
-            <Button size="sm" onClick={onClick}>
+            <Button size="sm" onClick={onClick} fontColor="white">
               {"질문 작성하기"}
             </Button>
           </S.ButtonWrap>

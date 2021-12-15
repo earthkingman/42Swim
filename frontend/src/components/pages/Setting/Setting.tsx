@@ -85,7 +85,7 @@ const SettingPage = ({ ...props }) => {
             <CircleBox size="lg" img={user?.image ? user.image : null} />
             <SettingBtn
               size="sm"
-              color="yellow"
+              color="primary"
               shadow={true}
               onClick={openFile}
             >
@@ -115,7 +115,7 @@ const SettingPage = ({ ...props }) => {
               <Title size="h1">{user?.nickname}</Title>
               <Divider weight="bold" width="4rem" />
               <A
-                fontcolor="yellow"
+                fontcolor="primary"
                 underline={true}
                 to="#"
                 onClick={() => {
@@ -133,7 +133,7 @@ const SettingPage = ({ ...props }) => {
               />
               <Button
                 size="sm"
-                color="lightyellow"
+                color="lightprimary"
                 shadow={true}
                 onClick={editNickname}
               >
@@ -156,7 +156,7 @@ const SettingPage = ({ ...props }) => {
               name="이메일"
               value={user.email}
               etc={
-                <A fontcolor="yellow" underline={true}>
+                <A fontcolor="primary" underline={true}>
                   수정
                 </A>
               }
@@ -165,7 +165,7 @@ const SettingPage = ({ ...props }) => {
             <SettingPanel
               name="비밀번호 변경"
               value={
-                <A fontcolor="yellow" underline={true}>
+                <A fontcolor="primary" underline={true}>
                   변경하기
                 </A>
               }

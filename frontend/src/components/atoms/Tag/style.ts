@@ -11,14 +11,14 @@ export const TagBox = styled.div<Props>`
   background: #c4c4c4;
   width: auto;
   height: 20px;
-  background-color: ${theme.color.tag.yellow};
+  background-color: ${theme.color.tag.primary};
   box-sizing: border-box;
   margin: 1rem 0rem 0rem 1rem;
   padding: 0px 10px;
   ${({ name }) =>
     name === "..." &&
     css`
-      background-color: ${theme.color.lightgrey};
+      background-color: ${theme.color.deepgray};
     `}
 `;
 
