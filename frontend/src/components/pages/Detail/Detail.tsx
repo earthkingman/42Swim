@@ -24,7 +24,7 @@ const DetailPage = ({ ...props }: any) => {
   }
   if (isError) {
     console.error(isError);
-    return <></>;
+    return <>err</>;
   } else
     return (
       <BasicTemplate {...props}>

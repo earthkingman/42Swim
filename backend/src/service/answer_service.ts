@@ -24,16 +24,6 @@ export class AnswerService {
 
 	async post(uploadAnswerInfo) {
 		const { email, text, questionId, userId } = uploadAnswerInfo;
-
-		//자신의 글은 자기가 답변할 수 없습니다.
-		const questionInfo = await this.questionRepository
-			.findOne({
-				where: { id: questionId },
-				relations: ['user']
-			});
-		if (questionInfo.user.id == userId)
-			throw new AnswerMySelfException(questionId);
-
 		const user = await this.userRepository
 			.findOne({ where: { id: userId } });
 		if (user === undefined) {
@@ -154,7 +144,7 @@ export class AnswerService {
 	async chooseAnswer(chooseAnswerInfo): Promise<any> {
 		const { userId, questionId, answerId, answerUserId } = chooseAnswerInfo;
 
-		if (userId == answerUserId){
+		if (userId == answerUserId) {
 			throw new AnswerBadRequestException(answerId);
 		}
 

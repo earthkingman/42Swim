@@ -55,7 +55,7 @@ const SearchQuestionList = ({ keyword, ...props }: Props) => {
                   <Skeleton />
                 </S.SkeletonItem>
               ))
-            : question?.quesiontList.map((d, idx) => (
+            : question?.questionList.map((d, idx) => (
                 <ListItem
                   id={d.id}
                   title={d.title}

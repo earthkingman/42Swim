@@ -9,8 +9,8 @@ const fetcher = async (url: string) => {
   })
     .then((response) => response.data)
     .catch((err) => {
-      console.log("hihi", err);
-      console.log("hihi im error", err.response);
+      console.error(err);
+      throw err;
     });
   return res;
 };
