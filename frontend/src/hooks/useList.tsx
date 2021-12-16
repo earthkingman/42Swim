@@ -1,9 +1,14 @@
 import useSWR from "swr";
 import axios from "axios";
+import * as Sentry from "@sentry/react";
+
 const fetcher = async (url: string) => {
-  const res = await axios.get(url);
-  console.log(res.data);
-  return res.data;
+  const res = await axios.get(url).catch((e) => {
+    Sentry.captureException(e);
+    throw Error();
+  });
+  console.log(res?.data);
+  return res?.data;
 };
 
 const useList = (menu: number, page: number) => {
