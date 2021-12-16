@@ -56,8 +56,8 @@ const QuestionList = ({ ...props }) => {
                     <Skeleton />
                   </S.SkeletonItem>
                 ))
-              : question?.quesiontList &&
-                question?.quesiontList.map((d, idx) => (
+              : question?.questionList &&
+                question?.questionList.map((d, idx) => (
                   <ListItem
                     id={d.id}
                     title={d.title}
