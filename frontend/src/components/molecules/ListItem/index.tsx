@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Link } from "react-router-dom";
 import dateChange from "../../../utils/dateChange";
 import { RowSBDiv } from "../../atoms/Div";
@@ -43,10 +44,14 @@ const ListItem = ({
       name: "...",
     });
   }
+  const onClick = () => {
+    const apiUrl = `${import.meta.env.VITE_API_HOST}/pages/question/viewCount`;
+    axios.post(apiUrl, { questionId: id }, { withCredentials: true });
+  };
   return (
     <S.ListBox {...props}>
       <S.Content>
-        <Link to={`/detail?id=${id}`}>
+        <Link to={`/detail?id=${id}`} onClick={onClick}>
           <S.Title size="h2">{title}</S.Title>
         </Link>
         <S.Desc size="18" weight="normal" color="grey">
