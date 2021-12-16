@@ -48,6 +48,7 @@ const useDetail = () => {
           .catch((err) => {
             alert(err);
             console.error(err);
+            throw err;
           })
           .finally(() => mutate());
       } else {
@@ -76,12 +77,12 @@ const useDetail = () => {
               withCredentials: true,
             }
           )
-          .then(() => {
-            mutate();
-          })
           .catch((err) => {
             alert(err);
             console.error(err);
+            throw err;
+          })
+          .finally(() => {
             mutate();
           });
       }
@@ -122,10 +123,12 @@ const useDetail = () => {
             withCredentials: true,
           }
         )
-        .then(() => mutate())
         .catch((err) => {
           alert(err);
           console.error(err);
+          throw err;
+        })
+        .finally(() => {
           mutate();
         });
     } else {
@@ -159,12 +162,12 @@ const useDetail = () => {
             withCredentials: true,
           }
         )
-        .then(() => {
-          mutate();
-        })
         .catch((err) => {
           alert(err);
           console.error(err);
+          throw err;
+        })
+        .finally(() => {
           mutate();
         });
     }
@@ -194,6 +197,7 @@ const useDetail = () => {
         .catch((err) => {
           alert(err);
           console.error(err);
+          throw err;
         })
         .finally(() => mutate());
     }
@@ -239,7 +243,10 @@ const useDetail = () => {
           },
           { withCredentials: true }
         )
-        .catch((e) => alert(e))
+        .catch((e) => {
+          alert(e);
+          throw e;
+        })
         .finally(() => mutate());
     }
   };
@@ -279,6 +286,7 @@ const useDetail = () => {
         .catch((e) => {
           console.error(e);
           alert(e);
+          throw e;
         })
         .finally(() => mutate());
     }
@@ -309,7 +317,10 @@ const useDetail = () => {
           }
         )
         .then(() => setValue(""))
-        .catch((e) => alert(e))
+        .catch((e) => {
+          alert(e);
+          throw e;
+        })
         .finally(() => mutate());
     }
   };
@@ -344,6 +355,7 @@ const useDetail = () => {
     } catch (e) {
       alert(e);
       console.error(e);
+      throw e;
     }
   };
 
