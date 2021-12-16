@@ -34,6 +34,7 @@ const Header = () => {
 
     setLoading(true);
   };
+
   return (
     <>
       <Loading visible={loading} />

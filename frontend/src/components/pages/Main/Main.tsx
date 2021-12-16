@@ -12,6 +12,7 @@ import useInput from "../../../hooks/useInput";
 import Ranking from "../../organisms/Ranking";
 import SearchQuestionList from "../../organisms/SearchQuestionList.tsx";
 import { Redirect } from "react-router";
+import * as Sentry from "@sentry/react";
 
 interface Props {
   history: any;
@@ -20,8 +21,9 @@ interface Props {
 const MainPage = ({ history, ...props }: Props) => {
   const { value: searchVal, onChange: onChangesearchVal } = useInput("");
 
-  const onSearch = () => {
+  const onSearch = (e: any) => {
     console.log("search");
+    Sentry.captureEvent(e);
     history.push(`/search?keyword=${searchVal}`);
     // search 페이지로 라우팅해주기
   };
