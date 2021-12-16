@@ -1,10 +1,41 @@
+<div width="100%" height="100%" align="center">
+  
+<h1 align="center">
+  <a href="https://docusaurus.io">
+    <img width="50%" src="https://user-images.githubusercontent.com/51353146/146376375-44001581-78a6-4107-b331-125c742d9c7d.png" />
+  </a>
+</h1>
+  
+<p align="center">
+  <h3 align="center"> 🏊  42SWIM  🏊</h3>
+  <a href="CONTRIBUTING.md#pull-requests"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg">
+  </p>
+  
+<b>42Seoul QnA Service</b></br>
+<b>42SWIM</b> 으로 빠르고 재밌고 편안한 동료평가 시작하기!
 
-<img src="./images/logo.sample.png" alt="Logo of the project" align="right">
+</div>
 
-# NodeJS-React-MarkDown &middot; [![Build Status](https://img.shields.io/travis/npm/npm/latest.svg?style=flat-square)](https://travis-ci.org/npm/npm) [![npm](https://img.shields.io/npm/v/npm.svg?style=flat-square)](https://www.npmjs.com/package/npm) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/your/your-project/blob/master/LICENSE)
-> Additional information or tag line
+## :bulb: Introduction
 
-A brief description of your project, what it is used for.
+- **💄 깔끔한 UI**
+
+  > 깔끔하고 사용하기 쉬운 UI 로 질문/답변을 쉽게 주고 받을 수 있어요!
+
+- **🏆️ 랭킹 시스템**
+
+  > 질문 및 답변을 많이 하면 포인트가 올라가요! 랭킹으로 재미있게 질문/답변 해보자!
+
+- **🌟 질문/답변 추천 제도**
+
+  > 좋은 질문 혹은 답변이면 좋아요! 적합하지 않은 답변이면 싫어요를 누를 수 있어요!
+
+- **❓ 검색 기능**
+
+  > 검색 기능으로 궁금한 것을 바로 찾을 수 있어요!
+
+</br>
 
 ## 🎋 Github branch naming 규칙
 
@@ -37,99 +68,4 @@ ex) hotfix-1.2.1
 
 feature/기능요약 에서 기능요약 부분을 작성할때 띄어쓰기는 - 를 이용하여 작성
 ex) loginApi (X) login-api (O)
-
-
-## Installing / Getting started
-
-A quick introduction of the minimal setup you need to get a hello world up &
-running.
-
-```shell
-commands here
-```
-
-Here you should say what actually happens when you execute the code above.
-
-## Developing
-
-### Built With
-List main libraries, frameworks used including versions (React, Angular etc...)
-
-### Prerequisites
-What is needed to set up the dev environment. For instance, global dependencies or any other tools. include download links.
-
-
-### Setting up Dev
-
-Here's a brief intro about what a developer must do in order to start developing
-the project further:
-
-```shell
-git clone https://github.com/your/your-project.git
-cd your-project/
-packagemanager install
-```
-
-And state what happens step-by-step. If there is any virtual environment, local server or database feeder needed, explain here.
-
-### Building
-
-If your project needs some additional steps for the developer to build the
-project after some code changes, state them here. for example:
-
-```shell
-./configure
-make
-make install
-```
-
-Here again you should state what actually happens when the code above gets
-executed.
-
-### Deploying / Publishing
-give instructions on how to build and release a new version
-In case there's some step you have to take that publishes this project to a
-server, this is the right time to state it.
-
-```shell
-packagemanager deploy your-project -s server.com -u username -p password
-```
-
-And again you'd need to tell what the previous code actually does.
-
-## Versioning
-
-We can maybe use [SemVer](http://semver.org/) for versioning. For the versions available, see the [link to tags on this repository](/tags).
-
-
-## Configuration
-
-Here you should write what are all of the configurations a user can enter when using the project.
-
-## Tests
-
-Describe and show how to run the tests with code examples.
-Explain what these tests test and why.
-
-```shell
-Give an example
-```
-
-## Style guide
-
-Explain your code style and show how to check it.
-
-## Api Reference
-
-If the api is external, link to api documentation. If not describe your api including authentication methods as well as explaining all the endpoints with their required parameters.
-
-
-## Database
-
-Explaining what database (and version) has been used. Provide download links.
-Documents your database design and schemas, relations etc... 
-
-## Licensing
-
-State what the license is and how to find the text version of the license.
 
