@@ -1,5 +1,10 @@
 import { useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+} from "react-router-dom";
 import Auth from "./components/pages/Auth";
 import DetailPage from "./components/pages/Detail/Detail";
 import EditPage from "./components/pages/Edit/Edit";
@@ -20,15 +25,20 @@ ReactGA.exception({
 });
 
 const App: React.FC = () => {
+  const history = useHistory();
   useEffect(() => {
     if (import.meta.env.MODE === "development") {
       ReactGA.initialize(import.meta.env.VITE_GA_ID, { debug: true });
     } else {
       ReactGA.initialize(import.meta.env.VITE_GA_ID);
     }
-    ReactGA.set({ page: window.location.pathname });
-    ReactGA.pageview(window.location.pathname);
-  }, []);
+    history.listen((location) => {
+      console.log("location :>> ", location);
+      ReactGA.set({ page: location.pathname }); // Update the user's current page
+      ReactGA.pageview(location.pathname); // Record a pageview for the given page
+    });
+  }, [history]);
+  console.log("location :>> ", location);
   return (
     <GlobalThemeProvider>
       <Router>
