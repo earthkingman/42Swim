@@ -1,5 +1,4 @@
 import axios from "axios";
-import { mutate } from "swr";
 import useSWRImmutable from "swr/immutable";
 
 const fetcher = async (url: string) => {
@@ -17,14 +16,12 @@ const fetcher = async (url: string) => {
 };
 
 const useAuth = () => {
-  // 이거 url 없네
   const url = `${import.meta.env.VITE_API_HOST}/users/info`;
   const { data, error } = useSWRImmutable(url, fetcher);
-
-  mutate(`${import.meta.env.VITE_API_HOST}/users/info`);
   // mutate 사용해서 logout 구현하기 파라미터 어떻게 구현할지 생각해보기
   return {
-    user: data,
+    isLogin: data,
+    user: data ? (data.result ? data.user : null) : null,
     isLoading: !error && !data,
     isError: error,
   };
