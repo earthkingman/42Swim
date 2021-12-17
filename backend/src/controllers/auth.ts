@@ -159,7 +159,7 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
 		//   refreshToken: refreshToken,
 		// });
 		// res.redirect('http://3.36.121.236');
-		if (process.env.NODE_ENV = "dev") {
+		if (process.env.NODE_ENV == "dev") {
 			return res.redirect(process.env.LOCAL42URL);
 		}
 		res.redirect(process.env.DEV42URL);
