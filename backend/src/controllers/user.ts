@@ -61,15 +61,20 @@ const userInfo = async (req: DecodedRequest, res: Response, next: NextFunction) 
 				image = process.env.S3 + user.photo;
 			}
 		}
+		const userInfo = {
+			email: user.email,
+			nickname: user.nickname,
+			image: image
+		}
 		if (user) {
 			res.status(200).json({
-				email: user.email,
-				nickname: user.nickname,
-				image: image
+				user:userInfo,
+				result : true,
 			})
 		}
 		else {
 			res.status(400).json({
+				result : false,
 				message: "User doesn't exist"
 			})
 		}
