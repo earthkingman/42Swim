@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Auth from "./components/pages/Auth";
 import DetailPage from "./components/pages/Detail/Detail";
@@ -7,8 +8,27 @@ import SearchPage from "./components/pages/Search/Search";
 import SettingPage from "./components/pages/Setting/Setting";
 import WritingPage from "./components/pages/Writing/Writing";
 import GlobalThemeProvider from "./style/GlobalThemeProvider";
+import ReactGA from "react-ga";
+
+ReactGA.event({
+  category: "User",
+  action: "Created an Account",
+});
+ReactGA.exception({
+  description: "An error ocurred",
+  fatal: true,
+});
 
 const App: React.FC = () => {
+  useEffect(() => {
+    if (import.meta.env.MODE === "development") {
+      ReactGA.initialize(import.meta.env.VITE_GA_ID, { debug: true });
+    } else {
+      ReactGA.initialize(import.meta.env.VITE_GA_ID);
+    }
+    ReactGA.set({ page: window.location.pathname });
+    ReactGA.pageview(window.location.pathname);
+  }, []);
   return (
     <GlobalThemeProvider>
       <Router>
