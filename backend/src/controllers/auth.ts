@@ -37,7 +37,7 @@ const login = (req: Request, res: Response, next: NextFunction) => {
 		res.cookie("guestId", guestId, {
 			maxAge: 60000 * 60 * 24 * 14,
 			httpOnly: true,
-			});
+		});
 		res.cookie("refresh", refreshToken, {
 			maxAge: 60000 * 60 * 24 * 14,
 			httpOnly: true,
@@ -94,8 +94,8 @@ const signup = async (req: any, res: Response) => {
 			await rankService.setUserProfile(newUser.id, newUser.photo);
 
 			res.cookie("guestId", guestId, {
-			maxAge: 60000 * 60 * 24 * 14,
-			httpOnly: true,
+				maxAge: 60000 * 60 * 24 * 14,
+				httpOnly: true,
 			});
 
 			res.cookie("refresh", refreshToken, {
@@ -159,6 +159,9 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
 		//   refreshToken: refreshToken,
 		// });
 		// res.redirect('http://3.36.121.236');
+		if (process.env.NODE_ENV = "dev") {
+			return res.redirect(process.env.LOCAL42URL);
+		}
 		res.redirect(process.env.DEV42URL);
 	})(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
