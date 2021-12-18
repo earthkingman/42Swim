@@ -14,10 +14,9 @@ export class RankService {
     }
 
     async resetMonthRank(userList: any) {
-        const getAsync = util.promisify(redisClient.zscore).bind(redisClient);
         for (let i = 0; i < userList.length; i++){
-            const userMonthScore = await getAsync('month_rank', String(userList[i]));
-            redisClient.zincrby('month_rank', userMonthScore*-1, String(userList[i]), (err, result) => {
+            const userMonthScore = await this.getUserMonthScore(userList[i].id);
+            redisClient.zincrby('month_rank', userMonthScore*-1, String(userList[i].id), (err, result) => {
                 if (err) console.log(err);
             })
         }
