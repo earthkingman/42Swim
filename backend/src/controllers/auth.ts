@@ -123,7 +123,7 @@ const signup = async (req: any, res: Response) => {
 
 const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
 	//-> 커스텀 콜백
-	passport.authenticate("42", (authError, user, info) => {
+	passport.authenticate("42", async (authError, user, info) => {
 		if (authError || !user) {
 			console.log(authError);
 			return res.status(400).json({ message: info });
@@ -142,15 +142,15 @@ const FourtyTowLogin = (req: Request, res: Response, next: NextFunction) => {
 		const refreshToken = jwtUtil.refreshSign();
 		redisClient.set(guestId, user.id, 'EX', 60 * 60 * 24 * 14);
 		redisClient.set(user.id, refreshToken, 'EX', 60 * 60 * 24 * 14);
-		res.cookie("guestId", guestId, {
+		await res.cookie("guestId", guestId, {
 			maxAge: 60000 * 60 * 24 * 14,
 			httpOnly: true,
 		});
-		res.cookie("refresh", refreshToken, {
+		await res.cookie("refresh", refreshToken, {
 			maxAge: 60000 * 60 * 24 * 14,
 			httpOnly: true,
 		});
-		res.cookie("authorization", accessToken, {
+		await res.cookie("authorization", accessToken, {
 			maxAge: 60000 * 30,
 			httpOnly: true,
 		});
