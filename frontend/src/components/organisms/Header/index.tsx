@@ -43,7 +43,7 @@ const Header = () => {
     }, 30000);
   };
 
-  if (isLoading) <div>Loading</div>;
+  //   if (isLoading) <div>Loading</div>;
   if (isError) <div>error</div>;
 
   return (
@@ -66,7 +66,7 @@ const Header = () => {
             42seoul
           </Text>
         </HeaderTitleWrapper>
-        {user ? (
+        {user && !isLoading ? (
           <ProfileDropbox user={user} />
         ) : (
           <HeaderBtnWrapper>
