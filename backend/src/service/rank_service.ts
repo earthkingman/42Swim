@@ -13,6 +13,15 @@ export class RankService {
         })
     }
 
+    async resetMonthRank(userList: any) {
+        for (let i = 0; i < userList.length; i++){
+            const userMonthScore = await this.getUserMonthScore(userList[i].id);
+            redisClient.zincrby('month_rank', userMonthScore*-1, String(userList[i].id), (err, result) => {
+                if (err) console.log(err);
+            })
+        }
+    }
+
     async updateRank(userId: number, score: number) {
         redisClient.zincrby('total_rank', score, String(userId), (err, result) => {
             if (err) console.log(err);
