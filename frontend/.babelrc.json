@@ -1,3 +1,8 @@
 {
-  "plugins": ["transform-remove-console"]
+  "env": {
+    "development": {},
+    "production": {
+      "plugins": ["transform-remove-console"]
+    }
+  }
 }
