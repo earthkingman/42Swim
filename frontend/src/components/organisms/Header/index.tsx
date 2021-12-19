@@ -25,7 +25,6 @@ export interface Props {
 const Header = () => {
   const [isLoginModal, setIsLoginModal] = useState(false);
   const [isRegistModal, setIsRegistModal] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { user, isLoading, isError } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -43,6 +42,9 @@ const Header = () => {
       console.log("login fail");
     }, 30000);
   };
+
+  //   if (isLoading) <div>Loading</div>;
+  if (isError) <div>error</div>;
 
   return (
     <>
@@ -64,7 +66,7 @@ const Header = () => {
             42seoul
           </Text>
         </HeaderTitleWrapper>
-        {user ? (
+        {user && !isLoading ? (
           <ProfileDropbox user={user} />
         ) : (
           <HeaderBtnWrapper>
