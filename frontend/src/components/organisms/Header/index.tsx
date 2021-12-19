@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { mutate } from "swr";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import useAuth from "../../../hooks/useAuth";
 import LogoSwim from "../../asset/logo/LogoSwim";
@@ -30,9 +31,10 @@ const Header = () => {
   const [loading, setLoading] = useState(false);
 
   const on42Login = () => {
+    const url = `${import.meta.env.VITE_API_HOST}/users/info`;
     location.href = `${import.meta.env.VITE_API_HOST}/auth/42login`;
-
     setLoading(true);
+    mutate(url);
   };
 
   return (
