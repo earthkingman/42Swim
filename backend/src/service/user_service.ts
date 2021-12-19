@@ -121,4 +121,12 @@ export class UserService {
 		const newUser = await this.userRepository.save(createUserInfo);
 		return { exUser: undefined, newUser: newUser };
 	}
+
+	async getAllUserId(){
+		const userList = await this.userRepository
+			.createQueryBuilder('user')
+			.select('user.id')
+			.getMany();
+		return userList;
+	}
 }
