@@ -21,23 +21,18 @@ const getRanking = async (req: Request, res: Response, next: NextFunction) => {
 	}
 }
 
-const resetMonthRanking = async (req: Request, res: Response, next: NextFunction) => {
+const resetMonthRanking = async () => {
 	const rankService: RankService = new RankService();
 	const userService: UserService = new UserService();
 
 	try{
 		const userList = await userService.getAllUserId();
 		await rankService.resetMonthRank(userList);
-		return res.status(200).json({
-			result : true
-		})
+		console.log("월간 랭킹 초기화 완료");
 	}
 	catch (error) {
 		console.log(error);
-		return res.status(500).json({
-			result : false,
-			message: `An error occurred (${error.message})`
-		})
+		console.log("월간 랭킹 초기화 실패");
 	}
 }
 
