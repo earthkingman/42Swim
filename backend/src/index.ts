@@ -1,10 +1,6 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
 import express from "express";
-import { authRouter } from "./routes/auth";
-import { postRouter } from "./routes/post";
-import { userRouter } from "./routes/user";
-import { pageRouter } from "./routes/page";
 import { RankService } from "./service/rank_service";
 import { UserService } from "./service/user_service";
 import { errorMiddleware } from "./middlewares/error.middleware";
