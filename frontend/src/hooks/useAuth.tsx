@@ -19,6 +19,7 @@ const useAuth = () => {
   const url = `${import.meta.env.VITE_API_HOST}/users/info`;
   const { data, error } = useSWR(url, fetcher);
   // mutate 사용해서 logout 구현하기 파라미터 어떻게 구현할지 생각해보기
+
   return {
     isLogin: data,
     user: data ? (data.result ? data.user : null) : null,
