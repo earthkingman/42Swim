@@ -74,8 +74,10 @@ const chooseAnswer = async (req: DecodedRequest, res: Response)=>{
 
 	try {
 		await answerService.chooseAnswer({questionId,answerId,userId, answerUserId});
-		await rankService.updateRank(answerUserId, 15);
-		await rankService.updateRank(userId, 5);
+		if (answerUserId !== userId){
+			await rankService.updateRank(answerUserId, 15);
+			await rankService.updateRank(userId, 5);
+		}
 		return res.status(200).json({
 			result: true,
 			message: "Choose Success"
