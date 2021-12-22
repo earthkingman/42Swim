@@ -13,6 +13,7 @@ import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 import path from "path";
 import schedule from "node-schedule";
+import fs from "fs";
 import { applicationRouter } from "./routes";
 
 import { insertSeed } from "./entity/seed/seed_data";
@@ -55,12 +56,25 @@ app.listen(5000, async () => {
     console.log("서버 가동");
     await createConnection();
     console.log("DB 연결");
-    const monthRankReset = schedule.scheduleJob('00 00 00 01 * *', async function(){
-        const rankService: RankService = new RankService();
-	    const userService: UserService = new UserService();
 
+    const monthRankReset = schedule.scheduleJob('00 00 00 01 * *', async function(){
 	    try{
+            const userService: UserService = new UserService();
+            const rankService: RankService = new RankService();
+            const now = new Date();
+            const endAt = new Date(now);
+	        const startAt = new Date(now.setMonth(now.getMonth() - 1));	// 한달 전
+            const userStatistics = await userService.getUserStatistics(startAt, endAt);
+            const userStatisticsResult = await rankService.addRankToUserStatistics(userStatistics);
 		    const userList = await userService.getAllUserId();
+            const jsonContent = JSON.stringify(userStatisticsResult);
+            fs.writeFile("monthRankerinfo"+endAt.toLocaleDateString()+"json", jsonContent, 'utf8', function (err) {
+                if (err) {
+                    console.log("An error occured while writing JSON Object to File.");
+                    throw err;
+                }
+                console.log("월간 랭킹 저장 완료");
+            });
 		    await rankService.resetMonthRank(userList);
 		    console.log("월간 랭킹 초기화 완료");
 	    }
@@ -69,5 +83,5 @@ app.listen(5000, async () => {
 		    console.log("월간 랭킹 초기화 실패");
 	    }
       });
-    // await insertSeed();
+    await insertSeed();
 });
