@@ -8,7 +8,7 @@ const Footer = () => {
       style={{
         width: "100%",
         height: "248px",
-        background: "#9d9d9d",
+        background: "#646464",
         marginTop: "15rem",
         padding: "0 2rem",
         display: "flex",
@@ -21,7 +21,7 @@ const Footer = () => {
       <RowSADiv
         style={{
           alignItems: "flex-end",
-          width: "340px",
+          width: "380px",
           marginBottom: "1rem",
         }}
       >
