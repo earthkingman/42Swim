@@ -11,7 +11,7 @@ import { UserNotFoundException } from "../exception/user_exception";
 import { AnswerNotFoundException } from "../exception/answer_exception";
 import { QuestionNotFoundException } from "../exception/question_exception";
 import { DatabaseInternalServerErrorException } from "../exception/server_exception";
-import { LikeNotFoundException, LikeBadRequestException, HateException } from "../exception/like_exception"
+import { LikeNotFoundException, LikeBadRequestException } from "../exception/like_exception"
 
 export class LikeService {
 	private queryRunner: QueryRunner;
@@ -34,11 +34,7 @@ export class LikeService {
 
 	async createAnswerLike(likeInfo) {
 		const { answerId, userId, isLike, answerUserId } = likeInfo;
-		const score = await this.rankService.getUserTotalScore(userId);
 
-		if (score <= 0 && isLike == false) {
-			throw new HateException();
-		}
 		if (userId == answerUserId) {
 			throw new LikeBadRequestException("자신의 글에는 좋아요를 누를 수 없습니다.");
 		}
@@ -94,11 +90,6 @@ export class LikeService {
 
 	async createQuestionLike(likeInfo) {
 		const { questionId, userId, isLike, questionUserId } = likeInfo;
-		const score = await this.rankService.getUserTotalScore(userId);
-
-		if (score <= 0 && isLike == false) {
-			throw new HateException();
-		}
 
 		if (userId == questionUserId) {
 			throw new LikeBadRequestException("자신의 글에는 좋아요를 누를 수 없습니다.");
