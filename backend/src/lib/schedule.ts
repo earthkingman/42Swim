@@ -3,7 +3,7 @@ import { RankService } from "../service/rank_service";
 import { UserService } from "../service/user_service";
 import { createMonthStatistics } from "./statistics";
 
-export const monthRankReset = schedule.scheduleJob('10 * * * * *', async function () {
+export const monthRankReset = schedule.scheduleJob('00 00 00 01 * *', async function () {
     try {
         const userService: UserService = new UserService();
         const rankService: RankService = new RankService();
