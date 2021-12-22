@@ -67,7 +67,7 @@ const uploadAnswer = async (req: DecodedRequest, res: Response) => {
 }
 
 const chooseAnswer = async (req: DecodedRequest, res: Response)=>{
-	const userId = req.decodedId;
+	const userId = Number(req.decodedId);
 	const { questionId, answerId, answerUserId } = req.body;
 	const answerService: AnswerService = new AnswerService();
 	const rankService: RankService = new RankService();
