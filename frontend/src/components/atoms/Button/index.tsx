@@ -63,7 +63,7 @@ export const StyledButton = styled.button<SButtonProps>`
   padding: 0px 18px;
   &:hover {
     background: ${lighten(0.1, `${theme.color.primary}`)};
-    color: ${lighten(0.1, "black")};
+    color: ${lighten(0.1, "white")};
   }
   &:active {
     background: ${darken(0.1, `${theme.color.primary}`)};

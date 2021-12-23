@@ -35,6 +35,7 @@ const SearchPage = ({ location }: RouteComponentProps) => {
               shadow={true}
               onClick={() => console.log("/writing")}
               size="sm"
+              fontColor="white"
             >
               질문하기 <PlusIcon style={{ marginLeft: "2rem" }} />
             </Button>

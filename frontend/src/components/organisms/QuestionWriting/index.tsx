@@ -81,7 +81,7 @@ const QuestionWriting = () => {
         setTag={setTag}
         placeholder="태그를 입력하세요 ex) ft_printf"
       />
-      <Divider weight="bold" width="4rem" />
+      <Divider weight="bold" width="4rem" style={{ marginBottom: "3rem" }} />
       <S.MarkDownBtnWrap>
         <MarkdownEditor
           value={text.value}
