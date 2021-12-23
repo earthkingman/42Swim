@@ -14,7 +14,12 @@ const useInput = (
     if (validator(value)) setValue(value);
     else setValid(false);
   };
-  return { value, onChange, setValue, valid };
+  const onBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const eValue = event.target.innerText;
+    if (validator(eValue)) setValue(eValue);
+    else setValid(false);
+  };
+  return { value, onChange, onBlur, setValue, valid };
 };
 
 export default useInput;
