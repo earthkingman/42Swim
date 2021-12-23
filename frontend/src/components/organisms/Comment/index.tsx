@@ -1,6 +1,6 @@
 import MoreBtn from "../../atoms/MoreBtn";
 import Text from "../../atoms/Text";
-import { ProfileProps } from "../Profile";
+import { ProfileProps } from "../../molecules/Profile";
 import dateChange from "../../../utils/dateChange";
 import * as S from "./style";
 import { useRef, useState } from "react";

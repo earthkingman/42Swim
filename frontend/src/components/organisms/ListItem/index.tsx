@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import dateChange from "../../../utils/dateChange";
 import { RowSBDiv } from "../../atoms/Div";
 import Tag from "../../atoms/Tag";
-import Profile from "../Profile";
-import SortCounter from "../SortCounter";
+import Profile from "../../molecules/Profile";
+import SortCounter from "../../molecules/SortCounter";
 import * as S from "./style";
 
 export interface Props {
