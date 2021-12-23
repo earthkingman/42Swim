@@ -67,15 +67,17 @@ const uploadAnswer = async (req: DecodedRequest, res: Response) => {
 }
 
 const chooseAnswer = async (req: DecodedRequest, res: Response)=>{
-	const userId = req.decodedId;
+	const userId = Number(req.decodedId);
 	const { questionId, answerId, answerUserId } = req.body;
 	const answerService: AnswerService = new AnswerService();
 	const rankService: RankService = new RankService();
 
 	try {
 		await answerService.chooseAnswer({questionId,answerId,userId, answerUserId});
-		await rankService.updateRank(answerUserId, 15);
-		await rankService.updateRank(userId, 5);
+		if (answerUserId !== userId){
+			await rankService.updateRank(answerUserId, 15);
+			await rankService.updateRank(userId, 5);
+		}
 		return res.status(200).json({
 			result: true,
 			message: "Choose Success"
