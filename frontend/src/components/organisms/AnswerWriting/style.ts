@@ -3,7 +3,7 @@ import Title from "../../atoms/Title";
 import theme from "../../../style/theme";
 
 export const STitle = styled(Title)`
-  margin: 5rem 0 3rem 0;
+  margin-bottom: 3rem;
 `;
 
 export const WritingAnswerWrap = styled.div`
