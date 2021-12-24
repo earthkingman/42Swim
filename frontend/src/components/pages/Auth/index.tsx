@@ -15,7 +15,7 @@ const Auth = ({ ...props }) => {
       );
     };
     getInfo();
-    // console.log("data", data);
+    // }, 5000);
   }, [query]);
 
   //   console.log("match", props.match);
