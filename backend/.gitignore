@@ -130,3 +130,5 @@ config
 *data
 
 *awsconfig.json
+
+*monthRankerinfo*
