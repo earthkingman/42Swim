@@ -36,6 +36,7 @@ const ListItem = ({
   ...props
 }: Props) => {
   text = text
+    .replace(/^\s*`{3}\w*/gm, "")
     .replace(/[`#*~_>]/g, "")
     .replace(/^!\[[\w.]*\]\([\w.:/-]+\)/gi, "");
   if (hashtag.length > 5) {
