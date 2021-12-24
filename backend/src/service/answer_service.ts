@@ -144,10 +144,6 @@ export class AnswerService {
 	async chooseAnswer(chooseAnswerInfo): Promise<any> {
 		const { userId, questionId, answerId, answerUserId } = chooseAnswerInfo;
 
-		if (userId == answerUserId) {
-			throw new AnswerBadRequestException(answerId);
-		}
-
 		const answer = await this.answerRepository
 			.findOne({
 				where: { id: answerId, user: { id: answerUserId }, question: { id: questionId } },

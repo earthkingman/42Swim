@@ -1,10 +1,6 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
 import express from "express";
-import { authRouter } from "./routes/auth";
-import { postRouter } from "./routes/post";
-import { userRouter } from "./routes/user";
-import { pageRouter } from "./routes/page";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import cors from "cors";
 import passport from "passport";
@@ -14,6 +10,7 @@ import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 import path from "path";
+import { monthRankReset } from "./lib/schedule";
 import { applicationRouter } from "./routes";
 
 import { insertSeed } from "./entity/seed/seed_data";
@@ -56,5 +53,6 @@ app.listen(5000, async () => {
     console.log("서버 가동");
     await createConnection();
     console.log("DB 연결");
+    monthRankReset;
     // await insertSeed();
 });
