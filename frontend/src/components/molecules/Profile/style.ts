@@ -14,6 +14,7 @@ export interface CircleProps {
 }
 export const ProfileCircleImg = styled(CircleImg)<CircleProps>`
   margin-right: 8px;
+  flex-shrink: 0;
   ${({ theme, border }) =>
     border &&
     css`
