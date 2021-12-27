@@ -3,7 +3,7 @@ import useAuth from "../../../hooks/useAuth";
 import useDetail from "../../../hooks/useDetail";
 import A from "../../atoms/A";
 import PostBox from "../../atoms/PostBox";
-import Comment from "../../molecules/Comment";
+import Comment from "../Comment";
 import CommentInput from "../../molecules/InputComment";
 import Question from "../../molecules/Question";
 import ThumbCount from "../../molecules/ThumbCount";

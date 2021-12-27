@@ -8,7 +8,6 @@ export const TagBox = styled.div<Props>`
   align-items: center;
   justify-content: space-between;
   border-radius: 16px;
-  background: #c4c4c4;
   width: auto;
   height: 20px;
   background-color: ${theme.color.tag.primary};

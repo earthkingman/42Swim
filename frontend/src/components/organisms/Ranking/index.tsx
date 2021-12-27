@@ -6,6 +6,7 @@ import Tab, { TabItem } from "../../molecules/Tab";
 import { useState } from "react";
 import Profile from "../../molecules/Profile";
 import useRanking from "../../../hooks/useRanking";
+import ScoreModal from "../../molecules/ScoreModal";
 
 interface WinnerProps {
   rank: number;
@@ -28,7 +29,11 @@ const Ranking = () => {
   const { ranking, isLoading, isError } = useRanking();
   const { month, total } = ranking;
   const [menu, setMenu] = useState(0);
+  const [isHover, setIsHover] = useState(false);
 
+  const onHelopHover = (setting: boolean) => {
+    setIsHover(setting);
+  };
   if (isLoading) return <div>loading</div>;
   if (isError) return <div>error</div>;
   return (
@@ -46,7 +51,8 @@ const Ranking = () => {
             42Swimmer 랭킹
           </Text>
           <S.Blue></S.Blue>
-          <Help />
+          <Help onHover={onHelopHover} />
+          <ScoreModal visible={isHover} />
         </S.Title>
         <S.TabWrapper>
           <Tab size="xsm">

@@ -8,7 +8,7 @@ import A from "../../atoms/A";
 import HideDiv from "../../atoms/HideDiv";
 import PostBox from "../../atoms/PostBox";
 import Answer, { AnswerProps } from "../../molecules/Answer";
-import Comment, { CommentProps } from "../../molecules/Comment";
+import Comment, { CommentProps } from "../Comment";
 import CommentInput from "../../molecules/InputComment";
 import MarkdownEditor from "../../molecules/MarkdownEditor";
 import ThumbCount, { ThumbProps } from "../../molecules/ThumbCount";

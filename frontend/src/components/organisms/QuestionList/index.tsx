@@ -1,5 +1,5 @@
 import * as S from "./style";
-import ListItem from "../../molecules/ListItem";
+import ListItem from "../ListItem";
 import Pagination from "../../molecules/Pagination";
 import { ColumnSADiv } from "../../atoms/Div";
 import Tab, { TabItem } from "../../molecules/Tab";
