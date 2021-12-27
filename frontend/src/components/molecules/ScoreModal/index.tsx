@@ -1,8 +1,12 @@
 import * as S from "./style";
 
-const ScoreModal = () => {
+interface Props {
+  visible: boolean;
+}
+
+const ScoreModal = ({ visible = false }: Props) => {
   return (
-    <S.ScoreWrapper>
+    <S.ScoreWrapper visible={visible}>
       <S.ScoreTitle>
         점수산정 기준
         <span

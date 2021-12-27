@@ -62,5 +62,5 @@ export const WinnerWrapper = styled.div`
 `;
 
 export const WinnerListWrapper = styled.div`
-  z-index: 100;
+  /* z-index: 100; */
 `;
