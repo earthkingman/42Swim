@@ -1,11 +1,25 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Box from "../../atoms/Box";
 
-export const ScoreWrapper = styled(Box)`
+interface WrapperProps {
+  visible: boolean;
+}
+
+export const ScoreWrapper = styled(Box)<WrapperProps>`
   height: 400px;
   width: 350px;
-  background-color: rgba(53, 147, 235, 0.8);
+  background-color: rgba(53, 147, 235, 0.9);
   padding: 20px 30px;
+  z-index: 2;
+  position: absolute;
+  right: 30px;
+  top: 90px;
+
+  ${({ visible }) =>
+    visible === false &&
+    css`
+      display: none;
+    `}
 `;
 
 export const ScoreTitle = styled.div`

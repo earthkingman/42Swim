@@ -32,6 +32,7 @@ const color = {
     primary: "#1896BD",
   },
   primary: "#1896BD",
+  lightprimary: "#a7deef",
   yellow: "#FFB84D",
   white: "#FFFFFF",
   red: "#FF5D39",
