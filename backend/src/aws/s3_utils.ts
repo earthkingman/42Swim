@@ -1,5 +1,6 @@
 import AWS from "aws-sdk";
 import { Request, Response, NextFunction } from "express"
+import fs from "fs";
 import dotenv from "dotenv";
 import path from "path";
 import multer from "multer";
@@ -29,6 +30,23 @@ const s3ImageUpload = (config: any) => multer({
 		contentType: multerS3.AUTO_CONTENT_TYPE // 파일의 메타데이터중 content-type 설정을 자동으로 맞춰줌
 	})
 })
+
+const s3FileUpload = (file, data) => {
+	const s3 = new AWS.S3();
+	const params = {
+		Bucket: process.env.AWS_BUCKET_NAME,
+		Key: "monthStatistics/" + file,
+		Body: data,
+		ContentType: "application/json"
+	};
+
+	s3.upload(params, function (err, data) {
+		if (err) {
+			throw err;
+		}
+		console.log("월간 랭킹 정보 s3에 업로드 완료");
+	});
+}
 
 // const s3DeletePhoto = async (req: Request, res: Response, next: NextFunction) => {
 // 	const { questionId } = req.body;
@@ -66,4 +84,4 @@ const s3ImageUpload = (config: any) => multer({
 
 // export const s3Util = { s3ImageUpload, s3DeletePhoto }
 
-export const s3Util = { s3ImageUpload }
+export const s3Util = { s3ImageUpload, s3FileUpload }

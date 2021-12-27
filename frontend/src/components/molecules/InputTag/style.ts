@@ -18,4 +18,6 @@ export const WrapTag = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
+  position: relative;
+  left: -1rem;
 `;

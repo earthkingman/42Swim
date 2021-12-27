@@ -35,9 +35,9 @@ export const Desc = styled(Text)`
   max-height: 50px;
   line-height: 25px;
 `;
-export const Time = styled(Text)`
-  margin-right: 1rem;
-`;
+
+export const Time = styled(Text)``;
+
 export const Bottom = styled(RowSBDiv)`
   width: 100%;
 `;

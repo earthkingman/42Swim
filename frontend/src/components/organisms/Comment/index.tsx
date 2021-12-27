@@ -34,7 +34,7 @@ const Comment = ({
 
   const [show, setShow] = useState(false);
   const [isEdit, setisEdit] = useState(false);
-  const { value, setValue, onChange } = useInput(text);
+  const { value, setValue, onBlur } = useInput(text);
 
   const inputRef = useRef();
 
@@ -72,7 +72,7 @@ const Comment = ({
       <S.CommentTextWrapper>
         <S.EditInput
           contentEditable={isEdit}
-          onChange={onChange}
+          onBlur={onBlur}
           ref={inputRef}
           suppressContentEditableWarning
         >

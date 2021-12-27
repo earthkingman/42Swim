@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import theme from "../../../style/theme";
 import SearchBtn from "../../asset/icons/SearchBtn";
 import { SButton, SearchBox, SInput } from "./style";
 
@@ -11,7 +12,7 @@ export interface Props {
 const SearchInput = ({ onChange, onSearch, search, ...props }: Props) => {
   const [focus, setFocus] = useState(false);
   const activeStyle = {
-    border: "1px solid #FFB84D",
+    border: `1px solid ${theme.color.primary}`,
   };
 
   const onKeyPress = (e: React.KeyboardEvent) => {

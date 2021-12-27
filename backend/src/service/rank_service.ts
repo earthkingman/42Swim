@@ -14,9 +14,9 @@ export class RankService {
     }
 
     async resetMonthRank(userList: any) {
-        for (let i = 0; i < userList.length; i++){
+        for (let i = 0; i < userList.length; i++) {
             const userMonthScore = await this.getUserMonthScore(userList[i].id);
-            redisClient.zincrby('month_rank', userMonthScore*-1, String(userList[i].id), (err, result) => {
+            redisClient.zincrby('month_rank', userMonthScore * -1, String(userList[i].id), (err, result) => {
                 if (err) console.log(err);
             })
         }
@@ -80,14 +80,38 @@ export class RankService {
         return monthRankerInfo;
     }
 
+    async addRankToUserStatistics(userStatistics) {
+        for (let i = 0; i < userStatistics.length; i++) {
+            const id = Number(userStatistics[i].user_id);
+            userStatistics[i].ranking = await this.getUserMonthRank(id) + 1;
+            userStatistics[i].score = await this.getUserMonthScore(id);
+            if (userStatistics[i].questionCount > 2 && userStatistics[i].answerCount > 2 && userStatistics[i].commentCount > 2) {
+                userStatistics[i].get_2wallet = true;
+            }
+            else {
+                userStatistics[i].get_2wallet = false;
+            }
+            if (userStatistics[i].ranking < 11) {
+                userStatistics[i].get_4wallet = true;
+            }
+            else {
+                userStatistics[i].get_4wallet = false;
+            }
+        }
+        const userStatisticsResult = userStatistics.sort(function (a, b) {
+            return a.ranking - b.ranking;
+        })
+        return userStatisticsResult;
+    }
+
     async getUserTotalRank(userId: number) {
-        const getAsync = util.promisify(redisClient.zrank).bind(redisClient);
+        const getAsync = util.promisify(redisClient.zrevrank).bind(redisClient);
         const userTotalRank = await getAsync('total_rank', String(userId));
         return userTotalRank;
     }
 
     async getUserMonthRank(userId: number) {
-        const getAsync = util.promisify(redisClient.zrank).bind(redisClient);
+        const getAsync = util.promisify(redisClient.zrevrank).bind(redisClient);
         const userMonthRank = await getAsync('month_rank', String(userId));
         return userMonthRank;
     }
