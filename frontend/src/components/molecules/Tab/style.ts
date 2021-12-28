@@ -42,7 +42,7 @@ export const StyledTabItem = styled.li<TabProps>`
   font-size: 20px;
   border: none;
   font-weight: 700;
-  margin: 0.2rem 1.1rem;
+  margin: 0.2rem 0.8rem;
   /* width: 95px; */
   height: 100%;
   display: flex;
