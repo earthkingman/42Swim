@@ -9,6 +9,7 @@ import SettingPage from "./components/pages/Setting/Setting";
 import WritingPage from "./components/pages/Writing/Writing";
 import GlobalThemeProvider from "./style/GlobalThemeProvider";
 import ReactGA from "react-ga";
+import TagPage from "./components/pages/Tag/Tag";
 
 ReactGA.event({
   category: "User",
@@ -40,6 +41,11 @@ const App: React.FC = () => {
           path="/search"
           exact
           render={(props: any) => <SearchPage {...props} />}
+        />
+        <Route
+          path="/tag/:hashtagName"
+          exact
+          render={(props: any) => <TagPage {...props} />}
         />
         <Route
           path="/detail"

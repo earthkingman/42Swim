@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import theme from "../../../style/theme";
+import { darken } from "polished";
 
 export const Wrap = styled.div`
   display: flex;
@@ -17,6 +18,14 @@ export const Title = styled.p`
   font-size: 24px;
   line-height: 28px;
   color: ${theme.color.text.primary};
+  -webkit-transition: color 0.2s;
+  -moz-transition: color 0.2s;
+  transition: color 0.2s;
+
+  &:hover {
+    cursor: pointer;
+    color: ${darken(0.1, theme.color.text.primary)};
+  }
 `;
 
 export const Sub = styled.p`
