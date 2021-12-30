@@ -13,6 +13,7 @@ import Ranking from "../../organisms/Ranking";
 import SearchQuestionList from "../../organisms/SearchQuestionList.tsx";
 import { Redirect } from "react-router";
 import * as Sentry from "@sentry/react";
+import PlusButton from "../../molecules/PlusButton";
 
 interface Props {
   history: any;
@@ -39,14 +40,7 @@ const MainPage = ({ history, ...props }: Props) => {
                 search={searchVal}
                 onSearch={onSearch}
               />
-              <Button
-                shadow={true}
-                onClick={() => history.push("/writing")}
-                size="sm"
-                fontColor="white"
-              >
-                질문하기 <PlusIcon style={{ marginLeft: "2rem" }} />
-              </Button>
+              <PlusButton onClick={() => history.push("/writing")} />
             </>
           }
           content1={<QuestionList />}
