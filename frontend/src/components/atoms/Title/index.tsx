@@ -1,10 +1,11 @@
 import styled, { css } from "styled-components";
 
-type sizeType = "h1" | "h2";
+type sizeType = "h1" | "h2" | "h3";
 
 const sizes = {
   h1: { size: "36px" },
   h2: { size: "24px" },
+  h3: { size: "18px" },
 };
 
 export interface STitleProps {
