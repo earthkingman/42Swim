@@ -7,7 +7,7 @@ import { RowSBDiv } from "../../atoms/Div";
 import Tag from "../../atoms/Tag";
 import Profile from "../../molecules/Profile";
 
-const Mobile = ({
+const Tablet = ({
   id,
   title,
   is_solved,
@@ -36,14 +36,14 @@ const Mobile = ({
     <S.ListBox size="sm" {...props}>
       <S.Content size="sm">
         <Link to={`/detail?id=${id}`} onClick={onClick}>
-          <S.Title size="h3">{title}</S.Title>
+          <S.Title size="h2">{title}</S.Title>
         </Link>
         <S.Bottom>
           <RowSBDiv>
             <S.Time size="14" weight="normal" color="grey">
               {dateChange(created_at)}
             </S.Time>
-            {hashtag?.map((data, idx) => (
+            {hashtag.map((data, idx) => (
               <Tag name={data?.name} key={idx} style={{ marginTop: "0px" }} />
             ))}
           </RowSBDiv>
@@ -73,4 +73,4 @@ const Mobile = ({
   );
 };
 
-export default Mobile;
+export default Tablet;
