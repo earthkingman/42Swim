@@ -56,7 +56,7 @@ function makePageRange(pageNum: number, offset: MutableRefObject<number>) {
     .map((x, y) => x + y);
 }
 
-function countPageNum(limit: number, questionCount: number) {
+export function countPageNum(limit: number, questionCount: number) {
   let size = parseInt(questionCount / limit);
   if (questionCount % limit === 0) size = size - 1;
   const pageNum = size + 1;
