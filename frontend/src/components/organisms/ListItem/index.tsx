@@ -1,6 +1,7 @@
 import MediaQuery from "react-responsive";
 import Desktop from "./Desktop";
 import Mobile from "./Mobile";
+import Tablet from "./Tablet";
 
 export interface Props {
   id: number;
@@ -19,10 +20,13 @@ export interface Props {
 const ListItem = ({ ...props }: Props) => {
   return (
     <>
-      <MediaQuery minWidth={1224}>
+      <MediaQuery minWidth={1024}>
         <Desktop {...props} />
       </MediaQuery>
-      <MediaQuery maxWidth={1223}>
+      <MediaQuery minWidth={768} maxWidth={1023}>
+        <Tablet {...props} />
+      </MediaQuery>
+      <MediaQuery maxWidth={767}>
         <Mobile {...props} />
       </MediaQuery>
     </>

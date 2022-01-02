@@ -38,6 +38,16 @@ const Profile = ({
         {children}
       </ProfileWrapper>
     );
+  } else if (size === "xsm") {
+    return (
+      <ProfileWrapper size={size}>
+        <ProfileCircleImg size="xsm" img={photo ? photo : ""} border={border} />
+        <Text size="12" color="grey">
+          {nickname}
+        </Text>
+        {children}
+      </ProfileWrapper>
+    );
   } else {
     return (
       <ProfileWrapper

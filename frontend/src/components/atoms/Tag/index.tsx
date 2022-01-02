@@ -7,12 +7,13 @@ export interface TagProps {
   key: string | number;
   name: string;
   isDel: boolean;
+  size?: string;
   onDelClick: any;
 }
-const Tag = ({ name, isDel, onDelClick, ...props }: TagProps) => {
+const Tag = ({ name, isDel, size = "14", onDelClick, ...props }: TagProps) => {
   return (
     <S.TagBox {...props} name={name}>
-      <Text size="14" style={{ wordBreak: "normal", color: "#ffffff" }}>
+      <Text size={size} style={{ wordBreak: "normal", color: "#ffffff" }}>
         {name}
       </Text>
       {isDel ? (
