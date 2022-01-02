@@ -9,7 +9,7 @@ export const TagBox = styled.div<Props>`
   justify-content: space-between;
   border-radius: 16px;
   width: auto;
-  height: 20px;
+  height: 100%;
   background-color: ${theme.color.tag.primary};
   box-sizing: border-box;
   margin: 1rem 0rem 0rem 1rem;
