@@ -4,7 +4,7 @@ import Text from "../../atoms/Text";
 import { default as T } from "../../atoms/Title";
 
 export interface SProps {
-  size?: "sm" | "lg";
+  size?: "xsm" | "sm" | "lg";
 }
 
 export const ListBox = styled(RowSBDiv)<SProps>`
@@ -18,6 +18,13 @@ export const ListBox = styled(RowSBDiv)<SProps>`
       width: 100%;
       height: 150px;
       padding: 0.5rem 0.5rem;
+    `}
+  ${({ size }) =>
+    size === "xsm" &&
+    css`
+      width: 100%;
+      height: 160px;
+      padding: 0.5rem 0.2rem;
     `}
 `;
 

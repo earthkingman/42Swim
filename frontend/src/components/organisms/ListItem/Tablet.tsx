@@ -7,10 +7,9 @@ import { RowSBDiv } from "../../atoms/Div";
 import Tag from "../../atoms/Tag";
 import Profile from "../../molecules/Profile";
 
-const Mobile = ({
+const Tablet = ({
   id,
   title,
-  text,
   is_solved,
   photo,
   nickname,
@@ -21,10 +20,6 @@ const Mobile = ({
   hashtag,
   ...props
 }: Props) => {
-  text = text
-    .replace(/^\s*`{3}\w*/gm, "")
-    .replace(/[`#*~_>]/g, "")
-    .replace(/^!\[[\w.]*\]\([\w.:/-]+\)/gi, "");
   if (hashtag?.length > 2) {
     hashtag = hashtag.slice(0, 2);
     hashtag.push({
@@ -38,26 +33,18 @@ const Mobile = ({
   };
 
   return (
-    <S.ListBox size="xsm" {...props}>
+    <S.ListBox size="sm" {...props}>
       <S.Content size="sm">
         <Link to={`/detail?id=${id}`} onClick={onClick}>
-          <S.Title size="h3">{title}</S.Title>
+          <S.Title size="h2">{title}</S.Title>
         </Link>
-        <S.Desc size="12" weight="normal" color="grey">
-          {text}
-        </S.Desc>
         <S.Bottom>
           <RowSBDiv>
-            <S.Time size="12" weight="normal" color="grey">
+            <S.Time size="14" weight="normal" color="grey">
               {dateChange(created_at)}
             </S.Time>
-            {hashtag?.map((data, idx) => (
-              <Tag
-                name={data?.name}
-                key={idx}
-                style={{ marginTop: "0px" }}
-                size="12"
-              />
+            {hashtag.map((data, idx) => (
+              <Tag name={data?.name} key={idx} style={{ marginTop: "0px" }} />
             ))}
           </RowSBDiv>
         </S.Bottom>
@@ -65,20 +52,20 @@ const Mobile = ({
           <S.RowDiv>
             <S.Counter size="sm">
               <S.SortCounter
-                size="12"
+                size="14"
                 weight="normal"
                 color={is_solved ? "primary" : "black"}
               >
                 답변 {answer_cnt}
               </S.SortCounter>
-              <S.SortCounter size="12" weight="normal" color="black">
+              <S.SortCounter size="14" weight="normal" color="black">
                 추천 {like_count}
               </S.SortCounter>
-              <S.SortCounter size="12" weight="normal" color="black">
+              <S.SortCounter size="14" weight="normal" color="black">
                 조회 {view_count}
               </S.SortCounter>
             </S.Counter>
-            <Profile size="xsm" photo={photo} nickname={nickname} id={0} />
+            <Profile size="sm" photo={photo} nickname={nickname} id={0} />
           </S.RowDiv>
         </S.Bottom>
       </S.Content>
@@ -86,4 +73,4 @@ const Mobile = ({
   );
 };
 
-export default Mobile;
+export default Tablet;

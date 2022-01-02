@@ -7,8 +7,11 @@ export const Wrapper = styled.div`
   > * {
     padding: 0 20rem;
 
-    @media (max-width: 1023px) {
+    @media (min-width: 768) and (max-width: 1023px) {
       padding: 0 3rem;
+    }
+    @media (max-width: 767px) {
+      padding: 0 1.5rem;
     }
   }
 `;
