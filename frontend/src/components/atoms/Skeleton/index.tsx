@@ -6,7 +6,7 @@ interface SProps {
 }
 
 const Skeleton = styled.div<SProps>`
-	width: 500px;
+	width: 100%;
 	height: 120px; /* change height to see repeat-y behㅊavior */
 
 	background-image:
