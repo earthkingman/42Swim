@@ -36,7 +36,7 @@ const Mobile = ({
     <S.ListBox size="sm" {...props}>
       <S.Content size="sm">
         <Link to={`/detail?id=${id}`} onClick={onClick}>
-          <S.Title size="h2">{title}</S.Title>
+          <S.Title size="h3">{title}</S.Title>
         </Link>
         <S.Bottom>
           <RowSBDiv>
