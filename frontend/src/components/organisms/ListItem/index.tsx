@@ -22,7 +22,7 @@ const ListItem = ({ ...props }: Props) => {
       <MediaQuery minWidth={1224}>
         <Desktop {...props} />
       </MediaQuery>
-      <MediaQuery maxWidth={1224}>
+      <MediaQuery maxWidth={1223}>
         <Mobile {...props} />
       </MediaQuery>
     </>

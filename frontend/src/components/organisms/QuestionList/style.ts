@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Box from "../../atoms/Box";
+import { PlzLogin } from "../AnswerWriting/style";
 
 export const QLWrapper = styled.div`
   display: flex;
@@ -30,4 +31,10 @@ export const List = styled(Box)`
   justify-content: flex-start;
   align-items: center;
   padding: 1.5rem 2.5rem;
+`;
+
+export const Last = styled(PlzLogin)`
+  margin: 0;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 `;
