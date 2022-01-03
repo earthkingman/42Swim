@@ -122,7 +122,7 @@ export class UserService {
 		return { exUser: undefined, newUser: newUser };
 	}
 
-	async getAllUserId(){
+	async getAllUserId() {
 		const userList = await this.userRepository
 			.createQueryBuilder('user')
 			.select('user.id')
@@ -130,7 +130,7 @@ export class UserService {
 		return userList;
 	}
 
-	async getUserEmail(userId:number){
+	async getUserEmail(userId: number) {
 		const user = await this.userRepository
 			.createQueryBuilder('user')
 			.select('user.email')
@@ -139,35 +139,43 @@ export class UserService {
 		return user;
 	}
 
-	async getUserStatistics(startAt, endAt){
-		const questionSubQuery = this.userRepository
+	async getUserStatistics(startAt, endAt) {
+		const questionSubQuery = await this.userRepository
 			.createQueryBuilder('question_covers')
 			.innerJoin('question_covers.question', 'question')
 			.select(['question_covers.id'])
+			.addSelect('COUNT(question_covers.id) AS questionCount')
 			.where('question.created_at > :startAt', { startAt })
-			.andWhere('question.created_at < :endAt', { endAt });
+			.andWhere('question.created_at < :endAt', { endAt })
+			.groupBy('question_covers.id')
 
 		const answerSubQuery = await this.userRepository
 			.createQueryBuilder('answer_covers')
 			.innerJoin('answer_covers.answer', 'answer')
 			.select(['answer_covers.id'])
+			.addSelect('COUNT(answer_covers.id) AS answerCount')
 			.where('answer.created_at > :startAt', { startAt })
-			.andWhere('answer.created_at < :endAt', { endAt });
+			.andWhere('answer.created_at < :endAt', { endAt })
+			.groupBy('answer_covers.id');
 
 		const chosenAnswerSubQuery = await this.userRepository
 			.createQueryBuilder('chosen_answer_covers')
 			.innerJoin('chosen_answer_covers.answer', 'answer')
 			.select(['chosen_answer_covers.id'])
+			.addSelect('COUNT(chosen_answer_covers.id) AS chosenAnswerCount')
 			.where('answer.created_at > :startAt', { startAt })
 			.andWhere('answer.created_at < :endAt', { endAt })
-			.andWhere('answer.is_chosen = :flag', {flag: true});
+			.andWhere('answer.is_chosen = :flag', { flag: true })
+			.groupBy('chosen_answer_covers.id');
 
 		const commentSubQuery = await this.userRepository
 			.createQueryBuilder('comment_covers')
 			.innerJoin('comment_covers.comment', 'comment')
 			.select(['comment_covers.id'])
+			.addSelect('COUNT(comment_covers.id) AS commentCount')
 			.where('comment.created_at > :startAt', { startAt })
-			.andWhere('comment.created_at < :endAt', { endAt });
+			.andWhere('comment.created_at < :endAt', { endAt })
+			.groupBy('comment_covers.id');
 
 		const userStatistics = await this.userRepository
 			.createQueryBuilder('user')
@@ -183,13 +191,12 @@ export class UserService {
 			.leftJoin(`(${commentSubQuery.getQuery()})`, 'comment_covers',
 				'user.id = comment_covers.comment_covers_id')
 			.setParameters(commentSubQuery.getParameters())
-			.select(['user.id', 'user.email', 'user.liked_count'])
-			.addSelect('COUNT(DISTINCT(question_covers.question_covers_id)) AS questionCount')
-			.addSelect('COUNT(DISTINCT(answer_covers.answer_covers_id)) AS answerCount')
-			.addSelect('COUNT(DISTINCT(chosen_answer_covers.chosen_answer_covers_id)) AS chosenAnswerCount')
-			.addSelect('COUNT(DISTINCT(comment_covers.comment_covers_id)) AS commentCount')
-      		.groupBy('user.id')
-      		.getRawMany();
+			.select(['user.id', 'user.email', 'user.liked_count',
+				'question_covers.questionCount', 'answer_covers.answerCount',
+				'chosen_answer_covers.chosenAnswerCount', 'comment_covers.commentCount'])
+			.getRawMany();
+
+		console.log(userStatistics);
 
 		return userStatistics;
 	}
