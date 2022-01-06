@@ -1,6 +1,7 @@
 import { ColumnSADiv, RowSADiv } from "../../atoms/Div";
 import Text from "../../atoms/Text";
 import Title from "../../atoms/Title";
+import FooterImg from "../../asset/images/FooterImg.png";
 
 const Footer = () => {
   return (
@@ -8,7 +9,6 @@ const Footer = () => {
       style={{
         width: "100%",
         height: "248px",
-        background: "#646464",
         marginTop: "15rem",
         padding: "0 2rem",
         display: "flex",
@@ -16,6 +16,9 @@ const Footer = () => {
         alignItems: "center",
         position: "relative",
         bottom: "0px",
+        backgroundImage: `url(${FooterImg})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "repeat-x",
       }}
     >
       <RowSADiv
