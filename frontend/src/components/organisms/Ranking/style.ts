@@ -5,7 +5,7 @@ import Box from "../../atoms/Box";
 export const RankingWrapper = styled.div`
   width: 28%;
   position: relative;
-  @media (max-width: 910px) {
+  @media (max-width: 1023px) {
     display: none;
     background-color: pink;
   }

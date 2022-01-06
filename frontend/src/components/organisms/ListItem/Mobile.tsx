@@ -22,7 +22,7 @@ const Mobile = ({
   ...props
 }: Props) => {
   text = text
-    .replace(/^\s*`{3}\w*/gm, "")
+    ?.replace(/^\s*`{3}\w*/gm, "")
     .replace(/[`#*~_>]/g, "")
     .replace(/^!\[[\w.]*\]\([\w.:/-]+\)/gi, "");
   if (hashtag?.length > 2) {
@@ -43,7 +43,12 @@ const Mobile = ({
         <Link to={`/detail?id=${id}`} onClick={onClick}>
           <S.Title size="h3">{title}</S.Title>
         </Link>
-        <S.Desc size="12" weight="normal" color="grey">
+        <S.Desc
+          style={{ lineHeight: "18px" }}
+          size="12"
+          weight="normal"
+          color="grey"
+        >
           {text}
         </S.Desc>
         <S.Bottom>

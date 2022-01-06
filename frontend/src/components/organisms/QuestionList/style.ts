@@ -8,7 +8,7 @@ export const QLWrapper = styled.div`
   justify-content: space-around;
   width: 70%;
 
-  @media (max-width: 910px) {
+  @media (max-width: 1023px) {
     width: 100%;
   }
 `;
