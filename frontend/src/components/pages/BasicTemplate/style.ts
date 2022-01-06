@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   height: 100%;
 
   > * {
-    padding: 0 20rem;
+    padding: 0 15%;
 
     @media (min-width: 768) and (max-width: 1023px) {
       padding: 0 3rem;

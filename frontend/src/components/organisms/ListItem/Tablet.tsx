@@ -10,6 +10,7 @@ import Profile from "../../molecules/Profile";
 const Tablet = ({
   id,
   title,
+  text,
   is_solved,
   photo,
   nickname,
@@ -20,6 +21,10 @@ const Tablet = ({
   hashtag,
   ...props
 }: Props) => {
+  text = text
+    ?.replace(/^\s*`{3}\w*/gm, "")
+    .replace(/[`#*~_>]/g, "")
+    .replace(/^!\[[\w.]*\]\([\w.:/-]+\)/gi, "");
   if (hashtag?.length > 2) {
     hashtag = hashtag.slice(0, 2);
     hashtag.push({
@@ -38,6 +43,14 @@ const Tablet = ({
         <Link to={`/detail?id=${id}`} onClick={onClick}>
           <S.Title size="h2">{title}</S.Title>
         </Link>
+        <S.Desc
+          style={{ lineHeight: "18px" }}
+          size="14"
+          weight="normal"
+          color="grey"
+        >
+          {text}
+        </S.Desc>
         <S.Bottom>
           <RowSBDiv>
             <S.Time size="14" weight="normal" color="grey">
