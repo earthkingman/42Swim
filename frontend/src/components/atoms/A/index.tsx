@@ -42,8 +42,9 @@ const AStyles = css<SA>`
 export const StyledSpan = styled.span<SA>`
   font-size: 18px;
   font-weight: 700;
+  display: block;
   cursor: pointer;
-
+  margin-bottom: 5px;
   ${AStyles}
 `;
 export interface AProps extends SA {
@@ -55,7 +56,6 @@ export interface AProps extends SA {
 }
 
 const A = ({ to, children, location, ...props }: AProps) => {
-  //   console.log("location", location);
   return (
     <Link to={to ? to : location.pathname + location.search}>
       <StyledSpan {...props}>{children}</StyledSpan>

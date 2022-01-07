@@ -1,44 +1,66 @@
-import { ColumnSADiv, RowSADiv } from "../../atoms/Div";
 import Text from "../../atoms/Text";
-import Title from "../../atoms/Title";
-import FooterImg from "../../asset/images/FooterImg.png";
+import WhiteLogo from "../../asset/logo/logoWhite";
+import * as S from "./style.ts";
 
 const Footer = () => {
   return (
-    <ColumnSADiv
-      style={{
-        width: "100%",
-        height: "248px",
-        marginTop: "15rem",
-        padding: "0 2rem",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        position: "relative",
-        bottom: "0px",
-        backgroundImage: `url(${FooterImg})`,
-        backgroundSize: "contain",
-        backgroundRepeat: "repeat-x",
-      }}
-    >
-      <RowSADiv
-        style={{
-          alignItems: "flex-end",
-          width: "380px",
-          marginBottom: "1rem",
-        }}
-      >
-        <Title size="h2" color="white">
-          42Code
-        </Title>
-        <Text size="14" color="white" weight="bold">
-          made by ji-park & yejeong & nkim & iha
-        </Text>
-      </RowSADiv>
+    <S.Wrapper>
+      <S.LogoWrapper>
+        <WhiteLogo />
+      </S.LogoWrapper>
+      <S.MainWrapper>
+        <S.ListWrapper>
+          <Text size="18" color="primary" weight="bold">
+            MAKER
+          </Text>
+          <S.A target="_blank" href="https://github.com/Yenowme">
+            yejeong
+          </S.A>
+          <S.A target="_blank" href="https://github.com/Chloekkk">
+            nkim
+          </S.A>
+          <S.A target="_blank" href="https://github.com/Yenowme">
+            iha
+          </S.A>
+          <S.A target="_blank" href="https://github.com/Yenowme">
+            ji-park
+          </S.A>
+        </S.ListWrapper>
+        <S.ListWrapper>
+          <Text size="16" color="primary" weight="bold">
+            ABOUT
+          </Text>
+          <S.A
+            target="_blank"
+            href="https://github.com/innovationacademy-kr/42Swim"
+          >
+            GitHub
+          </S.A>
+          <S.A
+            target="_blank"
+            href="https://github.com/innovationacademy-kr/42Swim/wiki"
+          >
+            Wiki
+          </S.A>
+        </S.ListWrapper>
+        <S.ListWrapper>
+          <Text size="16" color="primary" weight="bold">
+            CONTACT
+          </Text>
+          <S.A style={{ textDecoration: "none" }}>42sof.staff@gmail.com</S.A>
+          <S.A
+            target="_blank"
+            href="https://github.com/innovationacademy-kr/42Swim/issues/new?assignees=&labels=&template=bug_report.md&title="
+          >
+            Bug Report
+          </S.A>
+        </S.ListWrapper>
+      </S.MainWrapper>
       <Text size="14" color="white">
         Copyright © 2019 - 2021 42Seoul inno. All rights reserved.
       </Text>
-    </ColumnSADiv>
+      <S.BackGround />
+    </S.Wrapper>
   );
 };
 
