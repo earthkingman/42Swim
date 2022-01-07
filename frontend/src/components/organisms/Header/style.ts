@@ -12,7 +12,11 @@ export const HeaderWrapper = styled.div`
 
   margin-bottom: 3rem;
 `;
-export const HeaderTitleWrapper = styled.div``;
+export const HeaderTitleWrapper = styled.div`
+  /*display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;*/
+`;
 export const HeaderBtnWrapper = styled.div``;
 export const AHeader = styled.button`
   font-size: 18px;
@@ -36,6 +40,6 @@ export const AHeader = styled.button`
   }
 `;
 export const TitleHeader = styled(Title)`
-  margin-bottom: 7px;
+  margin-right: 7px;
 `;
 export default {};

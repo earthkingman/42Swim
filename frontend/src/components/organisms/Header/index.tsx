@@ -5,7 +5,6 @@ import { mutate } from "swr";
 import useAuth from "../../../hooks/useAuth";
 import LogoSwim from "../../asset/logo/LogoSwim";
 import Loading from "../../atoms/Loading";
-import Text from "../../atoms/Text";
 import ProfileDropbox from "../../molecules/ProfileDropbox";
 import LoginPage from "../../pages/Login/Login";
 import RegisterPage from "../../pages/Register/Register";
@@ -62,9 +61,6 @@ const Header = () => {
               <LogoSwim />
             </TitleHeader>
           </Link>
-          <Text size="14" color="lightgrey">
-            42seoul
-          </Text>
         </HeaderTitleWrapper>
         {user && !isLoading ? (
           <ProfileDropbox user={user} />
