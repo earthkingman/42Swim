@@ -155,11 +155,6 @@ const SettingPage = ({ ...props }) => {
             <SettingPanel
               name="이메일"
               value={user.email}
-              etc={
-                <A fontcolor="primary" underline={true}>
-                  수정
-                </A>
-              }
               desc="회원 인증 또는 시스템에서 발송하는 이메일을 수신하는 주소입니다."
             />
             <SettingPanel
