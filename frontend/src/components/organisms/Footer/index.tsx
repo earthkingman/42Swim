@@ -19,10 +19,10 @@ const Footer = () => {
           <S.A target="_blank" href="https://github.com/Chloekkk">
             nkim
           </S.A>
-          <S.A target="_blank" href="https://github.com/Yenowme">
+          <S.A target="_blank" href="https://github.com/hainho">
             iha
           </S.A>
-          <S.A target="_blank" href="https://github.com/Yenowme">
+          <S.A target="_blank" href="https://github.com/earthkingman">
             ji-park
           </S.A>
         </S.ListWrapper>
