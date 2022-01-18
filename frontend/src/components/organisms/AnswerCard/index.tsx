@@ -55,9 +55,9 @@ const AnswerCard = ({
 
       setTimeout(() => {
         setLikeFlag(false);
-      }, 10000);
+      }, 3000);
     } else {
-      alert("좋아요/싫어요 버튼 클릭은 10초에 한번으로 제한됩니다.");
+      alert("좋아요/싫어요 버튼 클릭은 3초에 한번으로 제한됩니다.");
     }
   };
 
