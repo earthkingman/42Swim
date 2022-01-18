@@ -17,6 +17,9 @@ export const refresh = async (req: DecodedRequest, res: Response) => {
 
     //refresh token 만료됬을 경우
     if (refreshResult === false) {
+      res.clearCookie('authorization')
+      res.clearCookie('refresh')
+      res.clearCookie('guestId')
       throw new UnauthorizedException("refresh token is expired.");
     }
     // refresh token은 만료되지 않은 경우
