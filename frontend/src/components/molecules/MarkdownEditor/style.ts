@@ -5,6 +5,8 @@ export const MarkDownEditorWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  white-space: pre-line;
+  word-break: break-all;
   /* margin-top: 3rem; */
   button {
     padding: 4px;

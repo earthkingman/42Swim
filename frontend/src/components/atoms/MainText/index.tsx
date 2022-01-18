@@ -110,8 +110,12 @@ const SMainText = styled.p`
     border-left: 0.25em solid #ddd;
   }
   a {
-    color: #4078c0;
+    color: #4078c0 !important;
     text-decoration: none;
+    a:visited,
+    a:link {
+      color: #4078c0;
+    }
   }
   code {
     padding: 0.2em;
