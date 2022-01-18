@@ -123,6 +123,9 @@ const SMainText = styled.p`
     font-size: 90%;
     background-color: rgba(0, 0, 0, 0.04);
     border-radius: 3px;
+    word-break: break-all;
+    white-space: pre-wrap;
+    font-size: 1.4rem;
   }
   line-height: 1.5;
 `;
