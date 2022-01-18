@@ -10,7 +10,6 @@ const SMainText = styled.p`
   line-height: 1.5;
   font-size: 16px !important;
   color: black;
-  font-family: Roboto;
   span,
   iframe,
   p,
@@ -104,6 +103,24 @@ const SMainText = styled.p`
     max-width: 100%;
     height: auto;
   }
+  blockquote {
+    margin-left: 0;
+    padding: 0 1em;
+    color: #777;
+    border-left: 0.25em solid #ddd;
+  }
+  a {
+    color: #4078c0;
+    text-decoration: none;
+  }
+  code {
+    padding: 0.2em;
+    margin: 0;
+    font-size: 90%;
+    background-color: rgba(0, 0, 0, 0.04);
+    border-radius: 3px;
+  }
+  line-height: 1.5;
 `;
 
 const converter = new Showdown.Converter({
