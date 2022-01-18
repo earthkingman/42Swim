@@ -44,14 +44,14 @@ const AnswerCard = ({
 
   const checkUserAndPost = (isLike: boolean) => {
     if (!isLogin) return alert("로그인 후 좋아요를 눌러주세요!");
+    if (user?.email === loginUser?.email)
+      return alert("내가 쓴 글요는 좋아요 할 수 없습니다.");
     if (likeFlag === false) {
       setLikeFlag(true);
 
       if (is_like === isLike) AnswerThumbPost(user.id, id, isLike, true);
       else if (is_like === !isLike) alert("좋아요/싫어요는 하나만 가능합니다!");
-      else {
-        AnswerThumbPost(user.id, id, isLike, false);
-      }
+      else AnswerThumbPost(user.id, id, isLike, false);
 
       setTimeout(() => {
         setLikeFlag(false);
